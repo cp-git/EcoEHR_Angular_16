@@ -1,164 +1,118 @@
 <div class="wrapper wrapper-full-page">
     <nav class="navbar navbar-info navbar-fixed-top navbar-style">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-example">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <strong><a class="navbar-brand" routerLink="/home">Eco EHR</a></strong>
-            </div>
-            <div class="collapse navbar-collapse" id="menu-example">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="">
-                        <a routerLink="/studentregistration">
-                            <i class="material-icons">perm_identity</i> Sign Up
-                        </a>
-                    </li>
-                    <li class="">
-                        <a routerLink="/login">
-                            <i class="material-icons">fingerprint</i> Sign In
-                        </a>
-                    </li>
-                    <li class="">
-                        <a routerLink="/recover">
-                            <i class="material-icons">verified_user</i> Recover
-                        </a>
-                    </li>
-                </ul>
-            </div>
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-example">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <strong><a class="navbar-brand" routerLink="/home">Eco EHR</a></strong>
         </div>
+        <div class="collapse navbar-collapse" id="menu-example">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a routerLink="/studentregistration">
+                <i class="material-icons">perm_identity</i> Sign Up
+              </a>
+            </li>
+            <li>
+              <a routerLink="/login">
+                <i class="material-icons">fingerprint</i> Sign In
+              </a>
+            </li>
+            <li>
+              <a routerLink="/recover">
+                <i class="material-icons">verified_user</i> Recover
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
     <div class="full-page login-page" filter-color="none">
-        <!--  you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose | none " -->
-        <div class="content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2  loginsection">
-                        <form [formGroup] = "loginForm"
-                            (ngSubmit)="onLogin(userName.value, password.value); $event.preventDefault()" class="form">
-
-                            <div class="card">
-                                <div class="card-header text-center" data-background-color>
-                                    <h4 class="card-title">EHR LOGIN</h4>
-                                </div>
-                                <div class="card-content">
-                                    <div *ngIf="isExpired||statusCode">
-                                        <div *ngIf="isExpired&&statusCode!==401" class="alert alert-danger change-width"
-                                            data-icon-bg-color="alert-red">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <strong>Sorry!</strong> Your Session is Expired.
-
-                                        </div>
-                                        <div *ngIf="statusCode===401" class="alert alert-danger col-md-offset-3"
-                                            data-icon-bg-color="alert-red">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <strong>Sorry!</strong> Invalid Login Credentials.
-                                        </div>
-                                        <div *ngIf="statusCode===500" class="alert alert-danger col-md-offset-3"
-                                            data-icon-bg-color="alert-red">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <strong>Sorry!</strong> User already Logged In.
-                                        </div>
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">face</i>
-                                        </span>
-                                        <div class="form-group label-floating">
-                                            <!-- <input id="userName" type="text" placeholder="User Name" #userName formControlName="userName" class="form-control" > -->
-                                            <mat-form-field>
-                                                <input matInput id="userName" class="matInput" type="text" #userName
-                                                    formControlName="userName">
-                                                    <mat-label>User Name</mat-label>
-                                                </mat-form-field>
-                                            
-                                            <div style="margin-top:-18px">
-                                                <!-- <ehr-field-error-display
-                                                    [displayError]="isFieldValid(loginForm, 'userName')"
-                                                    errorMsg="User Name is required and must be minimum 3 characters">
-                                                </ehr-field-error-display> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">lock_outline</i>
-                                        </span>
-                                        <div class="form-group label-floating">
-                                            <mat-form-field floatPlaceholder="never">
-                                                <input matInput id="password" class="matInput"
-                                                    [type]="hide ? 'text' : 'password'" #password
-                                                    formControlName="password">
-                                                <mat-icon matSuffix (click)="hide = !hide" class="eye">
-                                                    {{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                                                    <mat-label>Password</mat-label>
-                                                </mat-form-field>
-                                            <div style="margin-top:-18px">
-                                                <!-- <ehr-field-error-display
-                                                    [displayError]="isFieldValid(loginForm, 'password')"
-                                                    errorMsg="Password is required">
-                                                </ehr-field-error-display> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer text-center">
-                                    <button type="submit" class="btn btn-info btn-round" id="signIn">
-                                        Sign In</button>
-                                </div>
-                                <p class="category text-center">
-                                    Forgot Username or Password?
-                                </p>
-                                <div class="footer text-center">
-                                    <button  class="recover-link" routerLink="/recover">
-                                        Recover </button>
-                                </div>
-                                <p class="category text-center">
-                                    Saving your password in your browser is not recommended
-                                </p>
-                            </div>
-
-                        </form>
+      <div class="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2 loginsection">
+              <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                <div class="card">
+                  <div class="card-header text-center" data-background-color>
+                    <h4 class="card-title">EHR LOGIN</h4>
+                  </div>
+                  <div class="card-content">
+                    <div *ngIf="isExpired || statusCode">
+                      <div *ngIf="isExpired && statusCode !== 401" class="alert alert-danger change-width" data-icon-bg-color="alert-red">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Sorry!</strong> Your Session is Expired.
+                      </div>
+                      <div *ngIf="statusCode === 401" class="alert alert-danger col-md-offset-3" data-icon-bg-color="alert-red">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Sorry!</strong> Invalid Login Credentials.
+                      </div>
+                      <div *ngIf="statusCode === 500" class="alert alert-danger col-md-offset-3" data-icon-bg-color="alert-red">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Sorry!</strong> User already Logged In.
+                      </div>
                     </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="material-icons">face</i>
+                      </span>
+                      <mat-form-field>
+                        <mat-label>User Name</mat-label>
+                        <input matInput id="userName" type="text" formControlName="userName">
+                      </mat-form-field>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                      <mat-form-field>
+                        <mat-label>Password</mat-label>
+                        <input matInput id="password" type="password" formControlName="password">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="footer text-center">
+                    <button type="submit" class="btn btn-info btn-round" id="signIn">Sign In</button>
+                  </div>
+                  <p class="category text-center">
+                    Forgot Username or Password?
+                  </p>
+                  <div class="footer text-center">
+                    <button class="recover-link" routerLink="/recover">Recover</button>
+                  </div>
+                  <p class="category text-center">
+                    Saving your password in your browser is not recommended
+                  </p>
                 </div>
+              </form>
             </div>
+          </div>
         </div>
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a class="companyLink" style="color: black !important" href="https://www.datasysamerica.com/">
-                                Company
-                            </a>
-                        </li>
-                        <!-- <li>
-                                  <a style="color: black !important" routerLink="/home">
-                                    About Us
-                                </a>
-                        </li>
-                        
-                        <li>
-                            <a style="color: black !important" routerLink="https://www.datasysamerica.com/contact-us/">
-                                Contact Us
-                            </a>
-                        </li> -->
-                    </ul>
-                </nav>
-                <p style="color: black" class="copyright pull-right footer">
-                    &copy; {{test | date: 'yyyy'}} <a style="color: black !important" href="https://www.datasysamerica.com/">Datasys Consulting and Software Inc.</a>, made with <span style="color:red;font-size:20px"> &hearts; </span> for better Electronic Health
-                    Records
-                </p>
-            </div>
-        </footer>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="pull-left">
+            <ul>
+              <li>
+                <a class="companyLink" style="color: black !important" href="https://www.datasysamerica.com/">Company</a>
+              </li>
+            </ul>
+          </nav>
+          <p style="color: black" class="copyright pull-right footer">
+            <!-- &copy; {{ date: 'yyyy' }} <a style="color: black !important" href="https://www.datasysamerica.com/">Datasys Consulting and Software Inc.</a>, made with <span style="color:red;font-size:20px"> &hearts; </span> for better Electronic Health Records -->
+          </p>
+        </div>
+      </footer>
     </div>
-</div>
+  </div>
+  

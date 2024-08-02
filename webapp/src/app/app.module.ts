@@ -12,6 +12,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TimerModalComponent } from './timer-modal/timer-modal.component';
 import { AboutUsComponent } from './home/aboutus/aboutus.component';
+import { LoginService } from './home/login/login.service';
+import { CurrentUserService } from './profiles/currentUserService';
+import { StudentMembersService } from './administration/student-members/student-members.service';
+import { AuthService } from './timer/auth.service';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -33,8 +38,12 @@ import { AboutUsComponent } from './home/aboutus/aboutus.component';
     HttpClientModule 
   ],
   providers: [// provideClientHydration(),
-    provideHttpClient(
-    ),
+    provideHttpClient(),
+    LoginService,
+    CurrentUserService,
+    StudentMembersService,
+    AuthService,
+    DatePipe
     // provideAnimationsAsync()
   
   ],

@@ -38,26 +38,67 @@ export class LoginService {
     //         }).catch(this.handleError));
     // }
 
-    login(userName: string, password: string): Observable<any> {
-        const loginRequest = { loginId: userName, loginKey: password };
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        });
+    // login(userName: string, password: string): Observable<any> {
+    //     // const loginRequest = { loginId: userName, loginKey: password };
+    //     let loginRequest = JSON.stringify({ loginId: userName, loginKey: password });
+    //     const cpheaders = new HttpHeaders({
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json'
+    //     });
+    //     cpheaders.append('Access-Control-Allow-Headers', 'Content-Type');
+
+    // console.log("Before api call")
+    // console.log(cpheaders)
+    // console.log(loginRequest)
+    // console.log(AppSettings.API_AUTH_ENDPOINT)
+    // console.log( localStorage.getItem('jwt') )
+
+    //     return this.http.post<any>(AppSettings.API_AUTH_ENDPOINT + '/auth/login', loginRequest )
+    //       .pipe(
+         
+    //         tap((resp: any) => {
+    //           console.log("After api call")
+    //           console.log(resp)
+    //           // Replace this with the appropriate way to get the token from the response
+    //           const token = resp.headers.get("x-auth-token");
+    //           if (token) {
+    //             localStorage.setItem('jwt', token);
+    //           }
+    //         }),
+    //         catchError(this.handleError)
+    //       );
+    //   }
     
-        return this.http.post<any>(AppSettings.API_AUTH_ENDPOINT + '/auth/login', loginRequest, { headers })
-          .pipe(
-            tap((resp: any) => {
-              // Replace this with the appropriate way to get the token from the response
-              const token = resp.headers.get('x-auth-token');
-              if (token) {
-                localStorage.setItem('jwt', token);
-              }
-            }),
-            catchError(this.handleError)
-          );
-      }
-    
+    login(userName: string, password: string): Observable<HttpResponse<any>> {
+      const loginRequest = { loginId: userName, loginKey: password };
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      });
+  
+      console.log("Before API call");
+      console.log("Headers:", headers);
+      console.log("Request body:", loginRequest);
+  
+      return this.http.post<any>(
+        `${AppSettings.API_AUTH_ENDPOINT}/auth/login`, 
+        loginRequest, 
+        { headers, observe: 'response' }  // Observe the response to access headers
+      ).pipe(
+        tap((resp: HttpResponse<any>) => {
+          console.log("After API call");
+          console.log("Response:", resp);
+          // Extract the token from the response headers
+          const token = resp.headers.get('x-auth-token');
+          if (token) {
+            localStorage.setItem('jwt', token);
+            console.log( localStorage.getItem('jwt'))
+          }
+        }),
+        catchError(this.handleError)
+      );
+    }
+  
       private handleError(error: any) {
         console.error('An error occurred:', error);
         return throwError(() => new Error('Something went wrong; please try again later.'));

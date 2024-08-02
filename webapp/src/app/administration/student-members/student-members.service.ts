@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
+import { HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { AppSettings } from '../../appsettings';
 import { StudentMembers } from './student-members';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/internal/operators/catchError';
+import { map } from 'rxjs/internal/operators/map';
 
 
-@Injectable()
+
+@Injectable({
+    providedIn :'root'
+})
 export class StudentMembersService {
     //URLs for CRUD operations
     // getStaffbyIdUrl = AppSettings.API_ENDPOINT + "./admin/getListOfActiveStaffMembers";
@@ -14,7 +19,7 @@ export class StudentMembersService {
     getAllStudentMembersUrl = AppSettings.API_ENDPOINT + "./admin/getListOfActiveStudentMembersfromsView";  
 
     //Create constructor to get Http instance
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
 
     //** GET Staff Member by Id from view  **
@@ -30,23 +35,26 @@ export class StudentMembersService {
 
     getAllStudentMembers(): Observable<StudentMembers[]> {
 		
-        let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-		let cpParams = new URLSearchParams();
+		let cpParams = new HttpParams();
+        let token = localStorage.getItem('jwt');
+        let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' ,  'x-auth-token': token ? token : ''});
+
         //cpParams.set('organizationId', organizationId.toString());
-		let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+		let options = { headers: cpHeaders, params: cpParams };
         return this.http.get(this.getAllStudentMembersUrl,options)
-        .map(this.extractData)
-        .catch(this.handleError);
+        .pipe(
+        map(this.extractData),
+        catchError(this.handleError));
     }
 
     
 
-    private extractData(res: Response) {
+    private extractData(res: any) {
         let body = res.json();
         return body;
     }
 
-    private handleError(error: Response | any) {
+    private handleError(error: any) {
         console.error(error.message || error);
         return Observable.throw(error.status);
     }

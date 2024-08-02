@@ -2,7 +2,9 @@
 import { Injectable } from '@angular/core';
 
 
-@Injectable()
+@Injectable({
+       providedIn :'root'
+})
 export class Data {
     successMsg: any;
     statusCode: number = 0;
