@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,13 +44,16 @@ import { RoleGuardService } from '../../app/shared/AuthGuard/RoleGuardService';
 // import { SystemNavigationModule } from 'app/patients/systemNavigation/systemNavigation.module';
 // import { HistoryModule } from './history/history.module';
 import { LoginService } from '../../app/home/login/login.service';
+import { PatientListComponent } from './patientlist/patientlist.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 // import { ListEncounterComponent } from './encounter/list-encounter/list-encounter.component';
 // // import { StudentListComponent } from './studentlist/studentlist.component';
 // import { StudentDetailsService } from './services/studentDetailsService';
 
 @NgModule({
+  
   imports: [
-    // NgxSpinnerModule,
+    NgxSpinnerModule,
     // Md2Module,
     RouterModule,
     CommonModule,
@@ -77,9 +80,9 @@ import { LoginService } from '../../app/home/login/login.service';
   //     tertiaryColour: '#99d6ff' 
   // })
   ],
-  declarations: [
+  declarations: [  PatientListComponent ],
       // NewPatientComponent,
-      // PatientListComponent,
+      // PatientListComponent
       // UpdatePatientComponent,
       // lookupPipe,
       // PrimaryProviderPipe,
@@ -94,7 +97,7 @@ import { LoginService } from '../../app/home/login/login.service';
       // SafeHtmlPipe,
       // GroupByPipe
       // StudentListComponent
-  ],
+ 
   providers: [
   // EncounterService,
   // SystemService,
@@ -118,6 +121,7 @@ import { LoginService } from '../../app/home/login/login.service';
 
 
 ]
+
 })
 
 export class Patients {}
