@@ -1,0 +1,17 @@
+export class Medication {
+    constructor(
+        public checked:boolean=false ,
+        public medicationId: number, 
+        public productName: string, 
+        public form: string, 
+        public dose: string,
+        public route: string,
+        public schedule: string,
+        public frequency:string,
+        public duration:string="",
+        public startDate:string,
+        public indication:string,
+        public endDate:string,
+        public refillCount:string,
+    ){}
+}

@@ -1,0 +1,55 @@
+
+  
+   /*label style for medication checkbox  */
+  .labelstyle{
+    padding-left: 3px !important;
+  }
+  
+  input::-webkit-input-placeholder {       
+    color: #808080 !important;        
+  }
+  /* style for prescription page */
+  .Prescription-style{
+    color:#1eaafa;
+    font-size: 20px;
+  }
+  /* style for inactive medication page */
+  .InActive-style{
+    color: red;
+  }
+  /* style for add medication button */
+  .medButton-style{
+    float: right;
+  }
+  .input-size{
+    font-weight: 400;
+    color: white;
+  }
+.header-contents{
+  background-color: #03659d;
+  margin-right:17px !important;
+  margin-left:17px !important;
+  box-shadow: 5px 8px 38px  #888888;
+}
+
+.header-style{
+  color: white;
+  font-weight: 600;
+  }
+
+  /* style for label for medication */
+  label{
+    color: black;
+  }
+
+
+/* style for loader for medication module */
+::ng-deep #ngxspinner .black-overlay > p{
+  top:77% !important; 
+}
+
+/* padding for date picker table body */
+table tbody tr td{
+  padding: 0px 14px !important;
+}
+

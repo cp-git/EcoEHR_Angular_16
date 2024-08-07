@@ -1,0 +1,57 @@
+
+
+/* drop down style for tdropdown and dropdowm */
+::ng-deep .md2-select-value-text {
+    color: #808080;
+}
+
+.input-size{
+  font-weight: 400;
+  color: white;
+}
+
+.header-contents{
+  background-color: #03659d;
+  margin-right:17px !important;
+  margin-left:17px !important;
+  box-shadow: 5px 8px 38px  #888888;
+}
+
+.header-style{
+  color: white;
+  font-weight: 600;
+  }
+
+input::-webkit-input-placeholder {                       
+  color: #808080 !important;        
+}
+
+/* placeholder style for multiple dropdown */
+::ng-deep .md2-select-placeholder{
+  color: #808080 !important;        
+}
+
+/* alert error msg style */
+.HPIErrorMsg-style{
+  padding-left:260px;
+  margin-top:-10px;
+}
+
+
+/* CSS STYLE FOR IPAD MODE ( HPI MODULE) */
+@media screen and (max-width: 768px) {
+ 
+  .text-dark{
+       font-size: 10px;
+    }
+
+  .expand-btn-style{
+    height:23px;
+    padding-top:2px;
+    font-size:10px;
+    left:97px;
+  }
+
+
+
+}

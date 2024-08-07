@@ -1,0 +1,155 @@
+
+import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PatientRecord } from "app/patients/models/PatientRecord";
+import { MasterPreventive } from "app/patients/models/masterpreventive";
+import { PreventiveCareMasterService } from "app/patients/services/preventiveCareMasterService";
+import { PatientPreventiveCare } from "../models/patientPreventiveCare";
+import { PatientPreventiveService } from "../services/patientPreventiveService";
+
+declare const $: any;
+
+@Component({
+  selector: 'ehr-preventive',
+  templateUrl: 'preventive.component.html',
+  styleUrls: ['preventive.component.css', '../../app.component.css']
+})
+export class PreventiveComponent implements OnInit {
+  statusCode: number;
+  @Input() patientId:number;
+  allMasterPreventive: MasterPreventive[];
+  patientPreventive: PatientPreventiveCare[];
+  date: any[] = [];
+  buttonDisabled = true;
+  isValidDate: number[] = [-1];
+  preventiveFlag: boolean;
+  PreventiveForm: FormGroup;
+  openPreventive = false;
+  displayPreventive: boolean = false;
+
+
+  constructor(private formBuilder: FormBuilder,
+    private patientPreventiveService: PatientPreventiveService,
+    private preventiveCareMasterService: PreventiveCareMasterService,
+    private spinner: NgxSpinnerService) { }
+
+  isFieldValid(form: FormGroup, field: string) {
+    return !form.get(field).valid && form.get(field).touched;
+  }
+
+  displayFieldCss(form: FormGroup, field: string) {
+    return {
+      'has-error': this.isFieldValid(form, field),
+      'has-feedback': this.isFieldValid(form, field)
+    };
+  }
+
+  ngOnInit() {
+    this.PreventiveForm = this.formBuilder.group({
+
+    });
+    this.getAllMasterPreventitive();
+    this.getAllPatientPreventitive();
+    this.openPreventive = false;
+  }
+
+  getAllMasterPreventitive() {
+    this.spinner.show();
+    this.preventiveCareMasterService.getPatientMastPreventitive(this.patientId)
+      .subscribe(data => {
+        this.spinner.hide();
+        this.allMasterPreventive = data;
+      })
+  }
+
+  openPreventiveTable() {
+    this.openPreventive = !this.openPreventive;
+  }
+
+  getAllPatientPreventitive() {
+    this.spinner.show();
+    this.patientPreventiveService.getPatientPreventitiveByPatientId(this.patientId)
+      .subscribe(data => {
+        this.spinner.hide();
+        this.patientPreventive = data;
+        if(this.patientPreventive.length>0)
+        {
+          this.displayPreventive=true;
+        }
+      })
+  }
+
+  checkedData(data) {
+    if (data.isChecked) {
+      this.buttonDisabled = false;
+      data.lastDate == undefined || data.lastDate == "" ? this.isValidDate[data.preventiveCareId] = data.preventiveCareId : this.isValidDate[data.preventiveCareId] = -1;
+      if (data.lastDate !== undefined)
+        this.preventiveFlag = false;
+    }
+    else {
+      this.isValidDate[data.preventiveCareId] = -1;
+    }
+    let selectedData = this.allMasterPreventive.filter(t => t.isChecked == true);
+    selectedData.length == 0 ? this.buttonDisabled = true : this.buttonDisabled = false;
+  }
+
+  datepicker(data) {
+    var self = this;
+    $("#lastDate" + data.preventiveCareId).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      beforeShow: function () {
+        setTimeout(function () {
+          $('.ui-datepicker').css('z-index', 99999999999999);
+        }, 0);
+      },
+      onSelect: function (dateText, inst) {
+        data.lastDate = dateText;
+        self.checkedData(data);
+      }
+    }).datepicker("show");
+  }
+
+  submitData() {
+    this.preventiveFlag = false;
+    this.buttonDisabled = true;
+    let patientPreventativeList: PatientPreventiveCare[] = [];
+    let selectedData = this.allMasterPreventive.filter(t => t.isChecked == true);
+    for (let data of selectedData) {
+      let lastDate: any = (document.getElementById("lastDate" + data.preventiveCareId) as HTMLInputElement).value;
+      if (lastDate !== undefined && lastDate !== "") {
+        let patientPreventive = new PatientPreventiveCare(0, this.patientId, data.preventiveCareId, data.testName, data.age, data.gender, new Date(lastDate), data.frequency, data.recurringEvent, data.reminderEmailDate, true, null, null, null, null);
+        patientPreventativeList.push(patientPreventive);
+      }
+      else {
+        this.preventiveFlag = true;
+      }
+    }
+    if (!this.preventiveFlag) {
+      this.patientPreventiveService.insertAllPreventive(patientPreventativeList)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+          this.openPreventive = false;
+          this.getAllPatientPreventitive();
+          // let element: HTMLElement = document.getElementById("dismissmodal") as HTMLElement;
+          // element.click();
+        },
+          errorCode => {
+            this.statusCode = errorCode;
+          });
+    }
+  }
+
+  closeModalPreventiveCare() {
+    for (let i = 0; i < this.allMasterPreventive.length; i++) {
+      $("#lastDate" + this.allMasterPreventive[i].preventiveCareId).val('');
+      $("#all_" + this.allMasterPreventive[i].preventiveCareId).prop('checked', false);
+      this.allMasterPreventive[i].isChecked = false;
+      this.checkedData(this.allMasterPreventive[i]);
+    }
+    this.PreventiveForm.reset();
+    this.openPreventive = false;
+  }
+
+}

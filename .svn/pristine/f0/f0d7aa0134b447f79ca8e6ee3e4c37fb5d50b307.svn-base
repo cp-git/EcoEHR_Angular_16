@@ -1,0 +1,542 @@
+  /* style for table header (COMMON FOR ADD ENCOUNTER, HISTORY, MEDICATION,ROS )*/
+table tbody tr th{
+  color: white;
+  font-weight: 400;
+  font-size: 12px;
+  background-color: #0590e1;
+  padding: 6px;     
+}
+
+table tbody tr td{
+  font-size: 12px;
+  padding: 0px 10px ;
+  vertical-align: baseline ;
+}
+
+.not-filled-system-style {
+  background-color: white;
+  /* color: red !important; */
+  color: black !important;
+  font-weight: 700;
+}
+
+.fa-check{
+  color:#1eaafa;
+  font-size: 16px;
+
+}
+.filled-system-style {
+  background-color: white;
+  color: green !important;
+  font-weight: 700;
+}
+
+/* style for content card (COMMON FOR ENCOUNTER, EXAM, HISTORY, MEDICATION, PATIENT) */
+.contents{
+  background-color: #ffffff;
+  margin-right:17px !important;
+  margin-left:17px !important;
+  box-shadow: 5px 8px 38px  #888888;
+}
+
+/* style for small button */
+.btn-sm{
+  background-color: #0471af
+}
+
+
+.md2-select-header {
+    position: relative;
+    display: block;
+    height: 48px;
+    width: 100%;
+    padding-left: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12); 
+  }
+
+  .disableProviderType{
+    pointer-events:none;
+    background-color: rgb(240, 240, 240);
+  }
+  
+  .md2-select-header input {
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+  
+    
+  }
+  .md2-option {
+    font-size: 12px !important;
+    color: #000 !important;
+  
+    
+  }
+  /* md2 select drop down placeholder color */
+  ::ng-deep .md2-select-placeholder {
+    color: rgba(0, 0, 0, 1);
+   
+    
+  }
+  /* style for drop down to show on modal */
+  ::ng-deep .cdk-overlay-container {
+    position: fixed;
+   z-index: 999999 !important;
+   }
+   
+   ::ng-deep .cdk-global-overlay-wrapper {
+     display: flex;
+     position: absolute;
+     z-index: 9999999 !important;
+   }
+   
+   ::ng-deep .cdk-overlay-pane {
+    position: absolute;
+    pointer-events: auto;
+    box-sizing: border-box;
+    z-index: 9999999 !important;
+   }
+   
+   ::ng-deep .cdk-overlay-backdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999999 !important;
+    pointer-events: auto;
+    transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+   opacity: 0;
+   }
+
+/* Asterisk(*) Color for mandatory fields */
+.AsteriskColor{
+  color: red;  
+}
+
+/*font weight for header of the card  */
+h6{
+  font-weight:500;
+  margin-top: -2px;
+}
+
+/*Button color */
+.button {
+  background-color: #0471AF;
+  border-radius: 10px 10px;  
+}
+
+/*Button hover color */
+.button:hover{
+  background-color:  #0480c8
+}
+
+/* alert style for HPI and ADD ENCOUNTER */
+.alert-danger-style{
+  height:25px;
+  padding-top:3px;
+}
+
+/* style for float label */
+#genderfloatLable,#gender_floatToLabel,
+#titlefloatLable,#title_floatToLabel,
+#langfloatLable,#lang_floatToLabel,
+#racefloatLable,#race_floatToLabel,
+#ethnicityfloatLable,#ethnicity_floatToLabel,
+#status_floatToLable,#statusfloatToLable,
+#statefloatLable,#state_floatToLabel,
+#credentialfloatLable,#credential_floatLable,
+#providerTypefloatLable,#providerType_floatToLabel,
+#primaryLocationfloatLable,#primaryLocation_floatToLabel,
+#ehrfloatLable,#EHR_floatLable,
+#masterFloatLable,#master_floatToLabel,
+#providerfloatLable,#provider_floatLable,
+#primaryservicefloatLable,#primaryservice_floatLable
+{
+ top:-10px;
+ font-size:12px;
+ left: 0px;
+}
+
+/* for dob field */
+.form-group.label-floating:not(.is-empty) label.control-label-datepicker{
+  top:-6px ;
+  font-size: 12px ;
+  }
+
+.labelPosition{
+  top: -10px !important;
+  left: 0;
+  font-size: 12px !important;
+  line-height: 1.07142857;
+}
+
+/*height decrease for dropdown values  */
+.decrease-height{
+  height: 35px !important;
+  font-size: 12px !important;
+}
+
+/* to float the label*/
+.customfloat{
+  -webkit-transform:translate(0px,-20px) !important;
+  font-size:11px !important;
+  color:red;
+}
+
+/* card position for maximum width */
+@media screen and (max-width: 1024px) {
+  
+       .card{
+        margin-top: 80px;  
+      
+       }
+   }
+
+/* height of the search record field on card header */
+.searchHeight{
+  top:-22px;
+}
+
+/*style for select tag for show-entries dropdown on card header*/
+.select-style{
+  height: 26px;
+  margin-top: -7px;
+  font-weight: 500;
+  color: white
+}
+
+
+/*drop down value color for show-entries dropdown*/
+.option-style{
+  color: black;
+  
+}
+
+/*input field color of search record field*/
+.input-color{
+  color: white !important;  
+}
+
+/* add and update card header style(ADMIN TOOLS MODULE)  */
+.card-style
+{
+  border-radius: 10px 10px;
+}
+
+/* style for tab */
+.btn-style{
+  color:#1d7fb7!important;
+  background-color: #ffffff !important; 
+ }
+
+ .btn-style:hover {
+  background-color: #1d7fb7 !important;
+  color: white !important;
+}
+
+/* CSS style for button position
+(add patient button on patient list page) */
+.add-btn-position{
+  top:-5px ;
+}
+
+/* button style for add  */
+.button-style{
+  background-color: #449D44;
+  box-shadow: 5px 5px 5px #1f471f;
+  padding: 5px 25px !important; 
+}
+
+/* CSS style for label color */
+.label-color{
+  color: white !important;
+  margin-bottom:16px;
+}
+
+/* CSS style for question card ( COMMON FOR HPI, ROS, HISTORY) */
+.question-card-style{
+  width: 700px;
+  box-shadow: 5px 10px 30px  #888888;
+  padding: 5px;
+  /* font-weight: 450; */
+  margin: 10px 25px  ;
+  border: 1px solid #008CBA;
+ }
+
+/* CSS style for anchor tag */
+ a{
+  font-size: 12px ;
+}
+
+
+/* style for tab (COMMON FOR ROS, ICD10)*/
+.tab-btn-style{
+      color:#1d7fb7 !important;                              
+      box-shadow: -5px 5px 25px  #888888;
+      background-color: #ffffff !important; 
+    
+      
+     }
+    
+/* color change on tab action  (COMMON FOR ROS, ICD10)  */
+.colorchange{
+       background-color: #1d7fb7 !important;
+       color:#ffffff !important;
+     } 
+
+/* table content padding (COMMON FOR ALL MODULE)  */
+  .table-content{
+    padding: 11px;
+  }
+
+  /* CSS style for text dark  */
+  .text-dark{
+  color: #111111 !important;
+}
+
+/* CSS style for btn content alignment (Common for all) */
+.btn-left{
+  text-align: left !important;
+}
+
+/* checkbox style */
+/* common for addencounter, hpi, ros, history  */
+input[type=checkbox] + label {
+  display: block;
+  margin: 0.9em;
+  cursor: pointer;
+  padding-left: 4.9em;
+  }
+  
+  input[type=checkbox] {
+  display: none;
+  }
+  
+  input[type=checkbox] + label:before {
+  content: "\2714";
+  border: 0.1em solid #000;
+  border-radius: 0.2em;
+  display: inline-block;
+  width: 1em;
+  height: 0.0em;
+  padding-left: 0.0em;
+  padding-bottom: 1em;
+  color: transparent;
+  transition: .2s;
+  }
+  
+  input[type=checkbox] + label:active:before {
+  transform: scale(0);
+  }
+  
+  input[type=checkbox]:checked + label:before {
+  background-color: #0480c8;
+  border-color: #0480c8;
+  color: #fff;
+  }
+  
+  input[type=checkbox]:disabled + label:before {
+  transform: scale(1);
+  border-color: #aaa;
+  }
+  
+  input[type=checkbox]:checked:disabled + label:before {
+  transform: scale(1);
+  background-color: #bfb;
+  border-color: #bfb;
+  }
+
+/* CSS style for question group style ( Common for  ICD, HPI, ROS, HISTORY )  */
+  .question-group-style{
+    width:170%;
+    right:7px;
+    margin:2px 1px !important;
+    box-shadow: -5px 5px 25px  #888888;
+  }
+
+
+/* CSS style for systems tab ( Common for HPI, ROS, HISTORY ) */
+  .systems-tab-style{
+  border: 1px solid #1d7fb7;
+}
+
+ /* placeholder color for input text and textarea (common for ENCOUNTER,EXAM, MEDICATION, HPI, ROS, HISTORY) */
+  input::-webkit-input-placeholder {
+    color:#808080 !important;        
+    }
+
+ /* fa icon style */
+  .fa-style{
+      font-size:20px;
+    }
+
+/* eye icon style */
+.fa-eye{
+  color:#1eaafa;
+}
+
+.fa-download {
+  color:#1eaafa;
+}
+
+.fa-check{
+  color:#1eaafa;
+  font-size: 16px;
+
+}
+
+/* style for expand panel (common for ENCOUNTER, EXAM, ADD PATIENT) */
+.expand-Panel-Style{
+  background-color: #ffffff;
+  box-shadow: 2px 0px 11px  #888888;
+ 
+ }
+
+  
+ /* style for collapse card style */
+ .collapse-card-style{
+  height: 40px;
+  padding-top:11px;
+  background-color: #ffffff !important;
+  border: 1px solid #008CBA;
+  color: black !important;
+  font-weight:500;
+}
+
+/*system name styel(Common for HPI, ROS, HISTORY, EXAM) */
+ .systemNameStyle{
+  width:auto;
+  background-color: #f5f5f0;
+  color:#0471af;
+ }
+
+
+
+.md2-option.md2-option-multiple::after{
+  width:13px !important;
+}
+
+.md2-option{
+  line-height: 38px !important;
+}
+
+/* tab content padding for ICD */
+.btn-content-style{
+  padding-left: 8px;
+  font-size:11px;
+}
+
+.updateForm-style{
+        margin: -13px 0 0 0 !important;
+    
+}
+
+/* Search record placeholder color  */
+input.placeholder-style::placeholder{
+  color:white !important;
+}
+
+/* icon style for calender */
+.input-icon-wrap {  
+  display: flex;
+  flex-direction: row;
+  
+  }
+    
+.input-icon {
+  background: transparent;
+}
+    
+.input-with-icon {
+  border: none;
+  flex: 1;    
+}
+    
+.input-icon, .input-with-icon {
+   padding: 1px;
+}
+
+/* style for loader for application */
+::ng-deep .black-overlay > div{
+  top:55% !important; 
+}
+::ng-deep .black-overlay > p{
+   left:50% !important;
+   font-weight: 550 !important;
+}
+
+/* style for yes/no anchor */
+a{
+  color:#0471af;
+}
+
+/* style for select yes/no link  */
+.selectlink-style{
+  margin-top:-29px;
+}
+
+/* style for question group  */
+#groupdiv{
+  top:10px;
+}
+
+/* style for navigation bar */
+.nav-tab-style{
+  font-size: 11px;
+  padding:6px 7px;
+  font-weight: 450;
+  border: 1px solid #1d7fb7; 
+}
+.navbar-label{
+  font-size: 11px;
+  margin-top: 2px;
+  color: #1d7fb7;
+}
+.alert{
+  padding:4px 15px;
+}
+
+
+                                     /* COMMON CSS FOR IPAD MODE(max-width: 768px) */
+
+
+@media screen and (max-width: 768px) {     
+
+.systems-tab-style{
+    font-size: 10px !important;
+    padding: 7px 23px;
+ } 
+
+  .question-group-style{
+    width:250px !important;
+    right:25px !important;
+    font-size:10px !important;
+    padding-right:2px !important;
+ 
+  } 
+  .question-group-name{
+    margin-left:-17px;
+  }
+
+.question-card-style{
+  width: 430px !important ;
+  margin: 3px 25px  !important;
+  font-size:12px;
+ }
+
+ .tab-btn-style{
+   font-size:10px;
+   width:130px;
+   right:18px;
+   padding-left:21px ;
+ }
+
+ #group_div{
+   top:-6px;
+ }
+
+}
+

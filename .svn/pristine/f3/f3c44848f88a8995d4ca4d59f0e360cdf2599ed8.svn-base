@@ -1,0 +1,18 @@
+export class Questions {
+    constructor(
+        public questionId: number,
+        public systemId: number,
+        public questionGroupId: number,
+        public questionDesc: string,
+        public questionType: string,
+        public questionDispType: string,
+        public questionOrder: number,
+        public mandatoryFlag: any,
+        public questionCount: number,
+        public activeFlag: any,
+        public createdDate: Date,
+        public createdBy: string,
+        public lastUpdatedDate: Date,
+        public lastUpdatedBy: string) {
+    }
+} 

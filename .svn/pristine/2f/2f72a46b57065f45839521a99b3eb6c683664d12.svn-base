@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="now" value="now()" dbms="h2" />
+	<property name="now" value="current_timestamp" dbms="postgresql" />
+
+	<changeSet author="ehr_admin" id="clinic_location_id_seq">
+		<createSequence incrementBy="1" sequenceName="clinic_location_id_seq"
+			startValue="2" />
+	</changeSet>
+	<changeSet id="clinic_loc" author="ehr_admin">
+
+		<!-- clinic_loc table for storing Clinic Location information. -->
+		<createTable tableName="clinic_loc">
+			<column name="location_id" type="bigint" autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="loc_name" type="varchar(500)">
+				<constraints nullable="false" />
+			</column>
+			<column name="address_street" type="varchar(500)">
+				<constraints nullable="false" />
+			</column>
+			<column name="address_door_no" type="varchar(500)"/>
+			<column name="address_city" type="varchar(500)" />
+			<column name="address_state" type="varchar(500)"/>
+			<column name="address_zip" type="varchar(500)">
+				<constraints nullable="false" />
+			</column>
+			<column name="contact_name" type="varchar(500)" />
+			<column name="contact_email" type="varchar(500)" />
+			<column name="primary_no" type="varchar(500)">
+				<constraints nullable="false" />
+			</column>
+			<column name="fax_no" type="varchar(500)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ein_number" type="varchar(100)"/>
+			<column name="organization_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="active_flag" type="varchar(1)">
+				<constraints nullable="false" />
+			</column>
+			<column name="created_date" type="timestamp with time zone"
+				defaultValueDate="${now}">
+				<constraints nullable="false" />
+			</column>
+			<column name="created_by" type="varchar(100)">
+			</column>
+			<column name="last_updated_date" type="timestamp with time zone"
+				defaultValueDate="${now}">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_updated_by" type="varchar(100)">
+			</column>
+		</createTable>
+		
+		<addForeignKeyConstraint baseColumnNames="organization_id"
+			baseTableName="clinic_loc" constraintName="fk_clinic_loc_organization_id"
+			deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="organization_id"
+			referencedTableName="organization" />
+
+		<sql>
+			INSERT INTO "clinic_loc"
+			(location_id,loc_name,address_street,address_door_no,address_city,address_state,address_zip,contact_name,contact_email,primary_no,fax_no,ein_number,active_flag,organization_id,created_date,created_by,last_updated_date,last_updated_by)
+			VALUES
+			(1,'CloudPoint Clinic','Kharadi','403','Pune','Maharashtra','411 014','null','cpa_ind_dev@cloudpointamerica.com','123-456-7890','123-456-7890','121','Y',1,'2019-02-01 14:54:34.510','poonam','2019-02-01 14:54:34.510','poonam');
+		</sql>
+
+	</changeSet>
+</databaseChangeLog>

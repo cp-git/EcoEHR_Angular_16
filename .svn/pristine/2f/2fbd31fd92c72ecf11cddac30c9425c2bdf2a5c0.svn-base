@@ -1,0 +1,23 @@
+export class Encounter {
+    constructor(public encounterId: number, 
+                public patientId: number, 
+                public staffId: number,
+                public locationId: number,
+                public organizationId: number,
+                public encounterDate: Date,
+                public chiefCompliant: String,
+                public emId: number,
+                public activeFlag: any,
+                public physicalExamTempId: number,
+                public cardioExamTempId: number,
+                public simpleNeuroExamTempId: number,
+                public eyeExamTempId: number,
+                public detailedExamTempId: number,
+                public createdDate: Date,
+                public createdBy: string,
+                public lastUpdatedDate: Date,
+                public lastUpdatedBy: string,
+                public patientUniqueCharacters: string,
+                public completionDate: Date) { 
+    }
+} 

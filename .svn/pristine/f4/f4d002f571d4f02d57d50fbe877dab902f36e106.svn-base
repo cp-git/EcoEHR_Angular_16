@@ -1,0 +1,49 @@
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NouisliderModule } from 'ng2-nouislider';
+import { TagInputModule } from 'ngx-chips';
+import { MaterialModule } from '../../app.module';
+import { SharedModule } from 'app/shared/shared-module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { QuestionsService } from '../services/questionsService';
+import { Md2Module } from 'md2';
+import { LabResultComponent } from 'app/patients/labresult/labresult.component';
+import { ConsultantNotesComponent } from 'app/patients/consultantnotes/consultantnotes.component';
+import { ConsultantNotesService } from '../services/consultantNotesService';
+import { UploadFileService } from '../services/uploadFileService';
+
+@NgModule({
+  imports: [
+    NgxSpinnerModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NouisliderModule,
+    TagInputModule,
+    MaterialModule,
+    SharedModule,
+    Md2Module,
+  ],
+  declarations: [
+    ConsultantNotesComponent
+  ],
+  providers: [
+    ConsultantNotesService,
+    UploadFileService
+  ],
+  exports: [
+    ConsultantNotesComponent
+  ]
+})
+
+
+export class ConsultantNotesModule {}
+
+
+
+
+
+
+

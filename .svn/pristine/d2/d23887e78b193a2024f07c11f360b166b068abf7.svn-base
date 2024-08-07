@@ -1,0 +1,159 @@
+
+import { Component, OnInit, Input } from "@angular/core";
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import b64toBlob from 'b64-to-blob';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PatientRecord } from "app/patients/models/PatientRecord";
+import { ConsultantNotesService } from "app/patients/services/consultantNotesService";
+import { ConsultantNotes } from "app/patients/models/consultantNotes";
+import * as moment from 'moment';
+import { FileData } from "../models/fileData";
+import { UploadFileService } from "../services/uploadFileService";
+import * as FileSaver from 'file-saver';
+
+declare const $: any;
+
+@Component({
+  selector: 'ehr-consultantnotes',
+  templateUrl: 'consultantnotes.component.html',
+  styleUrls: ['consultantnotes.component.css', '../../app.component.css']
+})
+export class ConsultantNotesComponent implements OnInit {
+  ConsultantNotesForm: FormGroup;
+  patientConsultantNotes: ConsultantNotes[];
+  @Input() patientId: number;
+  fileSelected: File;
+  showConsNotesTable: boolean = false;
+  show = false;
+  fileSize: number;
+  isDisabled: boolean = false;
+
+  constructor(private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private consultantNotesService: ConsultantNotesService,
+    private fileService: UploadFileService
+  ) { }
+
+  isFieldValid(form: FormGroup, field: string) {
+    return !form.get(field).valid && form.get(field).touched;
+  }
+
+  displayFieldCss(form: FormGroup, field: string) {
+    return {
+      'has-error': this.isFieldValid(form, field),
+      'has-feedback': this.isFieldValid(form, field)
+    };
+  }
+
+  ngOnInit() {
+    this.ConsultantNotesForm = this.formBuilder.group({
+      consultantComments: [null, [Validators.required]],
+      consultantDate: [null, [Validators.required]],
+      selectedFile: [null, [Validators.required]]
+    });
+    this.isDisabled = false;
+    
+    this.getAllPatientConsultantNotes();
+  }
+
+  closeConsultantNotesModal() {
+    this.ConsultantNotesForm.reset();
+    this.show = false;
+  }
+
+  fileEvent($event) {
+    
+    this.fileSelected = $event.target.files[0];
+    if (this.fileSelected != undefined) {
+      if (this.fileSelected.size > 10004000) {
+        this.show = true;
+      }
+      else {
+        this.show = false;
+      }
+    }
+  }
+
+  onSubmit() {
+    if (this.ConsultantNotesForm.valid) {
+      (<HTMLInputElement>document.getElementById("save")).disabled = true;
+      let consultantDate = moment.utc((document.getElementById("consultantDate") as HTMLInputElement).value).toDate();
+      let consultantComments = this.ConsultantNotesForm.get('consultantComments').value;
+      if (this.fileSelected != undefined) {
+        let fileData = new FileData(this.patientId, consultantDate, 'consultant_notes', null, null, null)
+        this.fileService.pushFileToStorage(this.fileSelected, fileData)
+          .subscribe(data => {
+            let consNotes = new ConsultantNotes(0, this.patientId, consultantComments, consultantDate, data.fileUrl, null, null, null, null, true);
+            this.consultantNotesService.insertConsultantNotesResult(consNotes)
+              .subscribe(data => {
+                this.ConsultantNotesForm.reset();
+                this.getAllPatientConsultantNotes();
+                (<HTMLInputElement>document.getElementById("save")).disabled = false;
+              })
+          });
+      }
+    }
+    else {
+      this.validateAllFormFields(this.ConsultantNotesForm);
+    }
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
+  getUploadedFile(consNotes: ConsultantNotes) {
+    this.fileService.getUploadedFiles(consNotes.documentLink)
+      .subscribe(data => {
+        let contentDiscomposition = data.headers['Content-Disposition'];
+        let fileName = contentDiscomposition[0].split(';')[1].trim().split('=')[1].split('"')[1];
+        const blob = b64toBlob(data.file.toString(), fileName.split('.')[1]);
+        FileSaver.saveAs(blob, fileName)
+      })
+  }
+
+  getDocumentName(consNotes: ConsultantNotes) {
+    return consNotes.documentLink.split("/")[11];
+  }
+
+  getAllPatientConsultantNotes() {
+    this.spinner.show();
+    this.consultantNotesService.getConsultantNotesByPatientId(this.patientId)
+      .subscribe(data => {
+        this.spinner.hide();
+        this.patientConsultantNotes = data;
+        if (this.patientConsultantNotes.length > 0) {
+          this.showConsNotesTable = true;
+        }
+      })
+  }
+
+  displayConsultantDate(date) {
+    return new Date(date);
+  }
+
+  endDate() {
+    var self = this;
+    $("#consultantDate").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      beforeShow: function () {
+        setTimeout(function () {
+          $('.ui-datepicker').css('z-index', 99999999999999);
+        }, 0);
+      },
+      onSelect: function (dateText, inst) {
+        self.ConsultantNotesForm.get('consultantDate').setValue(dateText);
+      }
+    }).datepicker("show");
+  }
+
+
+}

@@ -1,0 +1,449 @@
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { MasterLookupService } from "app/administration/master-lookup/masterLookupService";
+import { MasterLookup } from "app/administration/master-lookup/masterLookup";
+import { EncounterService } from "app/patients/services/encounterService";
+import { Medication } from "app/patients/models/Medication";
+import { ChiefCompliantDtl } from 'app/patients/models/chiefCompliantDtl';
+import { PatientMedication } from "app/patients/models/PatientMedication";
+import { MedicationService } from "app/patients/services/medicationService";
+import { PatientMedicationRecord } from "app/patients/models/patientMedicationRecord";
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PatientAllergy } from "../models/patientAllergy";
+import { System } from "app/patients/models/system";
+import _ from 'lodash';
+declare const $: any;
+
+@Component({
+  selector: 'ehr-medication',
+  templateUrl: 'medication.component.html',
+  styleUrls: ['medication.component.css', '../../app.component.css']
+})
+export class MedicationComponent implements OnInit {
+  @ViewChild('searchRef') searchRef: ElementRef;
+  search: string;
+  @Input() patientId: number;
+  finalData: Medication[];
+  statusCode: number;
+  InActiveMedicationForm: FormGroup;
+  MedicationForm: FormGroup;
+  activePatientMedications: PatientMedicationRecord[];
+  inActivePatientMedications: PatientMedicationRecord[];
+  patientMedications: PatientMedicationRecord[];
+  isValid: number[] = [-1];
+  isValidDuration: number[] = [-1];
+  isValidDate: number[] = [-1];
+  isValidIndication: number[] = [-1];
+  isValidCount: number[] = [-1];
+  encounterId: number = 0;
+  flag: Boolean = true;
+  icd10Details: ChiefCompliantDtl[];
+  medicationFormArray: any;
+  allFrequency: MasterLookup[];
+  refillData: MasterLookup[];
+  discontinuedReasonList: MasterLookup[];
+  medicationFlag: boolean = false;
+  selectedFrequencyValue: any[] = [];
+  date: any[] = [];
+  duration: any[] = [];
+  selectedEndDate: any[] = [];
+  selectedRefillValue: any[] = [];
+  activeMedicationRecord: PatientMedicationRecord;
+  showInActiveList: Boolean = true
+  selectedIndicationValue: any[] = [];
+  showActiveList: Boolean = true;
+  searchCount: any;
+  showFlag: boolean;
+  showMedicationModal: boolean = true;
+  searchText: string;
+  buttonDisabled = true;
+  showListFlag: boolean = false;
+  value = false;
+  display:boolean=true;
+  system: System[];
+  sysName="MEDICATION"
+  allSystemTypes: any[] = [];
+  mx = new Date().getFullYear()+10;
+  @Input() pageName: string;
+  @Output() 
+  patientIdChange = new EventEmitter();
+  constructor(private formBuilder: FormBuilder,
+    private route: ActivatedRoute, private router: Router,
+    private masterLookupService: MasterLookupService,
+    private encounterService: EncounterService,
+    private medicationService: MedicationService,
+    private spinner: NgxSpinnerService) { }
+
+  isFieldValid(form: FormGroup, field: string) {
+    return !form.get(field).valid && form.get(field).touched;
+  }
+
+  displayFieldCss(form: FormGroup, field: string) {
+    return {
+      'has-error': this.isFieldValid(form, field),
+      'has-feedback': this.isFieldValid(form, field)
+    };
+  }
+
+  ngOnInit() {
+    this.patientMedications = [];
+    this.medicationFormArray = [];
+    this.isValidDate = [-1];
+    this.route.params.subscribe(params => {
+    this.encounterId = +params['encounterId'];
+    });
+    var data = localStorage.getItem('system');
+    if (data) {
+        this.system = JSON.parse(data);
+        this.system.filter(t => this.allSystemTypes.push(t.systemType))
+        this.allSystemTypes = _.uniq(this.allSystemTypes);
+    }
+    if (this.pageName=="orders") {
+    this.display=false;
+    this.patientIdChange.emit(this.patientId);
+    this.getIcd10DetailsOfLastFiveEncounters(this.patientId);
+    }
+   else{
+    this.getAllChiefCompliantDetails(this.encounterId);
+    this.getEncounterByEncounterId(this.encounterId);
+    if(this.pageName=="plan")
+    this.display=false;
+    }
+      this.getFrequency();
+      this.getLookUpTypeREFILL();
+      this.getLookUpTypeDiscontinuedReason();
+      Observable.fromEvent(this.searchRef.nativeElement, 'keyup')
+          .map((evt: any) => evt.target.value)
+          .debounceTime(2000)
+          .distinctUntilChanged()
+          .subscribe((text: string) => this.submit(text));
+    this.MedicationForm = this.formBuilder.group({
+      MedIDS: this.formBuilder.array([]),
+    });
+    this.medicationFormArray = <FormArray>this.MedicationForm.controls.MedIDS;
+
+    this.InActiveMedicationForm = this.formBuilder.group({
+      endDate: [null, [Validators.required]],
+      reason: [null, [Validators.required]]
+    });
+
+  }
+
+  onSubmit()
+  {
+    this.router.navigate(['/patients/planandassessment/' +  this.encounterId]);
+  }
+
+  getEncounterByEncounterId(encounterId: number) {
+      this.encounterService.getEncounterByEncounterId(encounterId)
+        .subscribe(data => {
+          this.patientId = data.patientId;
+          this.patientIdChange.emit(this.patientId);
+          this.getPatientMedications(this.patientId);
+        },
+          errorCode => this.statusCode = errorCode);
+  }
+
+  showAllergiesModal() {
+    this.value = !this.value;
+    $("#expansionPanel3").show();
+  }
+
+  getAllChiefCompliantDetails(encounterId) {
+      this.encounterService.getAllChiefCompliantDetailsByEncounterId(encounterId)
+        .subscribe(data => {
+          this.icd10Details = data;
+        },
+          errorCode => this.statusCode = errorCode);
+  }
+
+  getIcd10DetailsOfLastFiveEncounters(patientId) {
+    this.encounterService.getIcd10DetailsOfLastFiveEncounters(patientId)
+      .subscribe(data => {
+        this.icd10Details = data;
+        this.getPatientMedications(this.patientId)
+      },
+        errorCode => this.statusCode = errorCode);
+  }
+
+  openInActiveMedication(activeMedication) {
+    this.InActiveMedicationForm.reset();
+    this.activeMedicationRecord = activeMedication;
+    $('#InActiveMedication').modal('show');
+  }
+
+  openPrescription(activeMedication) {
+    this.activeMedicationRecord = activeMedication;
+    $('#Prescription').modal('show');
+  }
+
+  //logic to check validation for selected medication record
+  checkedMedicationData(data) {
+    if (data.checked) {
+      data.startDate == undefined || data.startDate == "" ? this.isValidDate[data.medicationId] = data.medicationId : this.isValidDate[data.medicationId] = -1;
+      data.indication == undefined ? this.isValidIndication[data.medicationId] = data.medicationId : this.isValidIndication[data.medicationId] = -1;
+      data.frequency == undefined ? this.isValid[data.medicationId] = data.medicationId : this.isValid[data.medicationId] = -1;
+      data.duration == undefined || data.duration == "" ? this.isValidDuration[data.medicationId] = data.medicationId : this.isValidDuration[data.medicationId] = -1;
+      data.refillCount == undefined ? this.isValidCount[data.medicationId] = data.medicationId : this.isValidCount[data.medicationId] = -1;
+      if (data.indication !== undefined && data.frequency !== undefined && data.duration !== undefined)
+        this.medicationFlag = false;
+    }
+    else {
+      this.isValidDate[data.medicationId] = -1;
+      this.isValidIndication[data.medicationId] = -1;
+      this.isValid[data.medicationId] = -1;
+      this.isValidDuration[data.medicationId] = -1;
+      this.isValidCount[data.medicationId] = -1;
+
+    }
+  }
+
+  startdatepicker(v, data) {
+    var self = this;
+    $("#startDate" + v).datepicker({
+      changeMonth: true,
+      yearRange: "1900:"+this.mx,
+      defaultDate: '01/01/1953',
+      changeYear: true,
+      beforeShow: function () {
+        setTimeout(function () {
+          $('.ui-datepicker').css('z-index', 99999999999999);
+        }, 0);
+      },
+      onSelect: function (dateText, inst) {
+        data.startDate = dateText;
+        self.checkedMedicationData(data);
+        self.calculateDuration(data);
+      }
+    }).datepicker("show");
+    this.checkedMedicationData(data);
+  }
+
+  endDate() {
+    var self = this;
+    $("#endDate").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      beforeShow: function () {
+        setTimeout(function () {
+          $('.ui-datepicker').css('z-index', 99999999999999);
+        }, 0);
+      },
+      onSelect: function (dateText, inst) {
+        self.InActiveMedicationForm.get('endDate').setValue(dateText);
+      }
+    }).datepicker("show");
+  }
+
+  //Calculate End Date from Start Date and Duration in Days
+  calculateDuration(data) {
+    let date = (document.getElementById("startDate" + data.medicationId) as HTMLInputElement).value;
+    let startDate = new Date(date)
+    let duration = this.duration[data.medicationId];
+    let value = parseInt(duration);
+    if (date !== "" && (duration !== undefined && duration !== "" && value >= 0)) {
+      startDate.setDate(startDate.getDate() + value);
+      data.endDate = startDate;
+    }
+  }
+
+  submit(text) {
+    console.log(text);
+    this.finalData = [];
+    this.search = text;
+    if (this.search == "" || this.search.length < 3) {
+      this.showFlag = false;
+    }
+    else {
+      this.spinner.show();
+      this.encounterService.searchAllergy(this.search)
+        .subscribe(results => {
+          this.finalData = results;
+          this.spinner.hide();
+          this.searchCount = this.finalData.length;
+          this.searchCount == 0 ? this.flag = true : this.flag = false;
+        });
+    }
+  }
+
+  //Logic to insert patient medications
+  submitData() {
+    this.medicationFlag = false;
+    let patientMedicationList: PatientMedication[] = [];
+    for (let i = 0; i < this.medicationFormArray.length; i++) {
+      let indication = this.selectedIndicationValue[this.medicationFormArray.at(i).value.data.medicationId];
+      let refill = this.selectedRefillValue[this.medicationFormArray.at(i).value.data.medicationId];
+      let frequency = this.selectedFrequencyValue[this.medicationFormArray.at(i).value.data.medicationId];
+      let duration = this.duration[this.medicationFormArray.at(i).value.data.medicationId];
+      let startDate: any = (document.getElementById("startDate" + this.medicationFormArray.at(i).value.data.medicationId) as HTMLInputElement).value;
+      let selectedEndDate: any = (document.getElementById("endDate" + this.medicationFormArray.at(i).value.data.medicationId) as HTMLInputElement).value;
+      if (startDate !== "" && indication !== undefined && frequency !== undefined && refill !== undefined && (duration !== undefined && duration !== "")) {
+        $('#addClose').prop('disabled', true);
+        let patientMedication = new PatientMedication(0, this.patientId, this.encounterId, this.medicationFormArray.at(i).value.data.medicationId, frequency, new Date(startDate), duration, new Date(selectedEndDate), refill, indication, null, 'Y', null, true, null, null, null, null, null);
+        patientMedicationList.push(patientMedication);
+      }
+      else
+        this.medicationFlag = true;
+    }
+    if (!this.medicationFlag) {
+      this.medicationService.insertAllMedication(patientMedicationList)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+          $('#addClose').prop('disabled', false);
+          let element: HTMLElement = document.getElementById("dismissmodal") as HTMLElement;
+          element.click();
+          this.getPatientMedications(this.patientId);
+        },
+          errorCode => {
+            this.statusCode = errorCode;
+          });
+    }
+  }
+
+  getFrequency() {
+    this.masterLookupService.getFrequency()
+      .subscribe(
+        data => {
+          this.allFrequency = data;
+
+        },
+        errorCode => this.statusCode = errorCode);
+  }
+
+  getLookUpTypeREFILL() {
+    this.masterLookupService.getLookUpTypeAsRefill()
+      .subscribe(
+        data => {
+          this.refillData = data;
+
+        },
+        errorCode => this.statusCode = errorCode);
+  }
+
+  getLookUpTypeDiscontinuedReason() {
+    this.masterLookupService.getLookUpTypeAsDiscontinued_Reason()
+      .subscribe(
+        data => {
+          this.discontinuedReasonList = data;
+
+        },
+        errorCode => this.statusCode = errorCode);
+  }
+
+  getPatientMedications(patientId) {
+    this.spinner.show();
+    this.medicationService.getPatientMedications(patientId)
+      .subscribe(
+        data => {
+          this.spinner.hide();
+          this.patientMedications = data;
+         // this.patientMedications.length == 0 ? this.showListFlag = true : this.showListFlag = false;
+          this.activePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'Y');
+          this.inActivePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'N');
+          this.activePatientMedications.length == 0 ? this.showActiveList = true : this.showActiveList = false;
+          this.inActivePatientMedications.length == 0 ? this.showInActiveList = true : this.showInActiveList = false;
+        },
+        errorCode => this.statusCode = errorCode);
+  }
+
+  //Submit for Discontinue Medication
+  onSubmitInActiveList() {
+    if (this.InActiveMedicationForm.valid) {
+      $('#saveInactive').prop('disabled', true);
+      let reason = this.InActiveMedicationForm.get('reason').value;
+      let endDate = this.InActiveMedicationForm.get('endDate').value;
+      let patientMedication = new PatientMedication(this.activeMedicationRecord.patientMedicationId, null, this.encounterId, null, null, null, null, null, null, null, null, 'N', reason, true, null, null, null, null, new Date(endDate));
+      this.medicationService.discontinueMedication(patientMedication)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+          $('#saveInactive').prop('disabled', false);
+          let element: HTMLElement = document.getElementById("dismissModalOnsubmit") as HTMLElement;
+          element.click();
+          this.getPatientMedications(this.patientId);
+        },
+          ErrorCode => {
+            this.statusCode = ErrorCode;
+          })
+    }
+    else {
+      this.validateAllFormFields(this.InActiveMedicationForm);
+    }
+  }
+
+  clearFields() {
+    this.selectedFrequencyValue = [];
+    this.selectedIndicationValue = [];
+    this.selectedRefillValue = [];
+    this.duration = [];
+    this.isValidDate = [-1];
+    this.isValidIndication = [-1];
+    this.isValid = [-1];
+    this.isValidDuration = [-1];
+    this.isValidCount = [-1];
+  }
+
+  clearFormArray = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
+  }
+
+  closeMedicationAllergyModel() {
+    $('#MedicationAllergy').modal('hide');
+
+  }
+
+  showModal() {
+    this.finalData = [];
+    this.medicationFormArray = <FormArray>this.MedicationForm.controls.MedIDS;
+    this.clearFormArray(this.medicationFormArray);
+    this.buttonDisabled = true;
+    this.flag = true;
+    this.searchText = '';
+    this.clearFields();
+
+    $('#MedicationAllergy').modal('show');
+
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
+  checkedMedication(checked: boolean, data: any) {
+    this.checkedMedicationData(data);
+    if (checked) {
+      this.medicationFormArray.push(new FormControl({ 'data': data }));
+    }
+    else {
+      let index = this.medicationFormArray.controls.findIndex(x => x.value.data.medicationId == data.medicationId)
+      this.medicationFormArray.removeAt(index);
+    }
+    if (this.medicationFormArray.length == 0) {
+      this.medicationFlag = false;
+      this.buttonDisabled = true;
+    }
+    else {
+      this.buttonDisabled = false;
+    }
+  }
+
+  isCheckedMed(medicationId: number): boolean {
+    for (var i = 0; i < this.medicationFormArray.length; i++) {
+      if (this.medicationFormArray.at(i).value.data.medicationId == medicationId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+}

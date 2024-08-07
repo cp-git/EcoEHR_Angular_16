@@ -1,0 +1,13 @@
+export class MasterPreventive {
+    constructor(
+        public isChecked: boolean, 
+        public lastDate="", 
+        public preventiveCareId: number, 
+        public testName: string, 
+        public gender: string,
+        public age: string,
+        public frequency: string,
+        public recurringEvent: string,
+        public reminderEmailDate: string,
+       ){}
+}

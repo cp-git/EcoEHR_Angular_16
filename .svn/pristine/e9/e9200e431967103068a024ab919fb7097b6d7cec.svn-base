@@ -1,0 +1,12 @@
+import { HttpHeaderResponse } from "@angular/common/http";
+
+export class FileData {
+    constructor(
+        public patientId: number,
+        public selectedDate: Date,
+        public modType: string,
+        public fileUrl: string,
+        public file: FormData,
+        public headers: HttpHeaderResponse
+    ){}
+}

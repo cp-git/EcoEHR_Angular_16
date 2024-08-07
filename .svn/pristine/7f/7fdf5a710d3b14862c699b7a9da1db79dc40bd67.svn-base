@@ -1,0 +1,154 @@
+
+import { Component, OnInit, Input } from "@angular/core";
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PatientRecord } from "app/patients/models/PatientRecord";
+import * as moment from 'moment';
+import { FileData } from "../models/fileData";
+import { LabResult } from "../models/labResult";
+import { LabResultService } from "../services/labResultService";
+import { UploadFileService } from "../services/uploadFileService";
+import * as FileSaver from 'file-saver';
+import b64toBlob from 'b64-to-blob';
+
+declare const $: any;
+
+@Component({
+    selector: 'ehr-labresult',
+    templateUrl: 'labresult.component.html',
+    styleUrls: ['labresult.component.css', '../../app.component.css']
+})
+export class LabResultComponent implements OnInit {
+    @Input() patientId: number;
+    LabResultForm: FormGroup;
+    fileSelected: File;
+    patientLabResult: LabResult[];
+    uploadedFile: File;
+    showLabResultTable: boolean = false;
+    show = false;
+    fileSize: number;
+    isDisabled: boolean = false;
+    constructor(private formBuilder: FormBuilder,
+        private labResultService: LabResultService,
+        private spinner: NgxSpinnerService,
+        private fileService: UploadFileService) { }
+
+    isFieldValid(form: FormGroup, field: string) {
+        return !form.get(field).valid && form.get(field).touched;
+    }
+
+    displayFieldCss(form: FormGroup, field: string) {
+        return {
+            'has-error': this.isFieldValid(form, field),
+            'has-feedback': this.isFieldValid(form, field)
+        };
+    }
+
+    ngOnInit() {
+        this.LabResultForm = this.formBuilder.group({
+            labResultComment: [null, [Validators.required]],
+            labDate: [null, [Validators.required]],
+            selectedFile: [null, [Validators.required]]
+        });
+        this.getAllPatientLabResult();
+        this.isDisabled = false;
+    }
+
+    endDate() {
+        var self = this;
+        $("#labDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            beforeShow: function () {
+                setTimeout(function () {
+                    $('.ui-datepicker').css('z-index', 99999999999999);
+                }, 0);
+            },
+            onSelect: function (dateText, inst) {
+                self.LabResultForm.get('labDate').setValue(dateText);
+            }
+        }).datepicker("show");
+    }
+
+
+
+    getAllPatientLabResult() {
+        this.spinner.show();
+        this.labResultService.getLabResultByPatientId(this.patientId)
+            .subscribe(data => {
+                this.spinner.hide();
+                this.patientLabResult = data;
+                if (this.patientLabResult.length > 0) {
+                    this.showLabResultTable = true;
+                }
+            })
+    }
+    closeLabResultModal() {
+        this.LabResultForm.reset();
+        this.show = false;
+    }
+    getUploadedFile(labResult: LabResult) {
+        this.fileService.getUploadedFiles(labResult.documentLink)
+            .subscribe(data => {
+                let contentDiscomposition = data.headers['Content-Disposition'];
+                let fileName = contentDiscomposition[0].split(';')[1].trim().split('=')[1].split('"')[1];
+                const blob = b64toBlob(data.file.toString(), fileName.split('.')[1]);
+                FileSaver.saveAs(blob, fileName)
+            })
+    }
+
+    getDocumentName(labResult: LabResult) {
+        return labResult.documentLink.split("/")[11];
+    }
+
+    fileEvent($event) {
+        this.fileSelected = $event.target.files[0];
+        if (this.fileSelected != undefined) {
+            if (this.fileSelected.size > 10004000) {
+                this.show = true;
+            }
+            else {
+                this.show = false;
+            }
+        }
+    }
+
+    onSubmit() {
+        if (this.LabResultForm.valid) {
+            (<HTMLInputElement>document.getElementById("save")).disabled = true;
+            let labDate = moment.utc((document.getElementById("labDate") as HTMLInputElement).value).toDate();
+            let labResultComment = this.LabResultForm.get('labResultComment').value;
+            if (this.fileSelected != undefined) {
+                let fileData = new FileData(this.patientId, labDate, 'lab_results', null, null, null)
+                this.fileService.pushFileToStorage(this.fileSelected, fileData)
+                    .subscribe(data => {
+                        let labResults = new LabResult(0, this.patientId, labResultComment, data.fileUrl, labDate, null, null, null, null, true);
+                        this.labResultService.insertLabResult(labResults)
+                            .subscribe(data => {
+                                this.LabResultForm.reset();
+                                this.getAllPatientLabResult();
+                                (<HTMLInputElement>document.getElementById("save")).disabled = false;
+                            })
+                    });
+            }
+        }
+        else {
+            this.validateAllFormFields(this.LabResultForm);
+        }
+    }
+
+    validateAllFormFields(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach(field => {
+            const control = formGroup.get(field);
+            if (control instanceof FormControl) {
+                control.markAsTouched({ onlySelf: true });
+            } else if (control instanceof FormGroup) {
+                this.validateAllFormFields(control);
+            }
+        });
+    }
+
+    displayLabDate(date) {
+        return new Date(date);
+    }
+}

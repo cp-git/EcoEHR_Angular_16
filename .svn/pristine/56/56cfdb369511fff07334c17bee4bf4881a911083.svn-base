@@ -1,0 +1,200 @@
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs';
+import { AppSettings } from '../../appsettings';
+import { ICD10 } from 'app/patients/models/ICD10';
+import { Encounter } from '../models/encounter';
+import { ICD10Group } from '../models/ICD10Group';
+import { ChiefCompliantDtl } from '../models/chiefCompliantDtl';
+import { Medication } from 'app/patients/models/Medication';
+@Injectable()
+export class EncounterService {
+    addEncounterUrl = AppSettings.API_ENDPOINT + "./encounter/createEncounter";
+    getAllEncounterUrl = AppSettings.API_ENDPOINT + "./encounter/getAllEncounterByPatientId";
+    getallICD10GroupsUrl = AppSettings.API_ENDPOINT + "./icd10Groups/getAllICD10Groups";
+    getMedicationListUrl = AppSettings.API_ENDPOINT + "./medication/getMedicationList";
+    addChiefCompliantDtlUrl = AppSettings.API_ENDPOINT + "./chiefCompliantDtls/createChiefCompliant";
+    getAllChiefCompliantDetailsByEncounterIdUrl = AppSettings.API_ENDPOINT + "./chiefCompliantDtls/getAllChiefCompliantByEncounterId"
+    getEncounterByEncounterIdUrl = AppSettings.API_ENDPOINT + "./encounter/getEncounterByEncounterId";
+    updateEncounterUrl = AppSettings.API_ENDPOINT + "./encounter/updateEncounter";
+    updateCompletedEncounterUrl = AppSettings.API_ENDPOINT + "./encounter/updateCompletedEncounter";
+    getIcd10DetailsOfLastFiveEncountersUrl = AppSettings.API_ENDPOINT + "./chiefCompliantDtls/getIcd10DetailsOfLastFiveEncounters";
+    deleteEncounterUrl = AppSettings.API_ENDPOINT + "./encounter/deleteEncounter";
+    updateEncounterRecordUrl = AppSettings.API_ENDPOINT + "./encounter/updateEncounterByEncounterID";
+    updateChiefCompliantDtlUrl = AppSettings.API_ENDPOINT + "./chiefCompliantDtls/updateChiefCompliant";
+    deleteChiefCompliantDtlUrl = AppSettings.API_ENDPOINT + "./chiefCompliantDtls/deleteCompliant";
+    constructor(private http: Http) {
+    }
+
+    search(terms: string, icdgroupVal: any): Observable<ICD10[]> {
+        let val = terms.toLowerCase();
+        return this.http.get('./assets/' + icdgroupVal + '.json')
+            .map(data => {
+                let allData: ICD10[] = data.json();
+                return allData.filter(d => d.Description.toLowerCase().includes(val) || d.SearchInclusion.toLowerCase().includes(val) || d.ClinicalNotes.toLowerCase().includes(val) || d.ICD10Code.toLowerCase().includes(val));
+            }).
+            catch(this.handleError);
+    }
+
+    getMedicationList(): Observable<Medication[]> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.get(this.getMedicationListUrl, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+  
+    searchAllergy(terms: string): Observable<Medication[]> {
+        let val = terms.toLowerCase();
+       return this.http.get('./assets/MedicationAllergy.json')
+            .map(data => {
+                let allAllergyData: Medication[] = data.json();
+                return allAllergyData.filter(d => d.productName.toLowerCase().includes(val) || d.form.toLowerCase().includes(val) || d.dose.toLowerCase().includes(val) || d.route.toLowerCase().includes(val));
+            }).
+            catch(this.handleError);
+    }
+
+    //insert encounter
+    insertEncounter(encounter: Encounter): Observable<Encounter> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.post(this.addEncounterUrl, encounter, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    updateEncounter(encounterId: number,templateId: number,examName: string): Observable<Encounter> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        cpParams.set('encounterId', encounterId.toString());
+        cpParams.set('templateId', templateId.toString());
+        cpParams.set('examName', examName.toString());
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams  });
+        return this.http.get(this.updateEncounterUrl, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    updateForCompletedEncounter(encounter: Encounter): Observable<number> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+       // let cpParams = new URLSearchParams();
+        let options = new RequestOptions({ headers: cpHeaders});
+        return this.http.put(this.updateCompletedEncounterUrl, encounter,options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    updateEncounterRecord(encounter: Encounter): Observable<number> {
+        console.log("update Enc")
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+       // let cpParams = new URLSearchParams();
+        let options = new RequestOptions({ headers: cpHeaders});
+        return this.http.put(this.updateEncounterRecordUrl, encounter,options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    //get all encounters by patientId 
+    getEncounterByPatientId(patientId: number): Observable<Encounter[]> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        cpParams.set('patientId', patientId.toString());
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.get(this.getAllEncounterUrl, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getEncounterByEncounterId(encounterId: number): Observable<Encounter> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        cpParams.set('encounterId', encounterId.toString());
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.get(this.getEncounterByEncounterIdUrl, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getAllChiefCompliantDetailsByEncounterId(encounterId: number): Observable<ChiefCompliantDtl[]> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        cpParams.set('encounterId', encounterId.toString());
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.get(this.getAllChiefCompliantDetailsByEncounterIdUrl, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    //insert chief Compliant dtl
+    insertChiefCompliantDtl(chiefCompliantDtl: ChiefCompliantDtl[],encounterId:number): Observable<number> {
+       console.log("insert")
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        cpParams.set('encounterId', encounterId.toString());
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams  });
+        return this.http.post(this.addChiefCompliantDtlUrl, chiefCompliantDtl, options)
+            .map(success => success.status)
+            .catch(this.handleError);
+    }
+
+     //update chief Compliant dtl
+     updatechiefCompliant(chiefCompliantDtl: ChiefCompliantDtl[],encounterId:number): Observable<number> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        cpParams.set('encounterId', encounterId.toString());
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams  });
+        return this.http.put(this.updateChiefCompliantDtlUrl, chiefCompliantDtl, options)
+            .map(success => success.status)
+            .catch(this.handleError);
+    }
+
+
+    //get all icd10 groups
+    getAllICD10Groups(): Observable<ICD10Group[]> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.get(this.getallICD10GroupsUrl, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getIcd10DetailsOfLastFiveEncounters(patientId:number): Observable<ChiefCompliantDtl[]> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let cpParams = new URLSearchParams();
+        cpParams.set('patientId', patientId.toString());
+        let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.get(this.getIcd10DetailsOfLastFiveEncountersUrl, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    deleteEncounter(encounterId: number):Observable<number> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+		let cpParams = new URLSearchParams();
+        cpParams.set('encounterId', encounterId.toString());
+		let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.delete(this.deleteEncounterUrl, options)
+        .map(success => success.status)
+               .catch(this.handleError);
+    }
+
+
+    deleteChiefCompliantDtl(icdCodesList: ChiefCompliantDtl[]):Observable<number> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+		let options = new RequestOptions({ headers: cpHeaders});
+        return this.http.post(this.deleteChiefCompliantDtlUrl, icdCodesList,options)
+        .map(success => success.status)
+               .catch(this.handleError);
+      }
+
+    private extractData(res: Response) {
+        let body = res.json();
+        return body;
+    }
+
+    private handleError(error: Response | any) {
+        console.error(error.message || error);
+        return Observable.throw(error.status);
+    }
+
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+ 
+    <!-- Include the Log4j 2 configuration for Spring Boot -->
+    <include resource="org/springframework/boot/logging/log4j2/base.xml"/>
+
+	<properties>
+        <property name="log4jContextSelector" value="org.apache.logging.log4j.core.async.AsyncLoggerContextSelector"/>
+    </properties>
+    
+    <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
+    <!--  <appenders>
+	   	<appender name="FILE" class="org.apache.log4j.rolling.RollingFileAppender">
+			    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+			        <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			        <maxHistory>90</maxHistory>
+			    </rollingPolicy>
+			    <layout class="org.apache.log4j.PatternLayout">
+			        <param name="ConversionPattern" value="%d %-5p [%t] %c{1}: %m%n" />
+			    </layout>
+		 </appender>
+	
+		 <appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
+		    <param name="BufferSize" value="512"/>
+		    <appender-ref ref="FILE"/>
+		 </appender>
+	 </appenders> -->
+	 <Appenders>
+        <RollingFile name="FILE"  filePattern="logs/logFile.%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <Pattern>%d %-5p [%t] %c{1}: %m%n</Pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy />
+        </RollingFile>
+		
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p [%t] %c{1}: %m%n"/>
+        </Console>
+        
+        <Async name="ASYNC">
+            <AppenderRef ref="FILE"/>
+        </Async>
+     </Appenders>
+     <!-- Loggers for specific packages -->
+  
+  	 <Loggers>
+	     <Logger name="com.cpa.ccm" level="trace"/>
+	     <Logger name="io.github.jhipster" level="trace"/>
+	     <Logger name="javax.activation" level="WARN"/>
+	     <Logger name="javax.mail" level="WARN"/>
+	     <Logger name="javax.xml.bind" level="WARN"/>
+	     <Logger name="ch.qos.logback" level="WARN"/>
+	     <Logger name="com.codahale.metrics" level="WARN"/>
+	     <Logger name="com.ryantenney" level="WARN"/>
+	     <Logger name="com.sun" level="WARN"/>
+	     <Logger name="com.zaxxer" level="WARN"/>
+	     <Logger name="io.undertow" level="WARN"/>
+	     <Logger name="io.undertow.websockets.jsr" level="ERROR"/>
+	     <Logger name="org.ehcache" level="WARN"/>
+	     <Logger name="org.apache" level="WARN"/>
+	     <Logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+	     <Logger name="org.bson" level="WARN"/>
+	     <Logger name="org.hibernate.validator" level="WARN"/>
+	     <Logger name="org.hibernate" level="WARN"/>
+	     <Logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
+	     <Logger name="org.springframework" level="WARN"/>
+	     <Logger name="org.springframework.web" level="WARN"/>
+	     <Logger name="org.springframework.security" level="WARN"/>
+	     <Logger name="org.springframework.cache" level="WARN"/>
+	     <Logger name="org.thymeleaf" level="WARN"/>
+	     <Logger name="org.xnio" level="WARN"/>
+	     <Logger name="springfox" level="WARN"/>
+	     <Logger name="sun.rmi" level="WARN"/>
+	     <Logger name="liquibase" level="WARN"/>
+	     <Logger name="liquibaseSchemaResolver" level="INFO"/>
+	     <Logger name="sun.rmi.transport" level="WARN"/>
+    
+    	 <Root level="trace">
+	        <AppenderRef ref="CONSOLE"/>
+	        <AppenderRef ref="FILE"/>
+    	 </Root>
+     </Loggers>
+    	
+        
+     <!-- <shutdownHook class="org.apache.logging.log4j.core.hook.DelayedShutdownHook"/>
+     <jul:contextSelector
+	       xmlns:jul="http://logging.apache.org/log4j/2.x/log4j-jul-2.0.xsd"
+	       class="org.apache.logging.log4j.core.async.AsyncLoggerContextSelector">
+	       <jul:shutdownOnExit value="true"/>
+	       <jul:resetJUL value="true"/>
+	 </jul:contextSelector>
+
+    Change from <root> to <Root>
+	<root level="trace">
+	    <appenderRef ref="CONSOLE"/>
+	    <appenderRef ref="FILE"/>
+	</root> -->
+	<ShutdownHook name="SHUTDOWN_HOOK" class="org.apache.logging.log4j.core.hook.DelayedShutdownHook"/>
+
+    <jul:contextSelector
+        xmlns:jul="http://logging.apache.org/log4j/2.x/log4j-jul-2.0.xsd"
+        class="org.apache.logging.log4j.core.async.AsyncLoggerContextSelector">
+        <jul:shutdownOnExit value="true"/>
+        <jul:resetJUL value="true"/>
+    </jul:contextSelector>
+
+    <!-- Change from <root> to <Root> -->
+   
+   
+</configuration>

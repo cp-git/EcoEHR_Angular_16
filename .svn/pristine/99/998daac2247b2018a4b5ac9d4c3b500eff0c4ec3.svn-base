@@ -1,0 +1,45 @@
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
+import { AppSettings } from 'app/appsettings';
+import { System } from 'app/patients/models/system';
+import { EncounterQuestionOption } from 'app/patients/models/encounterQuestionOption';
+
+
+@Injectable()
+export class EncounterQuestionOptionService {
+    insertAllQuestionOptionsUrl = AppSettings.API_ENDPOINT+"./encQuestionOptions/createEncounterQuestionOptions";
+    deleteEncQustionOptionsUrl =  AppSettings.API_ENDPOINT + "./encQuestionOptions/deleteQuestionOptions"
+    
+    constructor(private http:Http) {}
+
+     
+    insertQuestionOptions(encounterQuestionOption: EncounterQuestionOption[]): Observable<number> {
+
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.post(this.insertAllQuestionOptionsUrl, encounterQuestionOption, options)
+            .map(success => success.status)
+            .catch(this.handleError);
+    }
+      deleteEncQustionOptions(encounterId:number,sysName:string):Observable<number> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+		let cpParams = new URLSearchParams();
+        cpParams.set('encounterId', encounterId.toString());
+        cpParams.set('sysType', sysName.toString());
+		let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.delete(this.deleteEncQustionOptionsUrl, options)
+        .map(success => success.status)
+               .catch(this.handleError);
+    }
+
+    private extractData(res: Response) {
+	    let body = res.json();
+        return body;
+    }
+    
+    private handleError (error: Response | any) {
+		console.error(error.message || error);
+		return Observable.throw(error.status);
+    }
+}

@@ -1,0 +1,12 @@
+
+
+
+
+
+       
+        <div id="timer">
+                <div id="time"> {{ (minutesDisplay) }}:{{ (secondsDisplay) && (secondsDisplay<=59) ? secondsDisplay : '00' }}</div>
+       
+        </div>
+
+   

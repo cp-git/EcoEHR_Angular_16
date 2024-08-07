@@ -1,0 +1,56 @@
+
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NouisliderModule } from 'ng2-nouislider';
+import { TagInputModule } from 'ngx-chips';
+import { MaterialModule } from '../../app.module';
+import { LoadingModule,ANIMATION_TYPES } from 'ngx-loading';
+import { ListEncounterComponent } from './list-encounter/list-encounter.component';
+import { SharedModule } from 'app/shared/shared-module';
+import { EncounterRoutes } from './encounter.routing';
+import { AddEncounterComponent} from './add-encounter/addencounter.component';
+import { EncounterHistoryService } from '../services/encounterHistoryService';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { PreventiveModule } from 'app/patients/preventive/preventive.module';
+import { LabResultModule } from 'app/patients/labresult/labresult.module';
+import { OrdersModule } from 'app/patients/orders/orders.module';
+import { ConsultantNotesModule } from 'app/patients/consultantnotes/consultantnotes.module';
+import { PatientHeaderModule } from '../patientheader/patientheader.module';
+
+@NgModule({
+  imports: [
+    NgxSpinnerModule,
+    CommonModule,
+    RouterModule.forChild(EncounterRoutes),
+    FormsModule,
+    ReactiveFormsModule,
+    NouisliderModule,
+    TagInputModule,
+    MaterialModule,
+    SharedModule,
+    PreventiveModule,
+    PatientHeaderModule,
+    LabResultModule,
+    OrdersModule,
+    ConsultantNotesModule
+  ],
+  declarations: [
+    ListEncounterComponent,
+    AddEncounterComponent
+  ],
+  providers: [
+    EncounterHistoryService
+  ]
+})
+
+
+export class EncounterModule {}
+
+
+
+
+
+
+

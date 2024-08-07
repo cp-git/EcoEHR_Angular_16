@@ -1,0 +1,49 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NouisliderModule } from 'ng2-nouislider';
+import { TagInputModule } from 'ngx-chips';
+import { MaterialModule } from '../../app.module';
+import { SharedModule } from 'app/shared/shared-module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { Md2Module } from 'md2';
+import { PlanAndAssessmentComponent } from './planandassessment.component';
+import { OrdersModule } from '../orders/orders.module';
+import { EncAssessmentService } from 'app/patients/services/encAssessmentService';
+import { PatientHeaderModule } from 'app/patients/patientheader/patientheader.module';
+import { SystemNavigationModule } from 'app/patients/systemNavigation/systemNavigation.module';
+
+
+@NgModule({
+  imports: [
+    NgxSpinnerModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NouisliderModule,
+    TagInputModule,
+    MaterialModule,
+    SharedModule,
+    Md2Module,
+    OrdersModule,
+    PatientHeaderModule,
+    SystemNavigationModule
+  ],
+  declarations: [
+    PlanAndAssessmentComponent
+  ],
+  providers: [
+    EncAssessmentService
+  ],
+  exports: [
+    PlanAndAssessmentComponent
+  ]
+})
+
+
+export class PlanAndAssessmentModule{}
+
+
+
+
+

@@ -1,0 +1,400 @@
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { QuestionsService } from "app/patients/services/questionsService";
+import { System } from "app/patients/models/system";
+import { QuestionGroup } from "app/patients/models/questionGroup";
+import { QuestionRecord } from "app/patients/models/questionRecord";
+import { EncounterQuestionGroup } from "app/patients/models/encounterQuestionGroup";
+import { EncounterQuestionOption } from "app/patients/models/encounterQuestionOption";
+import { EncounterQuestionGroupService } from "app/patients/services/encounterQuestionGroupService";
+import { EncounterQuestionOptionService } from "app/patients/services/encounterQuestionOptionService";
+import { NgxSpinnerService } from 'ngx-spinner';
+
+import { Encounter } from "../models/encounter";
+import _ from 'lodash';
+import { EncounterHistoryService } from "../services/encounterHistoryService";
+import { EncounterHistory } from "app/patients/models/encounterHistory";
+
+declare const $: any;
+
+@Component({
+  selector: 'ehr-history',
+  templateUrl: 'history.component.html',
+  styleUrls: ['./history.component.css', '../../app.component.css']
+})
+export class HistoryComponent implements OnInit {
+  statusCode: number;
+  HistoryForm: FormGroup;
+  systemDesc: any;
+  system: System[];
+  systemId: any;
+  flag: boolean;
+  editFAM:boolean=true;
+  questionGroupList: QuestionGroup[];
+  questionGroups: QuestionGroup[];
+  HistorySystems: System[] = [];
+  questionGroupName: any;
+  questionGroupId: any;
+  QuestionSelectedArray: any;
+  commonQuestions: QuestionRecord[] = [];
+  isValid: number[] = [-1];
+  buttonName:any='SAVE';
+  title:any;
+  encounterId: any;
+  textVal: any[] = [];
+  textAreaVal: any[] = [];
+  textAreaHistoryVal: any[] = [];
+  textHistoryVal: any[] = [];
+  selectedValue: any[] = [];
+  selectedTValue: any[] = [];
+  radioHistoryVal:any[]=[];
+  isFamHistory: boolean = true;
+  isFamilyData: boolean = false;
+  resetFlag: boolean;
+  allSystemTypes: any[] = [];
+  patientId: number;  //This ID is being used as part of this component's Child component as undefined
+  sysName="HISTORY";
+  data:any;
+  existingList:EncounterHistory[]=[];
+
+  constructor(private formBuilder: FormBuilder,private encounterHistoryService:EncounterHistoryService, private route: ActivatedRoute,private spinner: NgxSpinnerService,private router: Router, private questionsService: QuestionsService,
+    private encounterQuestionGroupService: EncounterQuestionGroupService,private encounterQuestionOptionService: EncounterQuestionOptionService,private encHistoryService: EncounterHistoryService) { }
+
+  ngOnInit() {
+    this.QuestionSelectedArray = [];
+    var data = localStorage.getItem('system');
+    if (data) {
+      this.system = JSON.parse(data);
+      this.HistorySystems = this.system.filter(t => t.systemType == 'HISTORY');
+      this.system.filter(t => this.allSystemTypes.push(t.systemType));
+      this.allSystemTypes = _.uniq(this.allSystemTypes);
+    }
+    var group = localStorage.getItem('questionGroup');
+    if (group) {
+      this.questionGroups = JSON.parse(group);
+      this.questionGroups = this.questionGroups.sort((a, b) => a.questionGroupId - b.questionGroupId);
+    }
+
+    this.HistoryForm = this.formBuilder.group({
+      QuestionSelectedIDS: this.formBuilder.array([]),
+    });
+    this.QuestionSelectedArray = <FormArray>this.HistoryForm.controls.QuestionSelectedIDS;
+    this.route.params.subscribe(params => {
+      this.encounterId = +params['encounterId'];
+      this.data = params['data'];
+      this.getEncOptionDataForUpdate(this.encounterId);
+      if(this.data=='edit'){
+          this.editFAM=true;
+          this.title='- UPDATE'
+          this.buttonName='UPDATE'
+      }
+    });
+    
+  }
+  
+   //Setting values while update operation
+   getEncOptionDataForUpdate(encId:any){
+    this.encounterHistoryService.getEncounterListEncounterId(encId,this.sysName)
+    .subscribe(data => {
+         this.existingList=data;
+        console.log(this.existingList)
+        for (let i = 0; i < this.existingList.length; i++) {
+          let questionRecord=new QuestionRecord(this.existingList[i].optionId,this.existingList[i].questionId,this.existingList[i].systemId,this.existingList[i].questionGroupId,this.existingList[i].questionDesc,this.existingList[i].questionType,null,this.existingList[i].answer,this.existingList[i].optionValue);
+          this.QuestionSelectedArray.push(new FormControl(questionRecord));
+          var option = {optionNames:null,optionId:null}; 
+          option.optionId=this.existingList[i].optionId;
+          option.optionNames=this.existingList[i].optionValue;
+          if(this.existingList[i].questionType=='text'){                   // Setting Values for Text Box
+            this.textVal[this.existingList[i].questionId]=this.existingList[i].answer;
+          }
+          if(this.existingList[i].questionType=='dropdown'){              // Setting Values for Dropdown
+            this.selectedValue[this.existingList[i].questionId]=option;
+          }
+          if(this.existingList[i].questionType=='textarea'){             // Setting Values for TextArea 
+              this.textAreaVal[this.existingList[i].questionId]=this.existingList[i].answer;
+           }
+        }
+    })
+}
+  goToSelectedTab(questionGroup: any, i: any) {
+    setTimeout(() => {
+      document.getElementById("systemName").scrollIntoView({behavior: 'smooth'});                
+    }, 1000);
+   
+    this.systemId = questionGroup.systemId;
+    this.questionGroupName = questionGroup.questionGroupName;
+    this.questionGroupId = questionGroup.questionGroupId;
+    this.commonQuestions = this.commonQuestions.sort((a, b) => a.questionId - b.questionId);
+  }
+
+  getValue(event, ind) {
+    let v = "dropdown" + ind;
+    let t = "tdropdown" + ind;
+    if (event.value == undefined) {
+      $("#" + v).find('.md2-select-value-text').css("color", "grey");
+      $("#" + t).find('.md2-select-value-text').css("color", "grey");
+    }
+    else {
+      $("#" + v).find('.md2-select-value-text').css("color", "black");
+      $("#" + t).find('.md2-select-value-text').css("color", "black");
+    }
+  }
+
+  showDiv(group: any, isChecked: boolean, rowId) {
+    this.commonQuestions = this.commonQuestions.sort((a, b) => a.questionId - b.questionId);
+    if (isChecked) {
+      this.systemId = group.systemId;
+      this.questionGroupName = group.questionGroupName;
+      this.questionGroupId = group.questionGroupId;
+    }
+    else {
+      if (!this.flag) {
+        if(this.questionGroupId==group.questionGroupId){
+          this.questionGroupId=null;
+       }}}
+  }
+  
+//setting text/TextArea values in FAMILY HISTORY while update
+  setInsertedValues(){
+    for (let i = 0; i < this.existingList.length; i++) {   
+      if(this.existingList[i].questionType !=='checkbox' && this.existingList[i].systemId==14 &&  this.editFAM){ 
+        let textQuestions = this.commonQuestions.filter(t => t.questionId == this.existingList[i].questionId);
+        let answer=this.existingList[i].answer.split("-");
+        for (let k = 0; k < textQuestions.length; k++) {
+        for (let j = 0; j < textQuestions[k].optionRecord.length; j++) {
+            this.textHistoryVal[textQuestions[k].optionRecord[j].optionId]=answer[j]  ;
+          }}}}
+      this.editFAM=false;
+  }
+
+  resetAll(systemId) {
+    //removing all records for family history
+    while (this.QuestionSelectedArray.length !== 0) {
+      this.QuestionSelectedArray.removeAt(this.QuestionSelectedArray.value.findIndex(x => x.systemId == systemId))
+    }
+    this.textHistoryVal = [];
+    this.resetFlag = false;
+  }
+
+  isChecked(group: any): boolean {
+    if (group.questionGroupName == 'Family History' || this.QuestionSelectedArray.length > 0) {
+      if (group.questionGroupName == 'Family History')
+        return true;
+       for (var i = 0; i < this.QuestionSelectedArray.length; i++) {
+        if (this.QuestionSelectedArray.at(i).value.questionGroupId == group.questionGroupId) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  isCheckedFamilyHistory(optionId: any, systemId: number): boolean {
+    for (var i = 0; i < this.QuestionSelectedArray.length; i++) {
+      if (this.QuestionSelectedArray.at(i).value.systemId == systemId) {
+        let ans = "";
+        ans += this.QuestionSelectedArray.at(i).value.answer;
+        if (ans.includes(optionId)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
+  //logic to set Yes/No option to all radio buttons
+  resetAllRadio(sysId: any, questionGroupId: any, optionValue: any) {
+    let radioQuestions = this.commonQuestions.filter(t => t.questionGroupId == questionGroupId && t.optionType == 'radio');
+    for (let i = 0; i < radioQuestions.length; i++) {
+      let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == radioQuestions[i].questionId)
+      let option = radioQuestions[i].optionRecord.find(t => t.optionNames == optionValue);
+      if( (index !== -1)){
+        this.QuestionSelectedArray.removeAt(index);
+      }
+      radioQuestions[i].optionId=option.optionId;
+      radioQuestions[i].optionName=option.optionNames;
+      this.QuestionSelectedArray.push(new FormControl(radioQuestions[i]));
+    }
+  }
+
+  openQuestionGroup(sysId, systemDesc) {
+    this.questionGroupId=null;
+    this.spinner.show();
+    this.checkedfamilyHistory();
+    this.systemId = sysId;
+    this.systemDesc = systemDesc;
+    this.questionsService.getAllQuestionsOfGroup(this.systemId)
+      .subscribe(data => {
+        this.commonQuestions = data;
+        this.questionGroupList = this.questionGroups.filter(t => t.systemId == this.systemId);
+        this.spinner.hide();
+        if (systemDesc == 'FAMILY HISTORY') {
+          this.isFamilyData = true;
+           let group = this.questionGroupList.find(t => t.questionGroupName == 'Family History');
+          this.questionGroupId=group.questionGroupId;
+          this.isFamHistory = true;
+          this.setInsertedValues();
+        }
+        else {
+          this.isFamHistory = false;
+        }
+      })
+  }
+
+  checkedfamilyHistory() {
+      let commonQuestionsList = this.commonQuestions.filter(t => t.systemId == 14 && t.optionType !== 'checkbox');
+      for (let i = 0; i < commonQuestionsList.length; i++) {
+        let lastanswer = "";
+      for (let j = 0; j < commonQuestionsList[i].optionRecord.length; j++) {
+         lastanswer = lastanswer.concat(((document.getElementById("textHistory_" + commonQuestionsList[i].optionRecord[j].optionId) as HTMLInputElement).value) + "-");
+        }
+       commonQuestionsList[i].answer = lastanswer.substring(0, lastanswer.length - 1);
+       let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == commonQuestionsList[i].questionId)
+       if(index!==-1)
+       this.QuestionSelectedArray.at(index).setValue((commonQuestionsList[i]));
+      }
+  }
+
+  //logic for saving family history Checkbox fields 
+  onFamilyHistoryChange(commonQues:QuestionRecord, optionName, isChecked: boolean) {
+    this.QuestionSelectedArray = <FormArray>this.HistoryForm.controls.QuestionSelectedIDS;
+    let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == commonQues.questionId)
+    if (isChecked) {
+     if (index == -1) 
+       commonQues.answer=optionName.optionId.toString();
+     else{
+       commonQues.answer= this.QuestionSelectedArray.at(index).value.answer+"-"+optionName.optionId;
+       this.QuestionSelectedArray.removeAt(index);
+      }
+     this.QuestionSelectedArray.push(new FormControl(commonQues));
+    }
+    else{
+      let lastanswer  = this.QuestionSelectedArray.at(index).value.answer.replace(/-/g, ' ');
+      lastanswer = lastanswer.replace(optionName.optionId, "").trim().replace(/\s+/g, '-');
+      this.QuestionSelectedArray.at(index).value.answer=lastanswer;
+      if (lastanswer == "")
+      this.QuestionSelectedArray.removeAt(index);
+    }
+    this.QuestionSelectedArray.length > 0 ? this.resetFlag = true : this.resetFlag = false;
+    for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+      console.log(this.QuestionSelectedArray.at(i).value)
+    }
+  }
+
+  onRowEdit(commonQues, option) {
+    if (option != undefined) {   //setting values for dd and radio
+      commonQues.optionName = option.optionNames;
+      commonQues.optionId = option.optionId;
+    }
+    //formArray for selected question
+    this.QuestionSelectedArray = <FormArray>this.HistoryForm.controls.QuestionSelectedIDS;
+    let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == commonQues.questionId)
+    if (index == -1) {
+      this.QuestionSelectedArray.push(new FormControl(commonQues));
+    }
+    else {
+      this.QuestionSelectedArray.removeAt(index);
+      if (option !== undefined && commonQues.answer != "") {
+        this.QuestionSelectedArray.push(new FormControl(commonQues));
+      }
+    }
+    for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+      console.log(this.QuestionSelectedArray.at(i).value)
+    }
+  }
+
+  isCheckedRadio(optionId: number): boolean {
+    let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.optionId == optionId)
+    return (index == -1 ? false : true);
+   }
+
+   onsubmit(){
+        (<HTMLInputElement>document.getElementById("saveNext")).disabled = true;
+        if(this.existingList.length !==0){
+        let readyToinsert:boolean=false;
+        this.encounterQuestionOptionService.deleteEncQustionOptions(this.encounterId,this.sysName).switchMap(            //delete already inserted question groups
+            successCode => {
+              return this.encounterQuestionGroupService.deleteEncQustionGroups(this.encounterId,this.sysName)         //elete already inserted question options
+            }).subscribe(successCode => {
+              readyToinsert=true;
+              if(readyToinsert)
+              this.insertData();
+            },
+            errorCode => {
+              this.statusCode = errorCode;});
+            }
+            else{
+              this.insertData();
+            }
+   }
+
+   insertData() {
+    (<HTMLInputElement>document.getElementById("saveNext")).disabled = true;
+    this.checkedfamilyHistory();
+    let encounterQuestionGroupList: EncounterQuestionGroup[] = [];
+    let encounterQuestionOptionList: EncounterQuestionOption[] = [];
+    let uniqueQuestionId = Array.from(new Set(this.QuestionSelectedArray.controls.map((item: any) => item.value.questionGroupId)))
+    if (uniqueQuestionId.length > 0) {
+        for (let i = 0; i < uniqueQuestionId.length; i++) {
+            let obj = this.QuestionSelectedArray.controls.find(t => t.value.questionGroupId == uniqueQuestionId[i]);
+            let encounterQuestionGroup = new EncounterQuestionGroup(0, this.encounterId, obj.value.questionGroupId, obj.value.systemId, 'Yes', null, null, null, null);
+            encounterQuestionGroupList.push(encounterQuestionGroup);
+        }
+    //inserting question group into DB
+      this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+        },
+          errorCode => {
+            (<HTMLInputElement>document.getElementById("saveNext")).disabled = false;
+            this.statusCode = errorCode;
+          });
+    }
+    //inserting questions into DB 
+    if (this.QuestionSelectedArray.length > 0) {
+      for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+        let encounterQuestionOption = new EncounterQuestionOption(0, this.encounterId, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, null, null, null, null,null);
+        encounterQuestionOptionList.push(encounterQuestionOption);
+      }
+      this.encounterQuestionOptionService.insertQuestionOptions(encounterQuestionOptionList)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+          if(this.data=="edit")
+          this.router.navigate(['/patients/examination/',this.encounterId,'edit']);
+          else
+          this.router.navigate(['/patients/examination/' + this.encounterId]);
+        },
+          errorCode => {
+            $('#saveNext').prop('disabled', false);
+            this.statusCode = errorCode;
+          });
+    }
+    else{
+      if(this.data=="edit")
+      this.router.navigate(['/patients/examination/',this.encounterId,'edit']);
+      else
+      this.router.navigate(['/patients/examination/' + this.encounterId]);
+  }
+  }
+
+  isFieldValid(event, type) {
+    let id = event.target.id;
+    let rowNo = id.replace(/\D/g, "");
+    if (event.target.value == "") {
+      this.selectedTValue[rowNo] = undefined;
+    }
+    if ((type == "text") || (type == "textarea")) {
+      if (((event.target.value.length > 100) && (type == "text")) ||
+        ((event.target.value.length > 500) && (type == "textarea"))) {
+        this.isValid[rowNo] = rowNo;
+      }
+      else {
+        this.isValid[rowNo] = -1;
+      }
+    }
+    else {
+      this.isValid[rowNo] = -1;
+    }
+  }
+}

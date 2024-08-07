@@ -1,0 +1,11 @@
+<div class="btn-group btn-group-justified">
+        <ng-container *ngFor="let system of allSystemTypes">
+
+            <a data-toggle="tab"
+                (click)="goToSelectedSystem(system)" id="{{system}}"  [ngClass]="{'colorchange':system == sysName}"
+                class="btn btn-style nav-tab-style"  *ngIf="system !== 'Allergy'"
+                title="{{system}}">{{system}}
+                
+            </a>
+        </ng-container>
+    </div>

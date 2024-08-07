@@ -1,0 +1,575 @@
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+import { OrderPipe } from 'ngx-order-pipe';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/combineLatest';
+import { ICD10 } from 'app/patients/models/ICD10';
+import { EncounterService } from 'app/patients/services/encounterService';
+import { Encounter } from 'app/patients/models/encounter';
+import { ICD10Group } from 'app/patients/models/ICD10Group';
+import { ChiefCompliantDtl } from 'app/patients/models/chiefCompliantDtl';
+import { PatientRecord } from 'app/patients/models/PatientRecord';
+import { TemplateService } from 'app/patients/services/templateService';
+import { Template } from 'app/patients/models/template';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ListEncounterComponent } from '../list-encounter/list-encounter.component';
+import { PatientAllergy } from 'app/patients/models/patientAllergy';
+import { PreventiveComponent } from 'app/patients/preventive/preventive.component';
+import { PatientDetailsService } from 'app/patients/services/patientDetailsService';
+import { ConsultantNotesComponent } from 'app/patients/consultantnotes/consultantnotes.component';
+import { LabResultComponent } from 'app/patients/labresult/labresult.component';
+import { OrdersComponent } from 'app/patients/orders/orders.component';
+
+declare const $: any;
+
+@Component({
+  selector: 'ehr-addencounter',
+  templateUrl: 'addencounter.component.html',
+  styleUrls: ['../../../../app/patients/encounter/addencounter.component.css', '../../../app.component.css']
+})
+
+export class AddEncounterComponent implements OnInit {
+  @ViewChild('searchRef') searchRef: ElementRef;
+  search: string;
+  encounterId: number=0;
+  ICD10Group: ICD10Group[];
+  AddIcdForm: FormGroup;
+  statusCode: number;
+  icd10Details: any;
+  flag: boolean = false;
+  finalData: ICD10[];
+  hideTable: boolean;
+  acuityData: any[];
+  icd10Data: any;
+  pageName:any;
+  acuityRecord: any;
+  searchText: string;
+  icdgroupName: string;
+  IcdCodesArray: any;
+  AddEncounterForm: FormGroup;
+  acuityRecord1: any;
+  acuityName: any;
+  onIcd10: any;
+  insertedCodes:ChiefCompliantDtl[]
+  searchCount: any;
+  showFlag: boolean;
+  patientId: number;
+  acuityNumber: any;
+  encounter: Encounter;
+  allEncounters: Encounter[];
+  allEncounterList: Encounter[]=[];
+  acuityFlag: boolean = false;
+  icdErrorFlag: boolean = false;
+  showListModal: boolean;
+  patientRecords: PatientRecord;
+  templates: Template[];
+  icdPrimaryErrorFlag: boolean;
+  primaryErrorFlag: boolean=true;
+  buttonDisabled = true;
+  groupId:any;
+  buttonName:any='SAVE';
+  title:any='ADD';
+  showMedicationModal: boolean = true;
+  @ViewChild('PreventiveComp') PreventiveComp : PreventiveComponent;
+  @ViewChild('ConsultantComp') ConsultantComp : ConsultantNotesComponent;
+  @ViewChild('LabResultComp') LabResultComp : LabResultComponent;
+  @ViewChild(ListEncounterComponent)
+  private listEncComponent: ListEncounterComponent;
+  @ViewChild(OrdersComponent) 
+  private ordersComponent: OrdersComponent;
+  showPreventiveCareModal: boolean;
+  showLabResultModal: boolean;
+  showConsultantNotesModal: boolean;
+  showOrdersModal:boolean;
+  newRadioValue: any[] = [];
+  value = false;
+  isNew:boolean=false;
+  viewMode='Frequently';
+  constructor(private httpService: HttpClient,
+    private formBuilder: FormBuilder,
+    private orderPipe: OrderPipe,
+    private route: ActivatedRoute,
+    private router: Router,
+    private encounterService: EncounterService,
+    private templateService: TemplateService,
+    private spinner: NgxSpinnerService,
+    private patientDetailsService: PatientDetailsService) { }
+
+  ngOnInit() {
+
+    this.showMedicationModal = true;
+    this.IcdCodesArray = [];
+    this.hideTable = true;
+    this.showFlag = false;
+    //get patient id from url
+    this.route.params.subscribe(params => {
+      this.patientId = params['patientId'];
+    });
+    this.getEncounterByPatientId();
+    this.getAllICD10Groups();
+    this.getAllActiveTemplates();
+
+    this.AddEncounterForm = this.formBuilder.group({
+      chiefCompliant: [null, [Validators.required]],
+      patientUniqueCharacter: [null, [Validators.required]]
+    });
+    Observable.fromEvent(this.searchRef.nativeElement, 'keyup')
+      .map((evt: any) => evt.target.value)
+      .debounceTime(1000)
+      .distinctUntilChanged()
+      .subscribe((text: string) => this.submit(text));
+
+    this.AddIcdForm = this.formBuilder.group({
+      icdIDS:new FormArray([]),
+    });
+
+    this.getPatientRecordByPatientId(this.patientId)
+  }
+
+  getPatientRecordByPatientId(patientId: number){ 
+    this.patientDetailsService.getPatientRecordsByPatientId(patientId)
+    .subscribe(data => {
+      this.patientRecords = data;
+    })
+  }
+
+  generatePDF(event: any) {
+    $('#' + event.target.id).css('pointer-events', 'none');
+    
+    this.listEncComponent.generatePDFChild(event);
+    $('#' + event.target.id).css('pointer-events', '');
+  }
+
+  getAllActiveTemplates() {
+    this.templateService.getAllActiveTemplates()
+      .subscribe(data => {
+        this.templates = data;
+      })
+  }
+
+  closeMyModal() {
+    this.PreventiveComp.closeModalPreventiveCare()
+    $('#modalPreventiveCare').hide();
+  }
+
+  closeConsultantMyModal() {
+    this.ConsultantComp.closeConsultantNotesModal();
+    $('#modalConsultantNotes').hide();
+  }
+
+  closeLabResultMyModal() {
+    this.LabResultComp.closeLabResultModal();
+    $('#modalLabResult').hide();
+  }
+
+  closeOrdersModal() {
+    this.ordersComponent.closeOrdersModal();
+    $('#modalOrders').hide();
+  }
+
+  getEncounterByPatientId() {
+    this.encounterService.getEncounterByPatientId(this.patientId)
+      .subscribe(data => {
+        this.allEncounterList = data;
+        let completedEncounter= this.allEncounterList.find(t=>t.completionDate!==null)
+        if (data.length < 5) {
+          $("#viewLabel").hide();
+          this.allEncounters = data;
+        }
+        else {
+          $("#viewLabel").show();
+          this.allEncounters = data.slice(0, 5);
+        }
+        this.httpService.get('./assets/e_m.json').subscribe(
+          (data: any[]) => {
+            this.acuityData = data;
+            if(completedEncounter==undefined){
+              this.isNew=true;
+              this.acuityData = this.acuityData.filter(t => t.type == 'new');
+            }
+            else
+            this.acuityData = this.acuityData.filter(t => t.type == 'established');
+          }
+        );
+      })
+  }
+
+  viewAllEncounter() {
+    if ($("#anchor").text() == "View More") {
+      $('#viewLabel').contents().first()[0].textContent = "View Less"
+      this.allEncounters = this.allEncounterList;
+    }
+    else {
+      $('#viewLabel').contents().first()[0].textContent = "View More"
+      this.allEncounters = this.allEncounterList.slice(0, 5);
+    }
+  }
+
+  getAllICD10Groups() {
+    this.encounterService.getAllICD10Groups()
+      .subscribe(data => {
+        this.ICD10Group = data;
+      })
+  }
+
+checkPrimary(): boolean{
+  if (this.IcdCodesArray.length == 0) {
+        this.icdErrorFlag = true;
+        return false;
+   }
+  else{
+   let index = this.IcdCodesArray.controls.findIndex(x => x.value.primary == true);
+  index == -1 ? this.primaryErrorFlag = false : this.primaryErrorFlag = true;
+  return (index == -1 ? false : true);
+      }
+}
+
+  onSubmit(val) {
+    let icdCodesList: ChiefCompliantDtl[] = [];
+    let cardioTempId, detailtedNeuroTempId, eyeTempId, physicalTempId, simpleNeuroTempId: number = 0;
+      if (this.checkPrimary() && this.acuityNumber != undefined) {
+      if (this.AddEncounterForm.valid) {
+       
+        (<HTMLInputElement>document.getElementById(val)).disabled = true;
+        let chiefCompliant = this.AddEncounterForm.get('chiefCompliant').value.trim();
+        let patientUniqueCharacter = this.AddEncounterForm.get('patientUniqueCharacter').value.trim();
+        // get the templateId of active templates to insert in encounter
+        if (this.templates.length > 0) {
+          for (let i = 0; i < this.templates.length; i++) {
+            if (this.templates[i].templateName == "CARDIOVASCULAR EXAM") { cardioTempId = this.templates[i].templateId }
+            else if (this.templates[i].templateName == "DETAILED-NEURO EXAM") { detailtedNeuroTempId = this.templates[i].templateId }
+            else if (this.templates[i].templateName == "EYE EXAM") { eyeTempId = this.templates[i].templateId }
+            else if (this.templates[i].templateName == "PHYSICAL EXAM") { physicalTempId = this.templates[i].templateId }
+            else { simpleNeuroTempId = this.templates[i].templateId }
+          }
+        }
+        let encToInsert = new Encounter(this.encounterId, this.patientId, this.patientRecords.primaryProvider, this.patientRecords.primaryLocation, 0,
+          new Date(), chiefCompliant, this.acuityNumber, true, physicalTempId, cardioTempId, simpleNeuroTempId, eyeTempId, detailtedNeuroTempId, null, null, null, null, patientUniqueCharacter,null);
+        //insert encounter  
+          if(val=="SAVE"){
+          this.encounterService.insertEncounter(encToInsert).switchMap(            //inserting Encounter details in encounter table
+          data => {
+            this.encounterId = data.encounterId;
+            for (let i = 0; i < this.IcdCodesArray.length; i++) {
+              let icdDetail = new ChiefCompliantDtl(0, this.encounterId, this.IcdCodesArray.at(i).value.ICD10Code, this.IcdCodesArray.at(i).value.Description, this.IcdCodesArray.at(i).value.primary, null, null, null, null);
+              icdCodesList.push(icdDetail);
+            }
+            return this.encounterService.insertChiefCompliantDtl(icdCodesList,this.encounterId)         //inserting ICD Codes details in chief_compliant table
+          }).subscribe(successCode => {
+            this.statusCode = successCode;
+            this.router.navigate(['/patients/hpi/',this.encounterId]);
+          },
+          errorCode => {
+            this.statusCode = errorCode;
+            (<HTMLInputElement>document.getElementById(val)).disabled = false;
+          });
+        }
+          // Update Encounter
+        else{
+          this.encounterService.updateEncounterRecord(encToInsert).subscribe(successCode => {   //update encounter table
+            this.statusCode = successCode;
+          });
+          for (let i = 0; i < this.IcdCodesArray.length; i++) {
+            let icdDetail = new ChiefCompliantDtl(0, this.encounterId, this.IcdCodesArray.at(i).value.ICD10Code, this.IcdCodesArray.at(i).value.Description, this.IcdCodesArray.at(i).value.primary, null, null, null, null);
+            icdCodesList.push(icdDetail);
+          }
+          this.encounterService.insertChiefCompliantDtl(icdCodesList,this.encounterId).switchMap(successCode => {   //insert newly checked ICD_10 codes
+                this.statusCode = successCode;
+               return this.encounterService.deleteChiefCompliantDtl(icdCodesList)})       //delete unchecked ICD_10 codes
+               .subscribe(successCode => {
+                this.statusCode = successCode;
+                this.router.navigate(['/patients/hpi/',this.encounterId,'edit']);
+              },
+              errorCode => {
+                this.statusCode = errorCode;
+                (<HTMLInputElement>document.getElementById(val)).disabled = false;
+              });
+        }
+      }
+      else {
+        this.validateAllFormFields(this.AddEncounterForm)
+      }
+    }
+    else {
+      if (this.acuityNumber == undefined) {
+        this.acuityFlag = true;
+      }
+      this.validateAllFormFields(this.AddEncounterForm)
+    }
+  }
+
+  openAcuity(num: any) {
+    $('#AcuityModal').modal('show');
+    for (let i = 0; i < this.acuityData.length; i++) {
+      if (this.acuityData[i].NEW == num) {
+        this.acuityRecord = this.acuityData[i];
+        this.acuityRecord1 = this.acuityData[i].MDM.replace(new RegExp('\n', 'g'), "<br />")
+      }
+    }
+  }
+
+  expandPanel1() {
+    if (($('#change-collapse1').attr('aria-expanded') == "true") && this.onIcd10 == undefined) {
+      $("#collapsePanel1").removeClass("expand-Panel-Style");
+      $("#change-collapse1").removeClass("active1");
+    }
+    else if (this.onIcd10 == "false") {
+      $("#collapsePanel1").addClass("expand-Panel-Style");
+      $("#change-collapse1").addClass("active1");
+      this.onIcd10 = undefined;
+    }
+    else {
+      $("#collapsePanel1").addClass("expand-Panel-Style");
+      $("#change-collapse1").addClass("active1");
+    }
+  }
+
+  showAllergiesModal() {
+    this.value = !this.value;
+    $("#expansionPanel3").show();
+  }
+
+  //setting Value After Clicking on Edit Encounter Button
+  editEncounter(encounterId){
+        this.encounterId=encounterId;
+        this.buttonName = 'UPDATE';
+        this.title = 'UPDATE';
+        this.hideTable=false;
+        this.acuityFlag = false;
+        this.buttonDisabled = false;
+        this.icdErrorFlag = false;
+        Observable.combineLatest([
+          this.encounterService.getEncounterByEncounterId(encounterId),
+          this.encounterService.getAllChiefCompliantDetailsByEncounterId(encounterId)]).
+          subscribe(
+            combined=>{ 
+             
+              if(this.acuityData.find(t => t.NEW == combined[0].emId)!==undefined){
+                this.acuityNumber=combined[0].emId;   //setting Acuity No.
+              }
+         
+              this.insertedCodes=[]=combined[1]
+              this.IcdCodesArray= <FormArray> this.AddIcdForm.get('icdIDS');
+              this.IcdCodesArray.controls=[]
+              for (let i = 0; i < this.insertedCodes.length; i++) {
+                let truthValue=false;
+                truthValue= (this.insertedCodes[i].primaryFlag === true); 
+                let icd=new ICD10(this.insertedCodes[i].icd10Code,this.insertedCodes[i].icd10CodeDescription,null,null,truthValue,null);
+                this.IcdCodesArray.push(new FormControl(icd));    
+              }
+             this.AddEncounterForm.get('chiefCompliant').setValue(combined[0].chiefCompliant);     //setting chiefCompliant.
+             this.AddEncounterForm.get('patientUniqueCharacter').setValue(combined[0].patientUniqueCharacters); //setting patientUniqueCharacters.
+            })
+  }
+
+  checkedAcuityData(NEW:any,DESC):boolean{
+    if(this.acuityNumber==NEW){
+      this.acuityName=DESC;
+      return true;
+    }
+    return false;
+  }
+
+  submit(text) {
+    this.finalData = [];
+    this.search = text;
+    console.log(this.search)
+    if (this.search == "" || this.search.length < 3) {
+      this.showFlag = false;
+    }
+    else {
+      this.spinner.show();
+      this.encounterService.search(this.search, this.icdgroupName)
+        .subscribe(results => {
+          this.spinner.hide();
+          this.finalData = results;
+          this.searchCount = this.finalData.length
+          console.log(this.finalData)
+          this.showFlag = true;
+          for (let i = 0; i < this.finalData.length; i++) {
+            this.finalData[i].SearchInclusion = this.finalData[i].SearchInclusion.replace(new RegExp('\n', 'g'), "<br />")
+          }
+          this.searchCount == 0 ? this.flag = true : this.flag = false;
+        });
+
+    }
+  }
+  
+  deleteIcd(data){
+    let index= this.IcdCodesArray.controls.findIndex(x => x.value.ICD10Code == data.ICD10Code) //Remove from IcdCodesArray 
+    this.IcdCodesArray.removeAt(index);
+    for (let i = 0; i < this.ICD10Group.length; i++) {
+      if (this.ICD10Group[i].groupDescription == data.icdgroupName) {
+        this.ICD10Group[i].count = this.ICD10Group[i].count - 1;
+      }
+    }
+   }
+
+  showModal() {
+    this.groupId=2;
+    this.viewMode='Frequently';
+    $('#AddIcd').modal('show');
+    this.flag = true;
+    this.searchText = '';
+    this.icdgroupName = "All ICD-10 Codes";
+    this.showFlag = false;
+  }
+
+  openSearchWindow(id) {
+    $('#icd10Modal').modal('show');
+    for (let i = 0; i < this.finalData.length; i++) {
+      if (this.finalData[i].ICD10Code == id) {
+        this.icd10Data = this.finalData[i];
+      }
+    }
+    this.icd10Details = this.icd10Data.SearchInclusion.replace(new RegExp('\n', 'g'), "<br />")
+  }
+
+  //onChange event after clicking on primary Icd checkbox
+  onChangePrimary(icd: any, isChecked: boolean) {
+    if (this.IcdCodesArray.length > 0) {
+      for (let i = 0; i < this.IcdCodesArray.length; i++) {
+        this.IcdCodesArray.at(i).value.primary = false;
+        if (this.IcdCodesArray.at(i).value.ICD10Code == icd)
+          this.IcdCodesArray.at(i).value.primary = isChecked;
+      }
+      this.isCheckedPrimaryFlag();
+      for (let i = 0; i < this.IcdCodesArray.length; i++) {
+        console.log(this.IcdCodesArray.at(i).value)
+      }
+    }
+  }
+
+  //onChange event after clicking on checkbox
+  onChange(data: ICD10, icdgroupName: any, isChecked: boolean) {
+    data.primary= ((document.getElementById("primary_" + data.ICD10Code) as HTMLInputElement).checked);
+    data.icdgroupName=icdgroupName;
+     this.IcdCodesArray = <FormArray> this.AddIcdForm.get('icdIDS');
+    if (isChecked) {
+      for (let i = 0; i < this.ICD10Group.length; i++) {
+        if (this.ICD10Group[i].groupDescription == icdgroupName) {
+          this.ICD10Group[i].count = this.ICD10Group[i].count + 1;
+        }
+      }
+      this.IcdCodesArray.push(new FormControl(data));
+    }
+    else {
+      for (let i = 0; i < this.ICD10Group.length; i++) {
+        if (this.ICD10Group[i].groupDescription == icdgroupName) {
+          this.ICD10Group[i].count = this.ICD10Group[i].count - 1;
+        }
+      }
+     let index = this.IcdCodesArray.controls.findIndex(x => x.value.ICD10Code == data.ICD10Code)
+     this.IcdCodesArray.removeAt(index);
+    }
+    for (let i = 0; i < this.IcdCodesArray.length; i++) {
+      console.log(this.IcdCodesArray.at(i).value)
+    }
+    this.IcdCodesArray.length == 0 ? this.buttonDisabled = true : this.buttonDisabled = false;
+  }
+
+  isCheckedPrimaryFlag() {
+    let index = this.IcdCodesArray.controls.findIndex(x => x.value.primary == true);
+    index == -1 ? this.icdPrimaryErrorFlag = true : this.icdPrimaryErrorFlag = false;
+  }
+
+  //Clicking on ADD & CLOSE Button
+  submitData() {
+    this.isCheckedPrimaryFlag();
+    if (!this.icdPrimaryErrorFlag) {
+      this.primaryErrorFlag=true;
+      let element: HTMLElement = document.getElementById("dismissmodal");
+      element.click();
+      if(this.IcdCodesArray.length>0){
+        this.icdErrorFlag = false;
+        this.hideTable = false;
+      }
+      else{
+      this.icdErrorFlag = true
+      this.hideTable = true;
+      }
+    }
+  }
+
+  isChecked(ICD10Code: number): boolean {
+    for (var i = 0; i < this.IcdCodesArray.length; i++) {
+      if (this.IcdCodesArray.at(i).value.ICD10Code == ICD10Code) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  selectedRadioValue(acuityName, acuityNumber) {
+    this.acuityNumber=null;
+    this.acuityName = acuityName;
+    this.acuityNumber = acuityNumber;
+    this.acuityFlag=false;
+  }
+
+  isCheckedPrimary(ICD10Code: number): boolean {
+    for (let i = 0; i < this.IcdCodesArray.length; i++) {
+      if (this.IcdCodesArray.at(i).value.primary == true && this.IcdCodesArray.at(i).value.ICD10Code == ICD10Code) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  encounterDate(encounter) {
+    return new Date(encounter.encounterDate);
+  }
+
+  isFieldValid(form: FormGroup, field: string) {
+    return !form.get(field).valid && form.get(field).touched;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
+  onClicking(group: any) {
+    this.flag = true;
+    this.showFlag = false;
+    this.searchText = '';
+    this.groupId=group.groupId;
+    this.icdgroupName = group.groupDescription;
+  }
+
+  openListEncounterModal(encounter: Encounter) {
+    this.showListModal = true;
+    this.encounter = encounter;
+  }
+
+  closeListEncounterModal() {
+    this.showListModal = false;
+  }
+
+  openPreventiveCareModal() {
+    this.showPreventiveCareModal = true;
+  }
+
+  openLabResultModal() {
+    this.showLabResultModal = true;
+  }
+  openConsultantNotesModal() {
+    this.showConsultantNotesModal = true;
+  }
+
+  openOrdersModal() {
+   this.pageName="orders"
+    this.showOrdersModal = true;
+  }
+}
+
+

@@ -1,0 +1,210 @@
+package com.cpa.ehr.util;
+
+import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.ReflectionUtils;
+
+import com.cpa.ehr.backend.dao.admin.entities.StaffMember;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+
+/**
+ * Utility Class for Format Conversions
+ * 
+ * @author CPA Development Team
+ * @version 1.0.0
+ */
+public class FormatConverterUtils {
+
+	private FormatConverterUtils() {
+		throw new IllegalStateException("Utility class");
+	}
+
+	private static final Logger LOG = LoggerFactory.getLogger(FormatConverterUtils.class);
+	private static final String ORGANIZATION_ID = "organizationId";
+	private static final String LAST_UPDATED_DATE = "lastUpdatedDate";
+	private static final String LAST_UPDATED_BY = "lastUpdatedBy";
+	private static final String CREATED_DATE = "createdDate";
+	private static final String CREATED_BY = "createdBy";
+
+	public static Boolean convertPrimaryFlagtoBoolean(String primaryFlag) {
+		if (!primaryFlag.isEmpty() && primaryFlag.contentEquals("Y")){
+			return true;
+		}
+		return false;
+	}
+
+	public static String convertBooleantoPrimaryFlag (Boolean primaryFlag) {
+		if ( primaryFlag.booleanValue()){
+			return "Y";
+		}
+		return "N";
+	}	
+	/**
+	 * Converts Active Flag to Boolean value
+	 * 
+	 * @param activeFlag
+	 * 		Character representing active flag - Y/N
+	 * @return Boolean
+	 * 		true/false 
+	 */
+	public static Boolean convertActiveFlagtoBoolean(String activeFlag) {
+		if (!activeFlag.isEmpty() && activeFlag.contentEquals("Y")){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Converts Boolean value to active Flag
+	 * @param activeFlag
+	 * 		Boolean value of active flag - true/false
+	 * @return String
+	 * 		Y/N 
+	 */
+	public static String convertBooleantoActiveFlag (Boolean activeFlag) {
+		if ( activeFlag.booleanValue()){
+			return "Y";
+		}
+		return "N";
+	}	
+
+
+
+
+
+	/**
+	 * Converts ccmCoverageVerified to Boolean value
+	 * 
+	 * @param ccmCoverageVerified
+	 * 		Character representing ccmCoverageVerified - Y/N
+	 * @return Boolean
+	 * 		true/false 
+	 */
+	public static Boolean convertccmCoverageVerifiedtoBoolean(String ccmCoverageVerified) {
+		if (!ccmCoverageVerified.isEmpty() && ccmCoverageVerified.contentEquals("Y")){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Converts Boolean value to ccmCoverageVerified
+	 * @param ccmCoverageVerified
+	 * 		Boolean value of ccmCoverageVerified - true/false
+	 * @return String
+	 * 		Y/N 
+	 */
+	public static String convertBooleantoccmCoverageVerified (Boolean ccmCoverageVerified) {
+		if ( ccmCoverageVerified.booleanValue()){
+			return "Y";
+		}
+		return "N";
+	}	
+
+
+	/**
+	 * Converts selfCareTakerFlag Flag to Boolean value
+	 * 
+	 * @param selfCareTakerFlag
+	 * 		Character representing selfCareTakerFlag - Y/N
+	 * @return Boolean
+	 * 		true/false 
+	 */
+	public static Boolean convertSelfCareTakerFlagtoBoolean(String selfCareTakerFlag) {
+		if (!selfCareTakerFlag.isEmpty() && selfCareTakerFlag.contentEquals("Y")){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Converts Boolean value to selfCareTakerFlag 
+	 * @param selfCareTakerFlag
+	 * 		Boolean value of selfCareTakerFlag - true/false
+	 * @return String
+	 * 		Y/N 
+	 */
+	public static String convertBooleantoSelfCareTakerFlag (Boolean selfCareTakerFlag) {
+		if ( selfCareTakerFlag.booleanValue()){
+			return "Y";
+		}
+		return "N";
+	}	
+
+
+	public static String convertObjectToJson(final Object obj) throws JsonProcessingException {
+		try {
+			final ObjectMapper mapper = new ObjectMapper();
+			mapper.registerModule(new JodaModule());
+			return mapper.writeValueAsString(obj);
+		} catch (final JsonProcessingException e) {
+			LOG.error("RuntimeException occurred while converting to JSON : {}", e);
+			throw e;
+		}
+	}
+
+	public static void setInitialDefaultValues(Object obj,StaffMember loginUser)
+	{
+		Field field = null;  
+
+		ReflectionTestUtils.setField(obj, CREATED_BY, loginUser.getLoginId()); 
+		ReflectionTestUtils.setField(obj, CREATED_DATE, new Date()); 
+
+		field = ReflectionUtils.findField(obj.getClass(), LAST_UPDATED_BY);
+		if(field!=null)
+			ReflectionTestUtils.setField(obj, LAST_UPDATED_BY, loginUser.getLoginId()); 
+
+		field = ReflectionUtils.findField(obj.getClass(), LAST_UPDATED_DATE);
+		if(field!=null)
+			ReflectionTestUtils.setField(obj, LAST_UPDATED_DATE, new Date()); 
+
+		field = ReflectionUtils.findField(obj.getClass(), ORGANIZATION_ID);
+		if(field!=null)
+			ReflectionTestUtils.setField(obj, ORGANIZATION_ID, loginUser.getOrganization().getOrganizationId());
+
+		field = ReflectionUtils.findField(obj.getClass(), "activeFlag");
+		if(field!=null)
+			ReflectionTestUtils.setField(obj, "activeFlag", true); 
+
+
+	}
+
+	public static Integer getSelectedAppointmentYear(String currentPeriod)
+	{ 
+		if(currentPeriod==null || currentPeriod.trim().length()<=0)
+		{
+			return null;
+		}
+		String periodStr = currentPeriod.substring(3);
+		return Integer.parseInt(periodStr);  
+	}
+
+	public static Integer getSelectedAppointmentMonth(String currentPeriod)
+	{ 
+		if(currentPeriod==null || currentPeriod.trim().length()<=0)
+		{
+			return null;
+		}
+		String periodStr = currentPeriod.substring(0,2);
+		return Integer.parseInt(periodStr);  
+	}
+
+
+
+
+	public static Date date(Date date) throws ParseException
+	{
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		String dateString = formatter.format(date); 
+		return formatter.parse(dateString);
+
+	}
+
+}

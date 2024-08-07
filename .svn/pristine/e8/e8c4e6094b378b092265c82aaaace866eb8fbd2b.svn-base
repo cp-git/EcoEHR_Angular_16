@@ -1,0 +1,4 @@
+ /* style for label  */
+ label{
+    color: black;
+  }

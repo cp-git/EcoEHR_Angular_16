@@ -1,0 +1,99 @@
+
+<div class="header-contents">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <label class="header-style">Last Name:</label>
+                <label class="input-size">{{patientRecords && patientRecords.lastName}}</label>
+            </div>
+            <div>
+                <a (click)="showAllergiesModal()" role="button"
+                    style="text-decoration: underline;color:white">
+                    <b>List Of Allergies</b>
+                </a>
+                <br>
+               
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div>
+                <label class="header-style">First Name:</label>
+                <label class="input-size">{{patientRecords && patientRecords.firstName}}</label>
+            </div>
+            <div>
+                    <label class="header-style">Sex:</label>
+                    <label class="input-size">{{patientRecords && patientRecords.gender}}</label>
+                </div>
+        </div>
+        <div class="col-md-2">
+            <div>
+                <label class="header-style">DOB:</label>
+                <label class="input-size">{{patientRecords && dateOfBirth(patientRecords.dob) |
+                    date:'MM/dd/yyyy'}}</label>
+            </div>
+            <div>
+                <label class="header-style">Age:</label>
+                <label class="input-size">{{patientRecords &&
+                    calculateAge(patientRecords.dob)}}</label>
+            </div>
+        </div>
+        <!-- <div class="col-md-1">
+            <div>
+                <label class="header-style">Sex:</label>
+                <label class="input-size">{{patientRecords && patientRecords.gender}}</label>
+            </div>
+        </div> -->
+        <div class="col-md-2">
+            <div>
+                <label class="header-style">Date:</label>
+                <label class="input-size">{{today | date:'MM/dd/yyyy'}}</label>
+            </div>
+            <div>
+                <label class="header-style">Time:</label>
+                <label class="input-size">{{today | date:'HH:mm:ss'}}</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div>
+                <label class="header-style">Primary Care Provider:</label>
+                <label class="input-size">{{patientRecords && patientRecords.providerFirstName}}
+                    {{patientRecords && patientRecords.providerLastName}}</label>
+            </div>
+            <div *ngIf="show">
+
+                <label class="header-style">Patient Unique Characters:</label>
+                <label class="input-size">{{encounterdata && encounterdata.patientUniqueCharacters}}
+                    </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+       <div class="row" style="margin-left:57px;margin-bottom:1%">
+            <div id="expansionPanel3" *ngIf="value">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="text-center">Allergy</th>
+                            <th class="text-center">Form</th>
+                            <th class="text-center">Route</th>
+                            <th class="text-center">Dose</th>
+                        </tr>
+                        <ng-container *ngIf="patientAllergies?.length > 0">
+                            <tr *ngFor="let allergy of patientAllergies" style="color:white">
+                                    <td>{{allergy.productName}}</td>
+                                    <td>{{allergy.form}}</td>
+                                    <td>{{allergy.route}}</td>
+                                    <td [innerHTML]=allergy.dose></td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="patientAllergies?.length == 0">
+                            <tr style="color:white" class="text-center">
+                                <td colspan="4">No Allergies found!!</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+</div>

@@ -1,0 +1,201 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header" data-background-color>
+                        <div class="col-sm-6 col-md-4  col-xs-5">
+                            <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                                fullScreen="true" type="line-scale-pulse-out-rapid">
+                            </ngx-spinner>
+                            <tr>
+                                <td>
+                                    <h6>Patient List </h6>
+                                </td>
+                                <td>
+                                    <div class="col-sm-1">
+                                        <label class="label-color"> Show</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-sm-offset-1 ">
+                                        <select name="datatables_length" aria-controls="datatables"
+                                            (change)="changePage($event)" class="form-control select-style">
+                                            <option class="option-style" value="10">10</option>
+                                            <option class="option-style" value="25">25</option>
+                                            <option class="option-style" value="50">50</option>
+                                            <option class="option-style" value="-1">All</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-sm-1">
+                                        <label class="label-color">entries</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
+                        <div class="col-sm-2 col-md-1 col-xs-2 col-md-offset-2">
+                            <button type="submit" class="btn button-style add-btn-position" (click)="addPatient()">ADD
+                                PATIENT</button>
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1">
+                            <div class="form-group-sm is-empty searchHeight">
+                                <input type="search" id="mysearch" (keyup)="searchdata($event)"
+                                    class="form-control input-color placeholder-style"
+                                    placeholder="Search by Patient Name" aria-controls="datatables">
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset- ">
+                            <div class="input-icon-wrap">
+                                <input style="margin-top: -22px;padding-top: 22px;height: 42px;" type="search"
+                                    id="date_search" (click)="datepicker('date_search')"
+                                    class="form-control input-color placeholder-style" placeholder="Search by DOB">
+                                <span class="input-icon" (click)="datepicker('date_search')">
+                                    <span class="fa fa-calendar fa-lg"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content col-md-12 col-sm-12 table-padding" style="top:0px !important">
+                        <div class="material-datatables table-responsive ">
+                            <div *ngIf="statusCode === 200" class="alert alert-success"
+                                data-icon-bg-color="alert-green">
+                                <strong>Patient "{{fullName}}" updated successfully!</strong>
+                            </div>
+                            <div *ngIf="statusCode === 201 && msgName=='Patient'" class="alert alert-success"
+                                data-icon-bg-color="alert-green">
+                                <strong>Patient "{{fullName}}" added successfully!</strong>
+                            </div>
+                            <div *ngIf="statusCode === 201 && msgName=='Encounter'" class="alert alert-success" data-icon-bg-color="alert-green">
+                            <strong>Encounter added successfully!</strong>
+                            </div>
+                             <div *ngIf="statusCode === 201 && msgName=='sign'" class="alert alert-success" data-icon-bg-color="alert-green">
+                            <strong>Encounter Completed and Saved successfully!</strong>
+                            </div>
+                            <table id="datatables"
+                                class="table table-striped table-bordered table-hover table-responsive" cellspacing="0"
+                                width="100%">
+                                <thead class="text-info">
+                                    <tr>
+                                        <th class="text-center">{{ dataTable.headerRow[0] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[1] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[2] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[3] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[4] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[5] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[6] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[7] }}</th>
+                                        <th class="text-center">{{ dataTable.headerRow[8] }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let patient of dataTable.dataRows;let i = index">
+                                        <td>
+                                            <button type="submit" class="btn button btn-sm" style="width: 100%">
+                                                {{patient.firstName}} {{patient.lastName}}</button>
+                                        </td>
+                                        <td> {{patient.mrn}} </td>
+                                        <td> {{patient.gender}} </td>
+                                        <td>{{DateOfBirth(patient.dob) | date:'MM/dd/yyyy'}} </td>
+                                        <td> {{patient.providerFirstName}}
+                                            {{patient.providerLastName}}, {{patient.designation}} </td>
+                                        <td> {{displayPatientAddress(patient)}} </td>
+                                        <td class="text-center">
+                                            <!-- <a [routerLink]="['/patients/addencounter/'+patient.patientId]"
+                                                [class.disabled]="disabled(patient.additionalInfo)?true:null">
+                                                <i class="fa fa-plus-circle fa-style text-info"></i>
+                                            </a> -->
+
+                                            <a [routerLink]="['/patients/addencounter/'+patient.patientId]"
+                                                *ngIf="!disabled(patient.additionalInfo)" ><i
+                                                    class="fa fa-plus-circle fa-style text-info"></i>
+                                            </a>
+                                             <i class="fa fa-plus-circle fa-style text-info"  [class.disabled]="true"
+                                                *ngIf="disabled(patient.additionalInfo)"></i>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button class="btn btn-simple btn-warning btn-icon edit"
+                                                (click)='openUpdatePatient(patient.patientId)' title="Edit">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center"> {{patient.additionalInfo}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- end content-->
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+</div>
+
+<div class="card">
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="advPatientSearchModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="card-content ">
+                    <div class="text-center">
+                        <h3 class="card-title card-header-height card-title-margin" data-background-color>
+                            Advance Patient Search
+                        </h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="row" id="even">
+                            <div class="col-xs-6 col-md-5 col-sm-6 col-md-offset-1">
+                                <div class="input-group">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">First Name
+                                        </label>
+                                        <input type="text" name="firstName" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-md-5 col-sm-6 col-md-offset-1">
+                                <div class="input-group">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Last Name
+                                        </label>
+                                        <input type="text" name="lastName" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-sm-6 col-md-offset-1">
+                                <div class="input-group ">
+                                    <div class="label-floating form-group ">
+                                        <mat-form-field>
+                                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
+                                                placeholder="DOB">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker startView="year" [startAt]="startDate">
+                                            </mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="pull-left col-md-offset-1">
+                                <input type='button' class='btn button' name='SEARCH' value='SEARCH' />
+                            </div>
+                            <div class="col-md-offset-8">
+                                <input type='button' class="btn button" (click)="closeModal()" value="CANCEL" />
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

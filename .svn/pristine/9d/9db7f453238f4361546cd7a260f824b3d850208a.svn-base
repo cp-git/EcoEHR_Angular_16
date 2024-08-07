@@ -1,0 +1,243 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <form [formGroup]="ROSForm" mmethod="#" action="">
+                    <div class="card">
+                        <div class="card-header" data-background-color>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-xs-12">
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <h6> Review Of System (ROS) {{title}}
+                                            </h6>
+                                        </td>
+                                        <td class="col-md-8" style="top:-17px">
+                                                <ehr-navigation [allSystemTypes]=allSystemTypes [encounterId]=encounterId [sysName]=sysName [data]=data></ehr-navigation>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 style="margin-left:20px;"> </h6>
+                        <ehr-patientheader [encounterId]=encounterId [patientId]=patientId></ehr-patientheader>
+
+                        <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D" fullScreen="true" type="line-scale-pulse-out-rapid">
+                        </ngx-spinner>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                            
+                                <div class="btn-group btn-group-justified">
+                                    <ng-container *ngFor="let system of ROSSystems">
+                                        <a data-toggle="tab" id="div_{{system.systemType}}"  (click)="openTab(system)" title="{{system.systemDesc}}"
+                                            class="btn btn-style systems-tab-style " [ngClass]="{'colorchange':system.systemId==systemId}">{{system.systemCode}}</a>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-5 col-sm-offset-5 col-md-offset-5 text-center">
+                                <div id="systemName" class="systemNameStyle">
+                                    <b>{{systemDesc}}</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-4 col-sm-4 " >
+                                    <ng-container *ngFor="let group of questionGroupList;let i=index">
+                                        <div class="row">
+                                            <div class="col-md-8 col-sm-8">
+                                                <a data-toggle="tab" id="ros_{{i}}" (click)="goToSelectedTab(group,i)"
+                                                    class="btn btn-style btn-left question-group-style"  [ngClass]="{'colorchange':group.questionGroupId==questionGroupId}" 
+                                                    data-toggle="modal">
+                                                    <div class="question-group-name">{{group.questionGroupName}}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-2 col-sm-1">
+                                                <input type="checkbox" id="icd_{{group.questionGroupName}}" [checked]="isChecked(group.questionGroupId)" (change)="showDiv(group,$event.target.checked,i)"
+                                                    name="checkListItem">
+                                                <label for="icd_{{group.questionGroupName}}"></label>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                              
+                            </div>
+                            <div class="col-md-8 col-sm-7">
+                                <div *ngFor="let question of questionGroupList">
+                                    <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
+                                        <div class="card col-md-9 col-sm-6" [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">
+                                            <h6 class="text-center">
+                                                <b> {{questionGroupName}}</b>
+                                            </h6>
+                                            <div *ngIf="question.questionCount !==-1" class="text-dark pull-right selectlink-style">
+                                                Select
+                                                <a href="#" (click)="resetAll(systemId,question.questionGroupId,'No')"
+                                                    data-toggle="modal" data-dismiss="modal"> "No"</a> (or)
+                                                <a href="#" (click)="resetAll(systemId,question.questionGroupId,'Yes')"
+                                                    data-toggle="modal" data-dismiss="modal"> "Yes"</a> for all
+
+                                            </div>
+                                            <ng-container *ngFor="let commonQues of commonQuestionsList;let i=index">
+                                                <div class="row " *ngIf="commonQues.questionGroupId===question.questionGroupId">
+
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <label class="text-dark">{{commonQues.questionDesc}}
+                                                        </label>
+                                                    </div>
+                                                    <div style="right:30px;">
+                                                        <!-- radio div -->
+                                                        <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='radio'">
+                                                            <span *ngFor="let options of commonQues.optionRecord">
+                                                                <input  name="radio{{i}}" type="radio" id="radioType_{{i}}" [checked]="isCheckedRadio(options.optionId)" [(ngModel)]="selectedRadioValue[commonQues.questionId]" [ngModelOptions]="{standalone: true}" [value]="options.optionId"
+                                                                    (input)="onRowEdit(commonQues,options)" />
+                                                                <label class="text-dark" for="radioType_{{i}}">{{options.optionNames}}</label>
+                                                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                                            </span>
+                                                        </div>
+                                                        <!-- text div -->
+                                                        <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='text'">
+                                                            <input type="text" id="text{{commonQues.questionId}}" placeholder="Please enter value" [ngModelOptions]="{standalone: true}"
+                                                                class="form-control input-color-style" [(ngModel)]="textVal[commonQues.questionId]"
+                                                                (input)="isFieldValid($event,'text');commonQues.answer = $event.target.value;onRowEdit(commonQues,$event.target.value)">
+                                                            <div *ngIf="isValid[commonQues.questionId]==commonQues.questionId" style="color:red">Max characters capacity is 100.
+                                                            </div>
+                                                        </div>
+                                                        <!-- dropdown div -->
+                                                        <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='dropdown'">
+                                                            <md2-select id="dropdown{{i}}" style="width: 100%;" [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" (change)="onRowEdit(commonQues,selectedValue.optionNames,selectedValue.optionId)">
+                                                                <md2-option [value]="0">Please Select</md2-option>
+                                                                <md2-option class="decrease-height" *ngFor="let options of commonQues.optionRecord" [value]="options">{{options.optionNames}}
+                                                                </md2-option>
+                                                            </md2-select>
+                                                        </div>
+                                                       
+                                                        <div>
+                                                            <div *ngIf="commonQues.questionDesc=='list of Medication'">
+                                                                <button (click)="showModal(commonQues)" type="submit" class="btn button btn-sm" style="right:-12px;">Add Allergy Medication
+                                                                </button>
+                                                                <div [hidden]="showMedicationList">
+                                                                    <div class="table-content" style="margin-left:-13px">
+                                                                        <table class="table table-bordered">
+                                                                            <tbody style="overflow-y:auto; height:150px;display:bdata">
+
+                                                                                <tr>
+                                                                                    <th class="text-center">Allergy</th>
+                                                                                    <th class="text-center">Form</th>
+                                                                                    <th class="text-center">Dose</th>
+                                                                                    <th class="text-center">Route</th>
+                                                                                    <th class="text-center">Delete</th>
+                                                                                </tr>
+                                                                                <tr *ngFor="let medication of patientAllergies;let i=index">
+                                                                                    <td> {{medication.productName}}
+                                                                                    </td>
+                                                                                    <td class="text-center">
+                                                                                        {{medication.form}}</td>
+                                                                                    <td [innerHTML]=medication.dose>
+                                                                                    </td>
+                                                                                    <td class="text-center">
+                                                                                        {{medication.route}}</td>
+                                                                                    <td class="text-center">
+                                                                                    <button class="btn btn-simple btn-danger btn-icon " (click)="deletePatientAllergy(medication.patientAllergyId)" title="Delete">
+                                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                                    </button>
+                                                                                    </td>
+
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-10 col-sm-offset-9">
+                            <button type="submit" class="btn button" id="saveNext" (click)="onSubmit();">{{buttonName}} & Next
+                            </button>
+                        </div>
+                        <br>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Modal for Medication Allergy -->
+        <div class="modal fade" id="MedicationAllergy" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-md" style="width:85%; ">
+                <div class="card">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h6 class="card-header card-style" data-background-color>Allergy Medication</h6>
+                            <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                        </div>
+                        <ngx-spinner id="ngxspinner" bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D" fullScreen="true"
+                            type="line-scale-pulse-out-rapid">
+                        </ngx-spinner>
+                        <div class="row">
+                            <form [formGroup]="MedicationForm" action="" method="">
+                                <br>
+                                <div class="col-md-11 col-md-offset-1">
+                                    <div style="margine-right:10px">
+                                        <label style="margin-top:10px">Allergy Medication :</label>
+                                    </div>
+                                    <div class="col-md-3 form-group" style="margin-left:110px;margin-top:-38px">
+                                        <input #searchRef type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="searchText" placeholder="Search Here......"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-md-4" [style.display]="searchCount==0?'block':'none'">
+                                        <b>No Records Found
+                                        </b>
+                                    </div>
+                                  
+                                </div>
+                                <br>
+                                <br>
+                                <div [hidden]="flag" class="row">
+                                    <table class="table table-bordered" style="width:auto ;margin:15px;">
+                                        <tbody style="overflow-y:auto;max-height:350px;display:block;">
+                                            <tr>
+                                                <th style="width: 60px" class="text-center">Select</th>
+                                                <th style="width: 300px" class="text-center">Drug Name-Active Ingredient
+                                                </th>
+                                                <th style="width: 136px" class="text-center">Form</th>
+                                                <th style="width: 334px" class="text-center">Dose</th>
+                                                <th style="width: 217px" class="text-center">Route</th>
+
+                                            </tr>
+                                            <tr *ngFor='let data of finalData; let i=index'>
+                                                <td>
+                                                    <input type="checkbox" id="all_{{data.medicationId}}" (change)="checkedMedication($event.target.checked,data);" [disabled]="isDisableAllergy(data.medicationId)"
+                                                        name="checkListItem" [checked]="isCheckedMed(data.medicationId)">
+                                                    <label class="labelstyle" for="all_{{data.medicationId}}"></label>
+                                                </td>
+
+                                                <td>{{data.productName}} </td>
+                                                <td>{{data.form}} </td>
+                                                <td [innerHTML]=data.dose> </td>
+                                                <td>{{data.route}} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <button type="submit" [disabled]="isDisabled" (click)="saveAllergy()" id="addClose" class="btn button">SAVE & CLOSE</button>
+                                            <button id="dismissmodal" style="display:none;" type="submit" class="btn btn-info pull-left" data-dismiss="modal"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

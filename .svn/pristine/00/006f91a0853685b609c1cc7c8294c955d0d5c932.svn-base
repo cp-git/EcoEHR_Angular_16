@@ -1,0 +1,22 @@
+export class EncounterHistory {
+    constructor(
+        public systemId: number,
+        public systemType: string,
+        public systemCode: string,
+        public systemDesc: string,
+        public systemOrder: number,
+        public questionGroupName: string,
+        public questionGroupOrder: number,
+        public questionGroupId: number,
+        public questionDesc: string,
+        public questionType: string,
+        public questionDispType: string,
+        public questionOrder: number,
+        public encounterId: number,
+        public questionId: number,
+        public encQuestionOptionId: number,
+        public optionId: number,
+        public optionValue: string,
+        public answer: string
+    ) { }
+}

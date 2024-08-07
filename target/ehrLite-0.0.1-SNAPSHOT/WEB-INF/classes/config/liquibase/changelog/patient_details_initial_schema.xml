@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+<changeSet author="ehr_admin" id="patient_details_id_seq">
+    <createSequence 
+            incrementBy="1"
+            sequenceName="patient_details_id_seq"
+            startValue="1"/>
+</changeSet>
+    <changeSet id="patient_details" author="ehr_admin">
+
+              <!--
+                     Patient_details table for storing Patient information.
+              -->
+              <createTable tableName="patient">
+            <column name="patient_id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+                     <column name="first_name" type="varchar(500)">
+                           <constraints nullable="false"/>
+                     </column>                  
+                     <column name="middle_name" type="varchar(500)">
+                     </column>                  
+                     <column name="last_name" type="varchar(500)">
+                           <constraints nullable="false"/>
+                     </column>    
+                                               
+                     <column name="gender" type="varchar">
+                           <constraints nullable="false"/>
+                     </column>
+                     <column name="dob" type="timestamp">
+                           <constraints nullable="false"/>
+                     </column>
+                     <column name="primary_email" type="varchar(500)">
+                           <constraints nullable="false"/>
+                     </column>
+                     <column name="secondary_email" type="varchar(500)">
+                     </column>
+                     <column name="primary_no" type="varchar(500)">
+                           <constraints nullable="false"/>
+                     </column>
+                     <column name="secondary_no" type="varchar(500)">
+                     </column>
+                     <column name="patient_address_street_1" type="varchar(500)">
+                     </column>
+                     <column name="patient_address_street_2" type="varchar(500)">
+                     </column>
+                     <column name="patient_address_door_no" type="varchar(500)">
+                     </column>
+                     <column name="patient_address_state" type="varchar(500)">
+                     </column>
+                     <column name="patient_address_city" type="varchar(500)">
+                     </column>
+                     <column name="patient_address_zip" type="varchar(500)">
+                     </column>
+                     <column name="location_id" type="bigint">
+				     <constraints nullable="false"/>
+			         </column>
+                     <column name="emr_patient_id" type="varchar(500)">
+                     </column>
+                       <column name="patient_doc_id" type="bigint">
+			         </column>
+                     <column name="additional_info" type="varchar(500)">
+                     </column>
+                      <column name="additional_contact_info" type="varchar(500)">
+                     </column>
+                      <column name="care_taker_name" type="varchar(500)">
+                     </column>
+                      <column name="contact_email" type="varchar(500)">
+                     </column>
+                     <column name="contact_phone" type="varchar(500)">
+                     </column>
+                     <column name="ct_primary_no" type="varchar(500)">
+                     </column>
+                     <column name="ct_secondary_no" type="varchar(500)">
+                     </column>
+                     <column name="ct_primary_email" type="varchar(500)">
+                     </column>
+                     <column name="ct_secondary_email" type="varchar(500)">
+                     </column>
+                     <column name="ct_additional_contact_info" type="varchar(500)">
+                     </column>
+                     <column name="organization_id" type="bigint">   
+                     </column>
+                     <column name="active_flag" type="varchar">
+                     </column>
+                    <column name="staff_id" type="bigint">
+				     <constraints nullable="false"/>
+			         </column>
+                     <column name="created_date" type="timestamp with time zone" defaultValueDate="${now}">
+                     </column>
+                     <column name="created_by" type="varchar(100)">
+                     </column>
+                     <column name="last_updated_date" type="timestamp with time zone" defaultValueDate="${now}">
+                     </column>
+                     <column name="last_updated_by" type="varchar(100)">
+                     </column>
+        
+        </createTable>
+              
+        <addForeignKeyConstraint baseColumnNames="organization_id"
+                                 baseTableName="patient"
+                                 constraintName="fk_patient_details_organization_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="organization_id"
+                                 referencedTableName="organization"/>     
+                                      
+       <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="patient"
+                                 constraintName="fk_patient_details_clinic_location_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="location_id"
+                                 referencedTableName="clinic_loc"/>  
+                                 
+       <addForeignKeyConstraint baseColumnNames="staff_id"
+                                 baseTableName="patient"
+                                 constraintName="fk_patient_details_staff_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="staff_id"
+                                 referencedTableName="staff"/>                                                    
+              
+    </changeSet>
+   
+    
+  
+</databaseChangeLog>

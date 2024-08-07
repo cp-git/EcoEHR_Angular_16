@@ -1,0 +1,69 @@
+package com.cpa.ehr.web.rest.system;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cpa.ehr.backend.dao.admin.entities.StaffMember;
+import com.cpa.ehr.service.admin.EHRBaseService;
+import com.cpa.ehr.service.system.TemplateService;
+import com.cpa.ehr.service.system.dto.TemplateDTO;
+import com.cpa.ehr.util.FormatConverterUtils;
+
+@RestController
+@RequestMapping("/api/rest/template")
+@CrossOrigin(origins = { "http://localhost:4300" })
+public class TemplateWebService {
+	
+	@Autowired
+	private TemplateService templateService;
+	
+	@Autowired
+	private EHRBaseService ehrBaseService;
+	
+	@PostMapping("/createTemplate")
+	public ResponseEntity<TemplateDTO> insertTemplate(@Valid @RequestBody TemplateDTO templateDTO,BindingResult result)throws  SQLException {
+		StaffMember loginUser = ehrBaseService.currentUser();
+		if(result.hasErrors())  {
+			HttpHeaders headers= new HttpHeaders();
+		    return new ResponseEntity<>(headers, HttpStatus.PRECONDITION_REQUIRED);
+		}
+		else {
+		FormatConverterUtils.setInitialDefaultValues(templateDTO, loginUser);
+		TemplateDTO createdTemp = templateService.persistTemplate(templateDTO);
+		return new ResponseEntity<>(createdTemp, HttpStatus.CREATED);
+	}	
+	}
+	
+	@GetMapping("/getAllActiveTemplates")
+	public ResponseEntity<List<TemplateDTO>> getAllActiveTemplates() {
+		List<TemplateDTO> templListDTO = templateService.retrieveAllActiveTemplates();
+		return new ResponseEntity<>(templListDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping("/getActiveTemplateBySystemId")
+	public ResponseEntity<TemplateDTO> getActiveTemplateBySystemId(@RequestParam("systemId") Long systemId) {
+		TemplateDTO tempDTO = templateService.retrieveAllTemplateBySystemId(systemId);
+		if(tempDTO != null) {
+			return new ResponseEntity<>(tempDTO, HttpStatus.OK);	
+		}
+		else {
+			HttpHeaders headers= new HttpHeaders();
+			return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+		}
+	}
+}

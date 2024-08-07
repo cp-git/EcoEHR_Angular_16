@@ -1,0 +1,67 @@
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NouisliderModule } from 'ng2-nouislider';
+import { TagInputModule } from 'ngx-chips';
+import { MaterialModule } from '../../app.module';
+import { LoadingModule,ANIMATION_TYPES } from 'ngx-loading';
+import { SharedModule } from 'app/shared/shared-module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MedicationComponent } from '../medication/medication.component';
+import { MasterLookupService } from 'app/administration/master-lookup/masterLookupService';
+import { EncounterService } from '../services/encounterService';
+import { MedicationService } from '../services/medicationService';
+import { QuestionsService } from '../services/questionsService';
+import { EncounterQuestionGroupService } from '../services/encounterQuestionGroupService';
+import { EncounterQuestionOptionService } from '../services/encounterQuestionOptionService';
+import { Md2Module } from 'md2';
+import { PatientHeaderModule } from '../patientheader/patientheader.module';
+import { SystemNavigationModule } from 'app/patients/systemNavigation/systemNavigation.module';
+
+@NgModule({
+  imports: [
+    NgxSpinnerModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NouisliderModule,
+    TagInputModule,
+    MaterialModule,
+    SharedModule,
+    PatientHeaderModule,
+    SystemNavigationModule,
+    Md2Module,
+    LoadingModule.forRoot({animationType: ANIMATION_TYPES.threeBounce,
+      backdropBackgroundColour: 'rgba(255,255,255,0.3)', 
+      backdropBorderRadius: '10px',
+      primaryColour: '#0073e6', 
+      secondaryColour: '#3399ff', 
+      tertiaryColour: '#99d6ff' 
+  })
+  ],
+  declarations: [
+      MedicationComponent
+  ],
+  providers: [
+    MasterLookupService,
+    EncounterService,
+    MedicationService,
+    QuestionsService,
+    EncounterQuestionGroupService,
+    EncounterQuestionOptionService
+  ],
+  exports: [
+      MedicationComponent
+  ]
+})
+
+
+export class MedicationModule {}
+
+
+
+
+
+
+

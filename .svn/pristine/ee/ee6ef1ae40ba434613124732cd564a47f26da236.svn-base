@@ -1,0 +1,40 @@
+package com.cpa.ehr.backend.dao.admin;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.cpa.ehr.backend.dao.admin.constants.StaffDetailsConstants;
+import com.cpa.ehr.backend.dao.admin.entities.StaffDetails;
+
+/**
+ * Repository interface for Staff Member Entity
+ * 
+ * @author CPA Development Team
+ * @version 1.0.0
+ */
+@Repository
+@Transactional
+public interface StaffDetailsRepository extends JpaRepository<StaffDetails,Long> {
+
+	/* Query definition constants */
+
+
+	@Query(value = StaffDetailsConstants.SELECT_CCM_PROVIDERS, nativeQuery = true)
+	List<StaffDetails> findAllCCMProviders(@Param("orgId") Long orgId);
+
+	
+	@Query(value = StaffDetailsConstants.SELECT_ALL_STAFF, nativeQuery = true)
+	List<StaffDetails> findAllActiveStaffMembersfromView(@Param("orgId") Long orgId);
+	
+	@Query(value=StaffDetailsConstants.SELECT_ONE, nativeQuery = true )
+	StaffDetails findActiveOneByStaffMemberId(@Param("staffId") Long id);
+	
+	@Query(value =StaffDetailsConstants.FIND_ALL_STAFFS_BY_CLINIC_LOC_ID, nativeQuery = true)
+	List<StaffDetails> getStaffsByClinicLocId(@Param("staffAddressId") Long staffAddressId);
+}

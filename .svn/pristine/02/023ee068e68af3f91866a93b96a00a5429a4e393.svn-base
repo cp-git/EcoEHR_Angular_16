@@ -1,0 +1,16 @@
+.header-contents{
+    background-color: #03659d;
+    margin-right:17px !important;
+    margin-left:17px !important;
+    box-shadow: 5px 8px 38px  #888888;
+  }
+  
+  .header-style{
+    color: white;
+    font-weight: 600;
+    }
+
+    .input-size{
+        font-weight: 400;
+        color: white;
+      }

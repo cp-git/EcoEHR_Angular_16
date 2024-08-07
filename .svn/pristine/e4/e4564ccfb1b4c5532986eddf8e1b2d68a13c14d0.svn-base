@@ -1,0 +1,32 @@
+<footer class="footer">
+    <div class="container-fluid">
+        <nav class="pull-left">
+            <ul>
+                <li>
+                    <u><a href="http://www.cloudpointamerica.com">
+                        Company
+                    </a></u>
+                </li>
+                <li>
+                <u> <a href="http://www.cloudpointamerica.com/about-us.html">
+                        About
+                    </a></u>
+                </li>
+                <li>
+                <u> <a  href="http://www.cloudpointamerica.com/ehr-emr.html">
+                        EHR Lite
+                    </a></u>
+                </li>
+                <li>
+                <u><a href="http://www.cloudpointamerica.com/contact-us.php">
+                       Contact
+                    </a></u>
+                </li>
+            </ul>
+        </nav>
+        <p class="copyright pull-right">
+            &copy; {{test | date: 'yyyy'}} <a href="http://www.cloudpointamerica.com" class="color1">CloudPoint Systems Inc</a>, made with 
+            <span style="color:red;font-size:20px"> &hearts; </span> for a better Electronic Health Records
+        </p>
+    </div>
+</footer>

@@ -1,0 +1,15 @@
+package com.cpa.ehr.backend.dao.system;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.cpa.ehr.backend.dao.system.entities.QuestionGroup;
+
+
+@Repository
+@Transactional
+public interface QuestionGroupRepository extends JpaRepository<QuestionGroup, Long> {
+
+}

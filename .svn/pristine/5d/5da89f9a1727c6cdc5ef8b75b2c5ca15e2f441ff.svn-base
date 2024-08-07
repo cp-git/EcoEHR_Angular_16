@@ -1,0 +1,185 @@
+import { Component, OnInit, Input } from "@angular/core";
+import { FormGroup, FormBuilder, FormControl, ValidatorFn } from "@angular/forms";
+import { EncounterService } from "../services/encounterService";
+import { ChiefCompliantDtl } from "../models/chiefCompliantDtl";
+import { Orders } from "../models/orders";
+import { OrdersService } from "../services/ordersService";
+import * as moment from 'moment';
+
+declare const $: any;
+
+@Component({
+    selector: 'ehr-orders',
+    templateUrl: 'orders.component.html',
+    styleUrls: ['../../app.component.css']
+})
+export class OrdersComponent implements OnInit {
+    @Input() encounterId: number;
+    @Input() pageName: string;
+    @Input() patientId: number;
+    @Input() headerdisplay:boolean;
+    tabList: any[];
+    header:boolean=true;
+    statusCode:number;
+    ordersForm: FormGroup;
+    icd10Details: ChiefCompliantDtl[];
+    selectedTab: any;
+    allOrders: Orders[]=[];
+    viewMode="Medication";
+    mx = new Date().getFullYear()+10;
+    constructor(private formBuilder: FormBuilder,
+        private encounterService: EncounterService,
+        private orderService: OrdersService) { }
+
+    ngOnInit() {
+         this.headerdisplay == undefined ? this.header = true : this.header=this.headerdisplay;
+         this.ordersForm = this.formBuilder.group({
+            icd: [null,[this.onRowEdit()]],
+            labComments: [null, [this.onRowEdit()]],
+            labDate: [null, [this.onRowEdit()]],
+            imagingComments: [null, this.onRowEdit()],
+            imagingDate: [null, this.onRowEdit()],
+            imagingIcd: [null],
+            consultingComments: [null, this.onRowEdit()],
+            consultingDate: [null, this.onRowEdit()],
+            followupComments: [null, this.onRowEdit()],
+            followupDate: [null, this.onRowEdit()]
+        })
+        this.tabList = ["Medication", "Lab", "Imaging", "Consulting", "Follow up"];
+    }
+    getpatientId(pId) {
+        this.patientId=pId;
+        this.getIcd10DetailsOfLastFiveEncounters();
+        this.getAllOrdersByPatientId(this.patientId);
+    }
+    getAllOrdersByPatientId(patientId: number) {
+        this.orderService.getOrdersByPatientId(patientId)
+            .subscribe(data => {
+                this.allOrders = data;
+               
+            })
+    }
+
+    datepicker(val, val1) {
+        var self = this;
+        $("#" + val).datepicker({
+            Style: "padding-top:10px;",
+            changeMonth: true,
+            yearRange: "1900:"+this.mx,
+            defaultDate: '01/01/1953',
+            changeYear: true,
+            beforeShow: function () {
+                setTimeout(function () {
+                    $('.ui-datepicker').css('z-index', 99999999999999);
+                }, 0);
+            },
+            onSelect: function () {
+                $(val1).addClass('customfloat');
+                self.ordersForm.get(val).setValue((document.getElementById(val) as HTMLInputElement).value);
+            }
+        }).datepicker("show");
+    }
+
+    onRowEdit(): ValidatorFn {
+        return (): { [key: string]: boolean } | null => {
+            if (this.selectedTab != undefined && this.selectedTab !='medication') {
+                let comments = this.ordersForm.get(this.selectedTab + "Comments").value;
+                let date = this.ordersForm.get(this.selectedTab + "Date").value;
+                if (comments != null && date != null && comments != "" && date != "") {
+                    return null;
+                }
+                else {
+                    if (comments != null && comments != "" && (date == null || date == "")) {
+                        this.ordersForm.get(this.selectedTab + "Date").setErrors({
+                            [`${this.selectedTab + "DateError"}`]: true
+                        });
+                    }
+                    else if (date != null && date != "" && (comments == null || comments == "")) {
+                        this.ordersForm.get(this.selectedTab + "Comments").setErrors({
+                            [`${this.selectedTab + "CommentsError"}`]: true
+                        });
+                        return { [`${this.selectedTab + "CommentsError"}`]: true }
+                    }
+                    else {
+                        return null;
+                    }
+                }
+            }
+        }
+    }
+
+    getIcd10DetailsOfLastFiveEncounters() {
+        this.encounterService.getIcd10DetailsOfLastFiveEncounters(this.patientId)
+            .subscribe(data => {
+                this.icd10Details = data;
+            })
+    }
+
+    onSave() {
+        if (this.ordersForm.valid) {
+            (<HTMLInputElement>document.getElementById("save")).disabled = true;
+           let icd=null;
+           if(this.viewMode=='Lab'){
+             icd = this.ordersForm.get('icd').value;
+           }
+           if(this.viewMode=='Imaging'){
+           icd = this.ordersForm.get('imagingIcd').value;
+           }
+            let labComments = this.ordersForm.get('labComments').value;
+            let labDate = moment.utc(this.ordersForm.get('labDate').value).toDate();
+            let imagingDate = moment.utc(this.ordersForm.get('imagingDate').value).toDate();
+             let imagingComments = this.ordersForm.get('imagingComments').value;
+             let consultingComments = this.ordersForm.get('consultingComments').value;
+             let consultingDate = moment.utc(this.ordersForm.get('consultingDate').value).toDate();
+             let followUpComments = this.ordersForm.get('followupComments').value;
+             let followUpDate = moment.utc(this.ordersForm.get('followupDate').value).toDate();
+             let orderToInsert = new Orders(0, labDate, labComments, imagingDate, imagingComments, consultingDate, consultingComments,
+                followUpDate, followUpComments, this.patientId, this.encounterId, icd,null,null, null, null, true);
+            this.orderService.insertOrders(orderToInsert)
+                .subscribe(data => {
+                    this.getAllOrdersByPatientId(this.patientId);
+                    (<HTMLInputElement>document.getElementById("save")).disabled = false;
+                    this.closeOrdersModal();
+                })
+        }
+        else {
+            this.validateAllFormFields(this.ordersForm);
+        }
+      //  this.ordersForm.reset();
+    }
+
+    deleteLabRecord(orderId){
+        this.orderService.deletOrdertData(orderId)
+        .subscribe(successCode => {
+            this.statusCode = successCode;
+            this.getAllOrdersByPatientId(this.patientId);
+        },errorCode => {
+                this.statusCode = errorCode  ;
+            });
+    }
+    validateAllFormFields(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach(field => {
+            const control = formGroup.get(field);
+            if (control instanceof FormControl) {
+                control.markAsTouched({ onlySelf: true });
+            } else if (control instanceof FormGroup) {
+                this.validateAllFormFields(control);
+            }
+        });
+    }
+
+    closeOrdersModal() {
+        $('.form-group').addClass('is-empty');
+        $('.control-label-datepicker').removeClass('customfloat')
+        this.ordersForm.reset();
+        for (const key in this.ordersForm.controls) {
+            this.ordersForm.get(key).clearValidators();
+            this.ordersForm.get(key).updateValueAndValidity();
+        }
+    }
+
+    displayOrderDate(date) {
+        return new Date(date);
+    }
+
+}

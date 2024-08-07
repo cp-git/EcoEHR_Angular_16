@@ -1,0 +1,201 @@
+import { Component, OnInit, Input } from "@angular/core";
+import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
+import { EncounterService } from "../services/encounterService";
+import { ChiefCompliantDtl } from "../models/chiefCompliantDtl";
+import { Orders } from "../models/orders";
+import { OrdersService } from "../services/ordersService";
+import * as moment from 'moment';
+import { ActivatedRoute, Router } from "@angular/router";
+import { System } from "app/patients/models/system";
+import _ from 'lodash';
+import { EncAsessment } from "app/patients/models/EncAsessment";
+import { EncAssessmentService } from "app/patients/services/encAssessmentService";
+import { Encounter } from "../models/encounter";
+import { Data } from "app/data";
+import { MedicationService } from "app/patients/services/medicationService";
+
+declare const $: any;
+
+@Component({
+    selector: 'ehr-planandassessment',
+    templateUrl: 'planandassessment.component.html',
+    styleUrls: ['../../app.component.css']
+})
+export class PlanAndAssessmentComponent implements OnInit {
+    encounterId: number;
+    patientId: number;
+    tabList: any[];
+    system: System[];
+    sysName="PLAN";
+    PLANSystems: System[] = [];
+    icd10Details: ChiefCompliantDtl[];
+    assessmentForm:FormGroup;
+    statusCode: number;
+    allSystemTypes: any[] = [];
+    headerdisplay:boolean=false;
+    pageName:any="plan";
+    encounter = {} as Encounter;
+    encounterassessmentdata:EncAsessment[]=[];
+    requestProcessing = false;
+    constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,private encAssessmentService:EncAssessmentService,
+        private encounterService: EncounterService, private router: Router,  private sharedData: Data,private medicationService: MedicationService,) { }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.encounterId = +params['encounterId'];
+           
+          });
+        var data = localStorage.getItem('system');
+        if (data) {
+            this.system = JSON.parse(data);
+            this.system.filter(t => this.allSystemTypes.push(t.systemType))
+            this.allSystemTypes = _.uniq(this.allSystemTypes);
+        }
+        this.assessmentForm = this.formBuilder.group({
+            icdCode: [null],
+         
+        })
+        this.tabList = ["Assessment", "Plan"]; 
+        this.getEncAssessmentbyEncounterId(this.encounterId);
+       
+    }
+    getId(pId) {
+        this.patientId=pId;
+        this.getIcd10DetailsOfLastFiveEncounters();
+    }
+
+    deleteAssessment(encAsessmentId){
+        this.encAssessmentService.deleteAssessmentData(encAsessmentId)
+        .subscribe(successCode => {
+           
+            this.getEncAssessmentbyEncounterId(this.encounterId);
+        },errorCode => {
+                this.statusCode = errorCode  ;
+            });
+    }
+    
+    onSubmit(){
+        if (this.assessmentForm.valid) {
+            (<HTMLInputElement>document.getElementById("save")).disabled = true;
+            let asessmentList: EncAsessment[] = [];
+            let icd = this.assessmentForm.get('icdCode').value;
+            for (let i = 0; i < icd.length; i++) {
+             let asessment = new EncAsessment(0, this.encounterId,this.patientId,icd[i].icd10Code, icd[i].icd10CodeDescription, null, null, null, null,true);
+             asessmentList.push(asessment);
+            }
+             this.encAssessmentService.insertassessmentData(asessmentList)
+             .subscribe(successCode => {
+               this.statusCode = successCode;
+               this.getEncAssessmentbyEncounterId(this.encounterId);
+               this.assessmentForm.reset();
+               (<HTMLInputElement>document.getElementById("save")).disabled = false;
+             },
+               errorCode => {
+                 this.statusCode = errorCode;
+               });
+        }
+        else{
+            this.validateAllFormFields(this.assessmentForm);
+        }
+    }
+
+    getEncAssessmentbyEncounterId(encounterId)
+    {
+      this.encAssessmentService.getAssessmentByEncId(encounterId)
+      .subscribe(data => {
+        this.encounterassessmentdata = data;
+      },
+          errorCode => this.statusCode = errorCode);
+    }
+
+    getIcd10DetailsOfLastFiveEncounters() {
+        this.encounterService.getIcd10DetailsOfLastFiveEncounters(this.patientId)
+            .subscribe(data => {
+                this.icd10Details = data;
+            })
+    }
+
+    onSaveCloseEncounter()
+    {
+      this.sharedData.statusCode = 201;
+      this.sharedData.msgName = "Encounter";
+      this.router.navigate(['/patients/patientlist/']);
+    }
+
+    onCancelEncounter()
+    {
+      $('#CancelEncounterRecordModal').modal('show');
+    }
+
+    closeDeleteConfirmationModal() {
+      $('#CancelEncounterRecordModal').modal('hide');
+      $('#Encdelete').prop('disabled', false);
+  }
+
+  setTimeOut() {
+    var self = this;
+    window.setTimeout(function () {
+        $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert").slideUp(500);
+            self.router.navigate(['/patients/patientlist/']);
+        });
+       
+    }, 1000);
+  }
+
+  onSignSubmit(){
+    (<HTMLInputElement>document.getElementById("sign")).disabled = true;
+   this.encounter.encounterId=this.encounterId;
+   this.encounterService.updateForCompletedEncounter(this.encounter)
+   .subscribe(data => {
+       (<HTMLInputElement>document.getElementById("sign")).disabled = false;
+       this.sharedData.statusCode = 201;
+       this.sharedData.msgName = "sign";
+       this.router.navigate(['/patients/patientlist/']);
+   },
+       errorCode => {
+           this.statusCode = errorCode
+       });
+  }
+
+deleteMedicationData(){
+    this.medicationService.deleteMedicationByEncId(this.encounterId)
+    .subscribe(successCode => {
+        this.statusCode = successCode;
+        console.log(this.statusCode)
+        if (this.statusCode === 204) { 
+        this.closeDeleteConfirmationModal();
+        this.setTimeOut();
+        }
+        })
+}
+
+  deleteEncounterData() {
+    this.encounterService.deleteEncounter(this.encounterId)
+        .subscribe(successCode => {
+            this.statusCode = successCode;
+            if (this.statusCode === 204) { 
+                this.deleteMedicationData();
+            // this.closeDeleteConfirmationModal();
+            // this.setTimeOut();
+            }
+        },
+            errorCode => {
+                this.statusCode = errorCode
+                if (this.statusCode === 428) {
+                    this.closeDeleteConfirmationModal();
+                }
+            });
+           
+}
+    validateAllFormFields(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach(field => {
+            const control = formGroup.get(field);
+            if (control instanceof FormControl) {
+                control.markAsTouched({ onlySelf: true });
+            } else if (control instanceof FormGroup) {
+                this.validateAllFormFields(control);
+            }
+        });
+    }
+}

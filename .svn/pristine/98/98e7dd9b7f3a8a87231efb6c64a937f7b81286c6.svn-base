@@ -1,0 +1,601 @@
+<div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header" data-background-color>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-5  col-xs-5">
+                                    <tr>
+                                        <td>
+                                            <h6>{{title}} ENCOUNTER</h6>
+
+                                        </td>
+                                    </tr>
+                                </div>
+                            </div>
+                        </div>
+                        <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                            fullScreen="true" type="line-scale-pulse-out-rapid">
+                        </ngx-spinner>
+                        <div *ngIf="showListModal">
+                            <div id="modalListEncounter" class="modal fade" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="row" style="padding-top: 1%">
+                                            <label class="label-style col-md-2 col-md-offset-8">
+                                                <b><a (click)="generatePDF($event)" id="exportPDF" role="button"
+                                                        style="text-decoration: underline;color:#0471af !important;">Export
+                                                        to PDF</a>
+                                                </b>
+                                            </label>
+                                            <label class="label-style col-md-2">
+                                                <b><a (click)="generatePDF($event)" id="printPDF" role="button"
+                                                        style="text-decoration: underline;color:#0471af !important;">Print
+                                                        PDF</a>
+                                                </b>
+                                            </label>
+                                        </div>
+                                        <ehr-listencounter [encounterDetails]=encounter [acuityDetails]=acuityData
+                                            [patientRecords]=patientRecords></ehr-listencounter>
+                                        <br>
+                                        <div class="col-md-offset-10">
+                                            <input type='button' class="btn button" (click)="closeListEncounterModal()"
+                                                value="Close" data-dismiss="modal" />
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Preventive Care Modal -->
+                        <div *ngIf="showPreventiveCareModal">
+                            <div id="modalPreventiveCare" class="modal fade" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog modal-lg" >
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center">
+                                            <h6 class="card-header card-style" data-background-color>Preventive Care</h6>
+                                            <button type="button" class="close pull-right"
+                                                data-dismiss="modal" (click)="closeMyModal()">&times;</button>
+                                        </div>
+                                        <br>
+                                        <ehr-preventive #PreventiveComp [patientId]=patientId></ehr-preventive>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Consultant Notes modal -->
+                        <div *ngIf="showConsultantNotesModal">
+                            <div id="modalConsultantNotes" class="modal fade" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog modal-lg" >
+                                    <div class="modal-content">
+                                            <div class="card-content">
+                                        <div class="modal-header text-center">
+                                            <h6 class="card-header card-style" data-background-color>Consultant Notes</h6>
+                                            <button type="button" class="close pull-right"
+                                                data-dismiss="modal" (click)="closeConsultantMyModal()">&times;</button>
+                                        </div>
+                                        <br>
+                                        <ehr-consultantnotes #ConsultantComp [patientId]=patientId></ehr-consultantnotes>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lab result modal -->
+                        <div *ngIf="showLabResultModal">
+                            <div id="modalLabResult" class="modal fade" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog modal-lg" >
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center">
+                                            <h6 class="card-header card-style" data-background-color>Laboratory Results</h6>
+                                            <button type="button" class="close pull-right"
+                                                data-dismiss="modal" (click)="closeLabResultMyModal()">&times;</button>
+                                        </div>
+                                        <br>
+                                        <ehr-labresult #LabResultComp [patientId]=patientId></ehr-labresult>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="showOrdersModal">
+                                <div id="modalOrders" class="modal fade" data-keyboard="false" data-backdrop="static">
+                                    <div class="modal-dialog modal-lg" style="width:80%">
+                                        <div class="modal-content">
+                                            <div class="modal-header text-center">
+                                                <h6 class="card-header card-style" data-background-color>Orders</h6>
+                                                <button type="button" class="close pull-right"
+                                                    data-dismiss="modal" (click)="closeOrdersModal()">&times;</button>
+                                            </div>
+                                            <br>
+                                            <ehr-orders [encounterId]=encounterId [patientId]=patientId [pageName]=pageName ></ehr-orders>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <form [formGroup]="AddEncounterForm" action="" method="">
+                            <h6 style="margin-left:20px;"> </h6>
+                            <ehr-patientheader [encounterId]=encounterId [patientId]=patientId (idChange)='getId($event)'></ehr-patientheader>
+                         
+                            <div style="padding-top:10px;">
+                                <div class="table-content contents">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label class="label-style">Orders </label>
+                                                    <a href="#modalOrders" (click)="openOrdersModal()"
+                                                    data-toggle="modal">
+                                                      <i class="fa fa-plus-circle fa-style text-info"></i>
+                                                     </a><br>
+                                                    <hr>
+                                                    <label class="label-style">Laboratory results</label> &nbsp;&nbsp; 
+                                                    <a href="#modalLabResult" (click)="openLabResultModal()"
+                                                    data-toggle="modal">
+                                                      <i class="fa fa-plus-circle fa-style text-info"></i>
+                                                     </a>
+                                                    <hr>
+    
+                                                    <label class="label-style">Preventive Care </label> &nbsp;
+                                                    <a href="#modalPreventiveCare" (click)="openPreventiveCareModal()"
+                                                           data-toggle="modal">
+                                                    <i class="fa fa-plus-circle fa-style text-info"></i>
+                                                    </a>
+                                                    <br>
+                                                    <hr>
+                                                    <label class="label-style">Screening and Counseling </label> <a
+                                                        [routerLink]="">
+                                                        <i class="fa fa-plus-circle fa-style text-info"></i></a><br>
+                                                    <hr>
+                                                    <label class="label-style">Consultant Notes</label>
+                                                    <a href="#modalConsultantNotes" (click)="openConsultantNotesModal()"
+                                                    data-toggle="modal">
+                                                      <i class="fa fa-plus-circle fa-style text-info"></i>
+                                                     </a>
+                                                    <br>
+                                                    <hr>
+                                                    <label class="label-style">Encounter History</label>
+                                                    <br>
+                                                    <ng-container *ngFor="let enc of allEncounters">
+                                                       <div [ngClass]="{'activeButton':encounterId==enc.encounterId}"> <i *ngIf="enc.completionDate!==null" class="fa fa-check" aria-hidden="true"></i> 
+                                                        <button  *ngIf="enc.completionDate==null" class="btn btn-simple btn-warning btn-icon edit" id="{{enc.encounterId}}" (click)="editEncounter(enc.encounterId)" title="Edit"> <i [hidden]="enc.encounterId==encounterId" class="material-icons" >edit</i>  <i [hidden]="enc.encounterId!==encounterId"  class="material-icons" >border_color</i> </button>
+                                                    
+                                                       <!-- <div  *ngIf="enc.completionDate==null"> <button class="btn btn-simple btn-warning btn-icon edit" title="Edit"> <i class="material-icons">edit</i> </button>  </div>  -->
+                                                        <label class="label-style">
+                                                            <a href="#modalListEncounter"
+                                                                style="text-decoration: underline;color:#0471af !important;"
+                                                                (click)="openListEncounterModal(enc)" data-toggle="modal">{{encounterDate(enc)|
+                                                                date:'MM/dd/yyyy'}}
+                                                            </a>
+                                                        </label> -
+                                                        <span title="{{enc.chiefCompliant}}">
+                                                            <label class="label-style"
+                                                                *ngIf="10>=enc.chiefCompliant.length">{{enc.chiefCompliant}}</label>
+                                                            <label class="label-style"
+                                                                *ngIf="enc.chiefCompliant.length>10">{{enc.chiefCompliant.substring(0,9)}}...</label>
+                                                        </span>
+                                                    </div> 
+                                                        
+                                                    </ng-container>
+                                                    <label class="label-style" id="viewLabel" style="display:none;"><a
+                                                            (click)="viewAllEncounter()" id="anchor"
+                                                            style="color:#0471af">View
+                                                            More</a></label>
+    
+                                                </td>
+                                                <td style="width:950px">
+                                                    <div class="row">
+                                                        <div class="col-md-2" style="margin-top:18px;margin-left:18px;">
+                                                            <label class="label-style"><small class="AsteriskColor">*
+                                                                </small>Chief compliant:</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <textarea class="form-control" formControlName="chiefCompliant"
+                                                                placeholder="type here...." ></textarea>
+                                                            <ehr-field-error-display
+                                                                [displayError]="isFieldValid(AddEncounterForm,'chiefCompliant')"
+                                                                errorMsg="Please enter Chief compliant ">
+                                                            </ehr-field-error-display>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row" >
+                                                            <div class="col-md-2" style="margin-top:18px;margin-left:18px;">
+                                                               <label class="label-style"><small class="AsteriskColor">*
+                                                                </small>Patient Unique Characters:</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                               <input type="text" placeholder="type here...." formControlName="patientUniqueCharacter" class="form-control">
+                                                               <ehr-field-error-display
+                                                                [displayError]="isFieldValid(AddEncounterForm,'patientUniqueCharacter')"
+                                                                errorMsg="Please enter Patient Unique Character">
+                                                            </ehr-field-error-display>
+                                                            </div>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <div class="row" id="collapsePanel1">
+                                                        <div class="card-header collapse-card-style"
+                                                            (click)="expandPanel1()" id="change-collapse1"
+                                                            data-toggle="collapse" data-target="#expansionPanel2"
+                                                            data-background-color>
+                                                            <small class="AsteriskColor">* </small>Level of acuity :
+                                                            {{acuityName}} 
+                                                        </div>
+                                                        <div style=" margin-left:17px;margin-top:8px">
+                                                            <ehr-field-error-display [displayError]="acuityFlag"
+                                                                errorMsg="Please select level of acuity">
+                                                            </ehr-field-error-display>
+                                                        </div>
+                                                        <div class="row collapse" id="expansionPanel2">
+                                                            <div class="table-content ">
+                                                                <!-- <table class="table table-bordered">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th>New Patient</th>
+                                                                            <th>Established patient</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <div class="row"
+                                                                                    *ngFor='let data of acuityData;let i=index'>
+                                                                                    <div *ngIf="i<5">
+                                                                                        <div class="col-md-2 radio">
+                                                                                            <label><input type="radio"
+                                                                                                    name="optradio" (change)="selectedRadioValue(data.DESC,data.NEW)"  [checked]="checkedAcuityData(data.NEW,data.DESC)"
+                                                                                                    ></label>
+                                                                                        </div>
+                                                                                        <div class="col-md-8">
+                                                                                            <label>{{data.NEW}}
+                                                                                                {{data.DESC}}</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-2">
+                                                                                            <a href="#"
+                                                                                                (click)="openAcuity(data.NEW)"
+                                                                                                data-toggle="modal"
+                                                                                                title="View Details">
+                                                                                                <i class="fa fa-eye"></i>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="row"
+                                                                                    *ngFor='let data of acuityData;let i=index'>
+                                                                                    <div *ngIf="i>=5">
+                                                                                        <div class="col-md-2 radio">
+                                                                                            <label><input type="radio"
+                                                                                                    name="optradio"  (change)="selectedRadioValue(data.DESC,data.NEW)" [checked]="checkedAcuityData(data.NEW,data.DESC)" ></label>
+                                                                                        </div>
+                                                                                        <div class="col-md-8">
+                                                                                            <label>{{data.NEW}}
+                                                                                                {{data.DESC}}</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-2">
+                                                                                            <a href="#"
+                                                                                                (click)="openAcuity(data.NEW)"
+                                                                                                data-toggle="modal"
+                                                                                                title="View Details">
+                                                                                                <i class="fa fa-eye"></i>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table> -->
+
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th *ngIf="isNew">New Patient</th>
+                                                                            <th *ngIf="!isNew">Established Patient</th>
+                                                                        </tr>
+                                                                        <tr >
+                                                                            <td>
+                                                                                    <div class="row" *ngFor='let data of acuityData;let i=index'>
+                                                                                            <!-- <div *ngIf="allEncounterList.length==0 && i<5"> -->
+                                                                                                <div class="col-md-2 radio">
+                                                                                                    <label><input type="radio" name="optradio" (change)="selectedRadioValue(data.DESC,data.NEW)"  [checked]="checkedAcuityData(data.NEW,data.DESC)" ></label>
+                                                                                                </div>
+                                                                                                <div class="col-md-8">
+                                                                                                    <label>{{data.NEW}}
+                                                                                                        {{data.DESC}}
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                <div class="col-md-2">
+                                                                                                    <a href="#"
+                                                                                                        (click)="openAcuity(data.NEW)"
+                                                                                                        data-toggle="modal"
+                                                                                                        title="View Details">
+                                                                                                        <i class="fa fa-eye"></i>
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            <!-- </div> -->
+
+                                                                                            <!-- <div *ngIf="allEncounterList.length!==0 && i>=5">
+                                                                                                    <div class="col-md-2 radio">
+                                                                                                        <label><input type="radio" name="optradio" (change)="selectedRadioValue(data.DESC,data.NEW)"  [checked]="checkedAcuityData(data.NEW,data.DESC)"></label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-8">
+                                                                                                        <label>{{data.NEW}}
+                                                                                                            {{data.DESC}}
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-2">
+                                                                                                        <a href="#"
+                                                                                                            (click)="openAcuity(data.NEW)"
+                                                                                                            data-toggle="modal"
+                                                                                                            title="View Details">
+                                                                                                            <i class="fa fa-eye"></i>
+                                                                                                        </a>
+                                                                                                    </div>
+                                                                                            </div> -->
+                                                                                        </div>
+                                                                                    </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row" style=" margin-left:25px;">
+                                                        <label class="label-style"><small class="AsteriskColor">*
+                                                            </small>ICD
+                                                            10 code search</label>&nbsp;
+                                                        <a (click)="showModal()"> <i
+                                                                class="fa fa-plus-circle fa-style text-info"></i></a>
+                                                        <ehr-field-error-display [displayError]="icdErrorFlag"
+                                                            errorMsg="Please select ICD-10 Codes"></ehr-field-error-display>
+                                                        <ehr-field-error-display [displayError]="!primaryErrorFlag"
+                                                        errorMsg="Please select Primary ICD-10 Codes"></ehr-field-error-display>
+                                                    </div>
+                                                    <div [hidden]="hideTable">
+                                                        <div class="table-content" style="width:55pc">
+                                                            <table class="table table-bordered">
+                                                                <tbody style="overflow-y:auto; height:150px;display:bdata">
+                                                                    <tr>
+                                                                        <th class="text-center" style="width:5%;">ICD-10
+                                                                        </th>
+                                                                        <th class="text-center" style="width:25%;">
+                                                                            Description</th>
+                                                                               <th class="text-center" style="width:5%;">
+                                                                            Delete</th>
+                                                                    </tr>
+                                                                    <tr *ngFor="let data of AddIcdForm.get('icdIDS').controls ;let i=index">
+                                                                        <td class="text-center">
+                                                                                <div [ngStyle]="{'color': (data?.value.primary===true)  ? '#0471af' : '' }"><b> {{data?.value.ICD10Code}}</b></div>
+                                                                        </td>
+                                                                        <td>{{data.value.Description}}</td>
+                                                                        <td class="text-center">
+                                                                          <button class="btn btn-simple btn-danger btn-icon " (click)="deleteIcd(data.value)" title="Delete">
+                                                                          <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                          </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+    
+    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-md-offset-10">
+                                <button type="submit" class="btn button" id="{{buttonName}}"  value="{{buttonName}}"  #encounterButton (click)="onSubmit(encounterButton.value);">{{buttonName}} & NEXT</button>
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="modal fade" id="AddIcd" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg" style="width:95%;top:-5%">
+            <div class="card">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h6 class="card-header card-style" data-background-color>ICD-10 Search</h6>
+                        <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                    </div>
+                    <form [formGroup]="AddIcdForm" action="" method="">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="btn-group btn-group-justified">
+                                    <a data-toggle="tab" id="system1" (click)="viewMode='Frequently'"
+                                        class="btn tab-btn-style"  [ngClass]="{'colorchange':viewMode=='Frequently'}">Frequently
+                                        Used</a>
+                                    <a data-toggle="tab" id="system2" (click)="viewMode='Others'"
+                                        class="btn tab-btn-style"  [ngClass]="{'colorchange':viewMode=='Others'}">Others</a>
+                                </div>
+                                <div [ngSwitch]="viewMode">
+                                <div id="tab1" *ngSwitchCase="'Frequently'">
+                                    <div class="btn-group-vertical">
+                                        <ng-container *ngFor="let rows of ICD10Group;let i=index">
+                                            <a *ngIf="i<11" data-toggle="tab" id={{i}} (click)="onClicking(rows)"
+                                                class="btn btn-style btn-left btn-content-style"  [ngClass]="{'colorchange':rows.groupId==groupId}"
+                                                data-toggle="modal">{{rows.groupDescription}}<span *ngIf="rows.count!=0"
+                                                    id="badge_{{i}}" class="badge badge-style"  [ngClass]="{'badge-style-change':rows.groupId !==groupId}">{{rows.count}}</span>
+                                            </a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div id="tab2" *ngSwitchCase="'Others'">
+                                    <div class="btn-group-vertical ">
+                                        <ng-container *ngFor="let rows of ICD10Group;let i=index">
+                                            <a *ngIf="i>=11" data-toggle="tab" id={{i}} (click)="onClicking(rows)"
+                                                class="btn btn-style  btn-left btn-content-style" [ngClass]="{'colorchange':rows.groupId==groupId}"
+                                                data-toggle="modal">{{rows.groupDescription}}
+                                                <span *ngIf="rows.count!=''" id="badge_{{i}}"
+                                                    class="badge badge-style" [ngClass]="{'badge-style-change':rows.groupId !==groupId}">{{rows.count}}</span></a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                 </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <b>{{icdgroupName}}</b></div>
+                                        <div class="col-md-4" [style.display]="showFlag?'block':'none'"><b> Number of
+                                                matched Records: {{searchCount}}</b></div>
+                                    </div><br>
+                                    <div class="input-group">
+                                        <div class="form-group label-floating">
+                                            <input #searchRef type="text" [ngModelOptions]="{standalone: true}"
+                                                placeholder="Type ICD-10 Codes/Description......"
+                                                style="width:200px !important;" id="searchICD" [(ngModel)]="searchText"
+                                                class="form-control">
+                                        </div>
+                                        <div *ngIf="icdPrimaryErrorFlag" class="EncErrorMsg-style">
+                                            <div class="alert alert-danger alert-danger-style" role="alert">
+                                                Please Select Primary ICD-10
+                                            </div>
+                                        </div>
+                                        <div [style.display]="searchCount==0?'block':'none'"><b>No Records Found</b></div>
+                                        <div [hidden]="flag">
+                                            <table class="table table-bordered"
+                                                style="overflow-y:auto;max-height:400px;display:block;">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-center">Select</th>
+                                                        <th class="text-center">ICD10</th>
+                                                        <th class="text-center">Description</th>
+                                                        <th class="text-center">Search Inclusion</th>
+                                                        <th style="white-space:nowrap;"
+                                                            title="Click the below icon to view full detail of ICD-10 Code">
+                                                            Detail</th>
+                                                        <th class="text-center"
+                                                            title="Select below checkbox if ICD Code is primary ICD Code">
+                                                            Primary
+                                                            ICD-10?</th>
+                                                    </tr>
+                                                    <tr *ngFor='let data of finalData' style="height:auto">
+                                                        <td class="text-center">
+                                                            <input type="checkbox" id="icd_{{data.ICD10Code}}"
+                                                                name="checkListItem" [checked]="isChecked(data.ICD10Code)"
+                                                                (change)="onChange(data,icdgroupName, $event.target.checked)"
+                                                                value="{{data}}"> <label
+                                                                for="icd_{{data.ICD10Code}}"></label>
+                                                        </td>
+                                                        <td>{{data.ICD10Code}} </td>
+                                                        <td> {{data.Description}} </td>
+                                                        <td [innerHTML]=data.SearchInclusion></td>
+                                                        <td class="text-center">
+                                                            <a href="#" (click)="openSearchWindow(data.ICD10Code)"
+                                                                data-toggle="modal" title="View Details">
+                                                                <i class="fa fa-eye icon-color"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input type="checkbox" name="primaryIcd"
+                                                                id="primary_{{data.ICD10Code}}"
+                                                                [checked]="isCheckedPrimary(data.ICD10Code)"
+                                                                (change)="onChangePrimary(data.ICD10Code,$event.target.checked)"
+                                                                value={{data.ICD10Code}}> <label
+                                                                for="primary_{{data.ICD10Code}}"></label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <button type="submit" (click)="submitData()" id="AddClose" class="btn button"
+                                                [disabled]="buttonDisabled">ADD & CLOSE</button>
+                                            <button id="dismissmodal" style="display:none;" type="submit"
+                                                class="btn btn-info pull-left" data-dismiss="modal"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="icd10Modal">
+        <div class="modal-dialog modal-lg" style="width:85%">
+            <div class="card">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h6 class="card-header card-style " data-background-color>ICD10 Details</h6>
+                        <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="table-content">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th style="width:80px">ICD10</th>
+                                    <th style="width:27px">Description</th>
+                                    <th style="width:400px !important">Search Inclusion</th>
+                                    <th style="width:27px">Clinical Notes</th>
+                                </tr>
+                                <tr>
+                                    <td>{{icd10Data && icd10Data.ICD10Code}}</td>
+                                    <td>{{icd10Data && icd10Data.Description}}</td>
+                                    <td [innerHTML]=icd10Details></td>
+                                    <td>
+                                        {{icd10Data && icd10Data.ClinicalNotes}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="AcuityModal">
+        <div class="modal-dialog modal-lg" style="width:85%">
+            <div class="card">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h6 class="card-header card-style" data-background-color>Level Of Acuity</h6>
+                        <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="table-content">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>NEW</th>
+                                    <th>CC</th>
+                                    <th>HX</th>
+                                    <th>EXAM</th>
+                                    <th style="width:500px;">MDM (Medical Decision Making)</th>
+                                    <th>TIME (min)</th>
+                                </tr>
+                                <tr>
+                                    <td>{{acuityRecord && acuityRecord.NEW}}</td>
+                                    <td>{{acuityRecord && acuityRecord.CC}}</td>
+                                    <td>{{acuityRecord && acuityRecord.HX}}</td>
+                                    <td>{{acuityRecord && acuityRecord.EXAM}}</td>
+                                    <td [innerHTML]=acuityRecord1></td>
+                                    <td>{{acuityRecord && acuityRecord.TIME}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>

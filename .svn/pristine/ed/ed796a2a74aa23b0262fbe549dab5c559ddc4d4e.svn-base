@@ -1,0 +1,118 @@
+import { Routes } from '@angular/router';
+import { NewPatientComponent } from './newpatient/newpatient.component';
+import { PatientListComponent } from './patientlist/patientlist.component';
+import { UpdatePatientComponent } from './update/update.component';
+import { HPIComponent } from './hpi/hpi.component';
+import { ROSComponent } from './ros/ros.component';
+import { ExamComponent } from './exam/exam.component';
+import { HistoryComponent } from './history/history.component';
+import { AddEncounterComponent } from './encounter/add-encounter/addencounter.component';
+import { MedicationComponent } from 'app/patients/medication/medication.component';
+import { PlanAndAssessmentComponent } from 'app/patients/planandassessment/planandassessment.component';
+export const PatientsRoutes: Routes = [
+  {
+    path: '',
+    children: [{
+      path: 'newpatient',
+      component: NewPatientComponent
+    }]
+  },
+  {
+    path: '',
+    children: [ {
+      path: 'encounter',
+      loadChildren: './encounter/encounter.module#EncounterModule'
+  }]} , 
+  {
+    path: '',
+    children: [{
+      path: 'patientlist',
+      component: PatientListComponent
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'update/:patientId',
+      component: UpdatePatientComponent
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'examination/:encounterId',
+      component: ExamComponent
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'examination/:encounterId/:data',
+      component: ExamComponent
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'addencounter/:patientId',
+      component: AddEncounterComponent
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'hpi/:encounterId',
+      component: HPIComponent,
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'hpi/:encounterId/:data',
+      component: HPIComponent,
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'ros/:encounterId',
+      component: ROSComponent,
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'ros/:encounterId/:data',
+      component: ROSComponent,
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'history/:encounterId',
+      component: HistoryComponent,
+    }]
+  },
+
+  {
+    path: '',
+    children: [{
+      path: 'history/:encounterId/:data',
+      component: HistoryComponent,
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'medication/:encounterId',
+      component: MedicationComponent,
+    }]
+  },
+  {
+    path: '',
+    children: [{
+      path: 'planandassessment/:encounterId',
+      component: PlanAndAssessmentComponent,
+    }]
+  }
+];

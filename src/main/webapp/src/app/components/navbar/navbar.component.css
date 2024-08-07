@@ -1,0 +1,100 @@
+
+
+@media screen and (max-width: 1024px) {
+  
+    .navbarsize{
+  /* padding-top: 90px; */
+        height:fit-content;
+        /* background-color: yellowgreen; */
+    }
+    .navspacesize{
+    padding-top:30px;
+  
+    }
+    /* .navsize{
+       
+        left:-1%;
+    } */
+}
+
+.navbar .navbar-collapse, .navbar .navbar-form {
+    border-top: none;
+    box-shadow: none;
+    color: black;
+   
+
+}
+
+#example{
+    border-radius: 10px;
+    top:-9px;
+    border-style: groove;
+    /* box-shadow: 5px 8px 12px 0px #888888; */
+    box-shadow: 0px 8px 12px 0px #888888;
+    width: 378px;
+    height: 68px; } 
+   
+    .navheight{
+      padding-left: 8px;
+    }
+
+    ul{
+        padding: 0;
+        list-style: none;
+        /* background: #f2f2f2; */
+    }
+    ul li{
+        display: inline-block;
+        position: relative;
+        line-height: 21px;
+        text-align: left;
+    }
+    ul li a{
+        display: block;
+        /* padding: 8px 25px; */
+        color: #333;
+        text-decoration: none;
+    }
+    ul li a:hover{
+        color: white;
+        background: #04519b;
+    }
+    ul li ul.dropdown1{
+        min-width: 100%; /* Set width of the dropdown */
+        /* background: #f2f2f2; */
+        display: none;
+        position: absolute;
+        z-index: 999;
+        left: 0;
+    }
+    ul li:hover ul.dropdown1{
+        display: block;	/* Display the dropdown */
+    }
+    ul li ul.dropdown1 li{
+        display: block;
+    }
+    
+    .width-auto1{
+        min-width: 146px !important;
+    }
+
+    .width-auto2{
+        min-width: 180px !important;
+    }
+
+    .width-auto3{
+        min-width: 180px !important;
+    }
+
+    .width-auto4{
+        min-width: 150px !important;
+    }
+
+    a{
+        padding-left: 10px !important;
+    }
+    
+     .navbar .dropdown-menu li a:hover, .navbar .dropdown-menu li a:focus, .navbar .dropdown-menu li a:active, .navbar.navbar-default .dropdown-menu li a:hover, .navbar.navbar-default .dropdown-menu li a:focus, .navbar.navbar-default .dropdown-menu li a:active, .bootstrap-table .dropdown-menu li a:hover, .bootstrap-table .dropdown-menu li a:focus, .bootstrap-table .dropdown-menu li a:active {
+        background-color: #04519b;
+        color: white;
+     }

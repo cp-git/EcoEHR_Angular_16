@@ -1,0 +1,80 @@
+<form [formGroup]="LabResultForm" action="" method="">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <label>Lab Date :</label>
+        </div>
+        <div class="col-md-5" style="top:-15px;right:52px;">
+            <mat-form-field>
+                <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                    <input matInput type="text" class="input-with-icon" class="date" formControlName="labDate" (click)="endDate();" id="labDate"
+                        autocomplete="off" name="labDate">
+                    <span class="input-icon" (click)="endDate();">
+                        <span class="fa fa-calendar fa-lg"></span>
+                    </span>
+                </div>
+            </mat-form-field>
+            <ehr-field-error-display [displayError]="isFieldValid(LabResultForm, 'labDate')" errorMsg="Please Enter lab date">
+            </ehr-field-error-display>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <label>Result comments:</label>
+        </div>
+        <div class="col-md-4" style="right:52px;">
+            <input type="text" name="resultComment" class="form-control" formControlName="labResultComment">
+            <ehr-field-error-display [displayError]="isFieldValid(LabResultForm, 'labResultComment')" errorMsg="Please Enter lab comment">
+            </ehr-field-error-display>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-4 col-md-offset-1">
+            <label>Documents to attach:</label>
+        </div>
+        <div class="col-md-4" style="left:-52px;">
+            <input type="file" (change)=fileEvent($event) formControlName="selectedFile">
+            <br>
+            <div *ngIf="show" class="EncErrorMsg-style">
+                <div class="alert alert-danger alert-danger-style" role="alert">
+                    File Size should be less than 10Mb.
+                </div>
+            </div>
+            <ehr-field-error-display  [displayError]="isFieldValid(LabResultForm, 'selectedFile')" errorMsg="Please Select document">
+            </ehr-field-error-display>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+            <input type='button' class="btn button" [disabled]=isDisabled (click)="onSubmit()" value="Save" id="save"/>
+        </div>
+    </div>
+    <br>
+
+    <ng-container *ngIf="showLabResultTable">
+        <div class="contents">
+            <div class="table-content">
+                <table class="table table-bordered ">
+                    <tbody style="overflow-y:auto;display:bdata">
+                        <tr>
+                            <th class="text-center">Lab Date </th>
+                            <th class="text-center">Result comments </th>
+                            <th class="text-center">Document attached</th>
+                        </tr>
+                        <tr *ngFor="let labResult of patientLabResult">
+                            <td class="text-center">
+                                {{displayLabDate(labResult.labDate)|date:'MM/dd/yyyy'}}
+                            </td>
+                            <td class="text-center">{{labResult.resultsComments}}</td>
+                            <td>
+                                <i class="fa fa-download fa-style" role="button" aria-hidden="true" (click)="getUploadedFile(labResult)"></i>
+                                &nbsp;&nbsp;{{getDocumentName(labResult)}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+    <br>
+</form>

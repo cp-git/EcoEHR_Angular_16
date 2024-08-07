@@ -1,0 +1,16 @@
+export class LabResult {
+    constructor(
+                
+                
+                public labId: number,
+                public patientId: number,
+                public resultsComments: string,
+                public documentLink: string,
+                public labDate: Date,
+                public createdDate: Date,
+                public createdBy:string,
+                public lastUpdatedDate: Date,
+                public lastUpdatedBy: string,
+                public activeFlag: boolean
+                ) { }
+} 

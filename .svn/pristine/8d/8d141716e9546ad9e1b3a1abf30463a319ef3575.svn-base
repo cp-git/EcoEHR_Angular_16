@@ -1,0 +1,115 @@
+package com.cpa.ehr.service.admin.impl;
+
+
+
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import com.cpa.ehr.backend.dao.admin.StaffMemberRepository;
+import com.cpa.ehr.backend.dao.admin.entities.Mail;
+import com.cpa.ehr.backend.dao.admin.entities.PasswordResetToken;
+import com.cpa.ehr.backend.dao.admin.entities.StaffMember;
+import com.cpa.ehr.service.admin.EHRBaseService;
+import com.cpa.ehr.service.admin.StaffMemberService;
+import com.cpa.ehr.service.admin.dto.StaffMemberDTO;
+import com.cpa.ehr.service.home.EmailService;
+import com.cpa.ehr.service.home.PasswordResetService;
+import java.util.Optional;
+import java.util.Random;
+/**
+ * Implementation for the EHR Base Service
+ * 
+ * EHR Base Service holds all the interfaces
+ * that are reused across the EHR application 
+ *  
+ * @author CPA Development Team
+ * @version 1.0.0
+ */
+@Service
+public class EHRBaseServiceImpl implements EHRBaseService {
+
+
+	@Autowired 
+	private StaffMemberService staffService;
+
+	@Autowired 
+	private EmailService emailService;
+
+	@Autowired 
+	private PasswordResetService passwordResetService;
+
+	@Autowired
+	private StaffMemberRepository staffMemberRepo;
+	
+	public StaffMember currentUser() {
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		final Optional<StaffMember> currentUser = staffMemberRepo.findByLoginId(authentication.getName());
+		return currentUser.orElse(null);
+	}
+	
+	public boolean getPasswordMailSender(StaffMemberDTO staff,HttpServletRequest request) {
+		if(staff.getLoginKey() !=null){
+			Mail mail = new Mail();
+			mail.setFrom("ehrlite@gmail.com");
+			mail.setTo(staff.getEmail());
+			mail.setSubject("Account Registration Successful");
+			Map<String, Object> model = new HashMap<>();
+			model.put("pwd", staff.getLoginKey());
+			model.put("user", staff);
+//			String url = request.getScheme() + "://" + request.getServerName() +"/ehr/#/";
+			String url = request.getScheme() + "://" + request.getServerName() +":4300/#/";
+			model.put("url", url);
+			mail.setModel(model);
+			emailService.sendPasswordEmail(mail);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean getResetPasswordMailSender(StaffMember staff,HttpServletRequest request) {
+		StaffMember userName = staffService.findByEmail(staff.getEmail());
+
+		PasswordResetToken token = passwordResetService.createToken(userName);
+		if(token !=null){
+			Mail mail = new Mail();
+			mail.setFrom("ehrlite@gmail.com");
+			mail.setTo(staff.getEmail());
+			mail.setSubject("Password reset request");
+			Map<String, Object> model = new HashMap<>();
+			model.put("token", token);
+			model.put("user", userName);
+//			String url = request.getScheme() + "://" + request.getServerName() + "/ehr";
+			String url = request.getScheme() + "://" + request.getServerName() + ":"+"4300";
+			model.put("resetUrl", url + "/#/reset?token=" + token.getToken());
+			mail.setModel(model);
+			System.out.println(mail);
+			emailService.sendEmail(mail);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public String getRandomPassword() {
+		   int length = 10; 
+		   String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
+	       String Small_chars = "abcdefghijklmnopqrstuvwxyz"; 
+	       String numbers = "0123456789"; 
+	       String symbols = "!@#$%^&*_=+-/.?<>)"; 
+	       String values = Capital_chars + Small_chars + numbers + symbols;
+	       Random rndm_method = new Random(); 
+	       char[] password = new char[length]; 
+	       for (int i = 0; i < length; i++) 
+	        { 
+	    	   password[i] = values.charAt(rndm_method.nextInt(values.length())); 
+	        }
+
+	       return password.toString();
+	}
+}

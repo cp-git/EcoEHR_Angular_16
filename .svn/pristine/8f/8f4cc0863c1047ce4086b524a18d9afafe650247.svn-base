@@ -1,0 +1,360 @@
+<!-- LIST CLINIC LOCATION -->
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-background-color>
+                        <div class="row">
+                            <div class="col-sm-8 col-md-8 col-xs-5">
+                                <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                                    fullScreen="true" type="line-scale-pulse-out-rapid">
+                                </ngx-spinner>
+                                <tr>
+                                    <td>
+                                        <h6>List of Clinic Locations </h6>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-1">
+                                            <label class="label-color"> Show</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-offset-1">
+                                            <select name="datatables_length" aria-controls="datatables"
+                                                (change)="changePage($event)" class="form-control select-style">
+                                                <option class="option-style" value="10">10</option>
+                                                <option class="option-style" value="25">25</option>
+                                                <option class="option-style" value="50">50</option>
+                                                <option class="option-style" value="-1">All</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-1">
+                                            <label class="label-color">entries</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </div>
+                            <div class="col-sm-2 col-md-1 col-xs-2 col-md-offset-1 button-align">
+                                <button type="submit" class="btn button-style btn-position" data-toggle="modal"
+                                    data-target="#ModalAddClinicLocation"
+                                    (click)="openClinicLocationForm('addClinicLocation',cliniclocation)">ADD
+                                    Clinic Location</button>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-2">
+                                <div id="datatables_filter1" class="dataTables_filter1 text-right">
+                                    <div class="form-group form-group-sm is-empty searchHeight">
+                                        <input type="search" id="mysearch" (keyup)="searchdata($event)"
+                                            class="form-control input-color placeholder-style"
+                                            placeholder="Search Location" aria-controls="datatables">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content col-md-12 col-sm-12 card-content-position">
+                        <div class="material-datatables table-responsive">
+                            <div *ngIf="statusCode === 201" class="alert alert-success"
+                                data-icon-bg-color="alert-green">
+                                <strong>Clinic Location "{{locName}}" added successfully!</strong>
+                            </div>
+                            <div *ngIf="statusCode === 200" class="alert alert-success"
+                                data-icon-bg-color="alert-green">
+                                <strong>Clinic Location "{{locName}}" updated successfully!</strong>
+                            </div>
+                            <div *ngIf="statusCode==204" class="alert alert-danger" data-icon-bg-color="alert-red">
+                                <strong>Clinic Location "{{locName}}" deleted successfully!</strong>
+                            </div>
+                            <div *ngIf="statusCode==428" class="alert alert-danger" data-icon-bg-color="alert-red">
+                                <strong>Clinic Location "{{locName}}" already in use!</strong>
+                            </div>
+
+                            <table id="datatables"
+                                class="table table-striped table-bordered table-hover table-responsive" cellspacing="0"
+                                width="100%">
+                                <thead class="text-info">
+                                    <tr>
+                                        <th>{{ dataTable.headerRow[0] }}</th>
+                                        <th>{{ dataTable.headerRow[1] }}</th>
+                                        <th>{{ dataTable.headerRow[2] }}</th>
+                                        <th>{{ dataTable.headerRow[3] }}</th>
+                                        <th>{{ dataTable.headerRow[4] }}</th>
+                                        <th>{{ dataTable.headerRow[5] }}</th>
+                                        <th>{{ dataTable.headerRow[6] }}</th>
+                                        <th>{{ dataTable.headerRow[7] }}</th>
+                                      
+                                        <th class="disabled-sorting text-center">{{ dataTable.headerRow[8] }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cliniclocation of dataTable.dataRows">
+                                        <td>{{cliniclocation.locationName}}</td>
+                                        <td>{{cliniclocation.addressStreet}}</td>
+                                        <td>{{cliniclocation.buildingNo}}</td>
+                                        <td>{{cliniclocation.addressDoorNo}}</td>
+                                        <td>{{cliniclocation.addressCity}}, {{cliniclocation.addressState}} -
+                                            {{cliniclocation.addressZip}}</td>
+                                        <td>{{cliniclocation.primaryNo}}</td>
+                                        <td>{{cliniclocation.faxNo}}</td>
+                                        <td>{{cliniclocation.einNumber}}</td>
+                                        <td class="text-center">
+                                            <button
+                                                (click)="openClinicLocationForm('editClinicLocation',cliniclocation)"
+                                                class="btn btn-simple btn-warning btn-icon edit" data-toggle="modal"
+                                                data-target="#ModalAddClinicLocation" title="Edit">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                            <button
+                                                (click)='loadDeleteConfirmModal(cliniclocation.locationId,cliniclocation.locationName)'
+                                                class="btn btn-simple btn-danger btn-icon " data-toggle="modal"
+                                                data-target="#deleteConfirmationModal" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <button type="submit" routerLink='/patients/patientlist'
+                                class="btn button pull-right">CANCEL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- DELETE CLINIC LOCATION COMFIRMATION MODAL -->
+<div class="modal fade" id="deleteConfirmationModal" data-keyboard="false" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="deleteConfirmForm" [formGroup]="deleteConfirmForm">
+                    <input type="hidden" #locationId id="locationId" formControlName="locationId" class="form-control"
+                        value="">
+                    <input type="hidden" #locationName id="locationName" formControlName="locationName"
+                        class="form-control" value="">
+                    <p>Are you sure you want to remove the selected Clinic Location?</p>
+                </form>
+                <div class="modal-footer">
+                    <div class="col-md-11 ">
+                        <button type="submit" id="clinicLocdelete"
+                            (click)='deleteClinicLocation(locationId.value,locationName.value)'
+                            class="btn button">Yes</button>
+                        <button type="submit" (click)='closeDeleteConfirmationModal()' class="btn button">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ADD CLINIC LOCATION -->
+<div *ngIf="showme">
+    <div class="card">
+        <div class="modal fade" id="ModalAddClinicLocation" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="card-content">
+                        <div class="modal-header text-center" style=" padding-top: 15px;">
+                            <h6 class="card-header card-style" data-background-color>
+                                {{headerName}}
+                            </h6>
+                            <button type="button" class="close pull-right"
+                            data-dismiss="modal">&times;</button>
+                        </div>
+                        <div *ngIf="statusCode === 409" class="alert alert-danger" data-icon-bg-color="alert-red">
+                            <strong>Clinic Location already exists!</strong>
+                        </div>
+                        <br>
+                        <form [formGroup]="clinicLocationForm" action="" method="">
+                            <div class="row">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label required"><small class="AsteriskColor">*</small>
+                                            Location Name
+                                        </label>
+                                        <input type="text" id="locationName" class="form-control" 
+                                            formControlName="locationName" value="">
+                                        <ehr-field-error-display [displayError]="isFieldValid('locationName')"
+                                            errorMsg="Clinic Location Name is required.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label required"><small class="AsteriskColor">*</small>
+                                            Street Name
+                                        </label>
+                                        <input type="text" id="addressStreet" class="form-control" 
+                                            formControlName="addressStreet" value="">
+                                        <ehr-field-error-display [displayError]="isFieldValid('addressStreet')"
+                                            errorMsg="Street Name is required.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+
+                              
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required"><small class="AsteriskColor">*</small>
+                                                    Building Number
+                                                </label>
+                                                <input type="text" id="buildingNumber" class="form-control"
+                                                    formControlName="buildingNumber" value="">
+                                                <ehr-field-error-display [displayError]="isFieldValid('buildingNumber')"
+                                                    errorMsg="Building Number is required.">
+        
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+
+                                <div class="col-md-5">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Suite# </label>
+                                        <input type="text" class="form-control" formControlName="addressDoorNo" 
+                                            name="addressDoorNo">
+                                            <ehr-field-error-display [displayError]="isFieldValid('addressDoorNo')"
+                                            errorMsg="Enter Suite# in proper format">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label"><small class="AsteriskColor">*</small> City
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="addressCity" 
+                                                    name="addressCity">
+                                                <ehr-field-error-display [displayError]="isFieldValid('addressCity')"
+                                                    errorMsg="Address City is required.">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+
+                                <div class="col-md-5 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"><small class="AsteriskColor">*</small> State
+                                        </label>
+                                        <input type="text" class="form-control" formControlName="addressState" 
+                                            name="addressState">
+                                        <ehr-field-error-display [displayError]="isFieldValid('addressState')"
+                                            errorMsg="Address State is required.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required"><small class="AsteriskColor">*</small>
+                                                    Zip Code
+                                                </label>
+                                                <input type="text" id="addressZip" class="form-control"
+                                                    formControlName="addressZip" value="">
+                                                <ehr-field-error-display [displayError]="isFieldValid('addressZip')"
+                                                    errorMsg="Zip code should be in proper format.(XXXXX)">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+
+                                <div class="col-md-5 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"><small class="AsteriskColor">*</small>Contact Name
+                                        </label>
+                                        <input type="text" class="form-control" formControlName="contactName"
+                                            name="contactName">
+                                        <ehr-field-error-display [displayError]="isFieldValid('contactName')"
+                                            errorMsg="Contact Name is Required">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required"><small class="AsteriskColor">*</small>Contact Email
+                                                </label>
+                                                <input type="text" id="contactEmail" class="form-control" 
+                                                    formControlName="contactEmail" value="">
+                                                    <ehr-field-error-display [displayError]="isFieldValid('contactEmail')"
+                                                    errorMsg="Enter Email in proper format">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+
+                                <div class="col-md-5 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label required"><small class="AsteriskColor">*</small>
+                                            Phone Number
+                                        </label>
+                                        <input type="text" id="primaryNo" class="form-control" 
+                                            formControlName="primaryNo" value="">
+                                        <ehr-field-error-display [displayError]="isFieldValid('primaryNo')"
+                                            errorMsg="Please enter valid Phone no. (XXX-XXX-XXXX)">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required"><small class="AsteriskColor">*</small>
+                                                    Fax Number
+                                                </label>
+                                                <input type="text" id="faxNo" class="form-control" formControlName="faxNo"
+                                                     value="">
+                                                <ehr-field-error-display [displayError]="isFieldValid('faxNo')"
+                                                    errorMsg="Please enter valid Fax no. (XXX-XXX-XXXX)">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+
+                                <div class="col-md-5 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label required"><small class="AsteriskColor">*</small>
+                                           Location NPI
+                                        </label>
+                                        <input type="text" id="einNumber" class="form-control" 
+                                            formControlName="einNumber"  value="">
+                                        <ehr-field-error-display [displayError]="isFieldValid('einNumber')"
+                                            errorMsg="Please enter valid Location NPI.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div>
+                                    <button type="submit" (click)="onSubmit(clinicButton.value)" class="close"
+                                        id="clinicLocButton" class="btn button pull-left" #clinicButton
+                                        value="{{buttonName}}">{{buttonName}}</button>
+                                    <button id="dismissModalOnSubmit" style="display:none;" type="submit"
+                                        class="btn btn-info pull-left" data-dismiss="modal"></button>
+                                    <div class="col-sm-1 col-xs-1"></div>
+                                </div>
+                                <div>
+                                    <button (click)="onCancel()" type="button" data-dismiss="modal"
+                                        class="btn button pull-right">Cancel</button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

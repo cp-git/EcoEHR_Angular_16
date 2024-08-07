@@ -1,0 +1,200 @@
+package com.cpa.ehr.service.patients.dto;
+
+import java.util.Date;
+import javax.validation.constraints.NotNull;
+
+public class OrdersDTO  {
+
+		@NotNull
+		   private Long orderId;  
+		   private Date labOrderDate;  
+		   private String labOrderComments;  
+		   private Date imagingOrderDate;  
+		   private String imagingOrderComments;  
+		   private Date consultingOrderDate;  
+		   private String consultingOrderComments;  
+		   private Date followupOrderDate;  
+		   private String followupOrderComments;  
+		   private Long patientId;  
+		   private Long encounterId;
+		   private String icd10Code;
+		   private String createdBy;  
+		   private Date createdDate;  
+		   private String lastUpdatedBy;  
+		   private Date lastUpdatedDate;  
+		   private Boolean activeFlag;  
+
+	// Constructor
+	public OrdersDTO() {
+		// Needed empty constructor for serialization
+	}
+
+	public Long getOrderId() {
+		return this.orderId;
+	}
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+	public Date getLabOrderDate() {
+		return this.labOrderDate;
+	}
+	public void setLabOrderDate(Date labOrderDate) {
+		this.labOrderDate = labOrderDate;
+	}
+	public String getLabOrderComments() {
+		return this.labOrderComments;
+	}
+	public void setLabOrderComments(String labOrderComments) {
+		this.labOrderComments = labOrderComments;
+	}
+	public Date getImagingOrderDate() {
+		return this.imagingOrderDate;
+	}
+	public void setImagingOrderDate(Date imagingOrderDate) {
+		this.imagingOrderDate = imagingOrderDate;
+	}
+	public String getImagingOrderComments() {
+		return this.imagingOrderComments;
+	}
+	public void setImagingOrderComments(String imagingOrderComments) {
+		this.imagingOrderComments = imagingOrderComments;
+	}
+	public Date getConsultingOrderDate() {
+		return this.consultingOrderDate;
+	}
+	public void setConsultingOrderDate(Date consultingOrderDate) {
+		this.consultingOrderDate = consultingOrderDate;
+	}
+	public String getConsultingOrderComments() {
+		return this.consultingOrderComments;
+	}
+	public void setConsultingOrderComments(String consultingOrderComments) {
+		this.consultingOrderComments = consultingOrderComments;
+	}
+	public Date getFollowupOrderDate() {
+		return this.followupOrderDate;
+	}
+	public void setFollowupOrderDate(Date followupOrderDate) {
+		this.followupOrderDate = followupOrderDate;
+	}
+	public String getFollowupOrderComments() {
+		return this.followupOrderComments;
+	}
+	public void setFollowupOrderComments(String followupOrderComments) {
+		this.followupOrderComments = followupOrderComments;
+	}
+	public Long getPatientId() {
+		return this.patientId;
+	}
+	public void setPatientId(Long patientId) {
+		this.patientId = patientId;
+	}
+	
+	
+	
+	public Long getEncounterId() {
+		return encounterId;
+	}
+
+	public void setEncounterId(Long encounterId) {
+		this.encounterId = encounterId;
+	}
+
+	
+	public String getIcd10Code() {
+		return icd10Code;
+	}
+
+	public void setIcd10Code(String icd10Code) {
+		this.icd10Code = icd10Code;
+	}
+
+	public String getCreatedBy() {
+		return this.createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	public String getLastUpdatedBy() {
+		return this.lastUpdatedBy;
+	}
+	public void setLastUpdatedBy(String lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
+	}
+	public Date getLastUpdatedDate() {
+		return this.lastUpdatedDate;
+	}
+	public void setLastUpdatedDate(Date lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+	public Boolean getActiveFlag() {
+		return this.activeFlag;
+	}
+	public void setActiveFlag(Boolean activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder(); 
+	sb.append("OrdersDTO");
+		sb.append("orderId :");
+		sb.append(orderId); 
+		sb.append("labOrderDate :");
+		sb.append(labOrderDate); 
+		sb.append("|"); 
+		sb.append("labOrderComments :");
+		sb.append(labOrderComments); 
+		sb.append("|"); 
+		sb.append("imagingOrderDate :");
+		sb.append(imagingOrderDate); 
+		sb.append("|"); 
+		sb.append("imagingOrderComments :");
+		sb.append(imagingOrderComments); 
+		sb.append("|"); 
+		sb.append("consultingOrderDate :");
+		sb.append(consultingOrderDate); 
+		sb.append("|"); 
+		sb.append("consultingOrderComments :");
+		sb.append(consultingOrderComments); 
+		sb.append("|"); 
+		sb.append("followupOrderDate :");
+		sb.append(followupOrderDate); 
+		sb.append("|"); 
+		sb.append("followupOrderComments :");
+		sb.append(followupOrderComments); 
+		sb.append("|"); 
+		sb.append("patientId :");
+		sb.append(patientId); 
+		sb.append("|"); 
+		sb.append("encounterId :");
+		sb.append(encounterId); 
+		sb.append("|"); 
+		sb.append("icd10code :");
+		sb.append(icd10Code); 
+		sb.append("|"); 
+		sb.append("createdBy :");
+		sb.append(createdBy); 
+		sb.append("|"); 
+		sb.append("createdDate :");
+		sb.append(createdDate); 
+		sb.append("|"); 
+		sb.append("lastUpdatedBy :");
+		sb.append(lastUpdatedBy); 
+		sb.append("|"); 
+		sb.append("lastUpdatedDate :");
+		sb.append(lastUpdatedDate); 
+		sb.append("|"); 
+		sb.append("activeFlag :");
+		sb.append(activeFlag); 
+        return sb.toString();
+    }
+
+}
+
+

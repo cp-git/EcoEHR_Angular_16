@@ -1,0 +1,14 @@
+package com.cpa.ehr.backend.dao.system;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.cpa.ehr.backend.dao.system.entities.Systems;
+
+@Repository
+@Transactional
+public interface SystemsRepository extends JpaRepository<Systems, Long> {
+
+}

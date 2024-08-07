@@ -1,0 +1,300 @@
+<div *ngIf="header">
+    <ehr-patientheader [encounterId]=encounterId [patientId]=patientId (idChange)='getId($event)'></ehr-patientheader>
+</div>
+
+<div>
+    <form [formGroup]="ordersForm" mmethod="#" action="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="btn-group btn-group-justified">
+                    <ng-container *ngFor="let list of tabList let i=index">
+                        <a data-toggle="tab" id="{{i}}" (click)="viewMode=list"
+                            class="btn btn-style systems-tab-style" [ngClass]="{'colorchange':list==viewMode}" title="{{list}}">{{list}}</a>
+                    </ng-container>
+                </div>
+            </div>
+            <div [ngSwitch]="viewMode">
+                <!-- Medication Div -->
+                <div class="col-md-12 col-sm-12"  *ngSwitchCase="'Medication'">
+                    <ehr-medication [patientId]=patientId [pageName]=pageName (patientIdChange)='getpatientId($event)'></ehr-medication>
+                </div>
+
+                <!-- Lab Div -->
+                <div class="col-md-12 col-sm-12"   *ngSwitchCase="'Lab'">
+                    
+
+                    <div class="col-md-7" style="padding-left:15px;padding-top:12px;">
+                        <md2-select  style="width:100%" placeholder="Please select" formControlName="icd">
+                            <!-- <md2-option selected>Please Select </md2-option> -->
+                            <md2-option class="decrease-height"  
+                                *ngFor="let icd10 of icd10Details"  [value]="icd10.icd10Code" title="{{icd10.icd10CodeDescription}}"><div>
+                                        {{icd10.icd10Code}} &nbsp;&nbsp;<i class="fa fa-eye"></i>
+                                  </div>
+                            </md2-option>
+                        </md2-select>
+                    </div>
+
+                    <div class="col-md-7 " style="padding-top:6px">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Lab Notes </label>
+                            <input type="text" name="Comments" class="form-control" formControlName="labComments">
+                            <ehr-field-error-display
+                                [displayError]="ordersForm.controls['labComments'].hasError('labCommentsError')"
+                                errorMsg="Please enter Lab Comments">
+                            </ehr-field-error-display>
+                        </div>
+                    </div>
+                    <div class="col-md-7" >
+                        <div class="label-floating form-group ">
+                            <label #labDateFloatToLabel class="control-label control-label-datepicker">
+                                Order Date
+                            </label>
+                            <mat-form-field style="width: 100% !important;">
+                                <div class="input-icon-wrap" style="margin-top:-8px;">
+                                    <input matInput type="text" class="input-with-icon" id="labDate"
+                                        formControlName="labDate" (click)="datepicker('labDate',labDateFloatToLabel)"
+                                        name="labDate" readonly>
+                                    <span class="input-icon" (click)="datepicker('labDate',labDateFloatToLabel)">
+                                        <span class="fa fa-calendar fa-lg"></span>
+                                    </span>
+                                </div>
+                            </mat-form-field>
+                            <ehr-field-error-display
+                                [displayError]="ordersForm.controls['labDate'].hasError('labDateError')"
+                                errorMsg="Please select Lab Date">
+                            </ehr-field-error-display>
+                        </div>
+                    </div>
+                    <div class="table-content" *ngIf="allOrders.length>0">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th class="text-center">ICD-10 Codes</th>
+                                    <th class="text-center">Lab Notes</th>
+                                    <th class="text-center">Lab Order Date</th>
+                                    <th class="text-center">Delete</th>
+                                </tr>
+                                <tr *ngFor="let lab of allOrders">
+                                    <ng-container *ngIf="lab.labOrderComments != null">
+                                        <td>{{lab.icd10Code}}</td>
+                                        <td>{{lab.labOrderComments}}</td>
+                                        <td>{{displayOrderDate(lab.labOrderDate) |date:'MM/dd/yyyy'}}</td>
+                                        <td class="text-center">
+                                                <button class="btn btn-simple btn-danger btn-icon " (click)="deleteLabRecord(lab.orderId)" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                        </td>
+                                   
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- Imaging Div -->
+                <div class="col-md-12 col-sm-12"   *ngSwitchCase="'Imaging'">
+
+                    <div class="col-md-7" style="padding-left:15px; padding-top:12px" >
+                         <md2-select  style="width:100%" placeholder="Please select"  formControlName="imagingIcd">
+                                <!-- <md2-option selected>Please Select </md2-option> -->
+                                <md2-option class="decrease-height"  
+                                    *ngFor="let icd10 of icd10Details"  [value]="icd10.icd10Code" title="{{icd10.icd10CodeDescription}}"><div>
+                                            {{icd10.icd10Code}} &nbsp;&nbsp;<i class="fa fa-eye"></i>
+                                      </div>
+                                </md2-option>
+                            </md2-select>
+                    </div>
+                    <div class="col-md-7 "  style="padding-top:6px">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Imaging Notes </label>
+                            <input type="text" name="imagingComments" class="form-control"
+                                formControlName="imagingComments">
+                            <ehr-field-error-display
+                                [displayError]="ordersForm.controls['imagingComments'].hasError('imagingCommentsError')"
+                                errorMsg="Please enter imaging comments">
+                            </ehr-field-error-display>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="label-floating form-group ">
+                            <label #imgDateFloatToLabel class="control-label control-label-datepicker">
+                                Order Date
+                            </label>
+                            <mat-form-field style="width: 100% !important;">
+                                <div class="input-icon-wrap" style="margin-top:-8px;">
+                                    <input matInput type="text" class="input-with-icon" id="imagingDate"
+                                        formControlName="imagingDate"
+                                        (click)="datepicker('imagingDate',imgDateFloatToLabel)" name="imagingDate"
+                                        readonly>
+                                    <span class="input-icon" (click)="datepicker('imagingDate',imgDateFloatToLabel)">
+                                        <span class="fa fa-calendar fa-lg"></span>
+                                    </span>
+                                </div>
+                            </mat-form-field>
+                            <ehr-field-error-display
+                                [displayError]="ordersForm.controls['imagingDate'].hasError('imagingDateError')"
+                                errorMsg="Please select Order Date">
+                            </ehr-field-error-display>
+                        </div>
+                    </div>
+                    <div class="table-content"  *ngIf="allOrders.length>0">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th class="text-center">ICD 10 Codes</th>
+                                    <th class="text-center">Imaging Notes </th>
+                                    <th class="text-center">Imaging Order Date</th>
+                                    <th class="text-center">Delete</th>
+                                </tr>
+                                <tr *ngFor="let imaging of allOrders">
+                                    <ng-container *ngIf="imaging.imagingOrderComments != null">
+                                        <td>{{imaging.icd10Code}}</td>
+                                        <td>{{imaging.imagingOrderComments}}</td>
+                                        <td>{{displayOrderDate(imaging.imagingOrderDate) |date:'MM/dd/yyyy'}}</td>
+                                        <td class="text-center">
+                                                <button class="btn btn-simple btn-danger btn-icon " (click)="deleteLabRecord(imaging.orderId)" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                        </td>
+                                    
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Consulting Div -->
+                <div class="col-md-12 col-sm-12"  *ngSwitchCase="'Consulting'" >
+                    <div class="col-md-7 " style="margin-left:15px">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Consulting Notes </label>
+                            <input type="text" name="consultingComments" class="form-control"
+                                formControlName="consultingComments">
+                            <ehr-field-error-display
+                                [displayError]="ordersForm.controls['consultingComments'].hasError('consultingCommentsError')"
+                                errorMsg="Please enter Consulting Comments">
+                            </ehr-field-error-display>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="label-floating form-group ">
+                            <label #consultDateFloatToLabel class="control-label control-label-datepicker">
+                                Order Date
+                            </label>
+                            <mat-form-field style="width: 100% !important;">
+                                <div class="input-icon-wrap" style="margin-top:-8px;">
+                                    <input matInput type="text" class="input-with-icon" id="consultingDate"
+                                        formControlName="consultingDate"
+                                        (click)="datepicker('consultingDate',consultDateFloatToLabel)"
+                                        name="consultingDate" readonly>
+                                    <span class="input-icon"
+                                        (click)="datepicker('consultingDate',consultDateFloatToLabel)">
+                                        <span class="fa fa-calendar fa-lg"></span>
+                                    </span>
+                                </div>
+                            </mat-form-field>
+                            <ehr-field-error-display
+                                [displayError]="ordersForm.controls['consultingDate'].hasError('consultingDateError')"
+                                errorMsg="Please select Order Date">
+                            </ehr-field-error-display>
+                        </div>
+                    </div>
+                    <div class="table-content"  *ngIf="allOrders.length>0">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th class="text-center">Consulting Notes
+                                    </th>
+                                    <th class="text-center">Consulting Order Date</th>
+                                    <th class="text-center">Delete</th>
+                                </tr>
+                                <tr *ngFor="let consult of allOrders">
+                                    <ng-container *ngIf="consult.consultingOrderComments != null">
+                                        <td>{{consult.consultingOrderComments}}</td>
+                                        <td>{{displayOrderDate(consult.consultingOrderDate) |date:'MM/dd/yyyy'}}</td>
+                                        <td class="text-center">
+                                                <button class="btn btn-simple btn-danger btn-icon " (click)="deleteLabRecord(consult.orderId)" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Follow Up Div -->
+                <div class="col-md-12 col-sm-12" *ngSwitchCase="'Follow up'" >
+                    <div class="col-md-7 " style="margin-left:15px">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Follow Up Notes </label>
+                            <input type="text" name="followupComments" class="form-control"
+                                formControlName="followupComments">
+                            <ehr-field-error-display
+                                [displayError]="ordersForm.controls['followupComments'].hasError('followupCommentsError')"
+                                errorMsg="Please enter Follow Up Comments">
+                            </ehr-field-error-display>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="label-floating form-group ">
+                            <label #followDateFloatToLabel class="control-label control-label-datepicker">
+                                Follow Up Date
+                            </label>
+                            <mat-form-field style="width: 100% !important;">
+                                <div class="input-icon-wrap" style="margin-top:-8px;">
+                                    <input matInput type="text" class="input-with-icon" id="followupDate"
+                                        formControlName="followupDate"
+                                        (click)="datepicker('followupDate',followDateFloatToLabel)" name="followupDate"
+                                        readonly>
+                                    <span class="input-icon"
+                                        (click)="datepicker('followupDate',followDateFloatToLabel)">
+                                        <span class="fa fa-calendar fa-lg"></span>
+                                    </span>
+                                </div>
+                            </mat-form-field>
+                        </div>
+                        <!-- <td style="margin-top: 5px;"> -->
+                        <ehr-field-error-display
+                            [displayError]="ordersForm.controls['followupDate'].hasError('followupDateError')"
+                            errorMsg="Please select Follow Up Date">
+                        </ehr-field-error-display>
+                        <!-- </td> -->
+                    </div>
+                    <div class="table-content"  *ngIf="allOrders.length>0">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th class="text-center">Follow Up Notes
+                                    </th>
+                                    <th class="text-center">Follow Up Order Date</th>
+                                    <th class="text-center">Delete</th>
+                                </tr>
+                                <tr *ngFor="let follow of allOrders">
+                                    <ng-container *ngIf="follow.followupOrderComments != null">
+                                        <td>{{follow.followupOrderComments}}</td>
+                                        <td>{{displayOrderDate(follow.followupOrderDate) |date:'MM/dd/yyyy'}}</td>
+                                        <td class="text-center">
+                                                <button class="btn btn-simple btn-danger btn-icon " (click)="deleteLabRecord(follow.orderId)" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-offset-1">
+            <button type="submit" class="btn button" id="save" (click)="onSave()" *ngIf="viewMode!=='Medication'">Save</button>
+           
+        </div>
+        <br>
+    </form>
+</div>

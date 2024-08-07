@@ -1,0 +1,220 @@
+<!-- LIST MASTER LOOKUP -->
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-background-color>
+                        <div class="row">
+                            <div class="col-sm-8 col-md-8 col-xs-5">
+                                <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                                    fullScreen="true" type="line-scale-pulse-out-rapid">
+                                </ngx-spinner>
+                                <tr>
+                                    <td>
+                                        <h6>List of Master Lookup </h6>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-1">
+                                            <label class="label-color">Show</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-offset-1">
+                                            <select name="datatables_length" aria-controls="datatables" (change)="changePage($event)"
+                                                class="form-control  select-style">
+                                                <option class="option-style" value="10">10</option>
+                                                <option class="option-style" value="25">25</option>
+                                                <option class="option-style" value="50">50</option>
+                                                <option class="option-style" value="-1">All</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-1">
+                                            <label class="label-color">entries</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </div>
+                            <div class="col-sm-2 col-md-1 col-xs-2 col-md-offset-1 button-align">
+                                <button type="submit" class="btn button-style btn-position" data-toggle="modal"
+                                    data-target="#ModalAddMasterLookup" (click)="openMasterLookupForm()">Add Master
+                                    Lookup</button>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-2">
+                                <div id="datatables_filter1" class="dataTables_filter1 text-right">
+                                    <div class="form-group form-group-sm is-empty searchHeight">
+                                        <input type="search" id="mysearch" (keyup)="searchdata($event)" class="form-control input-color placeholder-style"
+                                            placeholder="Search records" aria-controls="datatables">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content col-md-12 col-sm-12 card-content-position">
+                        <div class="material-datatables table-responsive">
+                            <div *ngIf="statusCode === 201" class="alert alert-success" data-icon-bg-color="alert-green">
+                                <strong>Master Lookup "{{name}}" added successfully!</strong>
+                            </div>
+                            <div *ngIf="statusCode === 204" class="alert alert-success" data-icon-bg-color="alert-green">
+                                <strong>Master Lookup "{{name}}" deleted successfully!</strong>
+                            </div>
+                            <div>
+                                <table id="datatables" class="table table-striped table-bordered table-hover table-responsive"
+                                    cellspacing="0" width="100%">
+                                    <thead class="text-info">
+                                        <tr>
+                                            <th class="text-center">{{ dataTable.headerRow[0] }}</th>
+                                            <th class="text-center">{{ dataTable.headerRow[1] }}</th>
+                                            <th class="text-center">{{ dataTable.headerRow[2] }}</th>
+                                            <th class="text-center">{{ dataTable.headerRow[3] }}</th>
+                                            <th class="text-center">{{ dataTable.headerRow[4] }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let masterlookup of dataTable.dataRows">
+                                            <td class="text-center">{{masterlookup.lookupId}}</td>
+                                            <td class="text-center">{{masterlookup.lookupType}}</td>
+                                            <td class="text-center">{{masterlookup.lookupCode}}</td>
+                                            <td class="text-center">{{masterlookup.activeFlag}}</td>
+                                            <td class="text-center">
+                                                <button (click)='loadDeleteConfirmModal(masterlookup.lookupId,masterlookup.lookupCode)'
+                                                    class="btn btn-simple btn-danger btn-icon " data-toggle="modal"
+                                                    data-target="#deleteConfirmationModal" title="Delete">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" routerLink='/patients/patientlist' class="btn button pull-right">CANCEL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE MASTER LOOKUP COMFIRMATION MODAL -->
+<div class="modal fade" id="deleteConfirmationModal" data-keyboard="false" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="deleteConfirmForm" [formGroup]="deleteConfirmForm">
+                    <input type="hidden" #lookupId id="lookupId" formControlName="lookupId" class="form-control" value="">
+                    <input type="hidden" #lookupCode id="lookupCode" formControlName="lookupCode" class="form-control"
+                        value="">
+                    <p>Are you sure you want to remove the selected Master Lookup?</p>
+                </form>
+                <div class="modal-footer">
+                    <div class="col-md-11 ">
+                        <button type="submit" id="masterLookupdelete" (click)='deleteMasterLookup(lookupId.value,lookupCode.value)' class="btn button">Yes</button>
+                        <button type="submit" (click)='closeDeleteConfirmationModal()' class="btn button">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ADD MASTER LOOKUP -->
+<div *ngIf="showme">
+    <div class="card">
+        <div class="modal fade" id="ModalAddMasterLookup" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="card-content">
+                        <div class="modal-header text-center" style=" padding-top: 15px;">
+                            <h6 class="card-header card-style" data-background-color>
+                                Add Master Lookup
+                            </h6>
+                            <button type="button" class="close pull-right"
+                            data-dismiss="modal">&times;</button>
+                        </div>
+                        <div *ngIf="statusCode === 409" class="alert alert-danger" style="left:18px" data-icon-bg-color="alert-red">
+                            <strong>Master Lookup already exists!</strong>
+                        </div>
+                      
+                        <div class="modal-body">
+                        <form [formGroup]="addMasterLookupForm" action="" method="">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group label-floating">
+                                        <label #masterFloatLable id="master_floatToLabel" class="control-label"><small class="AsteriskColor">*</small>  Lookup
+                                            Type
+                                        </label>
+                                        <md2-select name="MasterLookup" formControlName="type" (click)="floatLable(masterFloatLable)"
+                                            [(ngModel)]="type_selectedValue" style="width:100%;">
+                                            <md2-select-header>
+                                                <input name="search" type="text" placeholder="Search for Lookup Type"
+                                                    [(ngModel)]="_search" [ngModelOptions]="{standalone: true}" />
+                                            </md2-select-header>
+                                            <md2-option class="decrease-height" *ngFor="let master of allLookupType | masterType : _search"
+                                                [value]="master">{{master}}</md2-option>
+                                        </md2-select>
+                                        <div>
+                                            <ehr-field-error-display [displayError]="isFieldValid(addMasterLookupForm, 'type')"
+                                                errorMsg="Please select Lookup Type">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"> <small class="AsteriskColor">*</small> Code
+                                        </label>
+                                        <input type="text" formControlName="code" class="form-control" required>
+                                        <ehr-field-error-display [displayError]="isFieldValid(addMasterLookupForm,'code')"
+                                            errorMsg="Lookup Code is required.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"><small class="AsteriskColor">*</small> Description
+                                        </label>
+                                        <input type="text" class="form-control" formControlName="description" required>
+                                        <ehr-field-error-display [displayError]="isFieldValid(addMasterLookupForm,'description')"
+                                            errorMsg="Lookup Description is required.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div>
+                                    <button type="submit" (click)="onSubmit()" class="close" class="btn button-width button pull-left" 
+                                    id="masterLookupButton">Add</button>
+                                    <button id="dismissModal" style="display:none;" type="submit" class="btn btn-info pull-left"
+                                        data-dismiss="modal"></button>
+                                    <div class="col-sm-1 col-xs-1"></div>
+                                </div>
+                                <!-- <div>
+                                    <button type="submit" (click)="onSubmit(masterButton.value)" class="close" id="masterLookupButton"
+                                        class="btn button pull-left" #masterButton value="{{buttonName}}">{{buttonName}}</button>
+                                    <button id="dismissModal" style="display:none;" type="submit" class="btn btn-info pull-left"
+                                            data-dismiss="modal"></button>
+                                        <div class="col-sm-1 col-xs-1"></div>
+                                    </div> -->
+                                <div>
+                                    <button (click)="onCancel()" type="button" data-dismiss="modal" class="btn button pull-right">Cancel</button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

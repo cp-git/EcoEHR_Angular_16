@@ -1,0 +1,262 @@
+<div class="card-content">
+        <div class=" modal-header text-center" style=" padding-top: 15px;">
+                <h6 class="card-header card-style" data-background-color>
+                        Encounter Details
+                </h6>
+                <button  type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+        </div>
+        <br>
+        <div class="contents" id="encounterHistoryDetails">
+                <div class="row">
+                    
+                        <div class="col-md-offset-5" style="color:#0471af"><b>PATIENT DETAILS</b></div>
+                        <div class="col-md-5 col-md-offset-1">
+                                <label class="label-style">Patient Name:</label>
+                                <label >{{patientRecords.lastName}}
+                                        {{patientRecords.firstName}}</label>
+                        </div>
+                        <div>
+                                <label class="label-style">DOB:</label>
+                                <label>{{encounterDate(patientRecords.dob)|date:'MM/dd/yyyy'}}
+                                </label>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1">
+                                <label class="label-style">Physician:</label>
+                                <label>{{patientRecords.providerFirstName}}
+                                        {{patientRecords.providerLastName}} {{patientRecords.designation}}</label>
+                        </div>
+                        <div>
+                                <label class="label-style">Gender:</label>
+                                <label >{{patientRecords.gender}}</label>
+                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                        <div class="col-md-offset-5" style="color:#0471af"><b>ENCOUNTER DETAILS</b></div>
+                        <div class="col-md-5 col-md-offset-1">
+                                <label class="label-style">Chief Compliant:</label>
+                                <label >{{encounterDetails.chiefCompliant}}</label>
+                        </div>
+                        <div>
+                                <label class="label-style">Encounter Date:</label>
+                                <label>{{encounterDate(encounterDetails.encounterDate)|date:'MM/dd/yyyy'}}</label>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1">
+                                <label class="label-style">Level of Acuity:</label>
+                                <label >{{encounterDetails.emId}} - {{acuityData[0].DESC}}</label>
+                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                        <div class="col-md-offset-5" style="color:#0471af"><b>ICD-10 CODE DETAILS</b></div>
+                        <div class="table-content">
+                                <table class="table table-bordered">
+                                        <tbody style="overflow-y:auto; height:150px;display:bdata">
+                                                <tr>
+                                                        <th class="text-center" style="width:5%;">ICD-10</th>
+                                                        <th class="text-center" style="width:25%;">Description</th>
+                                                </tr>
+                                                <tr *ngFor="let chief of chiefCompliantDetails ">
+                                                        <td class="text-center">
+                                                                <div *ngIf="chief.primaryFlag == true"
+                                                                        style="color:#0471af"><b>{{chief.icd10Code}}</b>
+                                                                </div>
+                                                                <div *ngIf="chief.primaryFlag == false">
+                                                                        {{chief.icd10Code}}</div>
+                                                        </td>
+                                                        <td>
+                                                                <div>{{chief.icd10CodeDescription}}</div>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                        <ng-container *ngFor="let data of allSystemTypes;let i=index">
+                                <div class="text-center" style="color:#0471af" *ngIf="data != allSystemTypes[i-1]">
+                                        <b>{{data | uppercase}} DETAILS</b>
+                                </div>
+
+                                <!-- DISPLAY ALL THE QUESTIONS FOR WHICH ANSWER IS 'YES' -->
+                                <ng-container *ngFor="let yesData of allYesEncRecords;let j=index">
+                                        <div class="table-content" *ngIf="data == yesData.systemType">
+                                                <table class="table table-bordered">
+                                                        <tbody style="overflow-y:auto; height:150px;display:bdata">
+                                                                <ng-container
+                                                                        *ngFor="let questRecord of yesData.questionRecord;let k=index">
+                                                                        <tr>
+                                                                                <td style="vertical-align: middle;width:25%;color:#052233;background-color: #e1eef4"
+                                                                                        [attr.rowspan]="yesData.questionRecord.length"
+                                                                                        *ngIf="k == 0">
+                                                                                        <div class="text-center">
+                                                                                                <b>{{yesData.systemDesc
+                                                                                                        |uppercase}}</b>
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td class="listgroup-style"
+                                                                                        style="vertical-align: middle;width:25%">
+                                                                                        <div class="text-center"
+                                                                                                *ngIf="questRecord.questionGroupName != getPrevValue((yesData.questionRecord)[k-1]).questionGroupName">
+                                                                                                <b>{{questRecord.questionGroupName}}</b>
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td style="width:25%" class="text-left">
+                                                                                        <b>{{questRecord.questionDesc}}</b>
+                                                                                </td>
+                                                                                <td
+                                                                                        *ngIf="questRecord.questionType == 'radio' || questRecord.questionType == 'dropdown'">
+                                                                                        <div>{{questRecord.optionValue}}
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td
+                                                                                        *ngIf="questRecord.questionType == 'text' || questRecord.questionType == 'textarea' || questRecord.questionType == 'mdropdown'">
+                                                                                        <div
+                                                                                                *ngIf="questRecord.questionDesc != 'list of Medication'">
+                                                                                                {{questRecord.answer}}
+                                                                                        </div>
+                                                                                        <div
+                                                                                                *ngIf="questRecord.questionDesc == 'list of Medication'">
+                                                                                                <ul
+                                                                                                        *ngFor="let med of displayMedications(questRecord.answer)">
+                                                                                                        <li>{{med}}</li>
+                                                                                                </ul>
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td
+                                                                                        *ngIf="questRecord.questionType == 'tdropdown'">
+                                                                                        <div>{{questRecord.answer}}
+                                                                                                {{questRecord.optionValue}}
+                                                                                        </div>
+                                                                                </td>
+                                                                        </tr>
+                                                                </ng-container>
+                                                        </tbody>
+                                                </table>
+                                        </div>
+                                </ng-container>
+
+                                <!-- DISPLAY ALL THE QUESTIONS FOR WHICH ANSWER IS 'NO' -->
+                                <ng-container *ngFor="let noData of allNoEncRecords;let j=index">
+                                        <div class="table-content" *ngIf="data == noData.systemType">
+                                                <table class="table table-bordered">
+                                                        <tbody style="overflow-y:auto; height:150px;display:bdata">
+                                                                <ng-container
+                                                                        *ngFor="let questRecord of noData.questionRecord;let k=index">
+                                                                        <tr>
+                                                                                <td style="vertical-align: middle;width:25%;color:#052233;background-color: #e1eef4"
+                                                                                        [attr.rowspan]="noData.questionRecord.length"
+                                                                                        *ngIf="k == 0">
+                                                                                        <div class="text-center">
+                                                                                                <b>{{noData.systemDesc
+                                                                                                        |
+                                                                                                        uppercase}}</b>
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td class="listgroup-style"
+                                                                                        style="vertical-align: middle;width:25%">
+                                                                                        <div class="text-center"
+                                                                                                *ngIf="questRecord.questionGroupName != getPrevValue((noData.questionRecord)[k-1]).questionGroupName">
+                                                                                                <b>{{questRecord.questionGroupName}}</b>
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td style="width:25%" class="text-left">
+                                                                                        <b>{{questRecord.questionDesc}}</b>
+                                                                                </td>
+                                                                                <td
+                                                                                        *ngIf="questRecord.questionType == 'radio' || questRecord.questionType == 'dropdown'">
+                                                                                        <div>{{questRecord.optionValue}}
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td
+                                                                                        *ngIf="questRecord.questionType == 'text' || questRecord.questionType == 'textarea' || questRecord.questionType == 'mdropdown'">
+                                                                                        <div>{{questRecord.answer}}
+                                                                                        </div>
+                                                                                </td>
+                                                                                <td
+                                                                                        *ngIf="questRecord.questionType == 'tdropdown'">
+                                                                                        <div>{{questRecord.answer}}
+                                                                                                {{questRecord.optionValue}}
+                                                                                        </div>
+                                                                                </td>
+                                                                        </tr>
+                                                                </ng-container>
+                                                        </tbody>
+                                                </table>
+                                        </div>
+                                </ng-container>
+                        </ng-container>
+                        <ng-container *ngFor="let data of allData;let i=index">
+                                <div class="table-content" *ngIf="data.systemDesc == 'FAMILY HISTORY'">
+                                        <table class="table table-bordered">
+                                                <tbody>
+                                                        <tr>
+                                                                <th colspan="8" class="text-center">
+                                                                        <div>{{data.systemDesc | uppercase}}</div>
+                                                                </th>
+                                                        </tr>
+                                                        <tr>
+                                                                <th></th>
+                                                                <th class="text-center">Father</th>
+                                                                <th class="text-center">Mother</th>
+                                                                <th class="text-center">Grandfather -Maternal</th>
+                                                                <th class="text-center">Grandmother -Maternal</th>
+                                                                <th class="text-center">Sibling</th>
+                                                                <th class="text-center">Grandfather -Paternal</th>
+                                                                <th class="text-center">Grandmother -Paternal</th>
+                                                        </tr>
+                                                        <ng-container *ngFor="let fam of data.questionRecord">
+                                                                <ng-container
+                                                                        *ngFor="let commonQues of allFamilyQuestions">
+                                                                        <tr
+                                                                                *ngIf="fam.questionId == commonQues.questionId">
+                                                                                <td>{{fam.questionDesc}}</td>
+                                                                                <ng-container
+                                                                                        *ngFor="let opt of commonQues.optionRecord;let k=index">
+                                                                                        <td
+                                                                                                *ngIf="fam.questionType=='checkbox'">
+                                                                                                <div
+                                                                                                        class="text-center">
+                                                                                                        <input type="checkbox"
+                                                                                                                name="checkListItem"
+                                                                                                                id="family_{{opt.optionId}}"
+                                                                                                                disabled
+                                                                                                                [checked]="isChecked(opt.optionId)">
+                                                                                                        <label
+                                                                                                                for="family_{{opt.optionId}}"></label>
+                                                                                                </div>
+                                                                                        </td>
+                                                                                        <td
+                                                                                                *ngIf="commonQues.optionType=='text'">
+                                                                                                <div>
+                                                                                                        <input type="text"
+                                                                                                                id="textHistory_{{opt.optionId}}"
+                                                                                                                class="form-control ageField-style"
+                                                                                                                disabled
+                                                                                                                value="{{ages[k]}}">
+                                                                                                </div>
+                                                                                        </td>
+                                                                                        <td
+                                                                                                *ngIf="commonQues.optionType=='textarea'">
+                                                                                                <div
+                                                                                                        style="margin-left:10px">
+                                                                                                        <input type="text"
+                                                                                                                id="textAreaHistory_{{opt.optionId}}"
+                                                                                                                class="form-control input-underline-color input-color-style"
+                                                                                                                disabled
+                                                                                                                value="{{others[k]}}">
+                                                                                                </div>
+                                                                                        </td>
+                                                                                </ng-container>
+                                                                        </tr>
+                                                                </ng-container>
+                                                        </ng-container>
+                                                </tbody>
+                                        </table>
+                                </div>
+                        </ng-container>
+                </div>
+        </div>
+        <div class="clearfix"></div>
+</div>

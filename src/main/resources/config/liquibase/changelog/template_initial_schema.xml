@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="now" value="now()" dbms="h2" />
+	<property name="now" value="current_timestamp" dbms="postgresql" />
+
+
+	<changeSet author="ehr_admin" id="template_template_id_seq">
+		<createSequence incrementBy="1" sequenceName="template_template_id_seq"
+			startValue="6" />
+	</changeSet>
+	<changeSet id="template" author="ehr_admin">
+
+		<!-- Template table for storing template information. -->
+		<createTable tableName="template">
+			<column name="template_id" type="bigint" autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="sys_id" type="bigint">
+			</column>
+			<column name="template_name" type="varchar">
+			</column>
+			<column name="template_desc" type="bytea">
+			</column>
+			<column name="version" type="bigint">
+			</column>
+			<column name="active_flag" type="varchar(1)">
+				<constraints nullable="false" />
+			</column>
+			<column name="created_date" type="timestamp with time zone"
+				defaultValueDate="${now}">
+			</column>
+			<column name="created_by" type="varchar(100)">
+			</column>
+			<column name="last_updated_date" type="timestamp with time zone"
+				defaultValueDate="${now}">
+			</column>
+			<column name="last_updated_by" type="varchar(100)">
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="insert_templates" author="ehr_admin">
+		<sqlFile dbms="h2, postgresql"
+            encoding="utf8"
+            path="/sql/template.sql"
+            relativeToChangelogFile="true"
+            splitStatements="true"
+            stripComments="true"/>
+	</changeSet> 
+</databaseChangeLog>

@@ -1,0 +1,8 @@
+package com.cpa.ehr.backend.dao.system.constants;
+
+public class SystemsConstant {
+	
+	private SystemsConstant() {
+		
+	}
+}

@@ -1,0 +1,8 @@
+ ${AnsiColor.GREEN} _____   _   _   ____           ${AnsiColor.RED} _       ___   _____   _____ 
+ ${AnsiColor.GREEN}| ____| | | | | |  _ \          ${AnsiColor.RED}| |     |_ _| |_   _| | ____|
+ ${AnsiColor.GREEN}|  _|   | |_| | | |_) |  _____  ${AnsiColor.RED}| |      | |    | |   |  _|  
+ ${AnsiColor.GREEN}| |___  |  _  | |  _ <  |_____| ${AnsiColor.RED}| |___   | |    | |   | |___ 
+ ${AnsiColor.GREEN}|_____| |_| |_| |_| \_\         ${AnsiColor.RED}|_____| |___|   |_|   |_____|
+ 
+ ${AnsiColor.BRIGHT_BLUE}:: EHR-LITE 🤓  :: Running Spring Boot ${spring-boot.version} ::
+:: http://www.cloudpointamerica.com ::${AnsiColor.DEFAULT}                                                         

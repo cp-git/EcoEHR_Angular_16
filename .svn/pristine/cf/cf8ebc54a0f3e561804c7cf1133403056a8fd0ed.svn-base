@@ -1,0 +1,214 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { Encounter } from 'app/patients/models/encounter';
+import { ChiefCompliantDtl } from 'app/patients/models/chiefCompliantDtl';
+import { EncounterService } from 'app/patients/services/encounterService';
+import _ from 'lodash';
+import { EncounterHistoryService } from 'app/patients/services/encounterHistoryService';
+import { QuestionsService } from 'app/patients/services/questionsService';
+import { QuestionRecord } from 'app/patients/models/questionRecord';
+import { Observable } from 'rxjs/Observable';
+import { EncounterHistoryRecord } from 'app/patients/models/encounterHistoryRecord';
+import { PatientRecord } from 'app/patients/models/PatientRecord';
+import { NgxSpinnerService } from 'ngx-spinner';
+import * as jspdf from 'jspdf';
+import * as html2pdf from 'html2pdf.js';
+import { DatePipe } from '@angular/common';
+
+declare const $: any;
+
+@Component({
+  selector: 'ehr-listencounter',
+  templateUrl: 'list-encounter.component.html',
+  styleUrls: ['../../../app.component.css', '../../../../app/patients/encounter/addencounter.component.css']
+})
+
+export class ListEncounterComponent implements OnInit {
+  @Input() encounterDetails: Encounter;
+  acuityData: any;
+  chiefCompliantDetails: ChiefCompliantDtl[];
+  @Input() acuityDetails: any;
+  allData: EncounterHistoryRecord[] = [];
+  allFamilyQuestions: QuestionRecord[];
+  ages: any[] = [];
+  others: any[] = [];
+  allNoEncRecords: EncounterHistoryRecord[] = [];
+  allYesEncRecords: EncounterHistoryRecord[] = [];
+  @Input() patientRecords: PatientRecord;
+  allSystemTypes: any[] = [];
+  pdf = new jspdf();
+
+  constructor(private encounterService: EncounterService,
+    private encHistoryService: EncounterHistoryService,
+    private questionsService: QuestionsService,
+    private spinner: NgxSpinnerService,
+    private _date: DatePipe) { }
+
+
+  ngOnInit() {
+    this.spinner.show();
+
+    // disable inspect mode of browser using shortcut keys
+    document.onkeydown = function (event) {
+      if (event.keyCode == 123) {
+        return false;
+      }
+      if (event.ctrlKey && event.shiftKey && event.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+      }
+      if (event.ctrlKey && event.shiftKey && event.keyCode == 'C'.charCodeAt(0)) {
+        return false;
+      }
+      if (event.ctrlKey && event.shiftKey && event.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+      }
+      if (event.ctrlKey && event.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+      }
+    }
+
+    this.encounterService.getAllChiefCompliantDetailsByEncounterId(this.encounterDetails.encounterId)
+      .subscribe(data => {
+        this.chiefCompliantDetails = data;
+      })
+
+    this.getAcuityData(this.encounterDetails.emId);
+
+    this.getAllEncountersByEncounterId();
+
+    this.getAllQuestionsOfFamilyHistory();
+  }
+
+  getAllQuestionsOfFamilyHistory() {
+    //this.spinner.show();
+    this.questionsService.getAllQuestionsOfGroup(14)
+      .subscribe(data => {
+        this.spinner.hide();
+        this.allFamilyQuestions = data;
+      })
+  }
+
+  encounterDate(date) {
+    return new Date(date);
+  }
+
+  calculateAge(dob) {
+    return new Date().getFullYear() - new Date(dob).getFullYear();
+  }
+
+  getAcuityData(emId) {
+    this.acuityData = _.filter(this.acuityDetails, function (acuity) {
+      return acuity.NEW == emId;
+    })
+  }
+
+  getAllEncountersByEncounterId() {
+    Observable.forkJoin(
+      this.encHistoryService.getEncounterByEncounterId(this.encounterDetails.encounterId)
+    )
+      .subscribe(data => {
+        this.allData = <any>data[0];
+        this.getValue();
+        this.getDataOfRadio();
+      })
+  }
+
+  getPrevValue(data: EncounterHistoryRecord) {
+    if (data == undefined) {
+      return "";
+    }
+    else {
+      return data;
+    }
+  }
+
+  isChecked(optionId: number): boolean {
+    let data: EncounterHistoryRecord[] = this.allData.filter(value =>
+      value.systemCode == 'FAM');
+    for (let i = 0; i < data.length; i++) {
+      let famData: any[] = data[i].questionRecord.filter(famData =>
+        famData.questionType == 'checkbox');
+      let checkedData: any[] = famData.filter(data =>
+        data.answer.includes(optionId));
+      if (checkedData.length > 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  getValue() {
+    let data: EncounterHistoryRecord[] = this.allData.filter(value =>
+      value.systemCode == 'FAM');
+    for (let i = 0; i < data.length; i++) {
+      let famDataOfAge: any[] = data[i].questionRecord.filter(famData =>
+        famData.questionType == 'text');
+      for (let j = 0; j < famDataOfAge.length; j++) {
+        this.ages = famDataOfAge[i].answer.split('-')
+      }
+      let famDataOfOthers: any[] = data[i].questionRecord.filter(famData =>
+        famData.questionType == 'textarea');
+      for (let j = 0; j < famDataOfOthers.length; j++) {
+        this.others = famDataOfOthers[i].answer.split('-')
+      }
+    }
+  }
+
+  getDataOfRadio() {
+    for (let i = 0; i < this.allData.length; i++) {
+      if (this.allData[i].systemDesc != 'FAMILY HISTORY') {
+        let radioNoData: any[] = this.allData[i].questionRecord.filter(data =>
+          data.questionType == 'radio' && data.optionValue == 'No'
+        )
+        let encHistoryNo = new EncounterHistoryRecord(this.allData[i].systemId, this.allData[i].systemType, this.allData[i].systemCode,
+          this.allData[i].systemDesc, radioNoData);
+        this.allNoEncRecords.push(encHistoryNo);
+
+        let radioData: any[] = this.allData[i].questionRecord.filter(data =>
+          (data.questionType == 'radio' && data.optionValue != 'No') || data.questionType != 'radio'
+        )
+        let encHistory = new EncounterHistoryRecord(this.allData[i].systemId, this.allData[i].systemType, this.allData[i].systemCode,
+          this.allData[i].systemDesc, radioData);
+        this.allSystemTypes.push(this.allData[i].systemType)
+        this.allYesEncRecords.push(encHistory);
+      }
+    }
+    this.allSystemTypes = _.uniq(this.allSystemTypes);
+  }
+
+  displayMedications(medications: any) {
+    return medications.split("+");
+    // return medications.replace(new RegExp("\\+", "g"), ' ');
+  }
+
+  generatePDFChild(event: any) {
+    let value = $("#" + event.target.id).text();
+
+    let fullName = this.patientRecords.firstName + " " + this.patientRecords.lastName;
+    let encounterDate = this._date.transform(this.encounterDetails.encounterDate, 'dd-MM-yyyy');
+
+    var element = document.getElementById('encounterHistoryDetails');
+    var opt = {
+      margin: 1,
+      filename: fullName + '(' + encounterDate + ')' + '.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 1 },
+      jspdf: { unit: 'pt', format: 'A4', orientation: 'portrait' },
+      pagebreak: { mode: 'avoid-all', before: '#page2el' }
+    };
+
+
+    if (value == "Print PDF") {
+      html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+        window.open(pdf.output('bloburl'), '_blank');
+      });
+    }
+    else{
+      // New Promise-based usage:
+      html2pdf().set(opt).from(element).save();
+    }
+  }
+
+}

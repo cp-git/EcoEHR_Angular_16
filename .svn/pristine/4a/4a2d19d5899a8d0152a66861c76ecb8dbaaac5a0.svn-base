@@ -1,0 +1,138 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header color1" data-background-color>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                            <tr>
+                                    <td class="col-md-4" > 
+                                        <h6>Plan And Assessment
+                                        </h6>
+                                    </td>
+                                    <td class="col-md-8" style="top:-17px">
+                                            <ehr-navigation [allSystemTypes]=allSystemTypes [encounterId]=encounterId [sysName]=sysName></ehr-navigation>
+                                       
+                                    </td>
+                                </tr>
+                            </div>
+                        </div>
+                    </div>
+                    <h6> </h6>
+                    <div>
+                    <ehr-patientheader [encounterId]=encounterId [patientId]=patientId  (idChange)='getId($event)'></ehr-patientheader> 
+                    </div>
+                    <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                    fullScreen="true" type="line-scale-pulse-out-rapid">
+                </ngx-spinner>
+                 
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="btn-group btn-group-justified">
+                                    <ng-container *ngFor="let list of tabList let i=index">
+                                        <a data-toggle="tab" id="list_{{i}}" (click)="viewModes=list" [ngClass]="{'colorchange':list==viewModes}" class="btn btn-style systems-tab-style" title="{{list}}">{{list}}</a>
+                                    </ng-container>
+                                </div>
+                                <div *ngIf="statusCode==204" class="alert alert-danger" data-icon-bg-color="alert-red">
+                                        <strong>Encounter deleted successfully!</strong>
+                                </div>
+                            </div>
+                            <br>
+                         
+                                <!-- Assessment Div -->
+                             <div [ngSwitch]="viewModes">
+                                <div class="col-md-12 col-sm-12" *ngSwitchCase="'Assessment'">
+                                        <form [formGroup]="assessmentForm" mmethod="#" action="">
+                                    <div class="col-md-4 col-md-offset-1" style="padding-top:12px;">
+                                        <md2-select [multiple]="true" style="width:80%" placeholder="Please select" formControlName="icdCode">
+                                                <md2-option class="decrease-height"  *ngFor="let icd10 of icd10Details" [value]="icd10"   title="{{icd10.icd10CodeDescription}}">
+                                                <div [ngStyle]="{'color': (icd10.primaryFlag===true)  ? '#0471af' : '' }">
+                                              {{icd10.icd10Code}} &nbsp;&nbsp;<i class="fa fa-eye"></i></div>
+                                            </md2-option>
+                                        </md2-select>
+                                        <br>
+                                    
+                                        <button type="submit" (click)="onSubmit()" class="btn button" id="save"  >Save</button>
+                                        <br><br><br>
+                                    </div>    
+                                           
+                                    <div  class="table-content row" *ngIf="encounterassessmentdata.length>0">
+                                        <div class="col-md-6">
+                                        
+                                                         <div >
+                                                      <label style="color:black"> Assessment History</label>
+                                                  </div>
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                  
+                                                <tr>
+                                                    <th class="text-center">ICD-10 Codes</th>
+                                                    <th class="text-center" >ICD-10 Codes Description</th>
+                                                    <th class="text-center" >Delete</th>
+                                                   
+                                                </tr>
+                                                <tr *ngFor="let icd10 of encounterassessmentdata">
+                                                    <ng-container >
+                                                        <td>{{icd10.icd10Code}}</td>
+                                                        <td>{{icd10.icd10CodeDescription}}</td>
+                                                        <td class="text-center">
+                                                                <button class="btn btn-simple btn-danger btn-icon " (click)="deleteAssessment(icd10.encAsessmentId)" title="Delete">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </button>
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                                </form>
+                                </div>
+                                <br>      
+                                  
+                                <!-- Plan Div -->
+                                <div class="col-md-12 col-sm-12" *ngSwitchCase="'Plan'">
+                                    <ehr-orders  [headerdisplay]=headerdisplay [encounterId]=encounterId [patientId]=patientId [pageName]=pageName></ehr-orders>
+                                </div>
+                            </div>
+                                <br>
+                               
+
+                        </div>
+                        <div class="col-md-offset-5">
+                        <button type="submit" (click)="onSaveCloseEncounter()" class="btn button" id="save"  >Save And Close Encounter</button>
+                        <button type="submit" (click)="onCancelEncounter()" class="btn button" id="cancel"  >Cancel Encounter</button>
+                        <button type="submit" (click)="onSignSubmit()" class="btn button" id="sign"  >Sign And Submit Encounter</button>
+                         </div>
+                         <br>
+
+                       
+                         <div class="modal fade" id="CancelEncounterRecordModal" data-keyboard="false" data-backdrop="static" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                      
+                                    <div class="modal-body">
+                                          
+                                            <p>Are you sure you want to delete current Encounter?</p>
+                                        
+                                        <div class="modal-footer">
+                                            <div class="col-md-11 ">
+                                                <button type="submit" 
+                                                    (click)='deleteEncounterData()'
+                                                    class="btn button">Yes</button>
+                                                <button type="submit" (click)='closeDeleteConfirmationModal()' class="btn button">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  
+
+
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

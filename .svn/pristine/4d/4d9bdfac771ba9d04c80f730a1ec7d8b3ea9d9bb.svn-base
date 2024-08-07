@@ -1,0 +1,71 @@
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
+import { AppSettings } from '../../appsettings';
+import { Orders } from '../models/orders';
+
+@Injectable()
+export class OrdersService {
+	//URLs for CRUD operations
+	addOrderUrl = AppSettings.API_ENDPOINT + "./order/createOrders";
+	getAllOrderUrl = AppSettings.API_ENDPOINT + "./order/getAllOrders";
+	getOrdersByPatientIdUrl = AppSettings.API_ENDPOINT + "./order/getOrdersByPatientId";
+	updateOrderUrl = AppSettings.API_ENDPOINT + "./order/modifyOrders";
+	deletOrdertDataUrl = AppSettings.API_ENDPOINT + "./order/removeOrdersById";
+    
+	//Create constructor to get Http instance
+	constructor(private http: Http) {
+	}
+
+	insertOrders(orders: Orders): Observable<Orders> {
+		let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+		let options = new RequestOptions({ headers: cpHeaders });
+		return this.http.post(this.addOrderUrl, orders, options)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	getAllOrders(): Observable<Orders[]> {
+		let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+		let options = new RequestOptions({ headers: cpHeaders });
+		return this.http.get(this.getAllOrderUrl, options)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	getOrdersByPatientId(patientId: number): Observable<Orders[]> {
+		let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+		let cpParams = new URLSearchParams();
+		cpParams.set('patientId', patientId.toString());
+		let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+		return this.http.get(this.getOrdersByPatientIdUrl, options)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	updateOrders(orderDetails: Orders): Observable<Orders> {
+		let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+		let options = new RequestOptions({ headers: cpHeaders });
+		return this.http.put(this.updateOrderUrl, orderDetails, options)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	deletOrdertData(orderId: number):Observable<number> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+		let cpParams = new URLSearchParams();
+        cpParams.set('orderId', orderId.toString());
+		let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        return this.http.delete(this.deletOrdertDataUrl, options)
+        .map(success => success.status)
+               .catch(this.handleError);
+    }
+	private extractData(res: Response) {
+		let body = res.json();
+		return body;
+	}
+	private handleError(error: Response | any) {
+		console.error(error.message || error);
+		return Observable.throw(error.status);
+	}
+}

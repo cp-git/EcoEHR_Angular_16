@@ -1,0 +1,14 @@
+li.indentation {
+    left: 15px;
+    width: 93%;
+  }
+  
+  .ehr-class {
+    font-size: 15px;
+    color: #03659c;
+    border-style: solid;
+    box-shadow: 0px 8px 12px 0px #888888;
+  }
+  
+  .sidebar-wrapper::-webkit-scrollbar { width: 0 !important }
+  

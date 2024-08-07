@@ -1,0 +1,58 @@
+
+    <style>
+    #im{
+         padding-left:99px !important;
+         font-family: "Times New Roman", Times, serif;
+         font-size: 100px;
+         color:#595959
+    }
+    #img{
+        padding-left:99px !important;
+         font-family: "Times New Roman", Times, serif;
+         font-size: 30px;
+         color:#595959
+    }
+    p{
+        padding-left:99px !important;
+         font-family: "Times New Roman", Times, serif;
+         font-size: 20px;
+         color: red;
+    }
+
+    img#img1 {
+    filter:grayscale(100%);
+}
+    #img1 {
+    -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(50%);
+}
+    </style>
+<title>EHR</title>
+<div class="main-content">
+    <div class="container-fluid" >
+ <div class="card" style="padding:20px;">
+   
+ <div class="card-content" style="background-image: linear-gradient( #e6e6e6, white);" >
+        
+     <h1 id="im" >Oops!  </h1>
+
+    <tr>
+        <td>
+            <h2 id="img"> We can't seem to find the page
+                <br> you are looking for </h2>
+        </td>
+        <td  id="img1" style="padding-left:50px;" >
+                <img src="./assets/img/img47.png" style="width:128px;height:128px; "     />
+         </td> 
+    </tr>
+     <p>{{errorCode}} </p>
+     <p>Failed URL: {{url}} </p>
+     <p style="color:grey">
+         <br>
+         <a style="color:red" routerLink="/patients/patientlist">Go to Patient List</a><br>
+
+     </p>
+</div>
+</div>
+</div>
+</div>

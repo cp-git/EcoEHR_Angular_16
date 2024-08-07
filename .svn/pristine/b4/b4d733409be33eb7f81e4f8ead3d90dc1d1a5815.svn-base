@@ -1,0 +1,42 @@
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NouisliderModule } from 'ng2-nouislider';
+import { TagInputModule } from 'ngx-chips';
+import { MaterialModule } from '../../app.module';
+import { SharedModule } from 'app/shared/shared-module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { Md2Module } from 'md2';
+import { OrdersComponent } from 'app/patients/orders/orders.component';
+import { PatientHeaderModule } from '../patientheader/patientheader.module';
+import { MedicationModule } from '../medication/medication.module';
+import { OrdersService } from '../services/ordersService';
+@NgModule({
+  imports: [
+    NgxSpinnerModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NouisliderModule,
+    TagInputModule,
+    MaterialModule,
+    SharedModule,
+    Md2Module,
+    PatientHeaderModule,
+    MedicationModule
+  ],
+  declarations: [
+    OrdersComponent
+  ],
+  providers: [
+    OrdersService
+  ],
+  exports: [
+    OrdersComponent
+  ]
+})
+
+
+export class OrdersModule {}
+

@@ -1,0 +1,61 @@
+package com.cpa.ehr.backend.dao.admin;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.cpa.ehr.backend.dao.admin.constants.MasterLookupConstants;
+import com.cpa.ehr.backend.dao.admin.entities.MasterLookup;
+
+@Repository
+@Transactional
+public interface MasterLookupRepository extends JpaRepository<MasterLookup, Long> {
+
+	@Query(value = MasterLookupConstants.FIND_ALL_MASTER_LOOKUP_TYPE, nativeQuery = true)
+	List<String> findAllMasterLookupType(@Param("organizationId") Long organizationId);
+
+	@Query(value = MasterLookupConstants.FIND_ALL_MASTER_LOOKUP, nativeQuery = true)
+	List <MasterLookup> findAllActiveMasterLookup(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_ADDRESS_STATES, nativeQuery = true)
+	 List <MasterLookup> findAllAddressStates(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_PATIENT_STATUS, nativeQuery = true)
+	 List <MasterLookup> findAllPatientStatus(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_LANGUAGE, nativeQuery = true)
+	 List <MasterLookup> findAllLanguages(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_RACE, nativeQuery = true)
+	 List <MasterLookup> findAllRace(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_ETHNICITY, nativeQuery = true)
+	 List <MasterLookup> findAllEthnicity(@Param("organizationId") Long organizationId);
+	
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_CREDENTIALS, nativeQuery = true)
+	 List <MasterLookup> findAllCredentials(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_PROVIDER_TYPES, nativeQuery = true)
+	 List <MasterLookup> findAllProviderTypes(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_FREQUENCY, nativeQuery = true)
+	 List <MasterLookup> findAllFrequency(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_ROUTE, nativeQuery = true)
+	 List <MasterLookup> findAllRoute(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_TITLE, nativeQuery = true)
+	 List <MasterLookup> findAllTitle(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_MASTERLOOKUP_BY_REFILL, nativeQuery = true)
+	List <MasterLookup> findAllMasterLookUpByRefillType(@Param("organizationId") Long organizationId);
+	
+	@Query(value = MasterLookupConstants.FIND_ALL_MASTERLOOKUP_BY_DISCONTINUED_REASON, nativeQuery = true)
+	List <MasterLookup> findAllMasterLookUpByDISCONTINUEDREASONType(@Param("organizationId") Long organizationId);
+}

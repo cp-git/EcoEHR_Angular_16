@@ -1,0 +1,656 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="wizard-container">
+            <div class="card wizard-card" data-color="blue" id="wizardProfile">
+                <div class="card-header" data-background-color>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-5  col-xs-5">
+                            <tr>
+                                <td>
+                                    <h6>Add Patient</h6>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                </div>
+                <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D" fullScreen="true" type="line-scale-pulse-out-rapid">
+                </ngx-spinner>
+                <div class="card-content ">
+                    <div *ngIf="statusCode === 409" class="alert alert-danger" data-icon-bg-color="alert-red">
+                        <strong>Patient Name already exists!</strong>
+                    </div>
+                    <form [formGroup]="AddPatientForm" action="" method="">
+                        <div class="row">
+                            <div class="col-md-2" style="right:-50px;">
+                                <div class="picture-container">
+                                    <div class="picture">
+                                        <img src={{patientImage}} class="picture-src" id="wizardPicturePreview" title="" />
+                                        <input type="file" id="wizard-picture" name="PatientImageFile" (change)="selectFile($event)">
+                                        <input type="hidden" class="form-control" id="patientImageId" value="init">
+                                    </div>
+                                    <h6 style="font-size:12px;">Choose Picture</h6>
+                                    <ehr-field-error-display [displayError]="isNotValidImageSize" errorMsg="Upload image less than 30KB.">
+                                    </ehr-field-error-display>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-10">
+                                <div class="row adjust-content">
+                                    <div class="col-xs-1 col-md-1 col-sm-6" style="top:7px;">
+                                        <div class="form-group label-floating">
+                                            <label #titlefloatLable id="title_floatToLabel" class="control-label">
+                                                <small class="AsteriskColor">*</small> Title
+                                            </label>
+                                            <md2-select name="title" (click)="clearField(titlefloatLable)" formControlName="title" [(ngModel)]="title_selectedValue"
+                                                style="width: 100%">
+
+                                                <md2-option class="decrease-height" *ngFor="let title of allTitles" [value]="title.lookupCode">{{title.lookupCode}}</md2-option>
+                                            </md2-select>
+                                            <div class="error-display-margin">
+                                                <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'title')" errorMsg="Required">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6 col-md-3 col-sm-6 ">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">
+                                                <small class="AsteriskColor">* </small>Last Name
+                                            </label>
+                                            <input type="text" name="lastName" formControlName="lastName" class="form-control">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'lastName')" errorMsg="Last Name is required ">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6 col-md-4 col-sm-6 ">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Middle Name</label>
+                                            <input type="text" name="middleName" formControlName="middleName" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-4 col-md-4 col-sm-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">
+                                                <small class="AsteriskColor">* </small>First Name
+                                            </label>
+                                            <input type="text" name="firstName" formControlName="firstName" class="form-control">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'firstName')" errorMsg="First Name is required">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row adjust-content">
+                                    <div class="col-md-1 col-xs-6 col-sm-6" style="top:7px;">
+                                        <div class="form-group label-floating">
+                                            <label #genderfloatLable id="gender_floatToLabel" class="control-label">
+                                                <small class="AsteriskColor">*</small> Sex
+                                            </label>
+                                            <md2-select name="gender" formControlName="gender" (click)="clearField(genderfloatLable)" [(ngModel)]="patientGender_selectedValue"
+                                                style="width: 100%">
+                                              
+                                                <md2-option value="male">Male</md2-option>
+                                                <md2-option value="female">Female</md2-option>
+                                                <md2-option value="unknown">Unknown</md2-option>
+
+                                            </md2-select>
+                                            <div class="error-display-margin">
+                                                <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'gender')" errorMsg="Required">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-6 col-sm-6">
+                                        <div class="label-floating form-group ">
+                                            <label #dobfloatToLabel  class="control-label control-label-datepicker">
+                                                <small class="AsteriskColor">*</small> DOB
+
+                                            </label>
+                                            <mat-form-field style="width: 100% !important;">
+                                                <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                    <input matInput type="text" class="input-with-icon" id="dob" (click)="datepicker('dob',age,dobfloatToLabel)" name="dob" formControlName="dob"
+                                                        readonly required>
+                                                    <span class="input-icon" (click)="datepicker('dob',age,dobfloatToLabel)">
+                                                        <span class="fa fa-calendar fa-lg"></span>
+                                                    </span>
+                                                </div>
+                                            </mat-form-field>
+                                        </div>
+                                        <td style="margin-top: -15px;">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'dob')" errorMsg="Please select DOB">
+                                            </ehr-field-error-display>
+                                        </td>
+                                    </div>
+
+                                    <div class="col-md-1 col-xs-6  col-sm-6 ">
+                                        <div class="form-group label-floating ">
+                                            <label #age class="control-label">
+                                                <small class="AsteriskColor">*</small> Age
+                                            </label>
+                                            <input name="age" type="text" formControlName="age" readOnly class="form-control">
+
+                                        </div>
+                                    </div>
+
+
+                                     <div class="col-md-4 col-xs-6  col-sm-6 ">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">
+                                                <small class="AsteriskColor">*</small> Phone No.
+                                            </label>
+                                            <input name="primaryNo" id="primaryNo" formControlName="primaryNo" type="text" class="form-control">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'primaryNo')" errorMsg="Enter valid Phone no.(XXX-XXX-XXXX)">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-6  col-sm-6 ">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Mobile No.
+                                            </label>
+                                            <input name="secondaryNo" id="secondaryNo" formControlName="secondaryNo" type="text" class="form-control">
+                                             <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'secondaryNo')" errorMsg="Enter valid Mobile no.(XXX-XXX-XXXX)">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row adjust-content">
+                                <div class="col-xs-6 col-md-3 col-sm-6  ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">
+                                            <small class="AsteriskColor">*</small> Email
+                                        </label>
+                                        <input name="primaryEmail" type="email" formControlName="primaryEmail" class="form-control">
+                                        <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'primaryEmail')" errorMsg="Enter valid Email address">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-md-3 col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Secondary Email </label>
+                                        <input type="email" name="secondaryEmail" formControlName="secondaryEmail" class="form-control">
+                                        <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'secondaryEmail')" errorMsg="Enter valid Email address">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-md-3 col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">
+                                            <small class="AsteriskColor">*</small> Social Security No.</label>
+                                        <input type="text" id="ssn" formControlName="ssn" class="form-control">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'ssn')" errorMsg="Social Security No. is Required">
+                                            </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Driver License No. </label>
+                                        <input type="text" name="licenseNo" formControlName="licenseNo" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row adjust-content">
+
+                                <div class="col-md-3 col-xs-6  col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">
+                                            <small class="AsteriskColor">*</small> Street Name
+                                        </label>
+                                        <input name="patientAddressStreet" type="text" formControlName="patientAddressStreet" class="form-control ">
+                                        <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'patientAddressStreet')" errorMsg="Street Name is Required">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-6  col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">
+                                            Building Number
+                                        </label>
+                                        <input type="text" id="buildingNo" formControlName="buildingNo" class="form-control">
+                                        <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'buildingNo')" errorMsg="Please Enter Building No in valid format">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-xs-4">
+                                  
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Apartment No. </label>
+                                            <input type="text" name="patientAddressDoorNo" formControlName="patientAddressDoorNo" class="form-control">
+                                        </div>
+                                    
+                                </div>
+
+                                <div class="col-md-3 col-xs-6  col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">
+                                            <small class="AsteriskColor">*</small> City
+                                        </label>
+                                        <input type="text" name="patientAddressCity" formControlName="patientAddressCity" class="form-control">
+                                        <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'patientAddressCity')" errorMsg="Please enter city">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row adjust-content">
+                                <div class="col-md-3 col-xs-6 col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label #statefloatLable id="state_floatToLabel" class="control-label">
+                                            <small class="AsteriskColor">*</small> State
+                                        </label>
+
+                                        <md2-select (click)="clearField(statefloatLable)" name="patientAddressState" formControlName="patientAddressState" [(ngModel)]="patientAddressState_selectedValue"
+                                            style="width: 100%">
+                                            <md2-select-header>
+                                                <input name="search" type="text" placeholder="Search for State" [(ngModel)]="patientAddressState_search" [ngModelOptions]="{standalone: true}"
+                                                />
+                                            </md2-select-header>
+                                            <md2-option class="decrease-height" *ngFor="let patientAddressState of allStates | lookupPipe : patientAddressState_search"
+                                                [value]="patientAddressState.lookupCode">{{patientAddressState.lookupCode}}</md2-option>
+                                        </md2-select>
+                                        <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'patientAddressState')" errorMsg="Please select State">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-6  col-sm-6 " style="top:-7px;">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">
+                                            <small class="AsteriskColor">*</small> ZIP Code
+                                        </label>
+                                        <input type="text" id="patientAddressZip" formControlName="patientAddressZip" class="form-control">
+                                        <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'patientAddressZip')" errorMsg="Enter Zip Code in proper format (XXXXX)">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-md-3 col-xs-4" style="top:0px;">
+                                    <div class="form-group label-floating">
+                                        <label #providerfloatLable id="provider_floatLable" class="control-label">
+                                            <small class="AsteriskColor">*</small> Primary Provider
+                                        </label>
+                                        <md2-select (click)="clearField(providerfloatLable)" (change)="onProviderChange(staffId_selectedValue,primaryservicefloatLable)"
+                                            name="staffId" formControlName="staffId" [(ngModel)]="staffId_selectedValue" style="width: 100%">
+                                            <md2-select-header>
+                                                <input name="search" type="text" placeholder="Search for Primary Provider" [(ngModel)]="staffId_search" [ngModelOptions]="{standalone: true}"
+                                                />
+                                            </md2-select-header>
+                                            <md2-option class="decrease-height" *ngFor="let staffId of allProvider| primaryProvider : staffId_search" [value]="staffId.staffId">{{staffId.staffFullName}}</md2-option>
+                                        </md2-select>
+                                        <div class="error-display-margin">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'staffId')" errorMsg="Please select Primary Provider">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-6  col-sm-6 ">
+                                    <div class="form-group label-floating">
+                                        <label #primaryservicefloatLable id="primaryservice_floatLable" class="control-label">Primary Service Location
+                                        </label>
+                                        <md2-select name="patientAddressId" (click)="clearField(primaryservicefloatLable)" formControlName="patientAddressId" [(ngModel)]="patientAddressId_selectedValue"
+                                            style="width: 100%">
+                                            <md2-select-header>
+                                                <input name="search" type="text" placeholder="Search for Primary Service Location" [(ngModel)]="patientAddressId_search"
+                                                    [ngModelOptions]="{standalone: true}" />
+                                            </md2-select-header>
+                                            <md2-option class="decrease-height" *ngFor="let cliniclocation of allCliniclocations| primaryServiceLocation : patientAddressId_search"
+                                                [value]="cliniclocation.locationId">{{cliniclocation.locationName}}</md2-option>
+                                        </md2-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row adjust-content">
+                                <div class="col-md-3 col-xs-6 col-sm-6 " style="top:7px;">
+                                    <div class="form-group label-floating">
+                                        <label #langfloatLable id="lang_floatToLabel" class="control-label">
+                                            <small class="AsteriskColor">*</small> Preferred Language
+                                        </label>
+                                        <md2-select name="language" (click)="clearField(langfloatLable)" formControlName="patientLanguage" [(ngModel)]="language_selectedValue"
+                                            style="width: 100%">
+
+                                            <md2-option class="decrease-height" *ngFor="let lang of allLanguages" [value]="lang.lookupCode">{{lang.lookupCode}}</md2-option>
+                                        </md2-select>
+                                        <div class="error-display-margin">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'patientLanguage')" errorMsg="Please select Preferred Language">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-6  col-sm-6 " style="top:7px;">
+                                    <div class="form-group label-floating">
+                                        <label #racefloatLable id="race_floatToLabel" class="control-label">
+                                            <small class="AsteriskColor">*</small> Race 
+                                        </label>
+                                        <md2-select name="race" (click)="clearField(racefloatLable)" formControlName="race" [(ngModel)]="race_selectedValue"
+                                            style="width: 100%">
+
+                                            <md2-option class="decrease-height" *ngFor="let rac of allRace" [value]="rac.lookupCode">{{rac.lookupCode}}</md2-option>
+                                        </md2-select>
+                                        <div class="error-display-margin">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'race')" errorMsg="Please select Race">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-6  col-sm-6 " style="top:6px">
+                                    <div class="form-group label-floating">
+                                        <label #ethnicityfloatLable id="ethnicity_floatToLabel" class="control-label">
+                                            <small class="AsteriskColor">*</small> Ethnicity 
+                                        </label>
+                                        <md2-select name="race" (click)="clearField(ethnicityfloatLable)" formControlName="ethnicity" [(ngModel)]="ethnicity_selectedValue"
+                                            style="width: 100%">
+
+                                            <md2-option class="decrease-height" *ngFor="let ethnicity of allEthnicity" [value]="ethnicity.lookupCode">{{ethnicity.lookupCode}}</md2-option>
+                                        </md2-select>
+                                        <div class="error-display-margin">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'ethnicity')" errorMsg="Please select Ethnicity ">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xs-6  col-sm-6 " style="top:7px;">
+                                    <div class="form-group label-floating">
+                                        <label #statusfloatLable id="status_floatToLable" class="control-label">
+                                            <small class="AsteriskColor">*</small> Patient Status
+                                        </label>
+                                        <md2-select name="additionalInfo" (click)="clearField(statusfloatLable)" formControlName="additionalInfo" [(ngModel)]="additionalInfo_selectedValue"
+                                            style="width: 100%">
+                                            <md2-select-header>
+                                                <input name="search" type="text" placeholder="Search for Patient Status" [(ngModel)]="additionalInfo_search" [ngModelOptions]="{standalone: true}"
+                                                />
+                                            </md2-select-header>
+                                            <md2-option class="decrease-height" *ngFor="let additionalInfo of alladditionalInfo | lookupPipe : additionalInfo_search"
+                                                [value]="additionalInfo.lookupCode">{{additionalInfo.lookupCode}}</md2-option>
+                                        </md2-select>
+                                        <div class="error-display-margin">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'additionalInfo')" errorMsg="Please select Patient Status">
+                                            </ehr-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    
+                        <div class="col-md-12" style="margin-left:57px;">
+                            <a (click)="showModal()">
+                                <b>Patient Insurance Information</b>
+                            </a>
+                        </div>
+                       
+
+                        <div class="row" style="margin-left:57px;">
+                            <div id="expansionPanel2" *ngIf="value">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center">Primary Insurance Information</th>
+                                            <th class="text-center">Secondary Insurance Information</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="input-group">
+                                                        <div>
+                                                            <label>Patient Relationship to Insured</label>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <input name="PInsRelationship" formControlName="PInsRelationship" value="Self" type="radio" id="test1" />
+                                                                <label for="test1">Self</label>
+                                                            </div>
+                                                            <div>
+                                                                <input name="PInsRelationship" formControlName="PInsRelationship" value="Spouse" type="radio" id="test2" />
+                                                                <label for="test2">Spouse</label>
+                                                            </div>
+                                                            <div>
+                                                                <input name="PInsRelationship" formControlName="PInsRelationship" value="Child" type="radio" id="test3" />
+                                                                <label for="test3">Child</label>
+                                                            </div>
+                                                            <div>
+                                                                <input name="PInsRelationship" formControlName="PInsRelationship" value="Other" type="radio" id="test4" />
+                                                                <label for="test4">Other</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="input-group">
+                                                        <div class="">
+                                                            <label>Patient Relationship to Insured</label>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <input name="SInsRelationship" formControlName="SInsRelationship" value="Self" type="radio" id="test1" />
+                                                                <label for="test1">Self</label>
+                                                            </div>
+                                                            <div>
+                                                                <input name="SInsRelationship" formControlName="SInsRelationship" value="Spouse" type="radio" id="test2" />
+                                                                <label for="test2">Spouse</label>
+                                                            </div>
+                                                            <div>
+                                                                <input name="SInsRelationship" formControlName="SInsRelationship" value="Child" type="radio" id="test3" />
+                                                                <label for="test3">Child</label>
+                                                            </div>
+                                                            <div>
+                                                                <input name="SInsRelationship" formControlName="SInsRelationship" value="Other" type="radio" id="test4" />
+                                                                <label for="test4">Other</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Name of Insured: <small class="AsteriskColor">*</small></label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="PrimaryInsuredName" class="form-control" formControlName="PInsName">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'PInsName')" errorMsg="Please Enter Name of Insured">
+                                            </ehr-field-error-display>
+                                                </div>
+                                                 
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Name of Insured:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="SecondaryInsuredName" class="form-control" formControlName="SInsName">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insured DOB: <small class="AsteriskColor">*</small></label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <mat-form-field style="width: 100% !important;">
+                                                        <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                            <input matInput type="text" class="input-with-icon" (click)="datepicker('PInsDob')" id="PInsDob" name="PInsDob" formControlName="PInsDob"
+                                                                readonly>
+                                                            <span class="input-icon" (click)="datepicker('PInsDob')">
+                                                                <span class="fa fa-calendar fa-lg"></span>
+                                                            </span>
+                                                        </div>
+                                                    </mat-form-field>
+                                                      <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'PInsDob')" errorMsg="Please Enter Insured DOB">
+                                            </ehr-field-error-display>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insured DOB:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <mat-form-field style="width: 100% !important;">
+                                                        <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                            <input matInput type="text" class="input-with-icon" (click)="datepicker('SInsDob')" id="SInsDob" name="SInsDob" formControlName="SInsDob"
+                                                                readonly>
+                                                            <span class="input-icon" (click)="datepicker('SInsDob')">
+                                                                <span class="fa fa-calendar fa-lg"></span>
+                                                            </span>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insured Social Security: <small class="AsteriskColor">*</small></label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="PInsSsn" id="PInsSsn" formControlName="PInsSsn" class="form-control">
+                                            <ehr-field-error-display [displayError]="isFieldValid(AddPatientForm, 'PInsSsn')" errorMsg="Please Enter Social Security No.">
+                                            </ehr-field-error-display>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insured Social Security:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="SInsSsn" id="SInsSsn" formControlName="SInsSsn" class="form-control">
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insured Employer</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="PInsEmployer" formControlName="PInsEmployer" class="form-control">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insured Employer</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="SecondaryEmployer" formControlName="SInsEmployer" class="form-control">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance Company</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="PrimaryCompany" formControlName="PInsCompany" class="form-control">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance Company</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="SecondaryCompany" formControlName="SInsCompany" class="form-control">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance Plan Name</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="PrimaryPlanName" formControlName="PInsPlanName" class="form-control">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance Plan Name</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="SecondaryPlanName" formControlName="SInsPlanName" class="form-control">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance ID</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="PrimaryID" formControlName="PInsId" class="form-control">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance ID</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="SecondaryID" formControlName="SInsId" class="form-control">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance Group No</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="PrimaryGroupNo" formControlName="PInsGroup" class="form-control">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4">
+                                                    <label class="labelinsurance">Insurance Group No</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" name="SecondaryGroupNo" formControlName="SInsGroup" class="form-control">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    
+                        <br>
+                        <div class="row">
+                            <div>
+                                <input type='button' class='btn button' name='SAVE' value='Add' id="save" (click)="onsubmit($event)" />
+                                <input type='button' routerLink="/patients/patientlist" class='btn button pull-right' name='cancel' value="CANCEL">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

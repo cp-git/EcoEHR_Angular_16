@@ -1,0 +1,46 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
+import { AppSettings } from 'app/appsettings';
+import { FileData } from '../models/fileData';
+
+@Injectable()
+export class UploadFileService {
+  uploadFileUrl = AppSettings.API_ENDPOINT + "./files/uploadFile";
+  getUploadedFilesUrl = AppSettings.API_ENDPOINT + "./files/getUploadedFiles";
+  constructor(private http: Http) { }
+
+  pushFileToStorage(file: File, fileData: FileData): Observable<FileData> {
+    let cpHeaders = new Headers({ "x-auth-token": localStorage.getItem('jwt') });
+    let formdata: FormData = new FormData();
+    let options = new RequestOptions({ headers: cpHeaders });
+    formdata.append('file', file);
+    const blobOverrides = new Blob([JSON.stringify(fileData)], {
+      type: 'application/json',
+    });
+    formdata.append('fileData', blobOverrides);
+    return this.http.post(this.uploadFileUrl, formdata, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getUploadedFiles(fileUrl: string): Observable<FileData> {
+    let headers = new Headers({"x-auth-token": localStorage.getItem('jwt')});
+    let cpParams = new URLSearchParams();
+    cpParams.append('fileUrl', fileUrl);
+    let options = new RequestOptions( { headers: headers, params: cpParams});
+    return this.http.get(this.getUploadedFilesUrl, options)
+    .map(this.extractData)
+    .catch(this.handleError)
+  }
+
+  private extractData(res: Response) {
+    let body = res.json();
+    return body;
+  }
+
+  private handleError(error: Response | any) {
+    console.error(error.message || error);
+    return Observable.throw(error.status);
+  }
+}

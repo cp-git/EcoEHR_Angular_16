@@ -1,0 +1,17 @@
+import { Routes } from '@angular/router';
+import { ListEncounterComponent } from './list-encounter/list-encounter.component';
+
+
+
+export const EncounterRoutes: Routes = [
+    {
+        path: '',
+        redirectTo: 'addencounter/:patientId',  
+        pathMatch: 'full'
+      }, {
+        path: '',
+        children: [ {
+          path: 'listencounter',
+          component: ListEncounterComponent
+      }]},
+];

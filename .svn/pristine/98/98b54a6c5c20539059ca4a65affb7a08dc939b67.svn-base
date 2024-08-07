@@ -1,0 +1,14 @@
+export class ConsultantNotes {
+    constructor(
+        public consultantNotesId: number, 
+                public patientId: number, 
+                public consultantComments: string, 
+                public consultantDate: Date, 
+                public documentLink: string, 
+                public createdDate: Date,
+                public createdBy: string,
+                public lastUpdatedDate: Date,
+                public lastUpdatedBy: string,
+                public activeFlag:any) { 
+    }
+ } 

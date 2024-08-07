@@ -1,0 +1,113 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { PatientRecord } from '../models/PatientRecord';
+import { DatePipe } from '@angular/common';
+import { PatientAllergy } from '../models/patientAllergy';
+import { PatientDetailsService } from '../services/patientDetailsService';
+import { PatientAllergyService } from '../services/patientAllergyService';
+import { Encounter } from '../models/encounter';
+import { EncounterService } from '../services/encounterService';
+import { NgxSpinnerService } from 'ngx-spinner';
+@Component({
+  selector: 'ehr-patientheader',
+  templateUrl: './patientheader.component.html',
+  styleUrls: ['./patientheader.component.css','../../app.component.css']
+})
+export class PatientHeaderComponent implements OnInit {
+  
+  @Output() 
+  idChange = new EventEmitter();
+  @Input() patientId:number;
+  @Input() encounterId:number;
+  patientRecords:PatientRecord;
+  patientAllergies:PatientAllergy[]
+   today: number = Date.now();
+   value=false;
+   statusCode:any;
+   encounterdata:Encounter;
+   show:boolean;
+
+  constructor(
+    private patientDetailsService: PatientDetailsService,
+    private patientAllergyService: PatientAllergyService,
+    private encounterService: EncounterService, private spinner:NgxSpinnerService
+  ) { }
+
+  ngOnInit() {
+    this.value=false;
+    this.spinner.show();
+    if(this.patientId!=undefined && this.encounterId!=undefined)
+    {
+      this.show=false;
+      this.getPatientRecordsByPatientId(this.patientId);
+      this.getAllAllergies(this.patientId);
+    }
+    else
+    {
+    if(this.encounterId==undefined)
+    {
+      this.show=false;
+      this.getPatientRecordsByPatientId(this.patientId);
+      this.getAllAllergies(this.patientId);
+    }
+    if(this.patientId==undefined){
+     
+      this.show=true;
+      this.getEncounterByEncounterId(this.encounterId);
+    }
+  }
+  }
+
+  dateOfBirth(date) {
+    return new Date(date);
+  }
+
+  calculateAge(dob) {
+    return new Date().getFullYear() - new Date(dob).getFullYear();
+  }
+
+  showAllergiesModal() {
+    this.value = !this.value;
+    $("#expansionPanel3").show();
+  }
+  
+  getEncounterByEncounterId(encounterId) {
+    this.spinner.show();
+    this.encounterService.getEncounterByEncounterId(encounterId)
+        .subscribe(data => {
+          this.encounterdata = data;
+            this.patientId = data.patientId;
+            this.idChange.emit(this.patientId);
+            this.getAllAllergies(this.patientId);
+            this.getPatientRecordsByPatientId(this.patientId);
+        },
+       
+            errorCode => this.statusCode = errorCode);
+            
+}
+
+  getPatientRecordsByPatientId(patientId) {
+ 
+  this.spinner.show();
+    this.patientDetailsService.getPatientRecordsByPatientId(patientId)
+      .subscribe(data => {
+        
+        this.patientRecords = data;
+        this.spinner.hide();
+      
+        
+      })
+  }
+
+  getAllAllergies(patientId) {
+    //this.spinner.show();
+    this.patientAllergyService.getPatientAllergies(patientId)
+      .subscribe(data => {
+      
+        this.patientAllergies = data;
+       // this.spinner.hide();
+      })
+  }
+
+  
+}

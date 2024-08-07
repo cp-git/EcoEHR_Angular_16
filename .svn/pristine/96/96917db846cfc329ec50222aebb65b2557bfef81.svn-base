@@ -1,0 +1,464 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="wizard-container">
+            <div class="card wizard-card" data-color="blue" id="wizardProfile">
+                <div class="card-header" data-background-color>
+                    <div class="row">
+                        <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                            fullScreen="true" type="line-scale-pulse-out-rapid">
+                        </ngx-spinner>
+                        <div>
+                            <tr>
+                                <td>
+                                    <h6>Edit Profile</h6>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content ">
+                    
+
+                    <form [formGroup]="staffMemberForm">
+                           
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    First Name
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="firstName">
+                                                <ehr-field-error-display
+                                                    [displayError]="isFieldValid('firstName',staffMemberForm)"
+                                                    errorMsg="First name is required and it should not exceed 30 characters">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Last Name
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="lastName">
+                                                <ehr-field-error-display
+                                                    [displayError]="isFieldValid('lastName',staffMemberForm)"
+                                                    errorMsg="Last name is required and it should not exceed 30 characters">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="top:7px;">
+                                            <div class="form-group">
+                                                <label  
+                                                    class="control-label" >
+                                                    <small class="AsteriskColor">*</small> Sex
+                                                </label>
+                                                <md2-select name="gender" formControlName="gender"
+                                                    (click)="clearField(genderfloatLable)" style="width: 100%">
+                                                    <md2-option value="male">Male</md2-option>
+                                                    <md2-option value="female">Female</md2-option>
+                                                    <md2-option value="unknown">Unknown</md2-option>
+                                                </md2-select>
+                                                <div class="error-display-margin">
+                                                    <ehr-field-error-display
+                                                        [displayError]="isFieldValid('gender',staffMemberForm)"
+                                                        errorMsg="Required">
+                                                    </ehr-field-error-display>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:8px;">
+                                        <div class="col-md-4">
+                                            <div class=" form-group" >
+                                                <label #dobfloatToLabel [ngClass]="{'datepicket-label-style': buttonName=='UPDATE' && selectedStaff.dob != null}"
+                                                    class="control-label control-label-datepicker">
+                                                    <small class="AsteriskColor">*</small> DOB
+                                                </label>
+                                                <mat-form-field style="width: 100% !important;">
+                                                    <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                        <input matInput type="text" class="input-with-icon" id="dob"
+                                                            (click)="dobDatepicker('dob',dobfloatToLabel)" name="dob"
+                                                            formControlName="dob" readonly required>
+                                                        <span class="input-icon"
+                                                            (click)="dobDatepicker('dob',dobfloatToLabel)">
+                                                            <span class="fa fa-calendar fa-lg"></span>
+                                                        </span>
+                                                    </div>
+                                                </mat-form-field>
+                                            </div>
+                                            <ehr-field-error-display
+                                                [displayError]="isFieldValid('dob',staffMemberForm)"
+                                                errorMsg="Please select DOB">
+                                            </ehr-field-error-display>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Login Id
+                                                </label>
+                                                <input type="text" id="loginId" class="form-control"
+                                                    formControlName="loginId" disabled>
+                                              
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label">
+                                                        <small class="AsteriskColor">*</small>
+                                                        Social Security Number
+                                                </label>
+                                                <input type="text" name="ssn" id="ssn" formControlName="ssn"
+                                                    class="form-control">
+                                                <ehr-field-error-display
+                                                    [displayError]="isFieldValid('ssn',staffMemberForm)"
+                                                    errorMsg="Enter SSN in valid format">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Email
+                                                </label>
+                                                <input type="email" id="email" class="form-control"
+                                                    formControlName="email">
+                                                <ehr-field-error-display
+                                                    [displayError]="staffMemberForm['controls']
+                                                            .email.hasError('required') && staffMemberForm['controls'].email.touched"
+                                                    errorMsg="Email address is required.">
+                                                </ehr-field-error-display>
+                                                <ehr-field-error-display
+                                                    [displayError]="staffMemberForm['controls']
+                                                            .email.hasError('pattern') && staffMemberForm['controls'].email.touched"
+                                                    errorMsg="Enter valid email address.">
+                                                </ehr-field-error-display>
+                                                <ehr-field-error-display
+                                                    [displayError]="staffMemberForm['controls']
+                                                            .email.hasError('validEmail') && staffMemberForm['controls'].email.dirty"
+                                                    errorMsg="Email Address already exists.">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Mobile Phone Number
+                                                </label>
+                                                <input type="text" id="mobileNo" class="form-control"
+                                                    formControlName="mobileNo">
+                                                <ehr-field-error-display
+                                                    [displayError]="isFieldValid('mobileNo',staffMemberForm)"
+                                                    errorMsg="Please enter valid Mobile No.">
+                                                </ehr-field-error-display>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group" style="margin-top:4%">
+                                                <label class="control-label">
+                                                    <small class="AsteriskColor">*</small> 
+                                                    Primary Location
+                                                </label>
+                                                <md2-select name="staffAddressId" formControlName="staffAddressId" 
+                                                    style="width:100%;" >
+                                                    <md2-select-header>
+                                                        <input name="search" type="text" placeholder="Search for Primary Location"
+                                                            [(ngModel)]="staffAddressId_search" [ngModelOptions]="{standalone: true}" />
+                                                    </md2-select-header>
+                                                    <md2-option class="decrease-height"
+                                                        *ngFor="let cliniclocation of allCliniclocations |primarylocation:staffAddressId_search"
+                                                        [value]="cliniclocation.locationId">{{cliniclocation.locationName}}</md2-option>
+                                                </md2-select>
+                                                <div>
+                                                    <ehr-field-error-display [displayError]="isFieldValid('staffAddressId',staffMemberForm)"
+                                                        errorMsg="Primary location is required.">
+                                                    </ehr-field-error-display>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-offset-1">
+                                    <div class="picture-container">
+                                        <h6>Choose Picture</h6>
+                                        <div class="picture">
+                                            <img src="{{staffImage}}" class="picture-src" id="wizardPicturePreview"
+                                                title="" />
+                                            <input type="file" id="wizard-picture" name="staffImageFile"
+                                                (change)="selectFile($event)">
+                                            <input type="hidden" class="form-control" formControlName="staffImage"
+                                                id="staffImageId" value="init">
+                                        </div>
+                                        <ehr-field-error-display [displayError]="isNotValidImageSize"
+                                            errorMsg="Upload image less than 30KB.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- (change)="getSelectedCredentials('designation')" -->
+                            <div class="row">
+                                <div class="col-md-4 ">
+                                    <!-- <br> -->
+
+                                    <div class="form-group ">
+                                        <label class="control-label">Credentials   
+                                        </label>
+                                        <md2-select name="designation" formControlName="designation" #cred
+                                               (change)="getSelectedCredentials($event.value)"
+                                            style="width:100%;">
+                                            <md2-select-header>
+                                                <input name="search" type="text"
+                                                    placeholder="Search for Credentials" [(ngModel)]="_search"
+                                                    [ngModelOptions]="{standalone: true}" />
+                                            </md2-select-header>
+                                            <md2-option class="decrease-height"
+                                                *ngFor="let designation of allCredentials | lookupPipe : _search"
+                                                [value]="designation.lookupCode">{{designation.lookupCode}}
+                                            </md2-option>
+                                          
+                                        </md2-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <label class="pull-left label-floating">
+                                            <small class="AsteriskColor">*</small>
+                                            Is the user a provider?</label>
+                                        <div class="radio-inline">
+                                            &nbsp;&nbsp;
+                                            <label for="provider">
+                                                <input name="providerFlag" formControlName="providerFlag" value="Y"
+                                                    type="radio" id="provider"> Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <label for="notAProvider">
+                                                <input name="providerFlag" formControlName="providerFlag" value="N"
+                                                    type="radio" id="notAProvider">No
+                                            </label>
+                                        </div>
+                                        <ehr-field-error-display
+                                            [displayError]="isFieldValid('providerFlag',staffMemberForm)"
+                                            errorMsg="It is required to select one option.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="form-group"
+                                    [ngStyle]="{'pointer-events': showRadio ? 'none' : 'block'}">
+                                    <div class="col-md-4">
+                                        <br>
+                                        <label class="pull-left label-floating">
+                                            <small class="AsteriskColor">*</small>
+                                            Is the user an admin?</label>
+                                        <div class="radio-inline">
+                                            &nbsp;&nbsp;
+                                            <label>
+                                                <input name="authority" formControlName="authority"
+                                                    value="ROLE_ADMIN" type="radio" id="authority1"
+                                                    (change)="isAdminChange($event);"> Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <label>
+                                                <input name="authority" formControlName="authority"
+                                                    value="ROLE_USER" type="radio" id="authority2"
+                                                    (change)="isAdminChange($event);"> No
+                                            </label>
+                                        </div>
+                                        <ehr-field-error-display
+                                            [displayError]="isFieldValid('authority',staffMemberForm)"
+                                            errorMsg="It is required to select one option.">
+                                        </ehr-field-error-display>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4" style="top:7px;" id="specialtyDiv">
+                                    <div class="form-group label-floating" >
+                                        <label class="control-label">
+                                            <small class="AsteriskColor" *ngIf="isadmin">*</small>
+                                            Specialty
+                                        </label>
+                                        <md2-select name="providerType" id="providerType"
+                                            formControlName="providerType"
+                                            style="width:100%;"
+                                            [ngClass]="{'disableProviderType': showProviderType,'disableLoginId':(isCredential=='Admin Staff')}">
+                                            <md2-select-header>
+                                                <input name="search" type="text"
+                                                    placeholder="Search for Provider Type"
+                                                    [(ngModel)]="providerType_search"
+                                                    [ngModelOptions]="{standalone: true}" />
+                                            </md2-select-header>
+                                            <md2-option class="decrease-height"
+                                                *ngFor="let providerType of allProviderTypes | lookupPipe : providerType_search"
+                                                [value]="providerType.lookupCode">{{providerType.lookupCode}}
+                                            </md2-option>
+                                        </md2-select>
+                                        <ehr-field-error-display [displayError]="isadmin && isFieldValid('providerType',staffMemberForm)"
+                                            errorMsg="Please select Provider Type"></ehr-field-error-display>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group label-floating" id="npiDiv" [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}">
+                                        <label class="control-label required" >
+                                            <small class="AsteriskColor">*</small>
+                                            NPI
+                                        </label>
+                                        <input type="text" id="npiNumber" class="form-control"
+                                            formControlName="npiNumber" >
+                                     
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:8px;">
+                                <div class="col-md-2">
+                                    <label class="label-floating" style="color:black;margin-top:11px">
+                                        License Number:
+                                    </label>
+                                </div>
+                                <div class="col-md-6" style="right:45px">
+                                    <div class="row">
+                                        <div class="col-md-4" style="top:-25px;">
+                                            <div class="form-group" >
+                                                <label 
+                                                    class="control-label" >
+                                                     State
+                                                </label>
+                                                <md2-select (click)="clearField(statefloatLable)"
+                                                    name="staffAddressState" formControlName="staffAddressState" [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}"
+                                                    style="width: 100%">
+                                                    <md2-select-header>
+                                                        <input name="search" type="text"
+                                                            placeholder="Search for State"
+                                                            [(ngModel)]="staffAddressState_search"
+                                                            [ngModelOptions]="{standalone: true}"  />
+                                                    </md2-select-header>
+                                                    <md2-option class="decrease-height"
+                                                        *ngFor="let staffAddressState of allStates | lookupPipe : staffAddressState_search"
+                                                        [value]="staffAddressState.lookupCode">
+                                                        {{staffAddressState.lookupCode}}</md2-option>
+                                                </md2-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group label-floating" id="numberDiv"  [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}">
+                                                <label class="control-label " >
+                                                    Number
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="licNumber">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="label-floating form-group " id="licExpDiv" [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}">
+                                                <label #licExpDatefloatToLabel [ngClass]="{'datepicket-label-style':  selectedStaff?.licenseExpDate != null}"
+                                                    class="control-label control-label-datepicker">Expiration Date
+                                                </label>
+                                                <mat-form-field style="width: 100% !important;">
+                                                    <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                        <input matInput type="text" class="input-with-icon"
+                                                            id="licExpirationDate"
+                                                            (click)="datepicker('licExpirationDate',licExpDatefloatToLabel)"
+                                                            name="licExpirationDate" 
+                                                            formControlName="licExpirationDate" readonly>
+                                                        <span class="input-icon"
+                                                            (click)="datepicker('licExpirationDate',licExpDatefloatToLabel)">
+                                                            <span class="fa fa-calendar fa-lg"></span>
+                                                        </span>
+                                                    </div>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="label-floating" style="color:black;">
+                                        DEA Number:
+                                    </label>
+                                </div>
+                                <div class="col-md-6" style="right:45px">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group label-floating" id="deaNumDiv" [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                                <label class="control-label ">
+                                                    Number  
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="deaNumber" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="label-floating form-group" id="deaExpDateDiv" [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                                <label #deaExpDatefloatToLabel [ngClass]="{'datepicket-label-style': selectedStaff?.deaExpDate != null}"
+                                                    class="control-label control-label-datepicker">Expiration Date
+                                                </label>
+                                                <mat-form-field style="width: 100% !important;">
+                                                    <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                        <input matInput type="text" class="input-with-icon"
+                                                            id="deaExpirationDate"
+                                                            (click)="datepicker('deaExpirationDate',deaExpDatefloatToLabel)"
+                                                            name="deaExpirationDate"
+                                                            formControlName="deaExpirationDate" readonly>
+                                                        <span class="input-icon"
+                                                            (click)="datepicker('deaExpirationDate',deaExpDatefloatToLabel)">
+                                                            <span class="fa fa-calendar fa-lg"></span>
+                                                        </span>
+                                                    </div>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group label-floating" id="malPracCovDiv"  [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                        <label class="control-label required">
+                                            Malpractice Coverage
+                                        </label>
+                                        <input type="text" class="form-control" formControlName="malPracCoverage">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="label-floating form-group" id="malPracExpDiv" [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                        <label #malPracExpfloatToLabel [ngClass]="{'datepicket-label-style': selectedStaff?.malpracticeExpiration != null}"
+                                            class="control-label control-label-datepicker">Malpractice Expiration
+                                        </label>
+                                        <mat-form-field style="width: 100% !important;">
+                                            <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                <input matInput type="text" class="input-with-icon"
+                                                    id="malPracExpirationDate"
+                                                    (click)="datepicker('malPracExpirationDate',malPracExpfloatToLabel)"
+                                                    name="malPracExpirationDate"
+                                                    formControlName="malPracExpirationDate" readonly>
+                                                <span class="input-icon"
+                                                    (click)="datepicker('malPracExpirationDate',malPracExpfloatToLabel)">
+                                                    <span class="fa fa-calendar fa-lg"></span>
+                                                </span>
+                                            </div>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" (click)="onSubmitStaff(staffMemButton.value)"
+                                    class="btn button pull-left" id="staffButton" value="UPDATE"
+                                    #staffMemButton>UPDATE</button>
+                               
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>

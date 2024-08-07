@@ -1,0 +1,144 @@
+package com.cpa.ehr.web.rest.patients;
+
+
+import javax.validation.Valid;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cpa.ehr.backend.dao.admin.entities.StaffMember;
+import com.cpa.ehr.service.admin.EHRBaseService;
+import com.cpa.ehr.service.patients.LabResultsService;
+import com.cpa.ehr.service.patients.dto.LabResultsDTO;
+import com.cpa.ehr.util.FormatConverterUtils;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@RestController
+@RequestMapping("/api/rest/labResult")
+@CrossOrigin(origins = { "http://localhost:4300" })
+public class LabResultsWebService {
+
+	private static final Logger LOG = Logger.getLogger( LabResultsWebService.class);
+
+
+	@Autowired
+	private  LabResultsService labResultsService;
+	
+	@Autowired
+	private EHRBaseService ehrBaseService;
+
+
+	@PostMapping("/createLabResults")
+	public ResponseEntity<LabResultsDTO> insertLabResults(@Valid @RequestBody LabResultsDTO labResultsDTO,
+			BindingResult result){
+		HttpHeaders headers = new HttpHeaders();
+		if(result.hasErrors()){
+			return new ResponseEntity<>(headers, HttpStatus.PRECONDITION_FAILED);
+		}
+		LabResultsDTO datalabResultsDTO=null;
+		try {
+			StaffMember loginUser = ehrBaseService.currentUser();
+			FormatConverterUtils.setInitialDefaultValues(labResultsDTO, loginUser);
+			datalabResultsDTO = labResultsService.persistLabResults(labResultsDTO);
+		} catch (Exception e) {
+			LOG.error("Error while inserting LabResults {}",e);
+		}
+		return new ResponseEntity<>(datalabResultsDTO, headers, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/getAllLabResults")
+	public ResponseEntity<List<LabResultsDTO>> getAllLabResults() {
+		List<LabResultsDTO> labResultsDTOResp=null;
+		try {
+			labResultsDTOResp = labResultsService.retrieveAllLabResults();
+		} catch (Exception e) {
+			LOG.error("Error while retrieving all  LabResults {}",e);
+		}
+		return new ResponseEntity<>(labResultsDTOResp, HttpStatus.OK);
+	}
+
+	@GetMapping("/getLabResultsById")
+	public ResponseEntity<LabResultsDTO> getLabResultsById(@RequestParam("id") Long labId) {
+		LabResultsDTO labResultsDTO = null;
+		try {
+			labResultsDTO =  labResultsService.retrieveLabResultsById( labId);
+		} catch (Exception e) {
+			LOG.error("Error while retrieving By LabResults ID {}",e);
+		}
+		return new ResponseEntity<>(labResultsDTO , HttpStatus.OK);
+	}
+	
+	@GetMapping("/getPatientLabResultsById")
+	public ResponseEntity<List<LabResultsDTO>> getPatientLabResultsById(@RequestParam("patientId") Long patientId) {
+		List<LabResultsDTO> patientLabResultsDTOResp=null;
+		try {
+			patientLabResultsDTOResp= labResultsService.retrievePatientLabResultsById(patientId);
+			
+		} catch (Exception e) {
+			LOG.error("Error while retrieving all  LabResults {}",e);
+		}
+		return new ResponseEntity<>(patientLabResultsDTOResp , HttpStatus.OK);
+	}
+
+
+	@PutMapping("/modifyLabResults")
+	public ResponseEntity<LabResultsDTO> modifyLabResults(@Valid @RequestBody LabResultsDTO labResultsDTO,
+			BindingResult result){
+		if(result.hasErrors()){
+			HttpHeaders headers = new HttpHeaders();
+			return new ResponseEntity<>(headers, HttpStatus.PRECONDITION_FAILED);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		LabResultsDTO datalabResultsDTO=null;
+		try {
+			datalabResultsDTO = labResultsService.modifyLabResults(labResultsDTO);
+		} catch (Exception e) {
+			LOG.error("Error while inserting  Data {}",e);
+		}
+		return new ResponseEntity<>(datalabResultsDTO, headers, HttpStatus.CREATED);
+	}
+
+
+	@DeleteMapping("/removeLabResultsById")
+	public ResponseEntity<Void> removeLabResultsById(@Valid @RequestParam("id") Long labId){
+		LabResultsDTO labResultsDTO = labResultsService.retrieveLabResultsById(labId);
+		if(labResultsDTO !=null){
+			labResultsService.deleteById( labId);
+			HttpHeaders headers= new HttpHeaders();
+			return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+
+		}
+
+		else{
+			HttpHeaders headers= new HttpHeaders();
+			return new ResponseEntity<>(headers, HttpStatus.PRECONDITION_REQUIRED);
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+

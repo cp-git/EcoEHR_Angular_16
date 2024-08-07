@@ -1,0 +1,561 @@
+import { Component, OnInit, ViewEncapsulation, Pipe, PipeTransform } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { Template } from '../models/template';
+import { TemplateService } from '../services/templateService';
+import { Base64 } from 'js-base64';
+import { System } from '../models/system';
+import decode from 'jwt-decode';
+import { ActivatedRoute, Router } from '@angular/router';
+import { QuestionsService } from '../services/questionsService';
+import { QuestionRecord } from '../models/questionRecord';
+import { QuestionGroup } from '../models/questionGroup';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as Quill from 'quill';
+import { EncounterQuestionGroup } from 'app/patients/models/encounterQuestionGroup';
+import { EncounterQuestionOption } from 'app/patients/models/encounterQuestionOption';
+import { EncounterQuestionOptionService } from 'app/patients/services/encounterQuestionOptionService';
+import { EncounterQuestionGroupService } from 'app/patients/services/encounterQuestionGroupService';
+import { NgxSpinnerService } from 'ngx-spinner';
+import _ from 'lodash';
+import { Encounter } from 'app/patients/models/encounter';
+import { EncounterService } from 'app/patients/services/encounterService';
+import { EncounterHistoryService } from 'app/patients/services/encounterHistoryService';
+import { EncounterHistory } from 'app/patients/models/encounterHistory';
+
+@Component({
+  selector: 'ehr-exam',
+  templateUrl: 'exam.component.html',
+  styleUrls: ['exam.component.css', '../../app.component.css'],
+  encapsulation: ViewEncapsulation.None
+})
+
+export class ExamComponent implements OnInit {
+  ExamForm: FormGroup;
+  ExamName: any;
+  examDetail: any[] = [];
+  updatedText: any;
+  questionGroup: any;
+  QuestionSelectedArray: any;
+  showEditorList: boolean = false;
+  showEditButton: boolean = false;
+  showStaticList: boolean = false;
+  system: System[];
+  isValid: number[] = [-1];
+  ExamSystems: System[] = [];
+  systemId: any;
+  textDropdownVal: any[] = [];
+  textVal: any[] = [];
+  inputTextVal: any[] = [];
+  textAreaVal: any[] = [];
+  statusCode: number;
+  title:any;
+  flag: boolean;
+  multiSelectedValue: any[] = [];
+  selectedTValue: any[] = [];
+  buttonName:any='SAVE';
+  isadmin: boolean = false;
+  showEditorSave: boolean = false;
+  encounterId: number;
+  allQuestions: QuestionRecord[];
+  questionGroups: QuestionGroup[];
+  selectedValue: any[] = [];
+  questionGroupList: QuestionGroup[];
+  questionGroupId: any;
+  questionGroupName: any;
+  sysName="EXAMINATION";
+  
+  existingList:EncounterHistory[]=[];
+  data:any;
+  isDisabled=false;
+  patientId: number;  //This ID is being used as part of this component's Child component as undefined
+  public editorConfig = {
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'script': 'sub' }, { 'script': 'super' }],
+        ['blockquote', 'code-block'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        [{ 'size': ['small', 'large', 'huge', false] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+        ['clean']
+      ]
+    }
+  };
+  symf: '\xB0C';
+  allSystemTypes: any[] = [];
+
+  colorsToDiv = [
+    '8px solid #80bfff', '8px solid #ffff33', '8px solid #ffb566', '8px solid #ff80bf', '8px solid #dab3ff', '8px solid #ff8080', '8px solid #c2c2a3'
+  ]
+
+  constructor(private formBuilder: FormBuilder,private route: ActivatedRoute,private router: Router,private templateService: TemplateService,private encounterService: EncounterService,
+    private spinner: NgxSpinnerService,private encounterHistoryService:EncounterHistoryService,private encounterQuestionOptionService: EncounterQuestionOptionService,
+    private encounterQuestionGroupService: EncounterQuestionGroupService,private questionService: QuestionsService) { }
+
+  ngOnInit() {
+    this.QuestionSelectedArray = [];
+    this.route.params.subscribe(params => {
+      this.encounterId = +params['encounterId'];
+      this.data = params['data'];
+      this.getEncOptionDataForUpdate(this.encounterId);
+      if(this.data=='edit'){
+        this.title='- UPDATE'
+        this.buttonName='UPDATE'
+    }
+    });
+
+    let token = localStorage.getItem('jwt');
+    const tokenPayload = decode(token);
+    if (tokenPayload.Role === "[ROLE_ADMIN]") {
+      this.isadmin = true;
+    }
+    else {
+      this.isadmin = false;
+    }
+    this.ExamForm = this.formBuilder.group({
+      QuestionSelectedIDS: this.formBuilder.array([]),
+    })
+    this.QuestionSelectedArray = <FormArray>this.ExamForm.controls.QuestionSelectedIDS;
+    var group = localStorage.getItem('questionGroup');
+    if (group) {
+      this.questionGroups = JSON.parse(group);
+      this.questionGroups = this.questionGroups.sort((a, b) => a.questionGroupId - b.questionGroupId);
+    }
+
+    var data = localStorage.getItem('system');
+    if (data) {
+      this.system = JSON.parse(data);
+      this.ExamSystems = this.system.filter(t => t.systemType == 'EXAMINATION');
+      this.system.filter(t => this.allSystemTypes.push(t.systemType));
+      this.allSystemTypes = _.uniq(this.allSystemTypes);
+    }
+
+  }
+
+   //Setting values while update operation
+   getEncOptionDataForUpdate(encId:any){
+    this.encounterHistoryService.getEncounterListEncounterId(encId,this.sysName)
+    .subscribe(data => {
+         this.existingList=data;
+        console.log(this.existingList)
+         for (let i = 0; i < this.existingList.length; i++) {
+          let questionRecord=new QuestionRecord(this.existingList[i].optionId,this.existingList[i].questionId,this.existingList[i].systemId,this.existingList[i].questionGroupId,this.existingList[i].questionDesc,this.existingList[i].questionType,null,this.existingList[i].answer,this.existingList[i].optionValue);
+          this.QuestionSelectedArray.push(new FormControl(questionRecord));
+          var option = {optionNames:null,optionId:null}; 
+          option.optionId=this.existingList[i].optionId;
+          option.optionNames=this.existingList[i].optionValue;
+          if(this.existingList[i].questionType=='text'){                   // Setting Values for Text Box
+                this.textVal[this.existingList[i].questionId]=this.existingList[i].answer;
+          }
+          if(this.existingList[i].questionType=='textarea'){             // Setting Values for TextArea 
+              this.textAreaVal[this.existingList[i].questionId]=this.existingList[i].answer;
+           }
+           if(this.existingList[i].questionType=='dropdown'){           // Setting Values for Dropdown
+            this.selectedValue[this.existingList[i].questionId]=option;
+            }
+            if(this.existingList[i].questionType=='tdropdown'){     // Setting Values for TDropdown
+              this.selectedTValue[this.existingList[i].questionId]=option;
+              this.textDropdownVal[this.existingList[i].questionId]=this.existingList[i].answer;
+              }
+         }
+    })
+}
+  //validation logic for Tdropdown
+  isCheckedTDD(): boolean {
+    this.flag = false;
+    for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+        if (this.QuestionSelectedArray.at(i).value.optionType == 'tdropdown' && this.QuestionSelectedArray.at(i).value.systemId == this.systemId) {
+            let answer=this.textDropdownVal[this.QuestionSelectedArray.at(i).value.questionId]; 
+            let option = this.selectedTValue[this.QuestionSelectedArray.at(i).value.questionId];
+            if (answer == "" || answer == undefined || option == undefined) {
+                this.flag = true;
+            }
+        }
+    }
+    return this.flag;
+}
+  expandPanel(i: any) {
+    if ($("#change-collapse_" + i).attr("aria-expanded") == "true") {
+      this.showEditButton = false;
+      this.showEditorSave = false;
+      $("#collapsePanel_" + i).removeClass("expand-Panel-Style");
+      $("#change-collapse_" + i).removeClass("active3");
+    }
+    else {
+      this.showEditorList = false;
+      this.showStaticList = true;
+      this.showEditButton = true;
+      this.showEditorSave = false;
+      $("#collapsePanel_" + i).addClass("expand-Panel-Style");
+      $("#change-collapse_" + i).addClass("active3");
+    }
+  }
+
+   //logic to set Yes/No option to all radio buttons
+   resetAll(sysId: any, questionGroupId: any, optionValue: any) {
+    let radioQuestions = this.allQuestions.filter(t => t.questionGroupId == questionGroupId && t.optionType == 'radio');
+    for (let i = 0; i < radioQuestions.length; i++) {
+        let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == radioQuestions[i].questionId)
+        if(index !==-1){
+            this.QuestionSelectedArray.removeAt(index);
+        }
+        let option = radioQuestions[i].optionRecord.find(t => t.optionNames == optionValue);
+        radioQuestions[i].optionId=option.optionId;
+        radioQuestions[i].optionName=option.optionNames;
+        this.QuestionSelectedArray.push(new FormControl(radioQuestions[i]));
+    }
+}
+
+  getValue(event, ind) {
+    let v = "dropdown" + ind;
+    let t = "tdropdown" + ind;
+    if (event.value == undefined) {
+      $("#" + v).find('.md2-select-value-text').css("color", "grey");
+      $("#" + t).find('.md2-select-value-text').css("color", "grey");
+    }
+    else {
+      $("#" + v).find('.md2-select-value-text').css("color", "black");
+      $("#" + t).find('.md2-select-value-text').css("color", "black");
+    }
+  }
+
+  openTab(exam: System, i: any) {
+    this.spinner.show();
+    this.questionGroupList = [];
+    this.systemId = exam.systemId;
+    this.questionGroupList = this.questionGroups.filter(t => t.systemId == this.systemId);
+    this.questionGroup = this.questionGroupList.find(t => t.questionGroupName == 'Vitals');
+    var record = localStorage.getItem('questionrecord_' + exam.systemId);
+    if (record) {
+      this.allQuestions = JSON.parse(record);
+      this.allQuestions = this.allQuestions.sort((a, b) => a.questionId - b.questionId);
+      this.spinner.hide();
+    }
+    else {
+      this.questionService.getAllQuestionsOfGroup(exam.systemId)
+        .subscribe(data => {
+          this.allQuestions = data;
+          this.allQuestions = this.allQuestions.sort((a, b) => a.questionId - b.questionId)
+          localStorage.setItem('questionrecord_' + this.systemId, JSON.stringify(data));
+          this.spinner.hide();
+        })
+    }
+    if(this.questionGroup!==undefined){
+      this.questionGroupId=this.questionGroup.questionGroupId;
+    }
+    this.showEditButton = false;
+    this.examDetail = []
+    this.ExamName = exam.systemCode;
+    this.systemId = exam.systemId;
+    this.templateService.getActiveTemplateBySystemId(this.systemId)
+      .subscribe(data => {
+        if (data != null) {
+          this.examDetail = Base64.decode(data.templateDesc);
+          $(".static-panel-style").css("display", "block");
+
+          $("#expansionPanel_" + i).removeClass("collapse in");
+          $("#expansionPanel_" + i).addClass("collapse");
+
+          $("#change-collapse_" + i).attr("aria-expanded", "false");
+          $("#collapsePanel_" + i).removeClass("expand-Panel-Style");
+
+          $("#change-collapse_" + i).removeClass("active1");
+          $("#change-collapse_" + i).addClass("collapsed");
+        }
+        else {
+          $(".static-panel-style").css("display", "none");
+        }
+      },
+        ErrorCode => { }
+      );
+  }
+
+  getText(val) {
+    if (val == 'Height') {
+      return "in inches";
+    }
+    if (val == 'Weight') {
+      return "in lbs";
+    }
+    if (val == 'Temp') {
+      return "in Fahrenheit (°F)";
+    }
+    if (val == 'BP') {
+      return "in mmHg";
+    }
+    if (val == 'Pulse') {
+      return "in Minutes (min)";
+    }
+    if (val == 'RR') {
+      return "in Minutes (min)";
+    }
+    if (val == 'Oxygen saturation') {
+      return "in Percentage (%)";
+    }
+    if (val == 'Pain scale') {
+      return "in Tens (/10)";
+    }
+  }
+
+  goToSelectedTab(questionGroup: any, i) {
+    this.questionGroupId = questionGroup.questionGroupId;
+    setTimeout(() => {
+      document.getElementById("systemName").scrollIntoView({ behavior: 'smooth' });
+    }, 1000);
+  }
+
+  getAllQuestions(group: any, isChecked: boolean) {
+    setTimeout(() => {
+      document.getElementById("systemName").scrollIntoView({ behavior: 'smooth' });
+    }, 1000);
+    if (isChecked) {
+      this.systemId = group.systemId;
+      this.questionGroupId = group.questionGroupId;
+    }
+    else {
+      if(this.questionGroupId==group.questionGroupId){
+        this.questionGroupId=null;
+     }
+    }
+  }
+
+  isFieldValid(event, type) {
+    let id = event.target.id;
+    let rowNo = id.replace(/\D/g, "");
+    if (event.target.value == "") {
+      this.selectedTValue[rowNo] = undefined;
+  }
+    if ((type == "text") || (type == "textarea")) {
+      if (((event.target.value.length > 100) && (type == "text")) ||
+        ((event.target.value.length > 500) && (type == "textarea"))) {
+        this.isValid[rowNo] = rowNo;
+      }
+      else {
+        this.isValid[rowNo] = -1;
+      }
+    }
+    else {
+      this.isValid[rowNo] = -1;
+    }
+  }
+
+  isCheckedRadio(optionId: number): boolean {
+    let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.optionId == optionId)
+    return (index == -1 ? false : true);
+  }
+
+  isChecked(group: any): boolean {
+    if (group.questionGroupName == 'Vitals' || this.QuestionSelectedArray.length > 0) {
+      if (group.questionGroupName == 'Vitals')
+        return true;
+       for (var i = 0; i < this.QuestionSelectedArray.length; i++) {
+        if (this.QuestionSelectedArray.at(i).value.questionGroupId == group.questionGroupId) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  calculateBMI(questionData, value) {
+    let htquestion = +this.allQuestions.find(t => t.questionDesc == 'Height').answer;
+    let wtquestion = +this.allQuestions.find(t => t.questionDesc == 'Weight').answer;
+    // let temptquestion = +this.allQuestions.find(t => t.questionDesc == 'Temp').answer;
+    // let bptquestion = +this.allQuestions.find(t => t.questionDesc == 'BP').answer;
+    // let pulsetquestion = +this.allQuestions.find(t => t.questionDesc == 'Pulse').answer;
+    // let rrtquestion = +this.allQuestions.find(t => t.questionDesc == 'RR').answer;
+    // let ostquestion = +this.allQuestions.find(t => t.questionDesc == 'Oxygen saturation').answer;
+    // let psquestion = +this.allQuestions.find(t => t.questionDesc == 'Pain scale').answer;
+    let bmiData = this.allQuestions.find(t => t.questionDesc == 'BMI');
+    this.textVal[bmiData.questionId] = '';
+    let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == bmiData.questionId);
+    if (index != -1)
+      this.QuestionSelectedArray.removeAt(this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == bmiData.questionId));
+    if ((!isNaN(htquestion) && htquestion !== 0) && (!isNaN(wtquestion) && wtquestion !== 0)) {
+      this.isValid[bmiData.questionId] = -1;
+      this.textVal[bmiData.questionId] = (wtquestion / (htquestion * htquestion) * 703).toFixed(2);
+      bmiData.answer=this.textVal[bmiData.questionId];
+      this.QuestionSelectedArray.push(new FormControl(bmiData));
+    }
+    else {
+      this.isValid[bmiData.questionId] = bmiData.questionId;
+    }
+  }
+
+  onRowEdit(commonQues, option) {
+    if (option != undefined) {
+      commonQues.optionName = option.optionNames;
+      commonQues.optionId = option.optionId;
+    }
+    //formArray for selected question
+    let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == commonQues.questionId)
+    if (index == -1) {
+      this.QuestionSelectedArray.push(new FormControl(commonQues));
+    }
+    else {
+      this.QuestionSelectedArray.removeAt(index);
+      if (option !== undefined && commonQues.answer != "") 
+       this.QuestionSelectedArray.push(new FormControl(commonQues));
+    }
+    for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+      console.log(this.QuestionSelectedArray.at(i).value)
+    }
+    if (commonQues.questionDesc == 'Height' || commonQues.questionDesc == 'Weight') {
+      this.calculateBMI(commonQues, option)
+    }
+    if (commonQues.optionType == 'tdropdown' && option === undefined) {
+      commonQues.optionName = option;
+      commonQues.optionId = option;
+      this.textDropdownVal[commonQues.questionId] = "";
+  }
+  }
+
+  openEditor() {
+    this.isDisabled=false;
+    this.showEditButton = false;
+    this.showStaticList = false;
+    this.showEditorList = true;
+    this.showEditorSave = true;
+  }
+
+  onContentReady(quill) {
+    const Parchment = Quill.import('parchment');
+    let Block = Parchment.query('block');
+    Block.tagName = 'DIV';
+    Quill.register(Block, true);
+    quill.pasteHTML(this.examDetail);
+  }
+
+  onEditorSave() {
+    this.isDisabled=true;
+    if (this.updatedText != undefined) {
+      let encodedData = Base64.encode(this.updatedText);
+      let templateToInsert = new Template(0, this.systemId, this.ExamName, encodedData, true, 0, null, null, null, null);
+      this.templateService.insertTemplate(templateToInsert)
+        .subscribe(data => {
+          this.statusCode = 200;
+          window.setTimeout(function () {
+            $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+              $(".alert").slideUp(500);
+            });
+          }, 4000);
+          this.showEditorList = false;
+          this.showEditorSave = false;
+          this.examDetail = Base64.decode(data.templateDesc);
+          this.showStaticList = true;
+          this.showEditButton = true;
+          this.isadmin = true;
+          console.log(this.encounterId)
+          this.encounterService.updateEncounter(this.encounterId, data.templateId, this.ExamName)
+            .subscribe(data => {
+            })
+        })
+    }
+  }
+
+  onSave() {
+    (<HTMLInputElement>document.getElementById("saveNext")).disabled = true;
+    if(this.existingList.length !==0){
+    let readyToinsert:boolean=false;
+    this.encounterQuestionOptionService.deleteEncQustionOptions(this.encounterId,this.sysName).switchMap(            //delete already inserted question groups
+        successCode => {
+          return this.encounterQuestionGroupService.deleteEncQustionGroups(this.encounterId,this.sysName)         //elete already inserted question options
+        }).subscribe(successCode => {
+          readyToinsert=true;
+          if(readyToinsert)
+          this.insertData();
+        },
+        errorCode => {
+          this.statusCode = errorCode;});
+        }
+        else{
+          this.insertData();
+        }
+  }
+
+  setColor(selectedVal,qId,type){
+    let m = type + qId;
+    if(selectedVal!==undefined){
+        $('#' + m).find('.md2-select-placeholder').css('visibility', 'hidden');
+        $("#" + m).find('.md2-select-value-text').css("color", "black");
+        if (jQuery.isEmptyObject(this.multiSelectedValue[qId])) {
+            $('#' + m).find('.md2-select-placeholder').css('visibility', 'visible');
+        } }
+    if(selectedVal==undefined){
+        $("#" + m).find('.md2-select-value-text').css("color", "gray");
+   }}
+  insertData(){
+    let encounterQuestionGroupList: EncounterQuestionGroup[] = [];
+    let encounterQuestionOptionList: EncounterQuestionOption[] = [];
+
+    //seperation questionGroup id and system id from QuestionSelectedArray
+    let uniqueQuestionId = Array.from(new Set(this.QuestionSelectedArray.controls.map((item: any) => item.value.questionGroupId)))
+    if (uniqueQuestionId.length > 0) {
+        for (let i = 0; i < uniqueQuestionId.length; i++) {
+            let obj = this.QuestionSelectedArray.controls.find(t => t.value.questionGroupId == uniqueQuestionId[i]);
+            let encounterQuestionGroup = new EncounterQuestionGroup(0, this.encounterId, obj.value.questionGroupId, obj.value.systemId, 'Yes', null, null, null, null);
+            console.log(encounterQuestionGroup);
+            encounterQuestionGroupList.push(encounterQuestionGroup);
+        }
+      this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+        },
+          errorCode => {
+            this.statusCode = errorCode;
+          });
+    }
+    //inserting questions into DB 
+    if (this.QuestionSelectedArray.length > 0) {
+      for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+        let encounterQuestionOption = new EncounterQuestionOption(0, this.encounterId, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, null, null, null, null,null);
+        encounterQuestionOptionList.push(encounterQuestionOption);
+      }
+      this.encounterQuestionOptionService.insertQuestionOptions(encounterQuestionOptionList)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+          this.router.navigate(['/patients/medication/' + this.encounterId]);
+        },
+          errorCode => {
+            this.statusCode = errorCode;
+          });
+    }
+    else {
+      this.router.navigate(['/patients/medication/' + this.encounterId]);
+    }
+
+  }
+  onContentChanged({ quill, html, text }) {
+    this.updatedText = html;
+  }
+
+}
+
+@Pipe({ name: 'safeHtml' })
+export class SafeHtmlPipe implements PipeTransform {
+  constructor(private sanitized: DomSanitizer) { }
+  transform(value) {
+    return this.sanitized.bypassSecurityTrustHtml(value);
+  }
+}
+
+@Pipe({ name: 'groupBy' })
+export class GroupByPipe implements PipeTransform {
+  transform(value: Array<any>, field: string): Array<any> {
+    if (!value || !value.length) { return value; }
+    const groupedObj = value.reduce((prev, cur) => {
+      if (!prev[cur[field]]) {
+        prev[cur[field]] = [cur];
+      } else {
+        prev[cur[field]].push(cur);
+      }
+      return prev;
+    }, {});
+    return Object.keys(groupedObj).map(key => ({ value: groupedObj[key] }));
+  }
+}

@@ -1,0 +1,29 @@
+/* #modal-content {
+    display: none;
+}*/
+
+#modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    background-color: white;
+    -webkit-box-shadow: 0 0 4000em #000000;
+    box-shadow: 0 0 4000em #000000;
+    z-index: 9999999 !important;
+}
+  
+#modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    color: black;
+    text-align: center;
+    font-size: 16px
+}
+ 
+h4{
+    margin-top:-3px;
+     font-weight: 400;
+}

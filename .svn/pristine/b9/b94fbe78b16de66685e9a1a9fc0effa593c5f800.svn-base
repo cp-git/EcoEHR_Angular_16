@@ -1,0 +1,417 @@
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { QuestionsService } from "app/patients/services/questionsService";
+import { QuestionRecord } from "app/patients/models/questionRecord";
+import { System } from "app/patients/models/system";
+import { QuestionGroup } from "app/patients/models/questionGroup";
+import { EncounterQuestionGroup } from "app/patients/models/encounterQuestionGroup";
+import { EncounterQuestionOption } from "app/patients/models/encounterQuestionOption";
+import { EncounterQuestionGroupService } from "app/patients/services/encounterQuestionGroupService";
+import { EncounterQuestionOptionService } from "app/patients/services/encounterQuestionOptionService";
+import { EncounterService } from "app/patients/services/encounterService";
+import { Medication } from "app/patients/models/Medication";
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PatientAllergy } from "app/patients/models/patientAllergy";
+import { PatientAllergyService } from "app/patients/services/patientAllergyService";
+import _ from 'lodash';
+import { EncounterHistoryService } from "app/patients/services/encounterHistoryService";
+import { EncounterHistory } from "app/patients/models/encounterHistory";
+
+declare const $: any;
+
+@Component({
+    selector: 'ehr-ros',
+    templateUrl: 'ros.component.html',
+    styleUrls: ['./ros.component.css', '../../app.component.css']
+})
+export class ROSComponent implements OnInit {
+    @ViewChild('searchRef') searchRef: ElementRef;
+    search: string;
+    ROSSystems: System[] = [];
+    finalData: Medication[];
+    statusCode: number;
+    questionGroupName: any;
+    systemType: any;
+    systemDesc: any;
+    ROSForm: FormGroup;
+    MedicationForm: FormGroup;
+    commonQuestions: QuestionRecord[] = [];
+    commonQuestionsList: QuestionRecord[] = [];
+    systemId: any;
+    isValid: number[] = [-1];
+    selectedTValue: any[] = [];
+    textVal: any[] = [];
+    system: System[];
+    questionGroupList: QuestionGroup[];
+    questionGroups: QuestionGroup[];
+    QuestionSelectedArray: any;
+    encounterId: number;
+    flag: Boolean = true;
+    medicationFormArray: any;
+    showMedicationList: Boolean = true;
+    searchCount: any;
+    showFlag: boolean;
+    searchText: string;
+    commonQues: any;
+    patientId: number;
+    currentPatientId: any;
+    patientAllergies: PatientAllergy[]=[];
+    allSystemTypes: any[] = [];
+    questionGroupId:any;
+    sysName="ROS";
+    data:any;
+    isDisabled = false;
+    selectedRadioValue:any[]=[];
+    buttonName:any='SAVE';
+    title:any;
+    existingList:EncounterHistory[];
+    constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,private encounterService: EncounterService,private router: Router,
+        private questionsService: QuestionsService,private encounterHistoryService:EncounterHistoryService, private patientAllergyService: PatientAllergyService,private spinner: NgxSpinnerService,private encounterQuestionGroupService: EncounterQuestionGroupService,private encounterQuestionOptionService: EncounterQuestionOptionService ) { }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.encounterId = +params['encounterId'];
+            this.data = params['data'];
+            this.getEncOptionDataForUpdate(this.encounterId);
+            if(this.data=='edit'){
+                this.title='- UPDATE'
+                this.buttonName='UPDATE'
+            }
+        });
+
+        this.medicationFormArray = [];
+        this.QuestionSelectedArray = [];
+        Observable.fromEvent(this.searchRef.nativeElement, 'keyup')
+            .map((evt: any) => evt.target.value)
+            .debounceTime(2000)
+            .distinctUntilChanged()
+            .subscribe((text: string) => this.submit(text));
+        this.getEncounterByEncounterId(this.encounterId);
+       
+        var data = localStorage.getItem('system');
+        if (data) {
+            this.system = JSON.parse(data);
+            this.system.filter(t => this.allSystemTypes.push(t.systemType));
+            this.ROSSystems = this.system.filter(t => t.systemType == 'ROS');
+            this.allSystemTypes = _.uniq(this.allSystemTypes);
+        }
+        var group = localStorage.getItem('questionGroup');
+        if (group) {
+            this.questionGroups = JSON.parse(group);
+            this.questionGroups = this.questionGroups.sort((a, b) => a.questionGroupId - b.questionGroupId);
+        }
+
+        this.MedicationForm = this.formBuilder.group({
+            MedIDS: this.formBuilder.array([]),
+        });
+        this.medicationFormArray = <FormArray>this.MedicationForm.controls.MedIDS;
+        this.ROSForm = this.formBuilder.group({
+            QuestionSelectedIDS: this.formBuilder.array([]),
+        });
+        this.QuestionSelectedArray = <FormArray>this.ROSForm.controls.QuestionSelectedIDS;
+       let system = this.system.find(t => t.systemCode == 'ROS');
+       this.openTab(system);
+    }
+
+    //Setting values while update operation
+    getEncOptionDataForUpdate(encId:any){
+        this.encounterHistoryService.getEncounterListEncounterId(encId,this.sysName)
+        .subscribe(data => {
+             this.existingList=data;
+            console.log(this.existingList)
+            for (let i = 0; i < this.existingList.length; i++) {
+            let questionRecord=new QuestionRecord(this.existingList[i].optionId,this.existingList[i].questionId,this.existingList[i].systemId,this.existingList[i].questionGroupId,this.existingList[i].questionDesc,this.existingList[i].questionType,null,this.existingList[i].answer,this.existingList[i].optionValue);
+            this.QuestionSelectedArray.push(new FormControl(questionRecord));
+            if(this.existingList[i].questionType=='text'){                  // Setting Values for Text Box
+                this.textVal[this.existingList[i].questionId]=this.existingList[i].answer;
+              }
+            if(this.existingList[i].questionType=='radio'){       // Setting Values for Text Box
+                this.selectedRadioValue[this.existingList[i].questionId]=this.existingList[i].optionId;
+             } }
+        })}
+
+        getEncounterByEncounterId(encounterId) {
+               this.encounterService.getEncounterByEncounterId(encounterId)
+                .subscribe(data => {
+                       this.patientId = data.patientId;
+                       this.getAllAllergies(this.patientId);  
+                   },
+                       errorCode => this.statusCode = errorCode);
+           }
+
+        getAllAllergies(patientId) {
+                this.spinner.show();
+                this.currentPatientId = patientId;
+                this.patientAllergyService.getPatientAllergies(patientId)
+                    .subscribe(data => {
+                        this.spinner.hide();
+                        this.patientAllergies = data;
+                          this.patientAllergies.length == 0 ? this.showMedicationList = true : this.showMedicationList = false;   
+                        })
+             }
+
+        deletePatientAllergy(patientAllergyId:number) {
+                this.patientAllergyService.deletePatientAllergies(patientAllergyId)
+                    .subscribe(successCode => {
+                        this.statusCode = successCode;
+                        this.getAllAllergies(this.patientId);
+                    },
+                        errorCode => {
+                            this.statusCode = errorCode  
+                        });
+            }
+
+    isFieldValid(event, type) {
+        let id = event.target.id;
+        let rowNo = id.replace(/\D/g, "");
+        if (event.target.value == "") {
+            this.selectedTValue[rowNo] = undefined;
+        }
+        if ((type == "text") || (type == "textarea")) {
+            if ((event.target.value.length > 100) && (type == "text")) {
+                this.isValid[rowNo] = rowNo;
+            }
+            else {
+                this.isValid[rowNo] = -1;
+            }
+        }
+        else {
+            this.isValid[rowNo] = -1;
+        }
+    }
+
+    //logic to set Yes/No option to all radio buttons
+    resetAll(sysId: any, questionGroupId: any, optionValue: any) {
+        let radioQuestions = this.commonQuestions.filter(t => t.questionGroupId == questionGroupId && t.optionType == 'radio');
+        for (let i = 0; i < radioQuestions.length; i++) {
+            let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == radioQuestions[i].questionId)
+            let option = radioQuestions[i].optionRecord.find(t => t.optionNames == optionValue);
+            if (index !== -1) {
+                this.QuestionSelectedArray.removeAt(index);
+            }
+            radioQuestions[i].optionId=option.optionId;
+            radioQuestions[i].optionName=option.optionNames;
+            this.QuestionSelectedArray.push(new FormControl(radioQuestions[i]));
+        }
+    }
+
+    submit(text) {
+        this.finalData = [];
+        this.search = text;
+        if (this.search == "" || this.search.length < 3) {
+            this.showFlag = false;
+        }
+        else {
+            this.spinner.show();
+            this.encounterService.searchAllergy(this.search)
+                .subscribe(results => {
+                    this.finalData = results;
+                    for (let i = 0; i < this.finalData.length; i++) {
+                        this.finalData[i].dose = this.finalData[i].dose.replace(new RegExp(';', 'g'), ';&emsp;')
+                    }
+                    this.spinner.hide();
+                    this.searchCount = this.finalData.length;
+                    this.searchCount == 0 ? this.flag = true : this.flag = false;
+                });
+        }
+    }
+
+    saveAllergy() {
+        this.isDisabled=true;
+        let patientAllergyList: PatientAllergy[] = [];
+        if (this.medicationFormArray.length > 0) {
+            for (let i = 0; i < this.medicationFormArray.length; i++) {
+                let patientAllergy = new PatientAllergy(0, this.medicationFormArray.at(i).value.productName, this.medicationFormArray.at(i).value.form, this.medicationFormArray.at(i).value.route, this.medicationFormArray.at(i).value.dose, true, this.medicationFormArray.at(i).value.medicationId, null, null, null, null, this.encounterId, this.patientId);
+                patientAllergyList.push(patientAllergy);
+            }
+            this.patientAllergyService.insertAllergy(patientAllergyList)
+                .subscribe(successCode => {
+                    this.statusCode = successCode;
+                    let element: HTMLElement = document.getElementById("dismissmodal") as HTMLElement;
+                    element.click();
+                    this.getAllAllergies(this.patientId);
+                },
+                    errorCode => {
+                        this.statusCode = errorCode;
+                    });
+        }
+    }
+
+
+
+    showModal(commonQues) {
+        this.isDisabled=false;
+        this.searchText='';
+        this.commonQues = commonQues;
+        this.medicationFormArray = <FormArray>this.MedicationForm.controls.MedIDS;
+        $('#MedicationAllergy').modal('show');
+    }
+
+    showDiv(group: any, isChecked: boolean, rowId) {
+        if (isChecked) {
+            this.commonQuestionsList = this.commonQuestions.filter(t => t.questionGroupId == group.questionGroupId);
+            this.systemId = group.systemId;
+            this.questionGroupId=group.questionGroupId;
+            this.questionGroupName = group.questionGroupName;
+        }
+        else {
+            if(this.questionGroupId==group.questionGroupId){
+                this.questionGroupId=null;
+            }
+        }
+    }
+
+    goToSelectedTab(group: any, i: any) {
+        this.questionGroupId=group.questionGroupId;
+        setTimeout(() => {
+            document.getElementById("systemName").scrollIntoView({behavior: 'smooth'});                
+          }, 1000);
+        this.systemId = group.systemId;
+        this.commonQuestionsList = this.commonQuestions.filter(t => t.questionGroupId == group.questionGroupId);
+        this.commonQuestionsList = this.commonQuestionsList.sort((a, b) => a.questionId - b.questionId);
+        this.questionGroupName = group.questionGroupName;
+    }
+
+    isChecked(questionGroupId: number): boolean {
+        let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionGroupId == questionGroupId)
+        return (index == -1 ? false : true);
+    }
+
+    isCheckedRadio(optionId: number): boolean {
+        let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.optionId == optionId)
+        return (index == -1 ? false : true);
+    }
+
+    checkedMedication(checked: boolean, data: any) {
+        if (checked) {
+            this.medicationFormArray.push(new FormControl(data));
+        }
+        else {
+            let index = this.medicationFormArray.controls.findIndex(x => x.value.medicationId == data.medicationId)
+            this.medicationFormArray.removeAt(index);
+        }
+    }
+
+    isCheckedMed(medicationId: number): boolean {
+        let index = this.medicationFormArray.controls.findIndex(x => x.value.medicationId == medicationId)
+        return (index == -1 ? false : true);
+    }
+
+    isDisableAllergy(medicationId: number): boolean {
+        let index = this.patientAllergies.findIndex(x => x.medicationId == medicationId)
+        return (index == -1 ? false : true);
+    }
+
+    openTab(system) {
+        this.spinner.show();
+        this.systemDesc = system.systemDesc;
+        this.systemId = system.systemId;
+        var record = localStorage.getItem('questionrecord_' + system.systemId);
+        if (record) {
+            this.spinner.hide();
+            this.commonQuestions = JSON.parse(record);
+            this.questionGroupList = this.questionGroups.filter(t => t.systemId == system.systemId);
+        }
+        else{
+        this.questionsService.getAllQuestionsOfGroup(system.systemId)
+            .subscribe(data => {
+                this.commonQuestions = data;
+                localStorage.setItem('questionrecord_' + system.systemId, JSON.stringify(data));
+                this.questionGroupList = this.questionGroups.filter(t => t.systemId == system.systemId);
+                this.spinner.hide();
+            })}
+    }
+
+    onRowEdit(commonQues, option) {
+        if (commonQues.optionType == 'radio') {
+            commonQues.optionName = option.optionNames;
+            commonQues.optionId = option.optionId;
+        }
+        //formArray for selected question
+        let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == commonQues.questionId)
+        if (index == -1) {
+            this.QuestionSelectedArray.push(new FormControl(commonQues));
+        }
+        else {
+            this.QuestionSelectedArray.removeAt(index);
+            if (commonQues.answer != "") {
+                this.QuestionSelectedArray.push(new FormControl(commonQues));
+            }
+        }
+        for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+            console.log(this.QuestionSelectedArray.at(i).value)
+        }
+    }
+
+    onSubmit() {
+        (<HTMLInputElement>document.getElementById("saveNext")).disabled = true;
+        if(this.existingList.length !==0){
+        let readyToinsert:boolean=false;
+        this.encounterQuestionOptionService.deleteEncQustionOptions(this.encounterId,this.sysName).switchMap(            //delete already inserted question groups
+            successCode => {
+              return this.encounterQuestionGroupService.deleteEncQustionGroups(this.encounterId,this.sysName)         //elete already inserted question options
+            }).subscribe(successCode => {
+              readyToinsert=true;
+              if(readyToinsert)
+              this.insertData();
+            },
+            errorCode => {
+              this.statusCode = errorCode;});
+            }
+            else{
+                this.insertData();
+            }
+    }
+
+    insertData(){
+        let encounterQuestionGroupList: EncounterQuestionGroup[] = [];
+        let encounterQuestionOptionList: EncounterQuestionOption[] = [];
+
+        //seperation questionGroup id and system id from QuestionSelectedArray
+        let uniqueQuestionId = Array.from(new Set(this.QuestionSelectedArray.controls.map((item: any) => item.value.questionGroupId)))
+        if (uniqueQuestionId.length > 0) {
+            for (let i = 0; i < uniqueQuestionId.length; i++) {
+                let obj = this.QuestionSelectedArray.controls.find(t => t.value.questionGroupId == uniqueQuestionId[i]);
+                let encounterQuestionGroup = new EncounterQuestionGroup(0, this.encounterId, obj.value.questionGroupId, obj.value.systemId, 'Yes', null, null, null, null);
+                encounterQuestionGroupList.push(encounterQuestionGroup);
+            }
+            this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
+                .subscribe(successCode => {
+                    this.statusCode = successCode;
+                },
+                    errorCode => {
+                        (<HTMLInputElement>document.getElementById("saveNext")).disabled = false;
+                        this.statusCode = errorCode;
+                    });
+        }
+
+        //inserting questions into DB 
+        if (this.QuestionSelectedArray.length > 0) {
+            for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+                let encounterQuestionOption = new EncounterQuestionOption(0, this.encounterId, this.QuestionSelectedArray.at(i).value.questionId,
+                    this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, null, null, null, null,null);
+                encounterQuestionOptionList.push(encounterQuestionOption);
+            }
+            console.log(encounterQuestionOptionList)
+            this.encounterQuestionOptionService.insertQuestionOptions(encounterQuestionOptionList)
+                .subscribe(successCode => {
+                    if(this.data=="edit")
+                    this.router.navigate(['/patients/history/',this.encounterId,'edit']);
+                    else
+                    this.router.navigate(['/patients/history/' + this.encounterId]);
+                },
+                    errorCode => {
+                        (<HTMLInputElement>document.getElementById("saveNext")).disabled = false;
+                        this.statusCode = errorCode;
+                    });
+        }
+        else{
+            if(this.data=="edit")
+            this.router.navigate(['/patients/history/',this.encounterId,'edit']);
+            else
+            this.router.navigate(['/patients/history/' + this.encounterId]);
+        }
+    }
+}

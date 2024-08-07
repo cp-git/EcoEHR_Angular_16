@@ -1,0 +1,475 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { PatientDetailsService } from '../services/patientDetailsService';
+import { PatientDetails } from 'app/patients/models/PatientDetails';
+import { Base64 } from 'js-base64';
+import { ClinicLocationService } from 'app/administration/clinic-locations/clinicLocationService';
+import { ClinicLocation } from 'app/administration/clinic-locations/ClinicLocation';
+import { StaffDetailsService } from 'app/administration/staff-members/staffDetailsService';
+import { StaffDetails } from 'app/administration/staff-members/StaffDetails';
+import { MasterLookupService } from 'app/administration/master-lookup/masterLookupService';
+import { MasterLookup } from 'app/administration/master-lookup/masterLookup';
+import { Data } from 'app/data';
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+declare const $: any;
+
+@Component({
+    selector: 'ehr-update',
+    templateUrl: 'update.component.html',
+    styleUrls: ['../patient.component.css', '../../app.component.css', '/update.component.css']
+})
+
+export class UpdatePatientComponent {
+    dob = new FormControl('', Validators.required);
+    updatePatientForm: FormGroup;
+    patientId: number;
+    statusCode: number;
+     allTitles: MasterLookup[];
+    allPrimaryProvider: StaffDetails[];
+    allCliniclocations: ClinicLocation[];
+    isNotValidImageSize: boolean = false;
+    allStates: MasterLookup[];
+    alladditionalInfo: MasterLookup[];
+    patientImage: any;
+    patientAddressState_search: string = '';
+    patientAddressId_search: string = '';
+    additionalInfo_search: string = '';
+    staffId_search: string = '';
+    isValidDate = false;
+    allLanguages: MasterLookup[];
+    allRace: MasterLookup[];
+    allEthnicity: MasterLookup[];
+    value=true;
+    mrn:any;
+    constructor(private formBuilder: FormBuilder,
+        private route: ActivatedRoute,
+        private router: Router,
+        private patientDetailsService: PatientDetailsService,
+        private masterLookupService: MasterLookupService,
+        private staffDetailsService: StaffDetailsService,
+        private clinicLocationService: ClinicLocationService,
+        private sharedData: Data,
+        private datePipe: DatePipe,
+        private spinner :NgxSpinnerService) {
+    }
+
+    isFieldValid(form: FormGroup, field: string) {
+        return !form.get(field).valid && form.get(field).touched;
+    }
+
+    displayFieldCss(form: FormGroup, field: string) {
+        return {
+            'has-error': this.isFieldValid(form, field),
+            'has-feedback': this.isFieldValid(form, field)
+        };
+    }
+
+
+    ngOnInit() {
+         this.value=true;
+        this.updatePatientForm = this.formBuilder.group({
+            title: [null, [Validators.required]],
+            patientLanguage: [null, [Validators.required]],
+            race: [null, [Validators.required]],
+            ethnicity: [null, [Validators.required]],
+            firstName: [null, [Validators.required,Validators.maxLength(50)]],
+            middleName: [null],
+            lastName: [null, [Validators.required,Validators.maxLength(50)]],
+            gender: [null, [Validators.required]],
+            dob: moment((document.getElementById("dob") as HTMLInputElement).value).toDate(),
+            age: [null],
+            licenseNo: [null,[Validators.pattern("^[a-zA-Z0-9_ ]+$"),Validators.maxLength(50)]],
+            ssn: [null, [Validators.required,Validators.minLength(11)]],
+            buildingNo:[null, [Validators.pattern("[0-9_ ]+$"),Validators.maxLength(25)]],
+            primaryEmail: [null, [Validators.required,Validators.pattern(".+@.+\\.[a-z]+"),Validators.maxLength(200)]],
+            secondaryEmail: [null,Validators.pattern(".+@.+\\.[a-z]+")],
+            primaryNo: [null, [Validators.required]],
+            secondaryNo: [null,[Validators.minLength(12)]],
+            patientAddressStreet: [null, [Validators.required,Validators.pattern("[a-zA-Z0-9_ ]+$"),Validators.maxLength(100)]],
+            patientAddressDoorNo: [null,[Validators.maxLength(25)]],
+            patientAddressCity: [null, [Validators.required,Validators.pattern("[a-zA-Z ]*"),Validators.maxLength(50)]],
+            patientAddressState: [null, [Validators.required]],
+            patientAddressZip: [null, [Validators.required,Validators.minLength(5)]],
+            staffId: [null, [Validators.required]],
+            patientAddressId: [null],
+            emrPatientId: [null],
+            additionalInfo: [null, [Validators.required]],
+            PInsRelationship:[null],
+            SInsRelationship:[null],
+            PInsName:[null, [Validators.required]],
+            SInsName:[null],
+            PInsCompany:[null],
+            SInsCompany:[null],
+            PInsPlanName:[null],
+            SInsPlanName:[null],
+            PInsId:[null],
+            SInsId:[null],
+            PInsGroup:[null],
+            SInsGroup:[null],
+            PInsDob:[null, [Validators.required]],
+            SInsDob:[null],
+            PInsSsn:[null, [Validators.required]],
+            SInsSsn:[null],
+            PInsEmployer:[null],
+            SInsEmployer:[null]
+        });
+
+        this.getPrimaryProvider();
+        this.getPrimaryServiceLocation();
+        this.getAddressState();
+        this.getPatientStatus();
+        this.getPatientTitle();
+
+        this.getPatientLanguage();
+        this.getPatientRace();
+        this.getPatientEthnicity();
+
+        var self = this;
+        $('input[name=dob]').change(function () {
+            if ((document.getElementById('dob') as HTMLInputElement).value != "") {
+                self.updatePatientForm.controls['dob'].setValue(moment.utc((document.getElementById('dob') as HTMLInputElement).value).format('MM/DD/YYYY'));
+            }
+        });
+          this.spinner.show();  
+        this.route.params.subscribe(params => {
+            this.patientId = +params['patientId'];
+            this.patientDetailsService.getPatientDetailsByPatientId(this.patientId)
+                .subscribe(data => {
+                    this.spinner.hide();
+                   this.mrn=data.mrn;
+                    if (data.patientId === this.patientId) {
+                        this.patientImage = Base64.decode(data.patientImage);
+                        if (this.patientImage == 'init') {
+                            this.patientImage = "./assets/img/default-avatar.png";
+                        }
+                        this.updatePatientForm.get("firstName").setValue(data.firstName);
+                        this.updatePatientForm.get("middleName").setValue(data.middleName);
+                        this.updatePatientForm.get("lastName").setValue(data.lastName);
+                        this.updatePatientForm.get("title").setValue(data.title);
+                        this.updatePatientForm.get("patientLanguage").setValue(data.patientLanguage);
+                        this.updatePatientForm.get("race").setValue(data.race);
+                        this.updatePatientForm.get("ethnicity").setValue(data.ethnicity);
+                        this.updatePatientForm.get("age").setValue(data.age);
+                        this.updatePatientForm.get("ssn").setValue(data.ssn);
+                        this.updatePatientForm.get("licenseNo").setValue(data.licenseNo);
+                        this.updatePatientForm.get("gender").setValue(data.gender);
+                        this.updatePatientForm.get("dob").setValue(moment.utc(new Date(data.dob)).format('MM/DD/YYYY'));
+                        this.updatePatientForm.get("primaryEmail").setValue(data.primaryEmail);
+                        this.updatePatientForm.get("primaryNo").setValue(data.primaryNo);
+                        this.updatePatientForm.get("patientAddressStreet").setValue(data.patientStreetAddress);
+                        this.updatePatientForm.get("patientAddressCity").setValue(data.patientCity);
+                        this.updatePatientForm.get("patientAddressState").setValue(data.patientState);
+                        this.updatePatientForm.get("patientAddressZip").setValue(data.zipCode);
+                        this.updatePatientForm.get("additionalInfo").setValue(data.additionalInfo);
+                        this.updatePatientForm.get("patientAddressDoorNo").setValue(data.patientApartmentNo);
+                        this.updatePatientForm.get("secondaryEmail").setValue(data.secondaryEmail);
+                        this.updatePatientForm.get("buildingNo").setValue(data.buildingNo);
+                        if(data.sInsDob==null){
+                         this.updatePatientForm.get("SInsDob").setValue(data.sInsDob);
+                          }
+                        else{
+                         this.updatePatientForm.get("SInsDob").setValue(moment.utc(new Date(data.sInsDob)).format('MM/DD/YYYY'));
+                          }
+                        this.updatePatientForm.get("secondaryNo").setValue(data.secondaryNo);
+                        this.updatePatientForm.get("staffId").setValue(data.staffId);
+                        this.updatePatientForm.get("patientAddressId").setValue(data.clinicLocationId);
+                        this.updatePatientForm.get("PInsDob").setValue(moment.utc(new Date(data.pInsDob)).format('MM/DD/YYYY'));
+                       
+                        this.updatePatientForm.get("PInsRelationship").setValue(data.pInsRelationship);
+                        this.updatePatientForm.get("SInsRelationship").setValue(data.sInsRelationship);
+                        this.updatePatientForm.get("PInsName").setValue(data.pInsName);
+                        this.updatePatientForm.get("SInsName").setValue(data.sInsName);
+                        this.updatePatientForm.get("PInsSsn").setValue(data.pInsSsn);
+                        this.updatePatientForm.get("SInsSsn").setValue(data.sInsSsn);
+                        this.updatePatientForm.get("PInsEmployer").setValue(data.pInsEmployer);
+                        this.updatePatientForm.get("SInsEmployer").setValue(data.sInsEmployer);
+                        this.updatePatientForm.get("PInsCompany").setValue(data.pInsCompany);
+                        this.updatePatientForm.get("SInsCompany").setValue(data.sInsCompany);
+                        this.updatePatientForm.get("PInsPlanName").setValue(data.pInsPlanName);
+                        this.updatePatientForm.get("SInsPlanName").setValue(data.sInsPlanName);
+                        this.updatePatientForm.get("PInsId").setValue(data.pInsId);
+                        this.updatePatientForm.get("SInsId").setValue(data.sInsId);
+                        this.updatePatientForm.get("PInsGroup").setValue(data.pInsGroup);
+                        this.updatePatientForm.get("SInsGroup").setValue(data.sInsGroup);
+                    }
+                },
+                    errorCode =>
+                    this.statusCode = errorCode);
+        });
+        $('#dob').mask('00/00/0000');
+        $('#ssn').mask('000-00-0000');
+        $('#patientAddressZip').mask('00000');
+        $('#primaryNo').mask('000-000-0000');
+        $('#secondaryNo').mask('000-000-0000');
+         $('#PInsSsn').mask('000-000-0000');
+        $('#SInsSsn').mask('000-000-0000');
+    }
+
+      showUpdateModal(){
+        this.value=!this.value;
+        $("#updateExpansionPanel").show();
+    }
+
+    datepicker(val) {
+        var self = this;
+        $("#"+val).datepicker({
+            Style:"padding-top:10px;",
+            changeMonth: true,
+            yearRange: "1900:+0",
+            defaultDate: '01/01/1953',
+            maxDate: new Date(),
+            changeYear: true,
+            beforeShow: function () {
+                setTimeout(function () {
+                    $('.ui-datepicker').css('z-index', 99999999999999);
+                }, 0);     
+            },
+            onSelect: function(dateText, inst){ 
+                console.log(dateText)
+                self.calculateAge(val,dateText)
+                 }
+        }).datepicker("show");
+    }
+
+
+     calculateAge(val,dob) {
+        if(val=='dob'){
+            let age= new Date().getFullYear() - new Date(dob).getFullYear();
+            this.updatePatientForm.get(val).setValue((document.getElementById('dob') as HTMLInputElement).value);
+            this.updatePatientForm.get("age").setValue(age);
+        }
+        this.updatePatientForm.get(val).setValue(moment.utc((document.getElementById(val) as HTMLInputElement).value).format('MM/DD/YYYY'));
+      }
+
+    getPatientTitle() {
+        this.spinner.show();
+        this.masterLookupService.getTitles()
+            .subscribe(
+                data => {
+                    this.spinner.hide();
+                    this.allTitles = data;
+                    console.log(this.allTitles)
+                },
+                errorCode => this.statusCode = errorCode);
+    }
+
+    getPatientLanguage() {
+        this.spinner.show();
+        this.masterLookupService.getLanguage()
+            .subscribe(
+                data => {
+                    this.spinner.hide();
+                    this.allLanguages = data;
+                    console.log("allLanguages: ");
+                    console.log(this.allLanguages)
+                },
+                errorCode => this.statusCode = errorCode);
+    }
+    getPatientRace() {
+        this.spinner.show();
+        this.masterLookupService.getRace()
+            .subscribe(
+                data => {
+                    this.spinner.hide();
+                    this.allRace = data;
+                    console.log("Race: ");
+                    console.log(this.allRace)
+                },
+                errorCode => this.statusCode = errorCode);
+    }
+
+    getPatientEthnicity() {
+        this.spinner.show();
+        this.masterLookupService.getEthnicity()
+            .subscribe(
+                data => {
+                    this.spinner.hide();
+                    this.allEthnicity = data;
+                    console.log("allEthnicity: ")
+                    console.log(this.allEthnicity)
+                },
+                errorCode => this.statusCode = errorCode);
+    }
+    setTimeOut() {
+        window.setTimeout(function () {
+            $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                $(".alert").slideUp(500);
+            });
+        }, 4000);
+    }
+
+    getPrimaryProvider() {
+        this.staffDetailsService.getCCMProvider()
+            .subscribe(data => {
+                this.allPrimaryProvider = data;
+            })
+    }
+
+    getAddressState() {
+        this.masterLookupService.getAddressState()
+            .subscribe(
+                data => {
+                    this.allStates = data;
+                },
+                errorCode => this.statusCode = errorCode);
+    }
+
+    getPatientStatus() {
+        this.masterLookupService.getPatientStatus()
+            .subscribe(
+                data => {
+                    this.alladditionalInfo = data;
+                },
+                errorCode => this.statusCode = errorCode);
+    }
+
+    getPrimaryServiceLocation() {
+        this.clinicLocationService.getAllClinicLocations()
+            .subscribe(data => {
+                this.allCliniclocations = data;
+            })
+    }
+
+    onProviderChange(staffId, val) {
+        this.staffDetailsService.getStaffDetailsById(staffId)
+            .subscribe(data => {
+                this.updatePatientForm.get("patientAddressId").setValue(data.locationId);
+            })
+        $(val).addClass('customfloat');
+    }
+
+    changeNumberFormat(event) {
+        let id = ("#" + event.target.id);
+        $(id).keydown(function (e) {
+            var key = e.charCode || e.keyCode || 0;
+            let value = $(this);
+            if (key !== 8 && key !== 9) {
+                if (value.val().length === 3) {
+                    value.val(value.val() + '-');
+                }
+                if (value.val().length === 7) {
+                    value.val(value.val() + '-');
+                }
+            }
+            return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+        })
+    }
+
+    onSubmit() {
+      
+        if (this.updatePatientForm.valid) {
+            (<HTMLInputElement> document.getElementById("update")).disabled = true;
+            let image = $('#wizardPicturePreview').attr('src');
+            let patientImage = Base64.encode(image);
+            let firstName = this.updatePatientForm.get("firstName").value.trim();
+            let middleName = this.updatePatientForm.get("middleName").value;
+            let lastName = this.updatePatientForm.get("lastName").value.trim();
+            let licenseNo = this.updatePatientForm.get('licenseNo').value;
+            let title = this.updatePatientForm.get('title').value;
+            let patientLanguage = this.updatePatientForm.get('patientLanguage').value;
+            let race = this.updatePatientForm.get('race').value;
+            let ethnicity = this.updatePatientForm.get('ethnicity').value;
+            let dob = moment.utc((document.getElementById("dob") as HTMLInputElement).value).toDate();
+            let age = this.updatePatientForm.get('age').value;
+            let ssn = this.updatePatientForm.get('ssn').value;
+            let buildingNo = this.updatePatientForm.get('buildingNo').value;
+            let gender = this.updatePatientForm.get("gender").value;
+            let primaryEmail = this.updatePatientForm.get("primaryEmail").value.trim();
+            let secondaryEmail = this.updatePatientForm.get("secondaryEmail").value;
+            let socialSecurityNo = this.updatePatientForm.get("ssn").value;
+            let primaryNo = this.updatePatientForm.get("primaryNo").value.trim();
+            let secondaryNo = this.updatePatientForm.get("secondaryNo").value;
+            let patientAddressStreet = this.updatePatientForm.get("patientAddressStreet").value.trim();
+            let patientAddressDoorNo = this.updatePatientForm.get("patientAddressDoorNo").value;
+            let patientAddressCity = this.updatePatientForm.get("patientAddressCity").value.trim();
+            let patientAddressState = this.updatePatientForm.get("patientAddressState").value;
+            let patientAddressZip = this.updatePatientForm.get("patientAddressZip").value.trim();
+            let staffId = this.updatePatientForm.get("staffId").value;
+            let patientAddressId = this.updatePatientForm.get("patientAddressId").value;
+            let additionalInfo = this.updatePatientForm.get("additionalInfo").value;
+            let PInsRelationship = this.updatePatientForm.get('PInsRelationship').value;
+            let SInsRelationship = this.updatePatientForm.get('SInsRelationship').value;
+            let PInsName = this.updatePatientForm.get('PInsName').value.trim();
+            let SInsName = this.updatePatientForm.get('SInsName').value;
+            let PInsCompany = this.updatePatientForm.get('PInsCompany').value;
+            let SInsCompany = this.updatePatientForm.get('SInsCompany').value;
+            let PInsPlanName = this.updatePatientForm.get('PInsPlanName').value;
+            let SInsPlanName = this.updatePatientForm.get('SInsPlanName').value;
+            let PInsId = this.updatePatientForm.get('PInsId').value;
+            let SInsId = this.updatePatientForm.get('SInsId').value;
+            let PInsGroup = this.updatePatientForm.get('PInsGroup').value;
+            let SInsGroup = this.updatePatientForm.get('SInsGroup').value;
+            let PInsDob = moment.utc(this.updatePatientForm.get('PInsDob').value).toDate();
+            let SInsDob = moment.utc(this.updatePatientForm.get('SInsDob').value).toDate();
+            let PInsSsn = this.updatePatientForm.get('PInsSsn').value.trim();
+            let SInsSsn = this.updatePatientForm.get('SInsSsn').value;
+            let PInsEmployer = this.updatePatientForm.get('PInsEmployer').value;
+            let SInsEmployer = this.updatePatientForm.get('SInsEmployer').value;
+              let patientToUpdate = new PatientDetails(this.patientId, patientImage, firstName, middleName, lastName,this.mrn, gender,title, dob ,true,primaryEmail, secondaryEmail,primaryNo, secondaryNo,patientAddressStreet, patientAddressDoorNo, patientAddressCity, patientAddressState,
+                patientAddressZip, staffId, 0, patientAddressId,null, additionalInfo,null, null, null, null,PInsName,PInsRelationship,SInsRelationship,SInsName,PInsCompany,SInsCompany,PInsPlanName,SInsPlanName,PInsId,SInsId,PInsGroup,SInsGroup,PInsDob ,SInsDob,PInsSsn,SInsSsn,
+                PInsEmployer,SInsEmployer,licenseNo,ssn,age,buildingNo,race,ethnicity,patientLanguage);   
+                 console.log(patientToUpdate);
+    
+
+            this.patientDetailsService.updatePatientDetails(patientToUpdate)
+                .subscribe(data => {
+                    let fullName = data.firstName + " " + data.lastName;
+                    this.sharedData.successMsg = fullName;
+                    this.sharedData.statusCode = 200;
+                    this.sharedData.msgName = "Patient";
+                    this.router.navigate(['patients/patientlist']);
+                },
+                    ErrorCode => {
+                        (<HTMLInputElement> document.getElementById("update")).disabled = false;
+                        this.statusCode = ErrorCode
+                        this.setTimeOut();
+                    })
+       }
+        else {
+            this.validateAllFormFields(this.updatePatientForm);
+        }
+        
+    }
+    validateAllFormFields(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach(field => {
+            const control = formGroup.get(field);
+            if (control instanceof FormControl) {
+                control.markAsTouched({ onlySelf: true });
+            } else if (control instanceof FormGroup) {
+                this.validateAllFormFields(control);
+            }
+        });
+    }
+
+    clearVal() {
+        this.staffId_search = '';
+        this.patientAddressState_search = '';
+        this.patientAddressId_search = '';
+        this.additionalInfo_search = '';
+
+    }
+
+    selectFile(event) {
+        if (event.target.files[0].size < 30000) {
+            this.isNotValidImageSize = false;
+            let currentFileUpload = event.target.files[0];
+            if (event.target.files && currentFileUpload) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#wizardPicturePreview').attr('src', (<FileReader>e.target).result).fadeIn('slow');
+                    $('#patientImageId').attr('value', reader.result);
+                };
+                reader.readAsDataURL(currentFileUpload);
+            }
+        }
+        else {
+            this.isNotValidImageSize = true;
+            this.patientImage = "./assets/img/default-avatar.png";
+        }
+    }
+
+}

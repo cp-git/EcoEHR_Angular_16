@@ -1,0 +1,23 @@
+package com.cpa.ehr.service.admin;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.cpa.ehr.backend.dao.admin.entities.StaffMember;
+import com.cpa.ehr.service.admin.dto.StaffMemberDTO;
+
+/**
+ * Implementation for the EHR Base Service
+ * 
+ * EHR Base Service holds all the interfaces
+ * that are reused across the EHR application 
+ *  
+ * @author CPA Development Team
+ * @version 1.0.0
+ */
+public interface EHRBaseService {
+
+	public StaffMember currentUser();
+	public String getRandomPassword();
+	public boolean getResetPasswordMailSender(StaffMember staff,HttpServletRequest request);
+	public boolean getPasswordMailSender(StaffMemberDTO staff,HttpServletRequest request);
+}

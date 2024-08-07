@@ -1,0 +1,15 @@
+
+import { Encounter } from 'app/patients/models/encounter';
+export class ChiefCompliantDtl {
+    constructor(public chiefCompliantDtlId: number, 
+               //public encounter: Encounter, 
+                public encounterId: number, 
+                public icd10Code: string,
+                public icd10CodeDescription: string,
+                public primaryFlag: boolean,
+                public createdDate: Date,
+                public createdBy: string,
+                public lastUpdatedDate: Date,
+                public lastUpdatedBy: string) { 
+    }
+} 

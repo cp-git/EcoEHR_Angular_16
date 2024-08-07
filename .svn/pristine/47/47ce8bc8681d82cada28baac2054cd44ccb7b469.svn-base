@@ -1,0 +1,14 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { TimerComponent } from 'app/components/timer/timer.component';
+import { AuthService } from 'app/components/timer/auth.service';
+
+@NgModule({
+    imports: [ RouterModule, CommonModule ],
+    declarations: [ TimerComponent ],
+    exports: [ TimerComponent ],
+    providers: [AuthService]
+})
+
+export class TimerModule {}

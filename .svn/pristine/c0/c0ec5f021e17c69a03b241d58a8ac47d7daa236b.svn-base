@@ -1,0 +1,49 @@
+/* ros question group tab style */
+  .ros-tab-style{
+    right:2px;
+    padding-left:17px ;
+  }
+ 
+   /*label style for medication checkbox  */
+  .labelstyle{
+    padding-left: 3px !important;
+  }
+  
+  input::-webkit-input-placeholder {              
+    color: #808080 !important;        
+  }
+
+  
+.header-contents{
+  background-color: #03659d;
+  margin-right:17px !important;
+  margin-left:17px !important;
+  box-shadow: 5px 8px 38px  #888888;
+}
+.input-size{
+  font-weight: 400;
+  color: white;
+}
+.header-style{
+  color: white;
+  font-weight: 600;
+  }
+  
+  label{
+    color: black;
+  }
+
+/* medication allergy card style */
+.med-allergy-card-style{
+    width: 784px;
+    box-shadow: 5px 10px 30px  #888888;
+    padding: 5px;
+    margin: 10px 4px  ;
+    border: 1px solid #008CBA;
+}
+
+
+/* style for loader for medication module */
+::ng-deep #ngxspinner .black-overlay > p{
+  top:77% !important; 
+}

@@ -1,0 +1,39 @@
+import { Observable } from "rxjs/Observable";
+import { Injectable } from "@angular/core";
+import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { AppSettings } from '../../appsettings';
+import { StaffMember } from '../../administration/staff-members/staffMember';
+
+@Injectable()
+export class LoginService {
+
+    constructor(private http: Http) { }
+
+    updateStaffLastActionURL = AppSettings.API_ENDPOINT + "./admin/modifyStaffMemberLastActionById";
+
+    login(userName, password): Observable<Response> {
+        let loginRequest = JSON.stringify({ loginId: userName, loginKey: password });
+        let headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        return this.http.post(AppSettings.API_AUTH_ENDPOINT + './auth/login', loginRequest)
+            .do(resp => {
+                localStorage.setItem('jwt', resp.headers.get('x-auth-token'));
+            }).catch(this.handleError);
+    }
+
+    updateStaffLastAction(staffMemberObject: StaffMember): Observable<number> {
+        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.put(this.updateStaffLastActionURL, staffMemberObject, options)
+            .map(success => success.status)
+            .catch(this.handleError);
+    }
+
+    private handleError(error: Response | any) {
+        return Observable.throw(error.status);
+    }
+
+    isSignedIn(): boolean {
+        return localStorage.getItem('jwt') !== null;
+    }
+}

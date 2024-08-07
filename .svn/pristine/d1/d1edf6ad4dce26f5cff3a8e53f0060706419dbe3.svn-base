@@ -1,0 +1,25 @@
+import { PatientDetails } from "app/patients/models/PatientDetails";
+
+export class PatientMedication {
+    constructor(
+        public patientMedicationId: number, 
+        public patientId: number, 
+        public encounterId: number, 
+        public medicationId: number, 
+        public frequency: string, 
+        public startDate: Date, 
+        public medicationDuration: number, 
+        public endDate: Date, 
+        public refillCount: number, 
+        public icd10Code: string,
+        public medicationNotes: string,
+        public isActiveMedication: string,
+        public discontinueReason: string,
+        public activeFlag: boolean,
+        public createdDate: Date,
+        public createdBy: string,
+        public lastUpdatedDate: Date,
+        public lastUpdatedBy: string,
+        public discontinuedDate: Date
+    ){}
+}

@@ -1,0 +1,220 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <form [formGroup]="HistoryForm" mmethod="#" action="">
+                    <div class="card">
+                        <div class="card-header" data-background-color>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-xs-12">
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <h6> History  {{title}}
+                                            </h6>
+                                        </td>
+                                        <td class="col-md-8" style="top:-17px">
+                                                <ehr-navigation [allSystemTypes]=allSystemTypes [encounterId]=encounterId [sysName]=sysName [data]=data></ehr-navigation>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 style="margin-left:20px;"> </h6>
+                        <ehr-patientheader [encounterId]=encounterId [patientId]=patientId ></ehr-patientheader>
+                     
+                        <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                        fullScreen="true" type="line-scale-pulse-out-rapid">
+                        </ngx-spinner>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="btn-group btn-group-justified">
+                                    <ng-container *ngFor="let system of HistorySystems let i=index">
+                                        <a data-toggle="tab" id="{{system.systemId}}" (click)="openQuestionGroup(system.systemId,system.systemDesc)" [ngClass]="{'colorchange':system.systemId==systemId}"
+                                            class="btn btn-style systems-tab-style" title="{{system.systemDesc}}">{{system.systemDesc}}</a>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-5 col-sm-offset-5 col-md-offset-5 text-center">
+                                <div id="systemName" class="systemNameStyle"><b>{{systemDesc}}</b></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-4 col-sm-4">
+                                <ng-container *ngFor="let group of questionGroupList;let i=index">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-8">
+                                            <a data-toggle="tab" id="group_{{i}}" (click)="goToSelectedTab(group,i)"  [ngClass]="{'colorchange':group.questionGroupId==questionGroupId}"
+                                                class="btn btn-style btn-left question-group-style" data-toggle="modal">
+                                                <div class="question-group-name">{{group.questionGroupName}}</div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-3 col-sm-1">
+                                            <input type="checkbox" id="history_{{group.questionGroupId}}" [checked]="isChecked(group)"
+                                                (change)="showDiv(group,$event.target.checked,i)" name="checkListItem">
+                                            <label for="history_{{group.questionGroupId}}"></label>
+                                        </div>
+
+                                    </div>
+                                   
+                                        
+                                </ng-container>
+
+                            </div>
+                            <div class="col-md-8 col-sm-8">
+                                <!-- ddd -->
+                                <div *ngFor="let question of questionGroupList">
+                                    <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'" *ngIf="question.questionGroupName != 'Family History'">
+                                        <div class="card question-card-style col-md-9 col-sm-6">
+                                            <h6 class="text-center">
+                                                <b> {{question.questionGroupName}}</b>
+                                            </h6>
+                                            <div *ngIf="question.questionCount !==-1" class="text-dark pull-right selectlink-style">
+                                                Select<a href="#" (click)="resetAllRadio(systemId,question.questionGroupId,'No')" data-toggle="modal" data-dismiss="modal"> "No"</a> (or)<a href="#" (click)="resetAllRadio(systemId,question.questionGroupId,'Yes')" data-toggle="modal" data-dismiss="modal"> "Yes"</a> for all
+                                          
+                                            </div>
+                                            <div  *ngIf="flag" class="HPIErrorMsg-style">
+                                                    <div class="alert alert-danger alert-danger-style" role="alert">
+                                                            Please Fill All the Fields
+                                                    </div>
+                                            </div>
+                                            <ng-container *ngFor="let commonQues of commonQuestions; let i=index">
+                                                <div class="row " *ngIf="commonQues.questionGroupId===question.questionGroupId && question.questionGroupName != 'Family History'">
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <label class="text-dark">{{commonQues.questionDesc}}
+                                                        </label>
+                                                    </div>
+                                                    <!-- radio div -->
+                                                    <div style="right:30px;">
+                                                        <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='radio'">
+                                                            <span *ngFor="let options of commonQues.optionRecord">
+                                                                <input value="{{options.optionNames}}" name="radio{{i}}"
+                                                                    type="radio" id="radioType_{{i}}" [checked]="isCheckedRadio(options.optionId)"
+                                                                    (input)="onRowEdit(commonQues,options)" />
+                                                                <label class="text-dark" for="radioType_{{i}}">{{options.optionNames}}</label>
+                                                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                                            </span>
+                                                        </div>
+
+                                                        <!-- dropdown div -->
+                                                        <div id="temp{{i}}" class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='dropdown'">
+                                                            <md2-select id="dropdown{{i}}" [(ngModel)]="selectedValue[commonQues.questionId]"
+                                                                [ngModelOptions]="{standalone: true}" style="width: 100%"
+                                                                (change)="getValue($event,i);onRowEdit(commonQues,$event.value)">
+                                                                <md2-option selected>Please Select</md2-option>
+                                                                <md2-option class="decrease-height" *ngFor="let options of commonQues.optionRecord"
+                                                                    [value]="options">{{options.optionNames}}</md2-option>
+                                                            </md2-select>
+                                                        </div>
+                                                        <!-- tdropdown div -->
+                                                        <!-- <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='tdropdown'">
+                                                            <div class="col-md-6" style="top:-8px;right:15px">
+                                                                <input type="text" id="showText{{commonQues.questionId}}"
+                                                                    [(ngModel)]="textDropdownVal[commonQues.questionId]"
+                                                                    [ngModelOptions]="{standalone: true}" placeholder="Please Enter"
+                                                                    class="form-control input-color-style"
+                                                                    (input)="isFieldValid($event,'text');onRowEdit(commonQues,$event.target.value)">
+                                                            </div>
+                                                            <div class="col-md-3" style="right:31px">
+                                                                <md2-select id="tdropdown{{i}}" [(ngModel)]="selectedTValue[i]"
+                                                                    [ngModelOptions]="{standalone: true}" (change)="getValue($event,i);onRowEdit(commonQues,$event.value)">
+                                                                    <md2-option selected>Please Select </md2-option>
+                                                                    <md2-option class="decrease-height" *ngFor="let options of commonQues.optionRecord"
+                                                                        [value]="options">{{options.optionNames}}</md2-option>
+                                                                </md2-select>
+                                                            </div>
+                                                        </div> -->
+                                                        <!-- text div -->
+                                                        <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='text'">
+                                                            <input type="text" placeholder="Please enter value"
+                                                                [ngModelOptions]="{standalone: true}" class="form-control"
+                                                                [(ngModel)]="textVal[commonQues.questionId]" (input)="isFieldValid($event,'text');commonQues.answer = $event.target.value;onRowEdit(commonQues,$event.target.value)">
+                                                            <div id="showValid_{{i}}" *ngIf="isValid[i]==i">Max
+                                                                characters capacity is 100.
+                                                            </div>
+                                                        </div>
+                                                        <!-- textarea div -->
+                                                        <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='textarea'">
+                                                            <input type="textarea" placeholder="Please enter here..."
+                                                                class="form-control"
+                                                                [(ngModel)]="textAreaVal[commonQues.questionId]" [ngModelOptions]="{standalone: true}"
+                                                                (input)="isFieldValid($event,'textarea');commonQues.answer = $event.target.value;onRowEdit(commonQues,$event.target.value)">
+                                                            <div id="showValid_{{i}}" *ngIf="isValid[i]==i">Max
+                                                                characters capacity is 500.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12">
+                               
+                            <div class="row">
+                                   
+                                <div *ngFor="let question of questionGroupList">
+                                    <div *ngIf="isFamHistory" class="table-content contents ">
+                                            <div class="row">
+                                                    <div class="clo-md-1 col-md-offset-11">
+                                                        <button type="submit" class="btn btn-sm" style="top:-4px;" *ngIf="resetFlag"
+                                                            (click)="resetAll(systemId)">Reset All</button>
+                                                    </div>
+                                                </div>
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <th></th>
+                                                    <th style="width:129px !important" class="text-center">Father</th>
+                                                    <th style="width:129px !important" class="text-center">Mother</th>
+                                                    <th class="text-center">Grandfather -Maternal</th>
+                                                    <th class="text-center">Grandmother -Maternal</th>
+                                                    <th style="width:134px !important" class="text-center">Sibling</th>
+                                                    <th class="text-center">Grandfather -Paternal</th>
+                                                    <th class="text-center">Grandmother -Paternal</th>
+                                                </tr>
+                                                <tr *ngFor="let commonQues of commonQuestions">
+                                                    <td>{{commonQues.questionDesc}}</td>
+                                                    <ng-container *ngFor="let opt of commonQues.optionRecord">
+                                                        <td>
+
+                                                            <div style="margin-left:-19px" *ngIf="commonQues.optionType=='checkbox'">
+                                                                <input type="checkbox" value={{opt.optionId}} [checked]="isCheckedFamilyHistory(opt.optionId,commonQues.systemId)"
+                                                                    name="checkListItem" id="family_{{opt.optionId}}" (change)="onFamilyHistoryChange(commonQues,opt,$event.target.checked)" >
+                                                                <label for="family_{{opt.optionId}}"></label>
+                                                            </div>
+                                                            <div style="margin-left:10px" *ngIf="commonQues.optionType=='text'">
+                                                                <input type="text" id="textHistory_{{opt.optionId}}" class="form-control " 
+                                                                [(ngModel)]="textHistoryVal[opt.optionId]" [ngModelOptions]="{standalone: true}"  (input)="onRowEdit(commonQues,$event.target.value)" placeholder="Enter Here">
+                                                            </div>
+
+                                                            <div style="margin-left:10px" *ngIf="commonQues.optionType=='textarea'">
+                                                                    <input type="textarea" id="textHistory_{{opt.optionId}}" class="form-control "
+                                                                    [(ngModel)]="textHistoryVal[opt.optionId]" [ngModelOptions]="{standalone: true}" (input)="onRowEdit(commonQues,$event.target.value)" placeholder="Enter Here...">
+                                                            </div>
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="col-md-offset-10 col-sm-offset-9">
+                            <button type="submit" class="btn button" id="saveNext" (click)="onsubmit();">{{buttonName}} & Next</button>
+                        </div>
+                        <br>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

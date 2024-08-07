@@ -1,0 +1,51 @@
+import { Component, OnInit, HostListener } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from './components/timer/auth.service'
+declare var $: any;
+
+@Component({
+    selector: 'ehr-main',
+    templateUrl: './app.component.html'
+})
+
+export class EHRComponent implements OnInit {
+    constructor(private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private authService: AuthService) { }
+
+    ngOnInit() {
+        $.material.init();
+        const path = this.activatedRoute.snapshot.queryParams['path'];
+        const navigateTo = '/' + path;
+        if (path) {
+            this.router.navigate([navigateTo]);
+        }
+
+        // disable inspect mode of browser using shortcut keys
+        // document.onkeydown = function (event) {
+        //     if (event.keyCode == 123) {
+        //         return false;
+        //     }
+        //     if (event.ctrlKey && event.shiftKey && event.keyCode == 'I'.charCodeAt(0)) {
+        //         return false;
+        //     }
+        //     if (event.ctrlKey && event.shiftKey && event.keyCode == 'C'.charCodeAt(0)) {
+        //         return false;
+        //     }
+        //     if (event.ctrlKey && event.shiftKey && event.keyCode == 'J'.charCodeAt(0)) {
+        //         return false;
+        //     }
+        //     if (event.ctrlKey && event.keyCode == 'U'.charCodeAt(0)) {
+        //         return false;
+        //     }
+        // }
+    }
+    
+    @HostListener('document:keyup', ['$event'])
+    @HostListener('document:click', ['$event'])
+    @HostListener('document:wheel', ['$event'])
+    // @HostListener('document:mousemove', ['$event'])
+    resetTimer() {
+        this.authService.notifyUserAction();
+    }
+}

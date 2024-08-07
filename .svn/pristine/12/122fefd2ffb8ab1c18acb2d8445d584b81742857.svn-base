@@ -1,0 +1,110 @@
+<div *ngIf="preventiveFlag" class="HPIErrorMsg-style">
+    <div class="alert alert-danger alert-danger-style" role="alert">
+        Please Fill All mandatory Fields
+    </div>
+</div>
+<div>
+    <button type="submit" class="btn button" (click)="openPreventiveTable()" style="margin-left:40%">Add Preventive
+    </button>
+</div>
+<form [formGroup]="PreventiveForm" action="" method="" *ngIf="openPreventive">
+    <div class="table-content">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th class="text-center">Please Select
+                    </th>
+                    <th class="text-center">Name of the test (Drop down)
+                    </th>
+                    <th class="text-center">Sex</th>
+                    <th class="text-center">Age</th>
+                    <th class="text-center">Date last done</th>
+                    <th class="text-center">Frequency
+                    </th>
+                    <th class="text-center">Recurring event</th>
+                    <th class="text-center">Reminder email – before due date
+                    </th>
+                </tr>
+                <tr *ngFor="let preventiveMaster of allMasterPreventive">
+                    <td>
+                        <input type="checkbox" id="all_{{preventiveMaster.preventiveCareId}}" (change)="preventiveMaster.isChecked = $event.target.checked;checkedData(preventiveMaster);">
+                        <label class="labelstyle" for="all_{{preventiveMaster.preventiveCareId}}"></label>
+                    </td>
+                    <td>{{preventiveMaster.testName}}
+                    </td>
+                    <td>{{preventiveMaster.gender}}
+                    </td>
+                    <td>{{preventiveMaster.age}}</td>
+                    <td>
+                        <mat-form-field>
+                            <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                                <input matInput type="text" (input)="preventiveMaster.lastDate = $event.target.value;checkedData(preventiveMaster)" [(ngModel)]="date[preventiveMaster.preventiveCareId]"
+                                    [ngModelOptions]="{standalone: true}" class="input-with-icon" class="date" id="lastDate{{preventiveMaster.preventiveCareId}}"
+                                    (click)="datepicker(preventiveMaster)" (change)="checkedData(preventiveMaster)" autocomplete="off"
+                                    name="lastDate">
+                                <span class="input-icon" (click)="datepicker(preventiveMaster);">
+                                    <span class="fa fa-calendar fa-lg"></span>
+                                </span>
+                            </div>
+                        </mat-form-field>
+                        <ehr-field-error-display [displayError]="isValidDate[preventiveMaster.preventiveCareId]==preventiveMaster.preventiveCareId"
+                            errorMsg="Please Select Date"></ehr-field-error-display>
+                    </td>
+                    <td>{{preventiveMaster.frequency}}
+                    </td>
+                    <td>{{preventiveMaster.recurringEvent}}
+                    </td>
+                    <td>{{preventiveMaster.reminderEmailDate}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <div class="col-md-offset-5">
+        <button type="submit" class="btn button" id="saveNext" (click)="submitData()" [disabled]="buttonDisabled">Save</button>
+        <input type='button' class="btn button" (click)="closeModalPreventiveCare()" id="dismissmodal" value="Close" data-dismiss="modal"
+        />
+    </div>
+    <br>
+
+</form>
+
+<br>
+
+
+<ng-container *ngIf="displayPreventive">
+    <div *ngIf="!openPreventive">
+        <div class="table-content">
+            <table class="table table-bordered ">
+                <tbody>
+                    <tr>
+                        <th class="text-center">Name of the test (Drop down)
+                        </th>
+                        <th class="text-center">Sex</th>
+                        <th class="text-center">Age</th>
+                        <th class="text-center">Date last done</th>
+                        <th class="text-center">Frequency
+                        </th>
+                        <th class="text-center">Recurring event</th>
+                        <th class="text-center">Reminder email – before due date
+                        </th>
+                    </tr>
+                    <tr *ngFor="let patientPreventives of patientPreventive">
+                        <td>{{patientPreventives.testName}}
+                        </td>
+                        <td>{{patientPreventives.gender}}
+                        </td>
+                        <td>{{patientPreventives.age}}</td>
+                        <td>{{patientPreventives.dateLastDone |date:"MM/dd/yyyy"}}</td>
+                        <td>{{patientPreventives.frequency}}</td>
+                        <td>{{patientPreventives.recurringEvent}}</td>
+                        <td>{{patientPreventives.reminderEmailDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-container>
+<br>

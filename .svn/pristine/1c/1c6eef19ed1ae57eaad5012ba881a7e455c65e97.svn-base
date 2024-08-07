@@ -1,0 +1,20 @@
+.updateForm-style{
+    margin: -13px 0 0 0 !important;
+
+}
+.form-group label{
+    color: rgb(0, 0, 0);
+}
+.radio-inline{
+    top:-4px;
+}
+/* disable the loginId field for update staff  */
+.disableLoginId{
+    pointer-events:none;
+    background-color: rgb(240, 240, 240);
+}
+
+.datepicket-label-style {
+    top: -42% !important;
+    font-size: 8px !important;
+}

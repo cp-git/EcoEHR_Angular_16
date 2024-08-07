@@ -1,0 +1,44 @@
+.navbar-style{
+ background-color: #0288d1;
+ background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #04519b), color-stop(1, #04519b) );  
+ 
+}
+
+#anchorColor{
+    text-decoration-color: white;
+}
+
+a{
+/* text-decoration-color: white !important; */
+color: white !important;
+}
+
+.matInput{
+    width: 430px;
+}
+
+.mat-focused .placeholder {
+    color: black;
+}
+mat-placeholder{
+    color: black;
+}
+.mat-input-invalid .mat-input-placeholder {
+    color: black;
+}
+
+.btn-info{
+    background-color: #0471af
+}
+
+.change-width{
+    width: 495px !important;
+}
+.card-title{
+    color:white;
+}
+/* Asterisk Color  */
+.AsteriskColor{
+    color: red;  
+  }
+

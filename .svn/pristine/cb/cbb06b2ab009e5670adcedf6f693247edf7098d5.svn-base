@@ -1,0 +1,512 @@
+<div  [ngClass]="{'main-content': showMedicationModal}">    
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col-sm-12">
+                <div  [ngClass]="{'card': showMedicationModal}">
+                    <div *ngIf="display">
+                        
+                      <div class="card-header" *ngIf="showMedicationModal" data-background-color>
+                          <div class="row" >
+                              <div class="col-sm-12 col-md-12 col-xs-12">
+                                  <tr>
+                                      <td class="col-md-4">
+                                          <h6>MEDICATION</h6>
+                                      </td>
+                                      <td class="col-md-8" style="top:-17px">
+                                            <ehr-navigation [allSystemTypes]=allSystemTypes [encounterId]=encounterId [sysName]=sysName></ehr-navigation>
+                                        </td>
+                                  </tr>
+                              </div>
+                          </div>
+                      </div>
+                
+                    </div>
+                      <div *ngIf="display">    
+                      <h6 style="margin-left:20px;"> </h6>
+                      <ehr-patientheader  [encounterId]=encounterId [patientId]=patientIdMed></ehr-patientheader>
+                     
+
+                      </div>
+                      <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                      fullScreen="true" type="line-scale-pulse-out-rapid">
+                     </ngx-spinner>
+                 
+                      <form [formGroup]="MedicationForm" action="" method="">
+                              
+                          
+                                <br>
+                                <div  class="contents">
+                                          <div class="table-content">
+                                              <table class="table table-bordered">
+                                                  <tbody style="overflow-y:auto; height:150px;display:bdata">
+                                                      <tr>
+                                                          <th colspan="11"
+                                                              class="text-center" style="padding-left:8pc">
+                                                              Active Medication List
+                                                             <button  (click)="showModal()" type="submit" class="btn button btn-sm medButton-style" >Add Medication</button> 
+                                                          </th>
+                                                      </tr>
+                                                      <tr [hidden]="showActiveList">
+                                                          <th class="text-center">Indication
+                                                          </th>
+                                                          <th class="text-center">Medication
+                                                          </th>
+                                                          <th class="text-center">Form</th>
+                                                          <th class="text-center">Dose</th>
+                                                          <th class="text-center">Route</th>
+                                                          <th class="text-center">Frequency
+                                                          </th>
+                                                          <th class="text-center">Refill</th>
+                                                          <th class="text-center">Start Date
+                                                          </th>
+                                                          <th class="text-center">End Date
+                                                          </th>
+                                                          <th class="text-center">Prescription
+                                                          </th>
+                                                          <th class="text-center" *ngIf="showMedicationModal">InActive
+                                                          </th>
+                                                      </tr>
+                                                      <tr
+                                                          *ngFor="let activeMedication of activePatientMedications;let i=index">
+                                                          <td>{{activeMedication.icd10Code}}
+                                                          </td>
+                                                          <td>{{activeMedication.productName}}
+                                                          </td>
+                                                          <td>{{activeMedication.form}}</td>
+                                                          <td>{{activeMedication.dose}}</td>
+                                                          <td>{{activeMedication.route}}</td>
+                                                          <td>{{activeMedication.frequency}}
+                                                          </td>
+                                                          <td>{{activeMedication.refillCount}}
+                                                          </td>
+                                                          <td>{{activeMedication.startDate| date:'MM/dd/yyyy'}}
+                                                          </td>
+                                                          <td>{{activeMedication.endDate| date:'MM/dd/yyyy'}}
+                                                          </td>
+                                                          <td class="text-center">
+                                                              <a href="#"
+                                                                  (click)="openPrescription(activeMedication)"
+                                                                  data-toggle="modal"
+                                                                  title="Prescription">
+                                                                  <i
+                                                                      class="material-icons Prescription-style">content_paste</i>
+                                                              </a>
+                                                          </td>
+                                                          <td *ngIf="showMedicationModal" class="text-center">
+                                                              <a href="#"
+                                                                  (click)="openInActiveMedication(activeMedication)"
+                                                                  data-toggle="modal"
+                                                                  title="InActive">
+                                                                  <i
+                                                                      class="material-icons InActive-style">highlight_off</i>
+                                                              </a>
+                                                          </td>
+                                                      </tr>
+
+                                                      <tr [style.display]="showActiveList?'block':'none'"><b> No Medications Found</b></tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                      <br>
+                                      <div [hidden]="showInActiveList" class="contents">
+                                              <div class="table-content">
+                                                  <div class="text-center">
+                                                      <label>InActive Medication List
+
+                                                      </label>
+                                                  </div>
+                                                  <table class="table table-bordered">
+                                                      <tbody
+                                                          style="overflow-y:auto; height:150px;display:bdata">
+                                                          <tr>
+                                                              <th class="text-center">Indication
+                                                              </th>
+                                                              <th class="text-center">Medication
+                                                              </th>
+                                                              <th class="text-center">Form</th>
+                                                              <th class="text-center">Dose</th>
+                                                              <th class="text-center">Route</th>
+                                                              <th class="text-center">Frequency
+                                                              </th>
+                                                              <th class="text-center">Refill</th>
+                                                              <th class="text-center">Start Date
+                                                              </th>
+                                                              <th class="text-center">Discontinued
+                                                                  Date</th>
+                                                              <th class="text-center">Reason</th>
+                                                          </tr>
+                                                          <tr
+                                                              *ngFor="let inActiveMedication of inActivePatientMedications;let i=index">
+                                                              <td>{{inActiveMedication.icd10Code}}
+                                                              </td>
+                                                              <td>{{inActiveMedication.productName}}
+                                                              </td>
+                                                              <td>{{inActiveMedication.form}}</td>
+                                                              <td>{{inActiveMedication.dose}}</td>
+                                                              <td>{{inActiveMedication.route}}
+                                                              </td>
+                                                              <td>{{inActiveMedication.frequency}}
+                                                              </td>
+                                                              <td>{{inActiveMedication.refillCount}}
+                                                              </td>
+                                                              <td>{{inActiveMedication.startDate| date:'MM/dd/yyyy'}}
+                                                              </td>
+                                                              <td>{{inActiveMedication.discontinuedDate| date:'MM/dd/yyyy'}}
+                                                              </td>
+                                                              <td>{{inActiveMedication.discontinueReason}}
+                                                              </td>
+                                                          </tr>
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                          </div>
+                       
+                          <br>
+                         
+                         <div *ngIf="display" class="col-md-offset-10">
+                              <button type="submit" class="btn button" id="saveNext" (click)="onSubmit()" >Save & Next</button>
+                          </div> 
+                    <br>
+                      </form>
+                      <!-- <br> -->
+                  </div>
+               </div>
+          </div>
+      </div>
+  </div>
+  
+   <!-- Modal for Medication Allergy -->
+   <div class="modal fade" id="MedicationAllergy" data-keyboard="false" data-backdrop="static">
+          <div class="modal-dialog modal-lg" style="width:96%; ">
+              <div class="card">
+                  <div class="modal-content">
+                      <div class="modal-header text-center">
+                          <h6 class="card-header card-style" data-background-color>Medication</h6>
+                          <button type="button" class="close pull-right"  (click)="closeMedicationAllergyModel()">&times;</button>
+                      </div>
+                    
+                      <ngx-spinner id="ngxspinner" bdColor="transparent" loadingText="Loading" size="defaut"
+                          color="#03659D" fullScreen="true" type="line-scale-pulse-out-rapid">
+                      </ngx-spinner>
+                      
+                      <!-- <form [formGroup]="MedicationModalForm" action="" method=""> -->
+                          <br>
+                          <div class="col-md-12 col-md-offset-1">
+                              <div class="col-md-1">
+                                  <label style="margin-top:12px">Medication :</label>
+                              </div>
+                              <div class="col-md-3 form-group">
+                                  <input #searchRef type="text" [ngModelOptions]="{standalone: true}"
+                                      [(ngModel)]="searchText" placeholder="Search Here......" class="form-control">
+                              </div>
+                              <div class="col-md-4" [style.display]="searchCount==0?'block':'none'"><b>No Records
+                                      Found</b></div>
+                              <div *ngIf="medicationFlag" class="HPIErrorMsg-style">
+                                  <div class="alert alert-danger alert-danger-style" role="alert">
+                                      Please Fill All mandatory Fields
+                                  </div>
+                              </div>
+                          </div>
+                          <br>
+                          <br>
+                          <div [hidden]="flag">
+                              <table class="table table-bordered" style="width:auto !important;margin:15px;">
+                                  <tbody style="overflow-y:auto;max-height:350px;display:block;">
+                                      <tr>
+                                          <th class="text-center">Select</th>
+                                          <th class="text-center">Indication</th>
+                                          <th class="text-center">Drug Name-Active Ingredient</th>
+                                          <th class="text-center">Form</th>
+                                          <th class="text-center">Dose</th>
+                                          <th class="text-center">Route</th>
+                                          <th class="text-center">Frequency</th>
+                                          <th style="width:113px" class="text-center">Start Date</th>
+                                          <th style="width:97px" class="text-center">Duration In Days</th>
+                                          <th style="width:102px" class="text-center">End Date</th>
+                                          <th class="text-center">Refill</th>
+                                          <th class="text-center">Schedule</th>
+                                      </tr>
+                                      <tr *ngFor='let data of finalData; let i=index'>
+                                          <td>
+                                              <input type="checkbox" id="all_{{data.medicationId}}"
+                                                (change)="data.checked = $event.target.checked;checkedMedication($event.target.checked,data);"
+                                                name="checkListItem" [checked]="isCheckedMed(data.medicationId)">
+                                              <label class="labelstyle" for="all_{{data.medicationId}}"></label>
+                                          </td>
+                                          <td>
+                                              <md2-select id="indication{{data.medicationId}}"
+                                                  [(ngModel)]="selectedIndicationValue[data.medicationId]"
+                                                  (change)="data.indication = $event.value;checkedMedicationData(data)"
+                                                  style="width: 100%" [ngModelOptions]="{standalone: true}">
+                                                  <md2-option selected>Please Select</md2-option>
+                                                  <md2-option class="decrease-height"  title="{{indication.icd10CodeDescription}}"
+                                                      *ngFor="let indication of icd10Details"
+                                                      [value]="indication.icd10Code">{{indication.icd10Code}} &nbsp;<i class="fa fa-eye"></i>
+                                                  </md2-option>
+                                              </md2-select>
+                                              <ehr-field-error-display
+                                                  [displayError]="isValidIndication[data.medicationId]==data.medicationId"
+                                                  errorMsg="Please Select Indication"></ehr-field-error-display>
+                                          </td>
+                                          <td>{{data.productName}} </td>
+                                          <td>{{data.form}} </td>
+                                          <td>{{data.dose}} </td>
+                                          <td>{{data.route}} </td>
+                                          <td>
+  
+                                              <md2-select id="dropdown{{i}}"
+                                                  [(ngModel)]="selectedFrequencyValue[data.medicationId]"
+                                                  (change)="data.frequency = $event.value;checkedMedicationData(data)"
+                                                  [ngModelOptions]="{standalone: true}" style="width: 100%">
+                                                  <md2-option selected>Please Select</md2-option>
+                                                  <md2-option class="decrease-height"
+                                                      *ngFor="let frequency of allFrequency"
+                                                      [value]="frequency.lookupCode">{{frequency.lookupCode}}
+                                                  </md2-option>
+                                              </md2-select>
+                                              <ehr-field-error-display
+                                                  [displayError]="isValid[data.medicationId]==data.medicationId"
+                                                  errorMsg="Please Select Frequency"></ehr-field-error-display>
+  
+                                          </td>
+                                          <td>
+                                              <mat-form-field>
+                                                  <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                                                      <input matInput type="text"
+                                                          (input)="data.startDate = $event.target.value;checkedMedicationData(data)"
+                                                          [(ngModel)]="date[data.medicationId]"
+                                                          [ngModelOptions]="{standalone: true}"
+                                                          class="input-with-icon" class="date"
+                                                          id="startDate{{data.medicationId}}"
+                                                          (click)="startdatepicker(data.medicationId,data)"
+                                                          (change)="checkedMedicationData(data)" autocomplete="off"
+                                                          name="startDate">
+                                                      <span class="input-icon"
+                                                          (click)="startdatepicker(data.medicationId,data);"><span
+                                                              class="fa fa-calendar fa-lg"></span></span>
+                                                  </div>
+                                              </mat-form-field>
+                                              <ehr-field-error-display
+                                                  [displayError]="isValidDate[data.medicationId]==data.medicationId"
+                                                  errorMsg="Please Select Start Date"></ehr-field-error-display>
+                                          </td>
+                                          <td>
+                                              <input type="text" [(ngModel)]="duration[data.medicationId]"
+                                                  [ngModelOptions]="{standalone: true}" id="duration"
+                                                  (input)="data.duration = $event.target.value;checkedMedicationData(data);calculateDuration(data)"
+                                                  placeholder="Enter Duration" class="form-control">
+                                              <ehr-field-error-display
+                                                  [displayError]="isValidDuration[data.medicationId]==data.medicationId"
+                                                  errorMsg="Please enter Duration"></ehr-field-error-display>
+  
+                                          </td>
+                                          <td>
+                                              <input type="text" [(ngModel)]="selectedEndDate[data.medicationId]"
+                                                  id="endDate{{data.medicationId}}"
+                                                  [ngModelOptions]="{standalone: true}"
+                                                  value="{{data.endDate| date:'MM/dd/yyyy'}}" class="form-control"
+                                                  readonly />
+                                          </td>
+                                          <td>
+                                              <md2-select [(ngModel)]="selectedRefillValue[data.medicationId]"
+                                                  (change)="data.refillCount = $event.value;checkedMedicationData(data)"
+                                                  [ngModelOptions]="{standalone: true}" style="width: 100%">
+                                                  <md2-option selected>Please Select</md2-option>
+                                                  <md2-option class="decrease-height"
+                                                      *ngFor="let refill of refillData" [value]="refill.lookupCode">
+                                                      {{refill.lookupCode}}</md2-option>
+                                              </md2-select>
+                                              <ehr-field-error-display
+                                                  [displayError]="isValidCount[data.medicationId]==data.medicationId"
+                                                  errorMsg="Please Select Refill Count"></ehr-field-error-display>
+  
+                                          </td>
+                                          <td>{{data.schedule}} </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                             
+                              <div class="row">
+                                  <div class="col-md-2 col-md-offset-1">
+                                      <button type="submit" (click)="submitData()" id="addClose" class="btn button"
+                                          [disabled]="buttonDisabled">ADD & CLOSE</button>
+                                      <button id="dismissmodal" style="display:none;" type="submit"
+                                          class="btn btn-info pull-left" data-dismiss="modal"></button>
+                                  </div>
+                              </div>
+                          </div>
+                          <br>
+                      <!-- </form> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  <!--  modal for inActive medication-->
+  <div class="card" [hidden]="showInActiveList">
+          <div class="modal fade" id="InActiveMedication" data-keyboard="false" data-backdrop="static">
+              <div class="modal-dialog modal-md">
+                  <div class="modal-content">
+                      <div class="card-content">
+                          <div class="modal-header text-center" style=" padding-top: 15px;">
+                              <h6 class="card-header card-style" data-background-color>
+                                  InActive Medication
+                                  
+                              </h6>
+                              <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                          </div>
+                          <br>
+                          <form [formGroup]="InActiveMedicationForm" action="" method="">
+                              <div class="col-md-12">
+                                  <div class="row">
+                                      <div class="col-md-4 col-md-offset-1">
+                                          <label>Indication:</label>
+                                      </div>
+                                      <div class="col-md-7">
+                                          {{activeMedicationRecord && activeMedicationRecord.icd10Code}}
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-4 col-md-offset-1">
+                                          <label>Medication:</label>
+                                      </div>
+                                      <div class="col-md-7">
+                                          {{activeMedicationRecord && activeMedicationRecord.productName}}
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-4 col-md-offset-1">
+                                          <label>Discontinued Date:</label>
+                                      </div>
+                                      <div class="col-md-7" style="top:-15px">
+                                          <mat-form-field>
+                                              <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                                                  <input matInput type="text" class="input-with-icon" class="date"
+                                                      formControlName="endDate" (click)="endDate();" id="endDate"
+                                                      autocomplete="off" name="endDate">
+                                                  <span class="input-icon" (click)="endDate();"><span
+                                                          class="fa fa-calendar fa-lg"></span></span>
+                                              </div>
+                                          </mat-form-field>
+                                          <ehr-field-error-display
+                                              [displayError]="isFieldValid(InActiveMedicationForm,'endDate')"
+                                              errorMsg="Please Select Discontinued Date"> </ehr-field-error-display>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-4 col-md-offset-1">
+                                          <label>Discontinued Reason:</label>
+                                      </div>
+                                      <div class="col-md-7">
+                                          <md2-select name="reason" formControlName="reason" style="width: 90%">
+                                              <md2-option class="decrease-height"
+                                                  *ngFor="let item of discontinuedReasonList"
+                                                  [value]="item.lookupCode">{{item.lookupCode}}</md2-option>
+                                          </md2-select>
+                                          <ehr-field-error-display
+                                              [displayError]="isFieldValid(InActiveMedicationForm,'reason')"
+                                              errorMsg="Please Select Discontinued Reason"> </ehr-field-error-display>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div>
+                                      <button type="submit" id="saveInactive" class="close"
+                                          (click)=onSubmitInActiveList();
+                                          class="btn button-width button pull-left">Submit</button>
+                                      <button id="dismissModalOnsubmit" style="display:none;" type="submit"
+                                          class="btn btn-info pull-left" data-dismiss="modal"></button>
+                                      <!-- <div class="col-sm-1 col-xs-1"></div> -->
+                                  </div>
+                                  <div>
+                                      <button type="button" data-dismiss="modal"
+                                          class="btn button pull-right">Cancel</button>
+                                  </div>
+  
+                              </div>
+                              <div class="clearfix"></div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  
+      <!-- modal for Prescription -->
+      <div class="card">
+          <div class="modal fade" id="Prescription" data-keyboard="false" data-backdrop="static">
+              <div class="modal-dialog modal-md">
+                  <div class="modal-content">
+                      <div class="card-content">
+                          <div class="modal-header text-center" style=" padding-top: 15px;">
+                              <h6 class="card-header card-style" data-background-color>
+                                  Prescription
+                              </h6>
+                              <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                          </div>
+                          <div class="table-content">
+                              <table class="table table-bordered">
+                                  <tbody>
+                                      <tr>
+                                          <td>Name of the Location</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.clinicLocationName}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Doctor</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.providerFirstName}} {{activeMedicationRecord && activeMedicationRecord.providerLastName}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Patient Name</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.patientFirstName}}  {{activeMedicationRecord && activeMedicationRecord.patientLastName}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>DEA</td>
+                                          <td><input type="text" class="form-control"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.npiNumber}}"
+                                                  readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Medication</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.productName}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Form</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.form}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Dose</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.dose}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Route</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.route}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Frequency</td>
+                                          <td><input type="text"
+                                                  value="{{activeMedicationRecord && activeMedicationRecord.frequency}}"
+                                                  class="form-control" readonly></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div class="clearfix"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>

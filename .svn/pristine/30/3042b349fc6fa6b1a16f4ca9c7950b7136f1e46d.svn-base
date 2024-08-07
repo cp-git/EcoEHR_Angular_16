@@ -1,0 +1,250 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <form [formGroup]="ExamForm" mmethod="#" action="">
+                    <div class="card">
+                        <div class="card-header" data-background-color>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-xs-12">
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <h6> EXAMINATION {{title}}
+                                            </h6>
+                                        </td>
+                                        <td class="col-md-8" style="top:-17px">
+                                                <ehr-navigation [allSystemTypes]=allSystemTypes [encounterId]=encounterId [sysName]=sysName [data]=data></ehr-navigation>
+                                            
+                                        </td>
+                                    </tr>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 style="margin-left:20px;"> </h6>
+                        <ehr-patientheader  [encounterId]=encounterId [patientId]=patientId></ehr-patientheader>
+                     
+
+                        <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                            fullScreen="true" type="line-scale-pulse-out-rapid">
+                        </ngx-spinner>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="btn-group btn-group-justified">
+                                    <ng-container *ngFor="let exam of ExamSystems;let i = index">
+                                        <a data-toggle="tab" id="examTab_{{exam.systemId}}"
+                                            (click)="openTab(exam,exam.systemId)" [ngClass]="{'colorchange':exam.systemId==systemId}" class="btn btn-style exam-tab-style">
+                                            {{exam.systemCode}}</a>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4 text-center"
+                                style="top:-4px;">
+                                <div id="systemName" class="systemNameStyle"><b>{{ExamName}}</b></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-4 col-sm-4 ">
+                                <ng-container *ngFor="let group of questionGroupList;let j = index">
+                                    <div style="top:9px;" *ngIf="systemId == group.systemId">
+                                        <div class="row">
+                                            <div class="col-md-8 col-sm-8">
+                                                <a data-toggle="tab" id="group_{{group.questionGroupId}}"
+                                                    (click)="goToSelectedTab(group,j)" 
+                                                    [ngClass]="[(group.questionCount !==-1 && systemId == 25) ?'subquestion-group-style':'question-group-style',(group.questionGroupId==questionGroupId)?'colorchange':'']"
+                                                    [ngStyle]="{'font-weight': (group.questionCount==-1 && systemId == 25) ? '900' : '400' }"
+                                                    class="btn btn-style btn-left ">
+                                                    <!-- <div *ngIf="400>group.questionGroupName.length">{{group.questionGroupName}}</div> -->
+                                                    <div *ngIf="group.questionGroupName.length>35">{{group.questionGroupName.substring(0,34)}}...</div>
+
+                                                    <div class="question-group-name"
+                                                        [ngStyle]="{'display': (group.questionCount ==-1 && systemId == 25)  ? 'list-item' : 'block' }"
+                                                        [innerHTML]=group.questionGroupName>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-3 col-sm-1">
+                                                <input type="checkbox" id="exam_{{group.questionGroupId}}"
+                                                    (change)="getAllQuestions(group,$event.target.checked)"
+                                                    name="checkListItem" [checked]="isChecked(group)">
+                                                <label for="exam_{{group.questionGroupId}}"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="col-md-3 col-sm-8" >
+                                <div *ngFor="let question of questionGroupList">
+                                  
+                                    <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'" >
+                                     
+                                        <div class="card question-card-style col-md-3 col-sm-6">
+                                            <h6 class="text-center">
+                                                <b> {{question.questionGroupName}}</b>
+                                            </h6>
+                                            <div *ngIf="question.questionCount !==-1"
+                                                class="text-dark pull-right selectlink-style">
+                                                Select<a href="#"
+                                                    (click)="resetAll(systemId,question.questionGroupId,'No')"
+                                                    data-toggle="modal" data-dismiss="modal"> "No"</a> (or)<a href="#"
+                                                    (click)="resetAll(systemId,question.questionGroupId,'Yes')"
+                                                    data-toggle="modal" data-dismiss="modal"> "Yes"</a> for all
+                                            </div>
+                                            <ng-container *ngFor="let commonQues of allQuestions; let k=index">
+                                                <div class="row "
+                                                    *ngIf="commonQues.questionGroupId===question.questionGroupId">
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <label class="text-dark">{{commonQues.questionDesc}}
+                                                        </label>
+                                                    </div>
+                                                    <div style="right:30px;">
+                                                        <!-- radio div -->
+                                                        <div class="col-md-4 col-sm-5"
+                                                            *ngIf="commonQues.optionType=='radio'">
+                                                            <span *ngFor="let options of commonQues.optionRecord">
+                                                                <input value="{{options.optionNames}}" name="radio{{k}}"
+                                                                    type="radio" id="radioType_{{k}}"
+                                                                    [checked]="isCheckedRadio(options.optionId)"
+                                                                    (input)="onRowEdit(commonQues,options)" />
+                                                                <label class="text-dark"
+                                                                    for="radioType_{{k}}">{{options.optionNames}}</label>
+                                                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                                            </span>
+                                                        </div>
+                                                        <!-- dropdown div -->
+                                                        <div id="temp{{i}}" class="col-md-4 col-sm-5"
+                                                            *ngIf="commonQues.optionType=='dropdown'">
+                                                            <md2-select id="dropdown{{k}}"
+                                                                [(ngModel)]="selectedValue[commonQues.questionId]"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                style="width: 100%"
+                                                                (change)="getValue($event,k); onRowEdit(commonQues,$event.value)">
+                                                                <md2-option selected>Please Select</md2-option>
+                                                                <md2-option class="decrease-height"
+                                                                    *ngFor="let options of commonQues.optionRecord"
+                                                                    [value]="options">{{options.optionNames}}
+                                                                </md2-option>
+                                                            </md2-select>
+                                                        </div>
+                                                        <!-- tdropdown div -->
+                                                        <div class="col-md-4 col-sm-5"
+                                                            *ngIf="commonQues.optionType=='tdropdown'">
+                                                            <div class="col-md-6" style="top:-8px;right:15px">
+                                                                <input type="text"
+                                                                    id="showText{{commonQues.questionId}}"
+                                                                    [(ngModel)]="textDropdownVal[commonQues.questionId]"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    placeholder="Value"
+                                                                    class="form-control  input-color-style"
+                                                                    (input)="commonQues.answer = $event.target.value;isFieldValid($event,'text');onRowEdit(commonQues,null)">
+                                                            </div>
+                                                            <div class="col-md-3" style="right:31px">
+                                                                <md2-select id="tdropdown{{i}}"
+                                                                [(ngModel)]="selectedTValue[commonQues.questionId]"
+                                                                [ngModelOptions]="{standalone: true}" [ngClass]="setColor(selectedTValue[commonQues.questionId],i,'tdropdown')"
+                                                                    (change)="onRowEdit(commonQues,$event.value)">
+                                                                    <md2-option selected class="makebold"> Unit </md2-option>
+                                                                    <md2-option class="decrease-height"
+                                                                        *ngFor="let options of commonQues.optionRecord"
+                                                                        [value]="options">{{options.optionNames}}
+                                                                    </md2-option>
+                                                                </md2-select>
+                                                            </div>
+                                                        </div>
+                                                        <!-- text div -->
+                                                        <div class="col-md-4 col-sm-5"
+                                                            *ngIf="commonQues.optionType=='text'">
+                                                            <input type="text" id="text{{commonQues.questionId}}"  [readonly]="commonQues.questionDesc=='BMI'"
+                                                                [(ngModel)]="textVal[commonQues.questionId]"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                placeholder="Please Enter Value {{getText(commonQues.questionDesc)}} "
+                                                                class="form-control input-color-style"
+                                                                (input)="commonQues.answer = $event.target.value;isFieldValid($event,'text');onRowEdit(commonQues,$event.target.value)">
+                                                                <div *ngIf="isValid[commonQues.questionId]==commonQues.questionId"
+                                                                style="color:red">Enter Height and Weight in proper
+                                                                format to calculate BMI
+                                                            </div>
+                                                        </div>
+                                                        <!-- textarea div -->
+                                                        <div class="col-md-4 col-sm-5"
+                                                            *ngIf="commonQues.optionType=='textarea'">
+                                                            <input type="textarea"
+                                                                id="textArea{{commonQues.questionId}}"
+                                                                [(ngModel)]="textAreaVal[commonQues.questionId]"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                placeholder="Please enter here..."
+                                                                class="form-control input-color-style"
+                                                                (input)="commonQues.answer = $event.target.value;isFieldValid($event,'textarea');onRowEdit(commonQues,$event.target.value)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-offset-10 col-sm-offset-9">
+                            <button type="submit" class="btn button " id="saveNext" (click)="onSave()">{{buttonName}} &
+                                Next</button>
+                        </div>
+                        <!-- Template Div -->
+                        <div class="col-md-12 col-sm-12">
+                            <div class="static-panel-style" style="display:none">
+                                <div class="row" id="collapsePanel_{{systemId}}" aria-expanded=false>
+                                    <div class="card-header collapse-card-style" (click)="expandPanel(systemId)"
+                                        id="change-collapse_{{systemId}}" data-toggle="collapse"
+                                        [attr.data-target]="'#expansionPanel_'+systemId" data-background-color>
+                                        &nbsp;&nbsp;&nbsp; Template
+                                    </div>
+                                    <div *ngIf="showEditButton && isadmin" class="text-center"
+                                        style="margin-top:0.5%;text-align:left">
+                                        <button class="btn btn-simple btn-warning btn-icon edit" (click)='openEditor()'
+                                            title="Edit">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </div>
+                                    <div *ngIf="statusCode === 200" class="alert alert-success"
+                                        data-icon-bg-color="alert-green" style="margin-top:0.5%">
+                                        <strong>Template saved successfully!</strong>
+                                    </div>
+                                    <div class="col-md-offset-10 col-sm-offset-9" style="margin-top:0.5%">
+                                        <button *ngIf="showEditorSave" type="submit" class="btn button"
+                                            (click)="onEditorSave()" [disabled]="isDisabled">Save
+                                            Template</button>
+                                    </div>
+                                    <div class="row collapse" id="expansionPanel_{{systemId}}">
+                                        <div style="margin-left:10px;">
+                                            <table class="table ">
+                                                <br>
+                                                <ng-container *ngIf="showEditorList">
+                                                    <quill-editor [options]="editorConfig" [ngStyle]="{height: '200px'}"
+                                                        (ready)="onContentReady($event)"
+                                                        (change)="onContentChanged($event)">
+                                                        <style>
+                                                            .ql-editor>div>strong {
+                                                                font-size: 17px;
+                                                            }
+                                                        </style>
+                                                    </quill-editor>
+                                                </ng-container>
+                                                <ng-container *ngIf="showStaticList">
+                                                    <div [innerHTML]="examDetail | safeHtml" class="innerTemplateStyle">
+                                                    </div>
+                                                </ng-container>
+                                            </table>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

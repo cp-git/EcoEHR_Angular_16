@@ -1,0 +1,74 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { System } from 'app/patients/models/system';
+import { EncounterHistoryService } from 'app/patients/services/encounterHistoryService';
+import { Router } from '@angular/router';
+import { MedicationService } from 'app/patients/services/medicationService';
+@Component({
+  selector: 'ehr-navigation',
+  templateUrl: './systemNavigation.component.html',
+  styleUrls: ['../../app.component.css']
+})
+export class SystemNavigationComponent implements OnInit {
+   @Input() allSystemTypes: any[] = [];
+   @Input() encounterId:number;
+   @Input() sysName:any;
+   @Input() data:any;
+   statusCode:any;
+  constructor(private encHistoryService: EncounterHistoryService,private medicationService:MedicationService, private router: Router) { }
+
+  ngOnInit() {
+    this.getAlltheEncounters(this.encounterId);
+    this.getMedicationByEncId(this.encounterId);
+
+  }
+
+  getAlltheEncounters(encounterId: number) {
+    this.encHistoryService.getEncounterByEncounterId(encounterId)
+        .subscribe(data => {
+            for (let i = 0; i < this.allSystemTypes.length; i++) {
+               
+                let sysData: any[] = data.filter(encHist => encHist.systemType == this.allSystemTypes[i])
+                if(this.allSystemTypes[i] !== this.sysName && this.allSystemTypes[i] !== 'MEDICATION' ) {
+                    if (sysData.length > 0) {
+                                $("#" + this.allSystemTypes[i]).removeClass('btn-style')
+                                $("#" + this.allSystemTypes[i]).addClass('filled-system-style')
+                                //this.data='edit';
+                            }
+                            else {
+                                $("#" + this.allSystemTypes[i]).removeClass('btn-style')
+                                $("#" + this.allSystemTypes[i]).addClass('not-filled-system-style')
+                            }
+                }
+            }
+        })
+}
+  
+getMedicationByEncId(encId){
+    this.medicationService.getMedicationByEncId(encId)
+    .subscribe(
+      data => {
+        $("#MEDICATION").removeClass('btn-style')
+      if(data.length!==0){
+        $("#MEDICATION").addClass('filled-system-style')
+      }
+      else
+        $("#MEDICATION").addClass('not-filled-system-style')
+      },
+      errorCode => this.statusCode = errorCode);
+}
+goToSelectedSystem(system: string) {
+  system = system.toLowerCase();
+   if (system.toLowerCase() == 'medication') {
+    this.router.navigate(['/patients/medication/' +  this.encounterId])
+   }
+  else if (system.toLowerCase() == 'plan') {
+      this.router.navigate(['/patients/planandassessment/' +  this.encounterId])
+  }
+  else {
+    if(this.data=="edit")
+    this.router.navigate(['/patients/' + system.toLowerCase() + '/' + this.encounterId,'edit'])
+    else
+    this.router.navigate(['/patients/' + system.toLowerCase() + '/' + this.encounterId])
+  }
+}
+}

@@ -1,0 +1,163 @@
+package com.cpa.ehr.service.admin.impl;
+
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cpa.ehr.backend.dao.admin.ClinicLocationRepository;
+import com.cpa.ehr.backend.dao.admin.StaffDetailsRepository;
+import com.cpa.ehr.backend.dao.admin.entities.ClinicLocation;
+import com.cpa.ehr.backend.dao.admin.entities.StaffDetails;
+import com.cpa.ehr.backend.dao.admin.entities.StaffMember;
+import com.cpa.ehr.backend.dao.patients.PatientDetailsRepository;
+import com.cpa.ehr.backend.dao.patients.entities.PatientDetails;
+import com.cpa.ehr.service.admin.ClinicLocationService;
+import com.cpa.ehr.service.admin.EHRBaseService;
+import com.cpa.ehr.service.admin.dto.ClinicLocationDTO;
+import com.cpa.ehr.service.admin.dto.mapper.ClinicLocationMapper;
+import com.cpa.ehr.util.FormatConverterUtils;
+
+/**
+ * Implementation for the ClinicLocation Service
+ * 
+ * ClinicLocationService holds all the interfaces
+ * supported for performing CRUD operations against 
+ * ClinicLocation Entity 
+ * 
+ * @author CPA Development Team
+ * @version 1.0.0
+ */
+@Service
+public class ClinicLocationServiceImpl implements ClinicLocationService {
+	private static final Logger LOG = LoggerFactory.getLogger(ClinicLocationServiceImpl.class);
+	
+	@Autowired
+	private ClinicLocationRepository clinicLocRepo;
+	
+	@Autowired
+	private PatientDetailsRepository patientDetailsRepo;
+	
+	@Autowired
+	private StaffDetailsRepository staffDetailsRepo;
+	
+	@Autowired
+	private ClinicLocationMapper clinicLocMapper;
+	
+	@Autowired
+	private EHRBaseService ehrBaseService;
+	
+	@Override
+	public List<ClinicLocationDTO> retrieveAllClinicLocations(Long orgId) {
+		try {
+			List<ClinicLocation> clinicLocList = clinicLocRepo.findAllActiveClinicLocations(orgId);
+			return (clinicLocList != null) ? clinicLocMapper.entityListToClinicLocationDTOList(clinicLocList) : null;
+		}
+		catch (Exception e){
+			LOG.error("Error while retrieving all clinic locations {} ", e);
+		}
+		return Collections.emptyList();
+	}
+	
+	
+	@Override
+	 public ClinicLocationDTO persistClinicLocation(ClinicLocationDTO clinicLocationDTO) {
+		try {
+			if ( clinicLocationDTO != null ) {
+					ClinicLocation newClinicLoc = clinicLocMapper.clinicLocationDTOToEntity(clinicLocationDTO);
+					ClinicLocation createdClinicLoc = clinicLocRepo.saveAndFlush(newClinicLoc); 
+					return (createdClinicLoc != null) ? clinicLocMapper.entityToClinicLocationDTO(createdClinicLoc) : null;
+			}
+		}
+		 catch (Exception e){
+			 LOG.error("Error while inserting clinic location {} ", e);
+		 }
+		 return null;
+	}
+	
+	@Override
+	public ClinicLocationDTO retrieveClinicLocationById(Long clinicLocId){
+		try {
+			ClinicLocation clinicLoc = clinicLocRepo.findActiveOneByClinicLocationId(clinicLocId);
+			return (clinicLoc != null) ? clinicLocMapper.entityToClinicLocationDTO(clinicLoc) : null;
+		}
+		catch(Exception e) {
+			LOG.error("Error while retrieving selected clinic location {}" , e);
+		}
+		return null;
+		
+	}
+	
+	@Override
+	public ClinicLocationDTO updateClinicLocationById(ClinicLocationDTO clinicLocDTOToUpdate){
+		try {
+			ClinicLocation clinicLocToUpdate = clinicLocRepo.findOne(clinicLocDTOToUpdate.getLocationId());
+			if ( clinicLocToUpdate != null  ) {
+				clinicLocToUpdate.setActiveFlag(FormatConverterUtils.convertBooleantoActiveFlag(clinicLocDTOToUpdate.getActiveFlag()));
+				clinicLocToUpdate.setAddressCity(clinicLocDTOToUpdate.getAddressCity());
+				clinicLocToUpdate.setAddressDoorNo(clinicLocDTOToUpdate.getAddressDoorNo());
+				clinicLocToUpdate.setAddressState(clinicLocDTOToUpdate.getAddressState());
+				clinicLocToUpdate.setAddressStreet(clinicLocDTOToUpdate.getAddressStreet());
+				clinicLocToUpdate.setAddressZip(clinicLocDTOToUpdate.getAddressZip());
+				clinicLocToUpdate.setContactEmail(clinicLocDTOToUpdate.getContactEmail());
+				clinicLocToUpdate.setContactName(clinicLocDTOToUpdate.getContactName());
+				clinicLocToUpdate.setFaxNo(clinicLocDTOToUpdate.getFaxNo());
+				clinicLocToUpdate.setLocationId(clinicLocDTOToUpdate.getLocationId());
+				clinicLocToUpdate.setLocationName(clinicLocDTOToUpdate.getLocationName());
+				clinicLocToUpdate.setBuildingNo(clinicLocDTOToUpdate.getBuildingNo());
+				
+				clinicLocToUpdate.setPrimaryNo(clinicLocDTOToUpdate.getPrimaryNo());
+				clinicLocToUpdate.setEinNumber(clinicLocDTOToUpdate.getEinNumber());
+				clinicLocToUpdate.setLastUpdatedBy(clinicLocDTOToUpdate.getLastUpdatedBy());
+				clinicLocToUpdate.setLastUpdatedDate(clinicLocDTOToUpdate.getLastUpdatedDate());
+
+				ClinicLocation updatedClinicLoc = clinicLocRepo.save(clinicLocToUpdate);
+				return (updatedClinicLoc != null) ? clinicLocMapper.entityToClinicLocationDTO(updatedClinicLoc) : null;
+			}
+		}
+		catch(NullPointerException e) {
+			 LOG.error("Error while updating clinic location {}" ,e);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public void removeClinicLocationById(Long clinicLocId) {
+		try {
+			StaffMember loginUser = ehrBaseService.currentUser();
+		
+			ClinicLocation clinicLocTypeToDelete = clinicLocRepo.findOne(clinicLocId);
+			if (clinicLocTypeToDelete != null) {
+				clinicLocTypeToDelete.setLastUpdatedBy(loginUser.getLoginId());
+				clinicLocTypeToDelete.setLastUpdatedDate(new Date());
+				clinicLocTypeToDelete.setActiveFlag("N");
+				clinicLocRepo.saveAndFlush(clinicLocTypeToDelete);
+			}
+		}
+		catch(Exception e) {
+			LOG.error("Error while removing clinic location {}" ,e);
+		}
+	
+	}
+	
+	@Override
+	public boolean checkClinicLocationInUse(Long clinicLocId) {
+		try {
+			List<PatientDetails> patientList = patientDetailsRepo.getPatientsByClinicLocId(clinicLocId);
+			List<StaffDetails> staffList = staffDetailsRepo.getStaffsByClinicLocId(clinicLocId);
+			if(patientList.isEmpty() && staffList.isEmpty()) {
+				return true;
+			}
+		}
+		 catch (Exception e){
+			 LOG.error("Error while checking clinic location already in use or not {}" ,e);
+		 }
+		return false;
+	}
+	
+}

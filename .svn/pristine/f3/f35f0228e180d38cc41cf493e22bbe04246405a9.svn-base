@@ -1,0 +1,391 @@
+import { Component, OnInit, ɵConsole, Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { System } from "app/patients/models/system";
+import { EncounterQuestionGroupService } from "app/patients/services/encounterQuestionGroupService";
+import { EncounterQuestionOptionService } from "app/patients/services/encounterQuestionOptionService";
+import { QuestionGroup } from "app/patients/models/questionGroup";
+import { QuestionsService } from "app/patients/services/questionsService";
+import { QuestionRecord } from "app/patients/models/questionRecord";
+import { EncounterQuestionGroup } from "app/patients/models/encounterQuestionGroup";
+import { EncounterQuestionOption } from "app/patients/models/encounterQuestionOption";
+import { NgxSpinnerService } from 'ngx-spinner';
+import { EncounterService } from "../services/encounterService";
+
+import _ from 'lodash';
+import { EncounterHistoryService } from "app/patients/services/encounterHistoryService";
+import { EncounterHistoryRecord } from "app/patients/models/encounterHistoryRecord";
+import { EncounterHistory } from "app/patients/models/encounterHistory";
+
+declare const $: any;
+
+@Component({
+    selector: 'ehr-hpi',
+    templateUrl: 'hpi.component.html',
+    styleUrls: ['./hpi.component.css', '../../app.component.css']
+})
+export class HPIComponent implements OnInit {
+    selected = '';
+    title:any;
+    QuestionSelectedArray: any;
+    systemDesc: any;
+    statusCode: number;
+    questionGroupName: any;
+    HPIForm: FormGroup;
+    systemId: any;
+    system: System[];
+    HPISystems: System[] = [];
+    questionGroups: QuestionGroup[];
+    questionGroupList: QuestionGroup[] = [];
+    questionGroupId: any;
+    showFlag: boolean = false;
+    commonQuestions: QuestionRecord[] = [];
+    isValid: number[] = [-1];
+    textVal: any[] = [];
+    selectedValue: any[] = [];
+    multiSelectedValue: any[] = [];
+    selectedTValue: any[] = [];
+    textAreaVal: any[] = [];
+    textDropdownVal: any[] = [];
+    encounterId: number;
+    flag: boolean;
+    patientId: number;  //This ID is being used as part of this component's Child component as undefined
+    sysName="HPI";
+    buttonName:any='SAVE';
+    allSystemTypes: any[] = [];
+    list:EncounterHistory[];
+    data:any;
+    constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,private encounterHistoryService:EncounterHistoryService,
+        private router: Router, private encounterQuestionOptionService: EncounterQuestionOptionService,private spinner: NgxSpinnerService, private encounterService: EncounterService,
+        private questionsService: QuestionsService, private encounterQuestionGroupService: EncounterQuestionGroupService) { }
+    ngOnInit() {
+        this.QuestionSelectedArray = [];
+        this.HPIForm = this.formBuilder.group({
+            QuestionSelectedIDS: this.formBuilder.array([])
+        });
+        var data = localStorage.getItem('system');
+        if (data) {
+            this.system = JSON.parse(data);
+            this.system.filter(t => this.allSystemTypes.push(t.systemType))
+            this.HPISystems = this.system.filter(t => t.systemType == 'HPI');
+            this.allSystemTypes = _.uniq(this.allSystemTypes);
+        }
+        var group = localStorage.getItem('questionGroup');
+        if (group) {
+            this.questionGroups = JSON.parse(group);
+            this.questionGroups = this.questionGroups.sort((a, b) => a.questionGroupId - b.questionGroupId);
+        }
+        this.QuestionSelectedArray = <FormArray>this.HPIForm.controls.QuestionSelectedIDS;
+        this.route.params.subscribe(params => {
+            this.encounterId = +params['encounterId'];
+            this.data = params['data'];
+            this.getEncOptionDataForUpdate(this.encounterId);
+            if(this.data=='edit'){
+                this.title='- UPDATE'
+                this.buttonName='UPDATE'
+            }
+        });
+    }
+//Setting values while update operation
+    getEncOptionDataForUpdate(encId:any){
+        this.encounterHistoryService.getEncounterListEncounterId(encId,this.sysName)
+        .subscribe(data => {
+            this.list=data;
+            console.log(this.list)
+            for (let i = 0; i < this.list.length; i++) {
+                let questionRecord=new QuestionRecord(this.list[i].optionId,this.list[i].questionId,this.list[i].systemId,this.list[i].questionGroupId,this.list[i].questionDesc,this.list[i].questionType,null,this.list[i].answer,this.list[i].optionValue);
+                this.QuestionSelectedArray.push(new FormControl(questionRecord));
+                var option = {optionNames:null,optionId:null}; 
+                option.optionId=this.list[i].optionId;
+                option.optionNames=this.list[i].optionValue;
+                
+                if(this.list[i].questionType=='text'){                  // Setting Values for Text Box
+                this.textVal[this.list[i].questionId]=this.list[i].answer;
+                 }
+
+                if(this.list[i].questionType=='textarea'){    // Setting Values for TextArea 
+                this.textAreaVal[this.list[i].questionId]=this.list[i].answer;
+                }
+
+               if(this.list[i].questionType=='dropdown'){           // Setting Values for Dropdown
+                this.selectedValue[this.list[i].questionId]=option;
+                }
+            
+               if(this.list[i].questionType=='tdropdown'){     // Setting Values for TDropdown
+                this.selectedTValue[this.list[i].questionId]=option;
+                this.textDropdownVal[this.list[i].questionId]=this.list[i].answer;
+                }
+            
+                if(this.list[i].questionType=='mdropdown'){ // Setting Values for MultiSelect Dropdown
+                let optionList :any[]=[];
+                let optionValue=this.list[i].optionValue.split("-");
+                let answer=this.list[i].answer.split(",");
+                for (let i = 0; i < optionValue.length; i++) {
+                optionList.push({'optionNames':answer[i],'optionId':+optionValue[i]});
+               }
+                 this.multiSelectedValue[this.list[i].questionId]=optionList;
+
+             }
+            }
+        })
+    }
+    
+    setColor(selectedVal,qId,type){
+        let m = type + qId;
+        if(selectedVal!==undefined){
+            $('#' + m).find('.md2-select-placeholder').css('visibility', 'hidden');
+            $("#" + m).find('.md2-select-value-text').css("color", "black");
+            if (jQuery.isEmptyObject(this.multiSelectedValue[qId])) {
+                $('#' + m).find('.md2-select-placeholder').css('visibility', 'visible');
+            } }
+        if(selectedVal==undefined){
+            $("#" + m).find('.md2-select-value-text').css("color", "gray");
+       }}
+
+    //validation logic for Tdropdown
+    isCheckedTDD(): boolean {
+        this.flag = false;
+        for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+            if (this.QuestionSelectedArray.at(i).value.optionType == 'tdropdown' && this.QuestionSelectedArray.at(i).value.systemId == this.systemId) {
+                let answer=this.textDropdownVal[this.QuestionSelectedArray.at(i).value.questionId]; 
+                let option = this.selectedTValue[this.QuestionSelectedArray.at(i).value.questionId];
+                if (answer == "" || answer == undefined || option == undefined) {
+                    this.flag = true;
+                }
+            }
+        }
+        return this.flag;
+    }
+
+    getAllQuestions(group: any, isChecked: boolean, rowId) {
+        setTimeout(() => {
+            document.getElementById("systemName").scrollIntoView({behavior: 'smooth'});                
+          }, 1000);
+        this.isCheckedTDD();
+      
+        if (isChecked) {
+            if (!this.flag) {
+                this.systemId = group.systemId;
+                this.questionGroupName = group.questionGroupName;
+                this.questionGroupId = group.questionGroupId;
+            }
+        }
+        else {
+            if (!this.flag) {
+                if(this.questionGroupId==group.questionGroupId){
+                    this.questionGroupId=null;
+                }
+                $("#group_" + rowId).removeClass("colorchange");
+            }
+        }
+    }
+
+    goToSelectedTab(questionGroup: any, i) {
+        setTimeout(() => {
+            document.getElementById("systemName").scrollIntoView({behavior: 'smooth'});                
+          }, 1000);
+        this.isCheckedTDD();
+        if (!this.flag) {
+            this.systemId = questionGroup.systemId;
+            this.questionGroupName = questionGroup.questionGroupName;
+            this.questionGroupId = questionGroup.questionGroupId;
+        }
+    }
+
+    isChecked(questionGroupId: number): boolean {
+         let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionGroupId == questionGroupId)
+         return (index == -1 ? false : true);
+       
+    }
+
+    isCheckedRadio(optionId: number): boolean {
+         let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.optionId == optionId)
+         return (index == -1 ? false : true);
+       
+    }
+
+    openTab(sysId, systemDesc) {
+        this.isCheckedTDD();
+        if (!this.flag) {
+            this.questionGroupId=null;
+            this.spinner.show();
+            this.questionGroupList = [];
+            this.systemId = sysId;
+            this.systemDesc = systemDesc;
+            var record = localStorage.getItem('questionrecord_' + this.systemId);
+            if (record) {
+                this.commonQuestions = JSON.parse(record);
+                this.questionGroupList = this.questionGroups.filter(t => t.systemId == this.systemId);
+                this.spinner.hide();
+            }
+            else {
+                this.questionsService.getAllQuestionsOfGroup(sysId)
+                    .subscribe(data => {
+                        this.commonQuestions = data;
+                        localStorage.setItem('questionrecord_' + this.systemId, JSON.stringify(data));
+                        this.questionGroupList = this.questionGroups.filter(t => t.systemId == this.systemId);
+                        this.spinner.hide();
+                    })
+            }
+            this.isExpand();
+        }
+    }
+
+    isExpand() {
+        if (this.QuestionSelectedArray.length > 0) {
+            let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.systemId == this.systemId)
+            index == -1 ? this.showFlag = false : this.showFlag = true;
+        }
+        else {
+            this.showFlag = false;
+        }
+    }
+
+    onRowEdit(commonQues, option) {
+        if (option != undefined) {
+            commonQues.optionName = option.optionNames;
+            commonQues.optionId = option.optionId;
+        }
+        if (commonQues.optionType == 'tdropdown' && option === undefined) {
+            commonQues.optionName = option;
+            commonQues.optionId = option;
+            this.textDropdownVal[commonQues.questionId] = "";
+        }
+        if (commonQues.optionType == 'mdropdown') {
+            commonQues.optionName = Array.prototype.map.call(option, function (item) { return item.optionId; }).join("-");
+            commonQues.answer = Array.prototype.map.call(option, function (item) { return item.optionNames; }).join(",");
+        }
+        //formArray for selected question
+        let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == commonQues.questionId)
+        if (index == -1) {
+            this.QuestionSelectedArray.push(new FormControl(commonQues));
+          }
+        else {
+            this.QuestionSelectedArray.removeAt(index);
+                if (option !== undefined && commonQues.answer != "") {
+                this.QuestionSelectedArray.push(new FormControl(commonQues));
+            }
+        }
+        this.isExpand();
+        if (this.flag == true) {
+            this.isCheckedTDD();
+        }
+    }
+
+    // Submitting HPI inserted records
+    onSave(val:any) {
+        this.isCheckedTDD();
+        if (!this.flag) {
+            (<HTMLInputElement>document.getElementById(val)).disabled = true;
+            let readyToinsert:boolean=false;
+            if(this.list.length !==0){
+            this.encounterQuestionOptionService.deleteEncQustionOptions(this.encounterId,this.sysName).switchMap(            //delete already inserted question groups
+                successCode => {
+                  return this.encounterQuestionGroupService.deleteEncQustionGroups(this.encounterId,this.sysName)         //elete already inserted question options
+                }).subscribe(successCode => {
+                  readyToinsert=true;
+                  if(readyToinsert)
+                  this.insertData(val);
+                },
+                errorCode => {
+                  this.statusCode = errorCode;});
+                }
+                else{
+                    this.insertData(val);
+                }
+        }
+    }
+
+    insertData(val){
+        let encounterQuestionGroupList: EncounterQuestionGroup[] = [];
+        let encounterQuestionOptionList: EncounterQuestionOption[] = [];
+        //seperation questionGroup id and system id from QuestionSelectedArray
+        let uniqueQuestionId = Array.from(new Set(this.QuestionSelectedArray.controls.map((item: any) => item.value.questionGroupId)))
+        if (uniqueQuestionId.length > 0) {
+            for (let i = 0; i < uniqueQuestionId.length; i++) {
+                let obj = this.QuestionSelectedArray.controls.find(t => t.value.questionGroupId == uniqueQuestionId[i]);
+                let encounterQuestionGroup = new EncounterQuestionGroup(0, this.encounterId, obj.value.questionGroupId, obj.value.systemId, 'Yes', null, null, null, null);
+                encounterQuestionGroupList.push(encounterQuestionGroup);
+            }
+            this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
+                .subscribe(successCode => {
+                    this.statusCode = successCode;
+                },
+                    errorCode => {
+                        (<HTMLInputElement>document.getElementById(val)).disabled = false;
+                        this.statusCode = errorCode;});
+        }
+        //inserting questions into DB 
+        if (this.QuestionSelectedArray.length > 0) {
+            for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+                let encounterQuestionOption = new EncounterQuestionOption(0, this.encounterId, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, null, null, null, null,null);
+                encounterQuestionOptionList.push(encounterQuestionOption);
+            }
+            this.encounterQuestionOptionService.insertQuestionOptions(encounterQuestionOptionList)
+                .subscribe(successCode => {
+                    this.statusCode = successCode;
+                    if(this.data=="edit")
+                    this.router.navigate(['/patients/ros/',this.encounterId,'edit']);
+                    else
+                    this.router.navigate(['/patients/ros/' + this.encounterId]);
+                },
+                    errorCode => {
+                        (<HTMLInputElement>document.getElementById(val)).disabled = false;
+                        this.statusCode = errorCode;
+                    });
+    }
+    else{
+        if(this.data=="edit")
+        this.router.navigate(['/patients/ros/',this.encounterId,'edit']);
+        else
+        this.router.navigate(['/patients/ros/' + this.encounterId]);
+    }
+}
+
+    openAllSelectedCategories() {
+        for (let i = 0; i < this.questionGroups.length; i++) {
+            $("#div_" + this.questionGroups[i].questionGroupId).hide();
+        }
+        for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+            if (this.systemId == this.QuestionSelectedArray.at(i).value.commonQues.systemId) {
+                $("#div_" + this.QuestionSelectedArray.at(i).value.commonQues.questionGroupId).show();
+            }
+        }
+    }
+
+    //logic to set Yes/No option to all radio buttons
+    resetAll(sysId: any, questionGroupId: any, optionValue: any) {
+        let radioQuestions = this.commonQuestions.filter(t => t.questionGroupId == questionGroupId && t.optionType == 'radio');
+        for (let i = 0; i < radioQuestions.length; i++) {
+            let index = this.QuestionSelectedArray.controls.findIndex(x => x.value.questionId == radioQuestions[i].questionId)
+            if(index !==-1){
+                this.QuestionSelectedArray.removeAt(index);
+            }
+            let option = radioQuestions[i].optionRecord.find(t => t.optionNames == optionValue);
+            radioQuestions[i].optionId=option.optionId;
+            radioQuestions[i].optionName=option.optionNames;
+            this.QuestionSelectedArray.push(new FormControl(radioQuestions[i]));
+        }
+    }
+
+    isFieldValid(event, type) {
+        let id = event.target.id;
+        let rowNo = id.replace(/\D/g, "");
+        if (event.target.value == "") {
+            this.selectedTValue[rowNo] = undefined;
+        }
+        if ((type == "text") || (type == "textarea")) {
+            if (((event.target.value.length > 100) && (type == "text")) ||
+                ((event.target.value.length > 500) && (type == "textarea"))) {
+                this.isValid[rowNo] = rowNo;
+            }
+            else {
+                this.isValid[rowNo] = -1;
+            }
+        }
+        else {
+            this.isValid[rowNo] = -1;
+        }
+    }
+}
+

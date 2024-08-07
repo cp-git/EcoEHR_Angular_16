@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    
+    <changeSet author="ehr_admin" id="master_lookup_id_seq">
+    <createSequence 
+            incrementBy="1"
+            sequenceName="master_lookup_id_seq"
+            startValue="170"/>
+</changeSet>
+
+    <changeSet id="master_lookup" author="ehr_admin">
+
+		<!--
+			Master Lookup table for storing Master Lookup Code information.
+		-->
+		<createTable tableName="master_lookup">
+            <column name="lookup_id" type="bigint" autoIncrement="${autoIncrement}" startWith="5000">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+			<column name="lookup_type" type="varchar(100)">
+				<constraints nullable="false"/>
+			</column>			
+            <column name="lookup_code" type="varchar(500)">
+				<constraints nullable="false"/>
+			</column>			
+			<column name="lookup_desc" type="varchar(500)">
+				<constraints nullable="false"/>
+			</column>			
+			<column name="active_flag" type="character(1)">
+				<constraints nullable="false"/>
+			</column>			
+			<column name="organization_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+            <column name="created_date" type="timestamp with time zone" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+			<column name="created_by" type="varchar(100)">
+            </column>
+            <column name="last_updated_date" type="timestamp with time zone" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+			<column name="last_updated_by" type="varchar(100)">
+            </column>
+        </createTable>
+		
+        <addForeignKeyConstraint baseColumnNames="organization_id"
+                                 baseTableName="master_lookup"
+                                 constraintName="fk_master_lookup_organization_id"
+                                 deferrable="true"
+								 initiallyDeferred="true"
+								 onDelete="CASCADE"
+								 onUpdate="RESTRICT"
+                                 referencedColumnNames="organization_id"
+                                 referencedTableName="organization"/>		
+		
+		
+		 <sql>
+		 INSERT INTO "master_lookup" ("lookup_id", "lookup_type", "lookup_code", "lookup_desc", "active_flag", "organization_id", "created_date", "created_by", "last_updated_date", "last_updated_by") VALUES
+(1,	'STAFF_CREDENTAILS',	'MD',	'MD',	'Y',	1,	'2016-09-30 06:05:00.093+05:30',	'thasmar',	'2016-09-30 06:05:00.093+05:30',	'thasmar'),
+(2,	'STAFF_CREDENTAILS',	'DO',	'DO',	'Y',	1,	'2016-09-30 06:05:00.093+05:30',	'thasmar',	'2016-09-30 06:05:00.093+05:30',	'thasmar'),
+(3,	'STAFF_CREDENTAILS',	'NP',	'NP',	'Y',	1,	'2016-09-30 06:05:00.093+05:30',	'thasmar',	'2016-09-30 06:05:00.093+05:30',	'thasmar'),
+(4,	'STAFF_CREDENTAILS',	'PA',	'PA',	'Y',	1,	'2016-09-30 06:05:00.093+05:30',	'thasmar',	'2016-09-30 06:05:00.093+05:30',	'thasmar'),
+(5,	'STAFF_CREDENTAILS',	'APRN',	'APRN',	'Y',	1,	'2016-09-30 06:05:00.093+05:30',	'thasmar',	'2016-09-30 06:05:00.093+05:30',	'thasmar'),
+(6,	'STAFF_CREDENTAILS',	'Admin Staff',	'Admin Staff',	'Y',	1,	'2016-09-30 06:05:00.093+05:30',	'thasmar',	'2016-09-30 06:05:00.093+05:30',	'thasmar'),
+(7,	'STAFF_CREDENTAILS',	'Nurse',	'Nurse',	'Y',	1,	'2016-09-30 06:05:00.093+05:30',	'thasmar',	'2016-09-30 06:05:00.093+05:30',	'thasmar'),
+(8,	'PATIENT_STATUS',	'Active',	'Active',	'Y',	1,	'2017-03-30 01:22:15.494698+05:30',	'thasmar',	'2017-03-30 01:22:15.494698+05:30',	'thasmar'),
+(9,	'PATIENT_STATUS',	'Inactive',	'Inactive',	'Y',	1,	'2017-03-30 01:22:15.494698+05:30',	'thasmar',	'2017-03-30 01:22:15.494698+05:30',	'thasmar'),
+(10,	'PATIENT_STATUS',	'Deceased',	'Deceased',	'Y',	1,	'2017-03-30 01:22:15.494698+05:30',	'thasmar',	'2017-03-30 01:22:15.494698+05:30',	'thasmar'),
+(11,	'STATE',	'AL',	'AL',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(12,	'STATE',	'AK',	'AK',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(13,	'STATE',	'AZ',	'AZ',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(14,	'STATE',	'AR',	'AR',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(15,	'STATE',	'CO',	'CO',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(16,	'STATE',	'CA',	'CA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(17,	'STATE',	'CT',	'CT',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(18,	'STATE',	'DE',	'DE',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(19,	'STATE',	'FL',	'FL',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(20,	'STATE',	'GA',	'GA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(21,	'STATE',	'HI',	'HI',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(22,	'STATE',	'ID',	'ID',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(23,	'STATE',	'IL',	'IL',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(24,	'STATE',	'IN',	'IN',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(25,	'STATE',	'IA',	'IA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(26,	'STATE',	'KY',	'KY',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(27,	'STATE',	'LA',	'LA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(28,	'STATE',	'MD',	'MD',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(29,	'STATE',	'MA',	'MA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(30,	'STATE',	'MI',	'MI',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(31,	'STATE',	'MN',	'MN',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(32,	'STATE',	'MS',	'MS',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(33,	'STATE',	'MO',	'MO',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(34,	'STATE',	'MT',	'MT',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(35,	'STATE',	'NE',	'NE',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(36,	'STATE',	'NV',	'NV',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(37,	'STATE',	'NH',	'NH',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(38,	'STATE',	'NJ',	'NJ',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(39,	'STATE',	'NM',	'NM',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(40,	'STATE',	'NY',	'NY',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(41,	'STATE',	'NC',	'NC',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(42,	'STATE',	'ND',	'ND',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(43,	'STATE',	'OH',	'OH',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(44,	'STATE',	'OK',	'OK',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(45,	'STATE',	'OR',	'OR',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(46,	'STATE',	'PA',	'PA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(47,	'STATE',	'RI',	'RI',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(48,	'STATE',	'SC',	'SC',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(49,	'STATE',	'SD',	'SD',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(50,	'STATE',	'TN',	'TN',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(51,	'STATE',	'TX',	'TX',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(52,	'STATE',	'UT',	'UT',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(53,	'STATE',	'VT',	'VT',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(54,	'STATE',	'VA',	'VA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(55,	'STATE',	'WA',	'WA',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(56,	'STATE',	'WV',	'WV',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(57,	'STATE',	'WI',	'WI',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(58,	'STATE',	'WY',	'WY',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(59,	'PROVIDER_TYPE','Generic Doctor',	'Generic Doctor',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(60,	'PROVIDER_TYPE','Speciality Doctor - Neuro Surgeon(N)',	'Speciality Doctor - Neuro Surgeon(N)',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(61,	'PROVIDER_TYPE','Speciality Doctor - Ortho(O)',	'Speciality Doctor - Ortho(O)',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(62,	'PROVIDER_TYPE','Speciality Doctor - Psychiatrics(Psy)',	'Speciality Doctor - Psychiatrics(Psy)',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(63,	'PROVIDER_TYPE','Medical Assistant',	'Medical Assistant',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(64,	'PROVIDER_TYPE','Patient',	'Patient',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(65,	'FREQUENCY','Daily',	'Daily',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(66,	'FREQUENCY','BID',	'BID',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(67,	'FREQUENCY','TID',	'TID',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(68,	'FREQUENCY','QID',	'QID',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(69,	'FREQUENCY','Qhs',	'Qhs',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(70,	'FREQUENCY','Qam',	'Qam',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(71,	'FREQUENCY','Qpm',	'Qpm',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(72,	'FREQUENCY','Q ac and hs',	'Q ac and hs',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(73,	'FREQUENCY','Q1',	'Q1',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(74,	'FREQUENCY','Q2',	'Q2',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(75,	'FREQUENCY','Q3',	'Q3',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(76,	'FREQUENCY','Q4',	'Q4',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(77,	'FREQUENCY','Q6',	'Q6',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(78,	'FREQUENCY','Q8',	'Q8',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(79,	'FREQUENCY','Q12',	'Q12',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(80,	'FREQUENCY','Q24',	'Q24',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(81,	'FREQUENCY','Q48',	'Q48',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(82,	'FREQUENCY','Q72',	'Q72',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(83,	'FREQUENCY','QOD',	'QOD',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(84,	'FREQUENCY','Q Weekly',	'Q Weekly',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(85,	'FREQUENCY','Q bi Weekly',	'Q bi Weekly',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(86,	'FREQUENCY','Q Monthly',	'Q Monthly',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(87,	'FREQUENCY','Q 6 Months',	'Q 6 Months',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(88,	'FREQUENCY','Q Yearly',	'Q Yearly',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(89,	'FREQUENCY','Q Mon',	'Q Mon',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(90,	'FREQUENCY','Q Tues',	'Q Tues',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(91,	'FREQUENCY','Q Wed',	'Q Wed',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(92,	'FREQUENCY','Q Thurs',	'Q Thurs',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(93,	'FREQUENCY','Q Fri',	'Q Fri',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(94,	'FREQUENCY','Q Sat',	'Q Sat',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(95,	'FREQUENCY','Q Sun',	'Q Sun',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(96,	'FREQUENCY','Others',	'Others',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(97,	'ROUTE','Oral',	'Oral',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(98,	'ROUTE','IM',	'IM',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(99,	'ROUTE','IV',	'IV',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(100,	'ROUTE','Sc',	'Sc',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(101,	'ROUTE','ID',	'ID',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(102,	'ROUTE','OD (Rt- Eye)',	'OD (Rt- Eye)',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(103,	'ROUTE','OS (Lt-Eye)',	'OS (Lt-Eye)',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(104,	'ROUTE','OU (Both- Eye)',	'OU (Both- Eye)',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(105,	'ROUTE','Lt Ear',	'Lt Ear',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(106,	'ROUTE','Rt Ear',	'Rt Ear',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(107,	'ROUTE','Lt Nose',	'Lt Nose',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(108,	'ROUTE','Rt Nose',	'Rt Nose',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(109,	'ROUTE','Both Ear',	'Both Ear',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(110,	'ROUTE','Both Nose',	'Both Nose',	'Y',	1,	'2017-09-11 20:52:17.148+05:30',	'thasmar',	'2017-09-11 20:52:17.148+05:30',	'thasmar'),
+(111,	'STATE',	'KS',	'KS',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(112,	'STATE',	'ME',	'ME',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(113,	'REFILL',	'0',	'0',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(114,	'REFILL',	'1',	'1',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(115,	'REFILL',	'2',	'2',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(116,	'REFILL',	'3',	'3',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(117,	'REFILL',	'4',	'4',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(118,	'REFILL',	'5',	'5',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(119,	'REFILL',	'6',	'6',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(120,	'REFILL',	'7',	'7',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(121,	'REFILL',	'8',	'8',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(122,	'REFILL',	'9',	'9',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(123,	'REFILL',	'10',	'10',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(124,	'REFILL',	'11',	'11',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+
+(125,	'DISCONTINUED_REASON',	'Allergy',	'Allergy',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(126,	'DISCONTINUED_REASON',	'Medication Adjustment',	'Medication Adjustment',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(127,	'DISCONTINUED_REASON',	'Completed',	'Completed',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(128,	'DISCONTINUED_REASON',	'Resolved',	'Resolved',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(129,	'DISCONTINUED_REASON',	'Fear',	'Fear',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(130,	'DISCONTINUED_REASON',	'Worry',	'Worry',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(131,	'DISCONTINUED_REASON',	'Cost',	'Cost',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(132,	'DISCONTINUED_REASON',	'Misunderstanding',	'Misunderstanding',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(133,	'DISCONTINUED_REASON',	'Too many medications',	'Too many medications',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(134,	'DISCONTINUED_REASON',	'Lack of symptoms',	'Lack of symptoms',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(135,	'DISCONTINUED_REASON',	'Depression',	'Depression',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(136,	'DISCONTINUED_REASON',	'Mistrust',	'Mistrust',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(137,	'DISCONTINUED_REASON',	'Previous experience  of non working',	'Previous experience  of non working',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(138,	'DISCONTINUED_REASON',	'Apathy',	'Apathy',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+  
+(139,	'TITLE',	'Mr',	'Mr',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(140,	'TITLE',	'Mrs',	'Mrs',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(141,	'TITLE',	'Ms',	'Ms',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(142,	'TITLE',	'Dr',	'Dr',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+  
+(143,	'ETHNICITY',	'Hispanic or Latino',	'Hispanic or Latino',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(144,	'ETHNICITY',	'Not Hispanic or Latino',	'Not Hispanic or Latino',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+   
+(145,	'RACE',	'American Indian or Alaska',	'American Indian or Alaska',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(146,	'RACE',	'Native',	'Native',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(147,	'RACE',	'Asian',	'Asian',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(148,	'RACE',	'Black or African American',	'Black or African American',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(149,	'RACE',	'Native Hawaiian or Other',	'Native Hawaiian or Other',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(150,	'RACE',	'Pacific Islander',	'Pacific Islander',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(151,	'RACE',	'White',	'White',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(152,	'RACE',	'Other Race',	'Other Race',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(153,	'RACE',	'Declined',	'Declined',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+
+(154,	'LANGUAGE',	'English',	'English',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(155,	'LANGUAGE',	'Spanish',	'Spanish',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(156,	'LANGUAGE',	'Other',	'Other',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar'),
+(157,	'REFILL',	'12',	'12',	'Y',	1,	'2017-08-24 22:49:58.933+05:30',	'thasmar',	'2017-08-24 22:49:58.933+05:30',	'thasmar');
+    </sql>
+    </changeSet>
+    
+   
+</databaseChangeLog>

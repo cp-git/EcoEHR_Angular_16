@@ -1,0 +1,80 @@
+<form [formGroup]="ConsultantNotesForm" action="" method="">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <label>Consultant Date :</label>
+        </div>
+        <div class="col-md-5" style="top:-15px;right:52px;">
+            <mat-form-field>
+                <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                    <input matInput type="text" class="input-with-icon" class="date" formControlName="consultantDate" (click)="endDate();" id="consultantDate"
+                        autocomplete="off" name="consultantDate" id="consultantDate">
+                    <span class="input-icon" (click)="endDate();">
+                        <span class="fa fa-calendar fa-lg"></span>
+                    </span>
+                </div>
+            </mat-form-field>
+            <ehr-field-error-display [displayError]="isFieldValid(ConsultantNotesForm, 'consultantDate')" errorMsg="Please Enter lab date">
+            </ehr-field-error-display>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <label>Consultant Comments :</label>
+        </div>
+        <div class="col-md-4" style="right:52px;">
+            <input type="text" name="resultComment" class="form-control" formControlName="consultantComments">
+            <ehr-field-error-display [displayError]="isFieldValid(ConsultantNotesForm, 'consultantComments')" errorMsg="Please Enter consultant comment">
+            </ehr-field-error-display>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-4 col-md-offset-1">
+            <label>Documents to attach:</label>
+        </div>
+        <div class="col-md-4" style="left:-52px;">
+            <input type="file" (change)=fileEvent($event) formControlName="selectedFile">
+            <br>
+            <div *ngIf="show" class="EncErrorMsg-style">
+                <div class="alert alert-danger alert-danger-style" role="alert">
+                    File Size should be less than 10Mb.
+                </div>
+            </div>
+            <ehr-field-error-display  [displayError]="isFieldValid(ConsultantNotesForm, 'selectedFile')" errorMsg="Please Select document">
+            </ehr-field-error-display>
+        </div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+            <input type='button' class="btn button" [disabled]=isDisabled (click)="onSubmit()" value="Save" id="save"/>
+        </div>
+    </div>
+    <br>
+    <ng-container *ngIf="showConsNotesTable">
+        <div class="contents">
+            <div class="table-content">
+                <table class="table table-bordered ">
+                    <tbody style="overflow-y:auto; height:150px;display:bdata">
+                        <tr>
+                            <th class="text-center">Consultant Date
+                            </th>
+                            <th class="text-center">Consultant Comments</th>
+                            <th class="text-center">Document attached</th>
+                        </tr>
+                        <tr *ngFor="let consultantNotes of patientConsultantNotes">
+                            <td>{{displayConsultantDate(consultantNotes.consultantDate)|date:'MM/dd/yyyy'}}
+                            </td>
+                            <td>{{consultantNotes.consultantComments}}</td>
+                            <td>
+                                <i class="fa fa-download fa-style" role="button" aria-hidden="true" (click)="getUploadedFile(consultantNotes)"></i>
+                                &nbsp;&nbsp;{{getDocumentName(consultantNotes)}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+    <br>
+</form>
