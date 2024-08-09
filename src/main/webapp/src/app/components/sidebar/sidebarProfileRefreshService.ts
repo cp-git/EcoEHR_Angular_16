@@ -8,8 +8,8 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 export class SidebarProfileRefreshService {
     constructor(private sidebarComponent: SidebarComponent){}
     SidebarProfileRefreshMethod(){
-        // this.sidebarComponent.sidebarProfileRefresh();    
-                // this.sidebarComponent.sidebarProfileRefresh();    
+        this.sidebarComponent.sidebarProfileRefresh();    
+                this.sidebarComponent.sidebarProfileRefresh();    
 
     }
     

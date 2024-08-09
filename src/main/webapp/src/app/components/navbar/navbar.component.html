@@ -1,99 +1,27 @@
-<nav #navbar class="navbar navbar-transparent navbar-dashboard-fixed navbarsize" >
+<nav #navbar class="navbar navbar-transparent navbar-dashboard-fixed navbarsize">
     <div class="container-fluid">
-        <div class="navbar-minimize">
-            <button id="minimizeSidebar" class="btn btn-round btn-white btn-fill btn-just-icon">
-                <i class="material-icons visible-on-sidebar-regular">more_vert</i>
-                <i class="material-icons visible-on-sidebar-mini">view_list</i>
-            </button>
+      <div class="navbar-minimize">
+        <button id="minimizeSidebar" class="btn btn-round btn-white btn-fill btn-just-icon">
+          <i class="material-icons visible-on-sidebar-regular">more_vert</i>
+          <i class="material-icons visible-on-sidebar-mini">view_list</i>
+        </button>
+      </div>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" (click)="sidebarToggle()">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse">
+        <div (window:resize)="onResize($event)">
+          <ul class="nav navbar-nav navbar-right" style="padding:0px ">
+            <!-- Add your nav items here -->
+            <li class="separator hidden-lg hidden-md"></li>
+          </ul>
         </div>
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" (click)="sidebarToggle()">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <!-- <a class="navbar-brand" href="{{getPath()}}"> {{getTitle()}} </a> -->
-        </div>
-            <div class="collapse navbar-collapse" >
-                <div (window:resize)="onResize($event)">
-                                <ul class="nav navbar-nav navbar-right" style="padding:0px ">
-                                        <!-- <li class="nav-items-space">Chronic Care Management Time Tracking</li> -->
-                                        <!-- <li *ngIf="hideLogo" class="navspacesize" >
-                                            <a href="#" class="dropdown-toggle"  data-toggle="dropdown" style="text-align:center">
-                                                <i class="material-icons">content_paste</i>
-                                                <p class="hidden-lg hidden-md">Patients</p>
-                                                <p style="font-size:11px">Patients</p> 
-                                            </a>
-                                            <ul class="dropdown-menu dropdown1 width-auto1">
-                                                <li><a routerLink="/newpatient" tabindex="1"><i class="material-icons">person_add</i> Add Patient</a></li>
-                                                <li><a routerLink="/patientlist" tabindex="1"><i class="material-icons">list</i> Patient List</a></li>
-                                            </ul> 
-                                        </li>
-                                        <li *ngIf="hideLogo" class="navspacesize">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-align:center">
-                                                <i class="material-icons">message</i>
-                                                <p class="hidden-lg hidden-md">Message Center</p>
-                                                <p style="font-size:11px">Message Center</p>
-                                            </a>
-                                            <ul class="dropdown-menu dropdown1 width-auto2">
-                                                <li><a routerLink="/messages/inbox" tabindex="1"><i class="material-icons">mail_outline</i> My Inbox</a></li>
-                                                <li><a routerLink="/messages/compose" tabindex="1"><i class="material-icons">edit</i> Compose Message</a></li>
-                                            </ul> 
-                                        </li>
-                                        <li *ngIf="hideLogo && isadmin" class="navspacesize">
-                                            <a href="#" class="dropdown-toggle" tabindex="1" data-toggle="dropdown" style="text-align:center">
-                                                <i class="material-icons">important_devices</i>
-                                                <p class="hidden-lg hidden-md">Admin Tools</p>
-                                                <p style="font-size:11px">Admin Tools</p>
-                                            </a>
-                                            <ul class="dropdown-menu dropdown1 width-auto3">
-                                                <li><a routerLink="/admin/staffmembers" tabindex="1"><i class="material-icons">group</i> Staff Members</a></li>
-                                                <li><a routerLink="/admin/cliniclocations" tabindex="1"><i class="material-icons">location_on</i> Clinic Locations</a></li>
-                                                <li><a routerLink="/admin/encounterlocations" tabindex="1"><i class="material-icons">add_location</i> Encounter Locations</a></li>
-                                                <li><a routerLink="/admin/servicetypes" tabindex="1"><i class="material-icons">dvr</i> Service Types</a></li>
-                                                <li><a routerLink="/admin/servicenotes" tabindex="1"><i class="material-icons">event_note</i> Service Notes</a></li>
-                                                <li><a routerLink="/admin/ccpadmin" tabindex="1"><i class="material-icons">settings_applications</i> CCP Admin</a></li>
-                                                <li><a routerLink="/admin/masterlookup" tabindex="1"><i class="material-icons">library_add</i> Master Lookup</a></li>
-                                            </ul> 
-                                        </li>
-                                        <li *ngIf="hideLogo" class="navspacesize">
-                                            <a routerLink="/dashboard" style="text-align:center">
-                                                <i class="material-icons">assessment</i>
-                                                <p class="hidden-lg hidden-md">CCM Dashboard</p>
-                                                <p style="font-size:11px">Dashboard</p>
-                                            </a> 
-                                        </li>
-                                        <li *ngIf="hideLogo" class="navspacesize">
-                                            <a routerLink="/reports" style="text-align:center">
-                                                <i class="material-icons">table_chart</i>
-                                                <p class="hidden-lg hidden-md">Reports</p>
-                                                <p style="font-size:11px">Reports</p>
-                                            </a> 
-                                        </li>
-                                        <li *ngIf="hideLogo" class="navspacesize ">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-align:center">
-                                                <i class="material-icons">person</i>
-                                                <p class="hidden-lg hidden-md">Profile</p>
-                                                <p style="font-size:11px">User Profile</p>
-                                            </a>
-                                            <ul class="dropdown-menu dropdown1 width-auto4">
-                                                <li><a routerLink="/profiles/editprofile/profile" tabindex="1"><i class="material-icons">build</i> Profile Settings</a></li>
-                                                <li><a href="#" (click)="logout()" tabindex="1"><i class="material-icons">exit_to_app</i> Sign Out</a></li>
-                                            </ul>                           
-                                        </li> -->
-                                    
-                                        <!-- <li>
-                                            <a routerLink="/dashboard" style="text-align:center">
-                                               <i class="material-icons" style="font-size:25px">home</i>
-                                               <p class="hidden-lg hidden-md">Dashboard</p>
-                                               <p style="font-size:11px">Home</p>
-                                           </a> 
-                                        </li> -->
-                                        <li class="separator hidden-lg hidden-md"></li>
-                                    </ul>
-                </div>
-            </div>
+      </div>
     </div>
-</nav>
-
+  </nav>
+  
