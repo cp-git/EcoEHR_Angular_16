@@ -193,6 +193,7 @@ export class LoginService {
           'x-auth-token': localStorage.getItem('jwt') || ''
         });
     
+        console.log("Update time")
         return this.http.put<StaffMember>(this.updateLogoutTimeURL, staffDetails, { headers })
           .pipe(
             catchError(this.handleError) // Handle errors without modifying response type
