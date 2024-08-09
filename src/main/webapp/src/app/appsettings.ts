@@ -12,5 +12,5 @@ export class AppSettings {
     public static API_AUTH_ENDPOINT=AppSettings.URL;
     public static API_ENDPOINT=AppSettings.URL+'/api/rest/';
     public static API_ENDPOINT2='https://localhost:8443/api/rest/';
-
+// HHHH
 }
