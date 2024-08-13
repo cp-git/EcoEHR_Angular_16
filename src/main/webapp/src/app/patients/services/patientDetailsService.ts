@@ -5,7 +5,7 @@ import { AppSettings } from '../../appsettings';
 import { PatientDetails } from '../models/PatientDetails';
 import { PatientRecord } from '../models/PatientRecord';
 import {map, catchError } from 'rxjs/operators'
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
 @Injectable()
 export class PatientDetailsService {
@@ -33,23 +33,33 @@ export class PatientDetailsService {
 			
 			map((response: any) => this.extractData(response)),
 
-			catchError(this.handleError)
+			//catchError(this.handleError)
 		);
 	}
 
-	getAllPatients(): Observable<PatientRecord[]> {
 
+
+	getAllPatients(): Observable<PatientRecord[]> {
 		const token = localStorage.getItem('jwt');
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'x-auth-token': token ? token : ''
         });
-		return this.http.get(this.getAllPatientsUrl, {headers})
-		.pipe(
-			map((response: any) => this.extractData(response)),
-			catchError(this.handleError)
-		);
-	}
+		return this.http.get<PatientRecord[]>(this.getAllPatientsUrl, {headers});
+	  }
+	// getAllPatients(): Observable<PatientRecord[]> {
+
+	// 	const token = localStorage.getItem('jwt');
+    //     const headers = new HttpHeaders({
+    //       'Content-Type': 'application/json',
+    //       'x-auth-token': token ? token : ''
+    //     });
+	// 	return this.http.get(this.getAllPatientsUrl, {headers});
+		
+
+		
+	
+	// }
 
 	getAllPatientsByUserId(): Observable<PatientRecord[]> {
 		const token = localStorage.getItem('jwt');
@@ -60,7 +70,7 @@ export class PatientDetailsService {
 		return this.http.get(this.getPatientRecordByUserIdUrl, {headers})
 		.pipe(
 		map((response: any) => this.extractData(response)),
-		catchError(this.handleError)
+		//catchError(this.handleError)
 		);
 	}
 
@@ -77,7 +87,7 @@ export class PatientDetailsService {
 		return this.http.get(this.getPatientRecordByPatientIdUrl, {headers, params})
 		.pipe(
 			map((response: any) => this.extractData(response)),
-			catchError(this.handleError)
+		//	catchError(this.handleError)
 		);
 	}
 
@@ -94,7 +104,7 @@ export class PatientDetailsService {
 		return this.http.get(this.getPatientByPatientIdUrl,{headers, params} )
 		.pipe(
 			map((response: any) => this.extractData(response)),
-			catchError(this.handleError)
+			//catchError(this.handleError)
 		);
 	}
 
@@ -107,7 +117,7 @@ export class PatientDetailsService {
 		return this.http.put(this.updatePatientDetailsUrl, patientDetails, {headers})
 		.pipe(
 			map((response: any) => this.extractData(response)),
-			catchError(this.handleError)
+			//catchError(this.handleError)
 		);
 	}
 
@@ -115,8 +125,8 @@ export class PatientDetailsService {
 		let body = res.json();
 		return body;
 	}
-	private handleError(error: Response | any) {
-		console.error(error.message || error);
-		return Observable.throw(error.status);
-	}
+	// private handleError(error: Response | any) {
+	// 	console.error(error.message || error);
+	// 	return Observable.throw(error.status);
+	// }
 }

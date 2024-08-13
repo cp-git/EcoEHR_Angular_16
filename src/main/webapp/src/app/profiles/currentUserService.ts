@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { StaffMember } from '../administration/staff-members/staffmember';
 import { AppSettings } from "../appsettings";
 import { StaffFeedBack } from "../patients/models/staffFeedback";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { catchError, map } from "rxjs/operators";
 
 @Injectable({
@@ -32,11 +32,16 @@ export class CurrentUserService {
         const options = { headers, observe: 'response' as 'response' };
 
         // let options = new RequestOptions({ headers: cpHeaders });
-        return this.http.get(this.getloggedInUser, options)
-        .pipe(  
-        map(this.extractDataStaffMember),
-            catchError(this.handleError)
-        );
+        // return this.http.get(this.getloggedInUser, options)
+        // .pipe(  
+        // map(this.extractDataStaffMember),
+        //     catchError(this.handleError)
+        // );
+
+        return this.http.get<StaffMember>(this.getloggedInUser,options)
+      .pipe(
+        map((response: HttpResponse<StaffMember>) => response.body as StaffMember)
+      );
     }
 
     sendFeedbackEmail(feebbackObject : StaffFeedBack): Observable<number>  {

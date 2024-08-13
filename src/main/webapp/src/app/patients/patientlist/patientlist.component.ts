@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PatientDetailsService } from '../services/patientDetailsService';
+
 
 @Component({
   selector: 'app-patientlist',
   templateUrl: './patientlist.component.html',
-//   styleUrls: ['./patientlist.component.css'],
+  styleUrls: ['./patient.component.css', '../../app.component.css']
 })
 export class PatientListComponent implements OnInit {
   public dataTable: any;
@@ -16,6 +17,8 @@ export class PatientListComponent implements OnInit {
   public maxDate: Date;
   public startDate: Date;
 
+
+  @ViewChild('sidebar') sidebar: any;
   constructor(private router: Router, private patientService: PatientDetailsService) {
     this.minDate = new Date(1900, 0, 1);
     this.maxDate = new Date();
@@ -40,6 +43,8 @@ export class PatientListComponent implements OnInit {
 
     this.patientService.getAllPatients().subscribe(
       (data) => {
+        console.log(data);
+        
         this.dataTable.dataRows = data;
       },
       (error) => {

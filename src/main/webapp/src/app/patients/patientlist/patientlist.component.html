@@ -1,3 +1,6 @@
+
+
+  
 <div class="main-content">
     <div class="container-fluid">
       <div class="row">
@@ -31,12 +34,12 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of dataTable.dataRows">
-                    <td>{{ row.patientName }}</td>
+                    <td>{{ row.firstName }}  {{ row.lastName }}</td>
                     <td>{{ row.mrn }}</td>
                     <td>{{ row.gender }}</td>
                     <td>{{ DateOfBirth(row.dob) | date }}</td>
-                    <td>{{ row.provider }}</td>
-                    <td>{{ displayPatientAddress(row) }}</td>
+                    <td>{{ row.providerFirstName }} {{ row.providerLastName }}{{ row.designation }}</td>
+                    <td>{{ row.patientApartmentNo}} {{ row.patientStreetAddress}} {{ row.patientCity}} {{ row.patientState}} - {{ row.zipCode}} </td>
                     <td>{{ row.encounter }}</td>
                     <td>
                       <button

@@ -25,6 +25,8 @@ import { PluginModule } from './components/plugin/plugin.module';
 import { TimerComponent } from './components/timer/timer.component';
 import { TimerModule } from './components/timer/timer.module';
 import { TimerModalModule } from './components/timer-modal/timerModal.module';
+import { PatientDetailsService } from './patients/services/patientDetailsService';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,13 @@ import { TimerModalModule } from './components/timer-modal/timerModal.module';
     FooterModule,
     PluginModule,
     TimerModule,
-    TimerModalModule
+    TimerModalModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
+    
+    
   ],
   providers: [// provideClientHydration(),
    
@@ -59,11 +67,19 @@ import { TimerModalModule } from './components/timer-modal/timerModal.module';
     CurrentUserService,
     StudentMembersService,
     AuthService,
-    DatePipe
+    DatePipe,
+    PatientDetailsService,
+    
     // provideAnimationsAsync()
   
   ],
- bootstrap:[AppComponent]
+ bootstrap:[AppComponent],
+ exports:[
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRippleModule,
+ ]
  
 })
 export class AppModule { }

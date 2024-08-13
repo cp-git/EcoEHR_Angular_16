@@ -56,9 +56,9 @@ export class LoginComponent implements OnInit {
             this.loginService.getStaffPaymentStatus().subscribe((paymentData: StaffPaymentDetails) => {
               console.log("Get payment status successful");
               this.staff = paymentData;
-              this.loginService.updateLoginTime(this.loggedInUser).subscribe(() => {
-                console.log("Login time updated");
-              });
+            //   this.loginService.updateLoginTime(this.loggedInUser).subscribe(() => {
+            //     console.log("Login time updated");
+            //   });
 
               localStorage.setItem('currentUser', data.toString());
               this.paymentStatus = this.staff.paymentStatus;
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
               if (this.userRole == "TRY_ME" && this.paymentStatus == "approved" && currentDate && licenseEndDate && currentDate <= licenseEndDate) {
                 this.router.navigate(['../patients/patients.module#Patients']);
               } else if (this.userRole != "TRY_ME" && this.paymentStatus == "approved") {
-                this.router.navigate(['../patients/patients.module#Patients']);
+                this.router.navigate(['/list']);
               } else {
                 this.sharedData.successMsg = formValue.userName;
                 this.sharedData.statusCode = 200;
