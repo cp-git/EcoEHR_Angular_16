@@ -1,10 +1,116 @@
 
+/* For Angular Material Card */
+mat-card-header {
+  height: 80px; /* Adjust height as needed */
+  display: flex;
+  align-items: center; /* Center content vertically */
+  background-color: #f5f5f5; /* Optional: background color */
+}
+
+/* For Custom HTML Card */
+.card-header {
+  height: 80px; /* Adjust height as needed */
+  background-color: #f5f5f5; /* Optional: background color */
+  display: flex;
+  align-items: center; /* Center content vertically */
+  padding: 10px; /* Optional: padding */
+}
+
+.card-header h2, .card-header p {
+  margin: 0; /* Remove default margin */
+}
+
+.title {
+  font-size: 1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.button-style[_ngcontent-c12] {
+  background-color: #449D44;
+  box-shadow: 5px 5px 5px #1f471f;
+}
+
+.add-btn-position[_ngcontent-c12] {
+  top: -5px;
+}
+
+.data-background-color{
+  margin: -15px 15px 0;
+   padding: 14px;
+   border-radius: 3px;
+   background-color: #4a99c7;
+   position: relative;
+}
+
+
+.input-color[_ngcontent-c12] {
+  color: white !important;
+}
+
+.search-by-name[_ngcontent-c12] {
+  margin-left: 15px;
+}
+
+.input-color[_ngcontent-c7] {
+  color: white !important;
+}
+
+.form-control, .form-group .form-control {
+  border: 0;
+  background-image: linear-gradient(#9c27b0, #9c27b0), linear-gradient(#D2D2D2, #D2D2D2);
+  background-size: 0 2px, 100% 1px;
+  background-repeat: no-repeat;
+  background-position: center bottom, center calc(100% - 1px);
+  background-color: rgba(0, 0, 0, 0);
+  transition: background 0s ease-out;
+  float: none;
+  box-shadow: none;
+  border-radius: 0;
+  font-weight: 400;
+}
+
+
+.form-group-sm .form-control {
+  height: 21px;
+  padding: 3px 0;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+
+
+
+.button[_ngcontent-c12] {
+  background-color: #0471AF;
+  border-radius: 10px 10px;
+  padding: 2px;
+}
+
+.btn-sm[_ngcontent-c12] {
+  background-color: #0471af;
+}
+
+
+.btn.btn-warning.btn-simple, .navbar .navbar-nav > li > a.btn.btn-warning.btn-simple {
+  background-color: transparent;
+  color: #ff9800;
+  box-shadow: none;
+  border:none;
+}
+
 /* height of the form is given */
 .form-group{
     top: 20px;
     height: 65px
     
 } 
+
+::placeholder {
+  color: red;
+  opacity: 1; /* Firefox */
+}
+
 
 
 .disabled {
@@ -47,6 +153,17 @@ label{
 
 :host/deep/.mat-input-placeholder{
     color:black;
+}
+
+.card {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin: -4px 0;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  border-radius: 6px;
+  color: rgba(0, 0, 0, 0.87);
+  background: #fff;
 }
 
 .card-header-height

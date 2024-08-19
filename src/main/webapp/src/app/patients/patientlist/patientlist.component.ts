@@ -36,7 +36,7 @@ export class PatientListComponent implements OnInit {
         'Address',
         'Encounter',
         'Edit',
-        'Additional Info',
+        'Status',
       ],
       dataRows: [],
     };

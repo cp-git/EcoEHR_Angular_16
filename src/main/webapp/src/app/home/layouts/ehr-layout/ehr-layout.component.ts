@@ -30,7 +30,8 @@ export class EHRLayoutComponent implements OnInit, AfterViewInit {
     this.location = location;
   }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
     const elemMainPanel = document.querySelector('.main-panel') as HTMLElement;
     const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
 

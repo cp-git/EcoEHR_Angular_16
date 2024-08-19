@@ -9,6 +9,8 @@ export const PatientsRoutes: Routes = [
       component: PatientListComponent
     
   },
+
+  
   // {
   //   path: '',
   //   children: [{

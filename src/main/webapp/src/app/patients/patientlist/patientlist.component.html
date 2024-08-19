@@ -5,25 +5,36 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="card">
-            <div class="card-header" data-background-color>
-              <div class="col-sm-5 col-md-4 col-xs-5">
-                <ngx-spinner
-                  bdColor="transparent"
-                  loadingText="Loading"
-                  size="medium"
-                ></ngx-spinner>
-              </div>
+          <div class="card" style="margin-top: 30px;">
+            <div class="card-header data-background-color">
+            
               <div class="col-sm-4 col-md-4 col-xs-4">
-                <h4 class="title">Patient List</h4>
+                <h4 class="title" style="color: white;">Patient List</h4>
               </div>
-              <div class="col-sm-3 col-md-4 col-xs-3">
-                <button class="btn btn-primary pull-right" (click)="addPatient()">
-                  Add Patient
-                </button>
+              <div class="col-sm-2 col-md-1 col-xs-2 col-md-offset-2" style="margin-bottom: 13px;">
+                <button type="submit" class="btn button-style add-btn-position" style="height: 30px;color: white;width:fit-content" (click)="addPatient()">ADD
+                    PATIENT</button>
+             </div>
+             <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1">
+              <div class="form-group-sm is-empty searchHeight">
+                  <input type="search" id="mysearch" style="font-size: 16px;" (keyup)="searchdata($event)"
+                      class="form-control input-color placeholder-style search-by-name"
+                      placeholder="Patient Name" aria-controls="datatables">
               </div>
+          </div>
+          <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1" style="margin-top: 10px;">
+            <div class="input-icon-wrap">
+              <input style="margin-top: -22px;padding-top: 22px;margin-right: 5px;height: 42px;width: 140px;" type="date"
+                  id="date_search" (click)="datepicker('date_search')"
+                  class="form-control input-color placeholder-style" placeholder="Search by DOB">
+              <!-- <span class="input-icon" (click)="datepicker('date_search')">
+                  <span class="fa fa-calendar fa-lg"></span>
+              </span> -->
+          
+      </div>
+          </div>
             </div>
-            <div class="card-content table-responsive">
+            <div class="card-content table-responsive" style="margin-top: 10px;padding: 14px;">
               <table class="table table-hover">
                 <thead>
                   <tr>
@@ -34,33 +45,44 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of dataTable.dataRows">
-                    <td>{{ row.firstName }}  {{ row.lastName }}</td>
-                    <td>{{ row.mrn }}</td>
+                    <td  class="btn button btn-sm" style="width: 100%;color: white;">{{ row.firstName }}  {{ row.lastName }}</td>
+                    <td style="text-align: center;">{{ row.mrn }}</td>
                     <td>{{ row.gender }}</td>
                     <td>{{ DateOfBirth(row.dob) | date }}</td>
                     <td>{{ row.providerFirstName }} {{ row.providerLastName }}{{ row.designation }}</td>
                     <td>{{ row.patientApartmentNo}} {{ row.patientStreetAddress}} {{ row.patientCity}} {{ row.patientState}} - {{ row.zipCode}} </td>
-                    <td>{{ row.encounter }}</td>
-                    <td>
-                      <button
-                        class="btn btn-info"
-                        (click)="openUpdatePatient(row.id)"
-                      >
-                        Edit
+                   
+
+                    <td class="text-center">
+                      <!-- <a [routerLink]="['/patients/addencounter/'+patient.patientId]"
+                          [class.disabled]="disabled(patient.additionalInfo)?true:null">
+                          <i class="fa fa-plus-circle fa-style text-info"></i>
+                      </a> -->
+
+                      <button class="btn btn-simple btn-warning btn-icon edit"
+                      title="Edit">
+                      <i class="fas fa-plus-circle text-info"></i>
+
+                  </button>
+                  </td>
+
+                  <td class="text-center">
+                  
+                      <button class="btn btn-simple btn-warning btn-icon edit"
+                          title="Edit">
+                        
+                          <i class="material-icons" style="font-size: 16px;">edit</i>
                       </button>
-                    </td>
-                    <td>
-                      <button
-                        class="btn btn-warning"
-                        [disabled]="disabled(row.additionalInfo)"
-                      >
-                        Additional Info
-                      </button>
-                    </td>
+                  
+                </td>
+                    
+                      <td class="text-center"> {{row.additionalInfo}} </td>
+                    
+                    
                   </tr>
                 </tbody>
               </table>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-md-6">
                   <input
                     type="text"
@@ -77,11 +99,11 @@
                     <option value="1">Page 1</option>
                     <option value="2">Page 2</option>
                     <option value="3">Page 3</option>
-                    <!-- Add more pages as needed -->
+                 
                   </select>
                 </div>
-              </div>
-              <div class="row">
+              </div> -->
+              <!-- <div class="row">
                 <div class="col-md-12">
                   <button
                     class="btn btn-secondary"
@@ -102,7 +124,7 @@
                     Close
                   </button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
