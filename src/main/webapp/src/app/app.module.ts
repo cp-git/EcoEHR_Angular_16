@@ -28,6 +28,7 @@ import { TimerModalModule } from './components/timer-modal/timerModal.module';
 import { PatientDetailsService } from './patients/services/patientDetailsService';
 import { MatRippleModule } from '@angular/material/core';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,7 @@ import { MatRippleModule } from '@angular/material/core';
 
     AboutUsComponent,
     EHRLayoutComponent,
+
 
    
   ],

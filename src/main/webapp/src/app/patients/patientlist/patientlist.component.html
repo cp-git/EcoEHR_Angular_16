@@ -1,134 +1,279 @@
 
 
   
-<div class="main-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="card" style="margin-top: 30px;">
-            <div class="card-header data-background-color">
-            
-              <div class="col-sm-4 col-md-4 col-xs-4">
-                <h4 class="title" style="color: white;">Patient List</h4>
-              </div>
-              <div class="col-sm-2 col-md-1 col-xs-2 col-md-offset-2" style="margin-bottom: 13px;">
-                <button type="submit" class="btn button-style add-btn-position" style="height: 30px;color: white;width:fit-content" (click)="addPatient()">ADD
-                    PATIENT</button>
-             </div>
-             <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1">
-              <div class="form-group-sm is-empty searchHeight">
-                  <input type="search" id="mysearch" style="font-size: 16px;" (keyup)="searchdata($event)"
-                      class="form-control input-color placeholder-style search-by-name"
-                      placeholder="Patient Name" aria-controls="datatables">
-              </div>
-          </div>
-          <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1" style="margin-top: 10px;">
-            <div class="input-icon-wrap">
-              <input style="margin-top: -22px;padding-top: 22px;margin-right: 5px;height: 42px;width: 140px;" type="date"
-                  id="date_search" (click)="datepicker('date_search')"
-                  class="form-control input-color placeholder-style" placeholder="Search by DOB">
-              <!-- <span class="input-icon" (click)="datepicker('date_search')">
-                  <span class="fa fa-calendar fa-lg"></span>
-              </span> -->
-          
-      </div>
-          </div>
+<div class="main-content" >
+  <div class="container-fluid" style="height: 725px;">
+    <mat-drawer-container class="example-container" autosize style="overflow: hidden;" > 
+      <mat-drawer #drawer class="example-sidenav" mode="side" >
+        <div class="row" style="margin-top: 45px;">
+            <div class="col-md-12" style="border: 5px groove dodgerblue;width: fit-content; margin-left: 20px;">
+              <b class="ehr-class">Eco EHR</b>
             </div>
-            <div class="card-content table-responsive" style="margin-top: 10px;padding: 14px;">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th *ngFor="let header of dataTable.headerRow">
-                      {{ header }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let row of dataTable.dataRows">
-                    <td  class="btn button btn-sm" style="width: 100%;color: white;">{{ row.firstName }}  {{ row.lastName }}</td>
-                    <td style="text-align: center;">{{ row.mrn }}</td>
-                    <td>{{ row.gender }}</td>
-                    <td>{{ DateOfBirth(row.dob) | date }}</td>
-                    <td>{{ row.providerFirstName }} {{ row.providerLastName }}{{ row.designation }}</td>
-                    <td>{{ row.patientApartmentNo}} {{ row.patientStreetAddress}} {{ row.patientCity}} {{ row.patientState}} - {{ row.zipCode}} </td>
-                   
 
-                    <td class="text-center">
-                      <!-- <a [routerLink]="['/patients/addencounter/'+patient.patientId]"
-                          [class.disabled]="disabled(patient.additionalInfo)?true:null">
-                          <i class="fa fa-plus-circle fa-style text-info"></i>
-                      </a> -->
+            <hr style="margin-top: 20px;">
 
-                      <button class="btn btn-simple btn-warning btn-icon edit"
-                      title="Edit">
-                      <i class="fas fa-plus-circle text-info"></i>
+            <span class="timer">
+              <ehr-timer title="Time left for Activity"></ehr-timer>
+          </span>
 
-                  </button>
-                  </td>
+          <!-- Expansion Panel-->
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" id="panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title> 
+                  <div class="row">
+                     <div class="col-md-4" style="width: 45px;height: 45px;">
+                            <img src={{staffImage}}  style="width: 45px;"> 
+                     </div>
+                  </div>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <span>{{loggedInUser && loggedInUser.firstName}} {{loggedInUser && loggedInUser.lastName}}<b class="caret"></b></span>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
 
-                  <td class="text-center">
-                  
-                      <button class="btn btn-simple btn-warning btn-icon edit"
+              <div class="row" id="data">
+                <a>
+                  <span class="sidebar-mini"><i class="fas fa-user-edit"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;">Profile Settings</span>
+                </a>
+              </div>
+              <div class="row"  id="data">
+                <a>
+                  <span class="sidebar-mini"><i class="fas fa-solid fa-comments"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;">Feedback</span>
+              </a>
+              </div>
+
+              <div class="row"  id="data">
+                <a href="#" (click)="logout()">
+                  <span class="sidebar-mini"><i class="material-icons">exit_to_app</i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;margin-top: 8px;">Sign Out</span>
+                 </a>
+              </div>
+
+              <hr style="margin-top: 20px;">
+           
+            </mat-expansion-panel>
+          </mat-accordion>
+
+        </div>
+
+        <mat-accordion>
+          <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" style="margin-top: 20px;">
+            <mat-expansion-panel-header>
+              <mat-panel-title> <i class="fas fa-notes-medical"></i> <a style="margin-left: 20px;font-size: 16px;">Patients</a> </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row"  id="data">
+              <a>
+                <span class="sidebar-mini"><i class="fas fa-solid fa-hospital-user"></i></span>
+                <span class="sidebar-normal" style="margin-left: 5px;">Patient List</span>
+              </a>
+            </div>
+            <div class="row"  id="data">
+              <a style="color: black !important">
+                <span class="sidebar-mini"><i class="fas fa-solid fa-file-medical"></i></span>
+                <span class="sidebar-normal" style="margin-left: 10px;" (click)="AddPatient()">Add Patient</span>
+            </a>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+
+
+        <mat-accordion>
+          <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" style="margin-top: 20px;">
+            <mat-expansion-panel-header>
+              <mat-panel-title> <i class="fas fa-tasks"></i><a style="margin-left: 16px;font-size: 16px;">Admin Tools</a></mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row"  id="data">
+              <a>
+                <span class="sidebar-mini"><i class="fa fa-map-marker"></i></span>
+                <span class="sidebar-normal" style="margin-left: 8px;">Clinic Location</span>
+              </a>
+            </div>
+            <div class="row"  id="data">
+              <a style="color: black !important">
+                <span class="sidebar-mini"><i class="fas fa-users"></i></span>
+                <span class="sidebar-normal" style="margin-left: 8px;">Staff Members</span>
+            </a>
+            </div>
+
+            <div class="row"  id="data">
+              <a style="color: black !important">
+                <span class="sidebar-mini"><i class="fas fa-solid fa-list"></i></span>
+                <span class="sidebar-normal" style="margin-left: 8px;">Student list</span>
+            </a>
+            </div>
+
+            <div class="row"  id="data">
+              <a style="color: black !important">
+                <span class="sidebar-mini"><i class="fas fa-address-card" aria-hidden="true"></i></span>
+                <span class="sidebar-normal" style="margin-left: 8px;">Master Lookup</span>
+            </a>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        
+      </mat-drawer>
+
+      
+
+
+      
+    
+      <div class="example-sidenav-content" style="overflow:hidden">
+        <div class="row">
+            <div class="col-md-12">
+              <button type="button" mat-button (click)="drawer.toggle()">
+                <!-- Toggle sidenav -->
+                <i class="fas fa-solid fa-list"></i>
+              </button>
+              
+            </div>
+        </div>
+        
+
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="card" style="margin-top: 30px;">
+                <div class="card-header data-background-color">
+                
+                  <div class="col-sm-4 col-md-4 col-xs-4">
+                    <h4 class="title" style="color: white;">Patient List</h4>
+                  </div>
+                  <div class="col-sm-2 col-md-1 col-xs-2 col-md-offset-2" style="margin-bottom: 13px;">
+                    <button type="submit" class="btn button-style add-btn-position" style="height: 30px;color: white;width:fit-content" (click)="addPatient()">ADD
+                        PATIENT</button>
+                 </div>
+                 <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1">
+                  <div class="form-group-sm is-empty searchHeight">
+                      <input type="search" id="mysearch" style="font-size: 16px;" (keyup)="searchdata($event)"
+                          class="form-control input-color placeholder-style search-by-name"
+                          placeholder="Patient Name" aria-controls="datatables">
+                  </div>
+              </div>
+              <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1" style="margin-top: 10px;">
+                <div class="input-icon-wrap">
+                  <input style="margin-top: -22px;padding-top: 22px;margin-right: 5px;height: 42px;width: 140px;" type="date"
+                      id="date_search" (click)="datepicker('date_search')"
+                      class="form-control input-color placeholder-style" placeholder="Search by DOB">
+                  <!-- <span class="input-icon" (click)="datepicker('date_search')">
+                      <span class="fa fa-calendar fa-lg"></span>
+                  </span> -->
+              
+          </div>
+
+              </div>
+                </div>
+                <div class="card-content table-responsive" style="margin-top: 10px;padding: 14px;">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th *ngFor="let header of dataTable.headerRow">
+                          {{ header }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of paginatedItems">
+                       
+                        <td  class="btn button btn-sm" style="width: 100%;color: white;">{{ row.firstName }}  {{ row.lastName }}</td>
+                        <td style="text-align: center;">{{ row.mrn }}</td>
+                        <td>{{ row.gender }}</td>
+                        <td>{{ DateOfBirth(row.dob) }}</td>
+                        <td>{{ row.providerFirstName }} {{ row.providerLastName }}{{ row.designation }}</td>
+                        <td>{{ row.patientApartmentNo}} {{ row.patientStreetAddress}} {{ row.patientCity}} {{ row.patientState}} - {{ row.zipCode}} </td>
+                       
+    
+                        <td class="text-center">
+                          <!-- <a [routerLink]="['/patients/addencounter/'+patient.patientId]"
+                              [class.disabled]="disabled(patient.additionalInfo)?true:null">
+                              <i class="fa fa-plus-circle fa-style text-info"></i>
+                          </a> -->
+    
+                          <button class="btn btn-simple btn-warning btn-icon edit"
                           title="Edit">
-                        
-                          <i class="material-icons" style="font-size: 16px;">edit</i>
+                          <i class="fas fa-plus-circle text-info"></i>
+    
                       </button>
-                  
-                </td>
-                    
-                      <td class="text-center"> {{row.additionalInfo}} </td>
-                    
-                    
-                  </tr>
-                </tbody>
-              </table>
-              <!-- <div class="row">
-                <div class="col-md-6">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search"
-                    (input)="searchdata($event)"
-                  />
+                      </td>
+    
+                      <td class="text-center">
+                      
+                          <button class="btn btn-simple btn-warning btn-icon edit"
+                              title="Edit">
+                            
+                              <i class="material-icons" style="font-size: 16px;">edit</i>
+                          </button>
+                      
+                    </td>
+                        
+                          <td class="text-center"> {{row.additionalInfo}} </td>
+                        
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- <div class="row">
+                    <div class="col-md-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search"
+                        (input)="searchdata($event)"
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <select
+                        class="form-control"
+                        (change)="changePage($event)"
+                      >
+                        <option value="1">Page 1</option>
+                        <option value="2">Page 2</option>
+                        <option value="3">Page 3</option>
+                     
+                      </select>
+                    </div>
+                  </div> -->
+                  <!-- <div class="row">
+                    <div class="col-md-12">
+                      <button
+                        class="btn btn-secondary"
+                        (click)="advanceSearchPatient()"
+                      >
+                        Advanced Search
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        (click)="resetAdvanceSearch()"
+                      >
+                        Reset
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        (click)="closeAdvanceSearchModal()"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div> -->
                 </div>
-                <div class="col-md-6">
-                  <select
-                    class="form-control"
-                    (change)="changePage($event)"
-                  >
-                    <option value="1">Page 1</option>
-                    <option value="2">Page 2</option>
-                    <option value="3">Page 3</option>
-                 
-                  </select>
-                </div>
-              </div> -->
-              <!-- <div class="row">
-                <div class="col-md-12">
-                  <button
-                    class="btn btn-secondary"
-                    (click)="advanceSearchPatient()"
-                  >
-                    Advanced Search
-                  </button>
-                  <button
-                    class="btn btn-secondary"
-                    (click)="resetAdvanceSearch()"
-                  >
-                    Reset
-                  </button>
-                  <button
-                    class="btn btn-secondary"
-                    (click)="closeAdvanceSearchModal()"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <div class="pagination-controls" style="margin-left: 85%;">
+        <button (click)="OnPageChange(currentPage - 1)" [disabled]="currentPage === 1" style="border:0;">Previous</button>
+        <span> {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="OnPageChange(currentPage + 1)" [disabled]="currentPage === totalPages" style="border:0;">Next</button>
+      </div>
+    
+    </mat-drawer-container>
+  </div>
+   
   </div>
   

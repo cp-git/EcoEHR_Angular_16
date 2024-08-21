@@ -16,6 +16,8 @@ import { SharedModule } from '../shared/shared-module';
 
 import { Md2Module } from 'md2';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { AddPatientComponent } from './add-patient/add-patient.component';
+
 
 // import { StudentListComponent } from './studentlist/studentlist.component';
 // import { StudentDetailsService } from './services/studentDetailsService';
@@ -51,7 +53,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
   ],
   declarations: [
      // NewPatientComponent,
-      PatientListComponent,
+      //PatientListComponent,
      // UpdatePatientComponent,
       //lookupPipe,
      // PrimaryProviderPipe,
@@ -66,6 +68,10 @@ import { NgxSpinnerModule } from "ngx-spinner";
      // SafeHtmlPipe,
      // GroupByPipe
       // StudentListComponent
+  
+    
+  
+    
   ],
   providers: [
   // EncounterService,

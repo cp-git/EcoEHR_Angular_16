@@ -5,6 +5,8 @@ import { LoginComponent } from './home/login/login.component';
 import { EHRLayoutComponent } from './home/layouts/ehr-layout/ehr-layout.component';
 import { AuthGuard } from './shared/AuthGuard/auth-guard';
 import { PatientListComponent } from './patients/patientlist/patientlist.component';
+import { AddPatientComponent } from './patients/add-patient/add-patient.component';
+
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
 // import { GlobalErrorComponent } from './shared/global-error/global-error.component'; // Assuming you have a GlobalErrorComponent
 
@@ -23,6 +25,14 @@ const routes: Routes = [
     path: 'list', // Root path
     component: PatientListComponent // Component to display at root path
   },
+
+  {
+    path:'addpatient',
+    component:AddPatientComponent
+
+  },
+
+
   {
     /** SECURE ROUTES declared here **/
     // CCM Module secure content area
@@ -35,10 +45,10 @@ const routes: Routes = [
         path: 'profiles',
         loadChildren: () => import('../app/profiles/profiles.module').then(m => m.Profiles)
       },
-      {
-        path: 'patients',
-        loadChildren: () => import('./patients/patients.module').then(m => m.Patients)
-      },
+      // {
+      //   path: 'patients',
+      //   loadChildren: () => import('./patients/patients.module').then(m => m.Patients)
+      // },
       // {
       //   path: 'admin',
       //   // canActivateChild: [RoleGuard],

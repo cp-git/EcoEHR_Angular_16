@@ -11,7 +11,7 @@ import { Data } from '../../data';
 @Component({
   selector: 'ehr-home-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../home.component.css']
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;

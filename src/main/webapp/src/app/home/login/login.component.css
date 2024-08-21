@@ -1,0 +1,36 @@
+.card .card-header {
+    padding: 15px 20px 0;
+    z-index: 3;
+    height: 46px;
+}
+
+.card [data-background-color] {
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    margin: -15px 15px 0;
+    border-radius: 3px;
+    padding: 14px;
+    background-color: #4a99c7;
+    position: relative;
+}
+
+.card .card-content {
+    padding: 5px 10px;
+    position: relative;
+    padding-left: 14px !important;
+}
+
+.mat-form-field {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+}
+
+
+
+
+.input-group .input-group-addon {
+    border: 0;
+    background: transparent;
+    padding: 6px 15px 0px;
+}
+

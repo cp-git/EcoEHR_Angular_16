@@ -1,5 +1,24 @@
 
 /* For Angular Material Card */
+
+.example-container {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+/* .example-sidenav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.example-sidenav {
+  padding: 20px;
+  width: 260px;
+
+}
+
 mat-card-header {
   height: 80px; /* Adjust height as needed */
   display: flex;
@@ -1048,6 +1067,21 @@ font-size: 12px ;
   .col-md-10{
     width: 70.333%;
   }
+  }
+
+  #panel{
+    margin-top: 20px;
+  
+  }
+  
+
+  #data{
+    margin-top: 20px;
+  }
+
+
+  #data a{
+    font-size: 18px;
   }
   
   
