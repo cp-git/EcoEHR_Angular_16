@@ -1,6 +1,3 @@
-
-
-  
 <div class="main-content" >
   <div class="container-fluid" style="height: 725px;">
     <mat-drawer-container class="example-container" autosize style="overflow: hidden;" > 
@@ -144,7 +141,7 @@
                     <h4 class="title" style="color: white;">Patient List</h4>
                   </div>
                   <div class="col-sm-2 col-md-1 col-xs-2 col-md-offset-2" style="margin-bottom: 13px;">
-                    <button type="submit" class="btn button-style add-btn-position" style="height: 30px;color: white;width:fit-content" (click)="addPatient()">ADD
+                    <button type="submit" class="btn button-style add-btn-position" style="height: 30px;color: white;width:fit-content" (click)="AddPatient()">ADD
                         PATIENT</button>
                  </div>
                  <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1">
@@ -203,7 +200,7 @@
                       <td class="text-center">
                       
                           <button class="btn btn-simple btn-warning btn-icon edit"
-                              title="Edit">
+                              title="Edit" (click)="updatePatient(row.patientId)">
                             
                               <i class="material-icons" style="font-size: 16px;">edit</i>
                           </button>

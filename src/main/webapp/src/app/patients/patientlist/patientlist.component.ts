@@ -90,9 +90,9 @@ export class PatientListComponent implements OnInit {
     // Add logic to handle search functionality
   }
 
-  addPatient(): void {
-    this.router.navigate(['/patients/add']);
-  }
+  // addPatient(): void {
+  //   this.router.navigate(['/patients/add']);
+  // }
 
   openUpdatePatient(patientId: string): void {
     this.router.navigate(['/patients/edit', patientId]);
@@ -198,9 +198,15 @@ OnPageChange(page: number): void {
 }
 
 get totalPages(): number {
-  console.log(this.items.length);
+  //console.log(this.items.length);
   
   return Math.ceil(this.dataTable.dataRows.length / this.pageSize);
+}
+
+
+updatePatient(patientId:any){
+  sessionStorage.setItem('patientId',patientId);
+  this.router.navigate(['/updatepatient',patientId])
 }
 
 }

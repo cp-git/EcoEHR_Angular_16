@@ -6,6 +6,7 @@ import { EHRLayoutComponent } from './home/layouts/ehr-layout/ehr-layout.compone
 import { AuthGuard } from './shared/AuthGuard/auth-guard';
 import { PatientListComponent } from './patients/patientlist/patientlist.component';
 import { AddPatientComponent } from './patients/add-patient/add-patient.component';
+import { UpdatePatientComponent } from './patients/update-patient/update-patient.component';
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
 // import { GlobalErrorComponent } from './shared/global-error/global-error.component'; // Assuming you have a GlobalErrorComponent
@@ -29,43 +30,46 @@ const routes: Routes = [
   {
     path:'addpatient',
     component:AddPatientComponent
-
   },
-
 
   {
-    /** SECURE ROUTES declared here **/
-    // CCM Module secure content area
-    //  Access only for logged in User */
-    path: '',
-    component: EHRLayoutComponent,
-    canActivateChild: [AuthGuard],
-    children: [
-      {
-        path: 'profiles',
-        loadChildren: () => import('../app/profiles/profiles.module').then(m => m.Profiles)
-      },
-      // {
-      //   path: 'patients',
-      //   loadChildren: () => import('./patients/patients.module').then(m => m.Patients)
-      // },
-      // {
-      //   path: 'admin',
-      //   // canActivateChild: [RoleGuard],
-      //   // loadChildren: () => import('../app/administration/admin.module').then(m => m.AdminModule)
-      // },
-      // {
-      //   path: 'error',
-      //   // component: GlobalErrorComponent
-      // },
-      {
-        path: '**',
-        // redirectTo: '/patients/patientlist'
-        redirectTo: '' // Redirect unknown paths to the root or a specific route
-
-      }
-    ]
+    path:'updatepatient/:id',
+    component:UpdatePatientComponent
   },
+
+  // {
+  //   /** SECURE ROUTES declared here **/
+  //   // CCM Module secure content area
+  //   //  Access only for logged in User */
+  //   path: '',
+  //   component: EHRLayoutComponent,
+  //   canActivateChild: [AuthGuard],
+  //   children: [
+  //     {
+  //       path: 'profiles',
+  //       loadChildren: () => import('../app/profiles/profiles.module').then(m => m.Profiles)
+  //     },
+  //     // {
+  //     //   path: 'patients',
+  //     //   loadChildren: () => import('./patients/patients.module').then(m => m.Patients)
+  //     // },
+  //     // {
+  //     //   path: 'admin',
+  //     //   // canActivateChild: [RoleGuard],
+  //     //   // loadChildren: () => import('../app/administration/admin.module').then(m => m.AdminModule)
+  //     // },
+  //     // {
+  //     //   path: 'error',
+  //     //   // component: GlobalErrorComponent
+  //     // },
+  //     {
+  //       path: '**',
+  //       // redirectTo: '/patients/patientlist'
+  //       redirectTo: '' // Redirect unknown paths to the root or a specific route
+
+  //     }
+  //   ]
+  // },
 ];
 
 @NgModule({

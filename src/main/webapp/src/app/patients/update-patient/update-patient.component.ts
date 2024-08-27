@@ -1,42 +1,41 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { PatientListComponent } from '../patientlist/patientlist.component';
-import { CommonModule, DatePipe } from '@angular/common';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { TimerModule } from 'src/app/components/timer/timer.module';
-import { Data, Router } from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PatientDetailsService } from '../services/patientDetailsService';
-import { CurrentUserService } from 'src/app/profiles/currentUserService';
-import { LoginService } from 'src/app/home/login/login.service';
-import { StaffMember } from 'src/app/administration/staff-members/staffmember';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { StaffDetails } from 'src/app/administration/staff-members/StaffDetails';
-import { ClinicLocation } from 'src/app/administration/clinic-locations/ClinicLocation';
-import { MasterLookup } from 'src/app/administration/master-lookup/masterLookup';
+import { PatientDetails } from '../models/PatientDetails';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CurrentUserService } from 'src/app/profiles/currentUserService';
+import { ClinicLocationService } from '../services/clinicLocationService';
+import { MasterLookupService } from '../services/masterLookupService';
+import { StaffDetailsService } from '../services/staffDetailsService';
+
+import { StaffDetails } from 'src/app/administration/staff-members/StaffDetails';
+import { StaffMember } from 'src/app/administration/staff-members/staffmember';
+import { ClinicLocation } from '../models/ClinicLocation';
+import { MasterLookup } from '../models/masterLookup';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MasterLookupService } from '../services/masterLookupService';
-import { StaffDetailsService } from '../services/staffDetailsService';
-import { ClinicLocationService } from '../services/clinicLocationService';
-import { PatientDetails } from '../models/PatientDetails';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
-
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { TimerModule } from 'src/app/components/timer/timer.module';
+import { PatientListComponent } from '../patientlist/patientlist.component';
 
 
 @Component({
-  selector: 'app-add-patient',
-  templateUrl: './add-patient.component.html',
-  styleUrls: ['./add-patient.component.css'],
+  selector: 'app-update-patient',
+  templateUrl: './update-patient.component.html',
+  styleUrls: ['./update-patient.component.css'],
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule,FormsModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddPatientComponent {
+export class UpdatePatientComponent {
+
+  data:any;
+  patientDetail!:PatientDetails;
 
   //Sidebar Data
   readonly panelOpenState = signal(false);
@@ -52,9 +51,8 @@ export class AddPatientComponent {
 
 // Add Patient Variables
 
-dob = new FormControl('', Validators.required);
-AddPatientForm!: FormGroup;
-AddInsuranceForm!: FormGroup;
+
+
 patientAddressState_search: string = '';
 additionalInfo_search: string = '';
 patientAddressId_search: string = '';
@@ -72,55 +70,64 @@ alladditionalInfo!: MasterLookup[];
 patientImage: any;
 isValid = false;
 value = false;
-datePattern = /^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/;
 
-patientDetail: PatientDetails = new PatientDetails();
+// patientDetail: PatientDetails = new PatientDetails();
 selectedFile: File | undefined; // To store the selected file
 selectedImageUrl: string | null = null;
 isFileSelected: boolean = false;
+  constructor(private _activateRoute:ActivatedRoute, private patientDetailsService: PatientDetailsService,
+    private datePipe: DatePipe,
+  private spinner: NgxSpinnerService,
+  private currentUserService: CurrentUserService,
+  private masterLookupService: MasterLookupService,
+  private staffDetailsService: StaffDetailsService,
+  private clinicLocationService: ClinicLocationService,
+  private router:Router
+  ){
+    this.minDate = new Date(1900, 0, 1);
+    this.maxDate = new Date();
+    this.startDate = new Date();
+  }
+  ngOnInit(): void {
+    console.log("welcome");
+    this.dropdownValues();
+    this._activateRoute.paramMap.subscribe(params => {
+      this.data = params.get('id');
+      console.log(this.data);
+      
+      // Now you can use the 'id' parameter in your component
+    });
 
-
-
-
-
-
-
-
-  // constructor(private router: Router, private patientService: PatientDetailsService, private currentUserService: CurrentUserService,  private loginService : LoginService) {
-  //   this.minDate = new Date(1900, 0, 1);
-  //   this.maxDate = new Date();
-  //   this.startDate = new Date();
-  // }
-
-
-  constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private patientDetailsService: PatientDetailsService,
-
-   // private sharedData: Data, 
-   private datePipe: DatePipe,
-    private spinner: NgxSpinnerService,
-    private currentUserService: CurrentUserService,
-    private masterLookupService: MasterLookupService,
-    private staffDetailsService: StaffDetailsService,
-    private clinicLocationService: ClinicLocationService,
-) { 
-  this.minDate = new Date(1900, 0, 1);
-  this.maxDate = new Date();
-  this.startDate = new Date();
-}
-
-  ngOnInit(){
-   
-   this.dropdownValues();
-
-    
-
- 
+    this.patientDetailsService.getPatientDetailsByPatientId(this.data).subscribe(
+      response=>{
+        console.log(response);
+        this.patientDetail=response;
+      }
+    )  
   }
 
 
-  dropdownValues(){
+
+  GoToList(){
+    this.router.navigate(['/list']);
+  }
+  selectFile(event:any){
+    this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      this.isFileSelected = true;
+      const reader = new FileReader();
+      reader.readAsDataURL(this.selectedFile);
+      reader.onload = () => {
+        this.selectedImageUrl = reader.result as string;
+      };
+    } else {
+      this.selectedImageUrl = null;
+    }
+  
+  }
+  
+  
+   dropdownValues(){
     this.getLoggedInUserDetails();
     this.patientImage = "./assets/img/default-avatar.png";
     this.getAddressState();
@@ -131,9 +138,10 @@ isFileSelected: boolean = false;
     this.getPatientEthnicity();
     this.getPatientStatus();
     this.getPatientTitle();
-
+  
   }
-
+  
+  
   getPatientTitle() {
     this.spinner.show();
     this.masterLookupService.getTitles()
@@ -143,9 +151,9 @@ isFileSelected: boolean = false;
                 this.allTitles = data;
             },
             errorCode => this.statusCode = errorCode);
-}
-
-
+  }
+  
+  
   getLoggedInUserDetails(){
     this.currentUserService.getCurrentStaffMember()
     .subscribe(data => {
@@ -157,11 +165,11 @@ isFileSelected: boolean = false;
           this.staffImage = data.staffImage;
       }
     })
-
-}
-
-
-getPatientStatus() {
+  
+  }
+  
+  
+  getPatientStatus() {
   this.spinner.show();
   this.masterLookupService.getPatientStatus()
       .subscribe(
@@ -170,10 +178,10 @@ getPatientStatus() {
               this.alladditionalInfo = data;
           },
           errorCode => this.statusCode = errorCode);
-}
-
-
-getAddressState() {
+  }
+  
+  
+  getAddressState() {
   this.spinner.show();
   this.masterLookupService.getAddressState()
       .subscribe(
@@ -184,9 +192,9 @@ getAddressState() {
               this.allStates = data;
           },
           errorCode => this.statusCode = errorCode);
-}
-
-getPatientRace() {
+  }
+  
+  getPatientRace() {
   this.spinner.show();
   this.masterLookupService.getRace()
       .subscribe(
@@ -195,10 +203,10 @@ getPatientRace() {
               this.allRace = data;
           },
           errorCode => this.statusCode = errorCode);
-}
-
-
-getCCMProvider() {
+  }
+  
+  
+  getCCMProvider() {
   this.spinner.show();
   this.staffDetailsService.getCCMProvider()
       .subscribe(
@@ -209,18 +217,18 @@ getCCMProvider() {
               this.allProvider = data;
           },
           errorCode => this.statusCode = errorCode);
-}
-
-getPrimaryServiceLocation() {
+  }
+  
+  getPrimaryServiceLocation() {
   this.spinner.show();
   this.clinicLocationService.getAllClinicLocations()
       .subscribe(data => {
           this.spinner.hide();
           this.allCliniclocations = data;
       })
-}
-
-getPatientLanguage() {
+  }
+  
+  getPatientLanguage() {
   this.spinner.show();
   this.masterLookupService.getLanguage()
       .subscribe(
@@ -229,9 +237,9 @@ getPatientLanguage() {
               this.allLanguages = data;
           },
           errorCode => this.statusCode = errorCode);
-}
-
-getPatientEthnicity() {
+  }
+  
+  getPatientEthnicity() {
   this.spinner.show();
   this.masterLookupService.getEthnicity()
       .subscribe(
@@ -240,11 +248,11 @@ getPatientEthnicity() {
               this.allEthnicity = data;
           },
           errorCode => this.statusCode = errorCode);
-}
-
-
-
-logout() {
+  }
+  
+  
+  
+  logout() {
   //   this.currentUserService.getCurrentStaffMember()
   // .subscribe(data => {
       //   this.loggedInUser =  data;
@@ -265,56 +273,16 @@ logout() {
     localStorage.removeItem('jwt');   
     
   }
-
-
-  selectFile(event:any){
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile) {
-      this.isFileSelected = true;
-      const reader = new FileReader();
-      reader.readAsDataURL(this.selectedFile);
-      reader.onload = () => {
-        this.selectedImageUrl = reader.result as string;
-      };
-    } else {
-      this.selectedImageUrl = null;
-    }
-
-  }
-
-  createEmployee(patient:PatientDetails){
-
-    this.patientDetailsService.inserPatientDetails(patient)
+  
+  updateEmployeeByEmployeeId(patient:PatientDetails){
+    this.patientDetailsService.updatePatientDetails(patient)
     .subscribe(data => {
-      alert("welcome");
       console.log(data);
-      this.router.navigate(['/list']);
+      alert("data Saved....")
+      this.router.navigate(['/list'])
       
-     
-    })
-
+        
+    });
+  
   }
-
-
-  GoToList(){
-    this.router.navigate(['/list']);
-  }
-
-  
-  
-
-
-  
-
-
-  
-  
-
-
-
 }
-
-
-
-
-

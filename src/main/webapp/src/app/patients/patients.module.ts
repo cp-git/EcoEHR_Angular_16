@@ -17,6 +17,7 @@ import { SharedModule } from '../shared/shared-module';
 import { Md2Module } from 'md2';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { AddPatientComponent } from './add-patient/add-patient.component';
+import { UpdatePatientComponent } from './update-patient/update-patient.component';
 
 
 // import { StudentListComponent } from './studentlist/studentlist.component';
@@ -30,6 +31,7 @@ import { AddPatientComponent } from './add-patient/add-patient.component';
     CommonModule,
     RouterModule.forChild(PatientsRoutes),
     FormsModule,
+    ReactiveFormsModule,
   //  MedicationModule,
     //HistoryModule,
     SharedModule,
@@ -72,6 +74,8 @@ import { AddPatientComponent } from './add-patient/add-patient.component';
     
   
     
+  
+    UpdatePatientComponent
   ],
   providers: [
   // EncounterService,

@@ -26,19 +26,19 @@ import { TimerComponent } from './components/timer/timer.component';
 import { TimerModule } from './components/timer/timer.module';
 import { TimerModalModule } from './components/timer-modal/timerModal.module';
 import { PatientDetailsService } from './patients/services/patientDetailsService';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MasterLookupService } from './patients/services/masterLookupService';
+import { StaffDetailsService } from './patients/services/staffDetailsService';
+import { ClinicLocationService } from './patients/services/clinicLocationService';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-
     AboutUsComponent,
     EHRLayoutComponent,
-
-
-   
   ],
   imports: [
     BrowserModule,
@@ -59,21 +59,23 @@ import { MatRippleModule } from '@angular/material/core';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRippleModule,
-    
-    
+    MatRippleModule, 
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule
   ],
-  providers: [// provideClientHydration(),
-   
+  providers: [// provideClientHydration(), 
     LoginService,
     CurrentUserService,
     StudentMembersService,
     AuthService,
     DatePipe,
     PatientDetailsService,
-    
+    MasterLookupService,
+    StaffDetailsService,
+    ClinicLocationService
     // provideAnimationsAsync()
-  
   ],
  bootstrap:[AppComponent],
  exports:[
@@ -81,6 +83,7 @@ import { MatRippleModule } from '@angular/material/core';
   MatFormFieldModule,
   MatInputModule,
   MatRippleModule,
+  ReactiveFormsModule
  ]
  
 })

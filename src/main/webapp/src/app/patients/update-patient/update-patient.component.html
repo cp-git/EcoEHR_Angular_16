@@ -139,7 +139,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     
-                                            <h3 style="width: auto;font-size: 24px;color: white;font-weight: bold;">ADD PATIENT</h3>
+                                            <h3 style="width: auto;font-size: 24px;color: white;font-weight: bold;">UPDATE PATIENT</h3>
                                       
                                 </div>
                             </div>
@@ -150,8 +150,9 @@
                             <div *ngIf="statusCode === 409" class="alert alert-danger" data-icon-bg-color="alert-red">
                                 <strong>Patient Name already exists!</strong>
                             </div>
-                            <form #employeeForm="ngForm" (ngSubmit)="createEmployee(patientDetail)" novalidate>
+                            <form #employeeForm="ngForm" novalidate>
 
+                                <!-- (ngSubmit)="createEmployee(patientDetail)"-->
          
                                 <div class="row" style="margin-top: 20px;">
                                     <div class="col-md-2" style="right:-50px;">
@@ -829,7 +830,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type='button'  style="background-color:#0471AF;margin-left: 3%;" mat-raised-button type="submit" >Submit</button>
+                                        <button type='button'  style="background-color:#0471AF;margin-left: 3%;" mat-raised-button type="submit" (click)="updateEmployeeByEmployeeId(patientDetail)" >Submit</button>
                                     </div>
                                     <div class="col-md-6">  
                                         <input type='button' style="margin-left: 80%;" (click)="GoToList()" class='btn button pull-right' name='cancel' value="CANCEL">

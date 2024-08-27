@@ -28,13 +28,8 @@ export class PatientDetailsService {
           'x-auth-token': token ? token : ''
         });
     
-		return this.http.post(this.addPatientDetailsUrl, patientDetails, {headers})
-		.pipe(
-			
-			map((response: any) => this.extractData(response)),
-
-			//catchError(this.handleError)
-		);
+		return this.http.post<any>(this.addPatientDetailsUrl, patientDetails, {headers})
+		
 	}
 
 
@@ -101,11 +96,8 @@ export class PatientDetailsService {
 		
 		const params = new HttpParams().set('patientId', patientId.toString());
 
-		return this.http.get(this.getPatientByPatientIdUrl,{headers, params} )
-		.pipe(
-			map((response: any) => this.extractData(response)),
-			//catchError(this.handleError)
-		);
+		return this.http.get<any>(this.getPatientByPatientIdUrl,{headers, params} )
+	
 	}
 
 	updatePatientDetails(patientDetails: PatientDetails): Observable<PatientDetails> {
@@ -114,11 +106,8 @@ export class PatientDetailsService {
 			'Content-Type': 'application/json',
 			'x-auth-token': token
 		});
-		return this.http.put(this.updatePatientDetailsUrl, patientDetails, {headers})
-		.pipe(
-			map((response: any) => this.extractData(response)),
-			//catchError(this.handleError)
-		);
+		return this.http.put<any>(this.updatePatientDetailsUrl, patientDetails, {headers})
+	
 	}
 
 	private extractData(res: Response) {
