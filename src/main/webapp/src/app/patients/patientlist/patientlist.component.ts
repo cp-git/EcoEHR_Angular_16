@@ -209,4 +209,13 @@ updatePatient(patientId:any){
   this.router.navigate(['/updatepatient',patientId])
 }
 
+
+GoToPatientList(){
+  this.router.navigate(['/list'])
+}
+
+displayClinic(){
+  this.router.navigate(['/clinicDetails'])
+}
+
 }

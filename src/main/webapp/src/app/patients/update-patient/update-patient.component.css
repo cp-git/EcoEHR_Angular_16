@@ -1143,6 +1143,23 @@
         border-radius: 0;
         font-weight: 400;
     }
+
+
+    .w-500 {
+      width: 90px;
+      border: 0;
+      height: 40px;
+      border: hidden;
+      outline: none;
+    }
+    h2 {
+      color: white;
+    }
+
+    
+  .wt-500{
+    width: 100%;
+  }
     
     
     

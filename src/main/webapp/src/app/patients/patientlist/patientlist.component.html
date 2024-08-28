@@ -64,7 +64,7 @@
             <div class="row"  id="data">
               <a>
                 <span class="sidebar-mini"><i class="fas fa-solid fa-hospital-user"></i></span>
-                <span class="sidebar-normal" style="margin-left: 5px;">Patient List</span>
+                <span class="sidebar-normal" style="margin-left: 5px;" (click)="GoToPatientList()">Patient List</span>
               </a>
             </div>
             <div class="row"  id="data">
@@ -86,7 +86,7 @@
             <div class="row"  id="data">
               <a>
                 <span class="sidebar-mini"><i class="fa fa-map-marker"></i></span>
-                <span class="sidebar-normal" style="margin-left: 8px;">Clinic Location</span>
+                <span class="sidebar-normal" style="margin-left: 8px;" (click)="displayClinic()">Clinic Location</span>
               </a>
             </div>
             <div class="row"  id="data">
@@ -176,7 +176,7 @@
                     <tbody>
                       <tr *ngFor="let row of paginatedItems">
                        
-                        <td  class="btn button btn-sm" style="width: 100%;color: white;">{{ row.firstName }}  {{ row.lastName }}</td>
+                        <td  class="btn button btn-sm" (click)="updatePatient(row.patientId)" style="width: 100%;color: white;">{{ row.firstName }}  {{ row.lastName }}</td>
                         <td style="text-align: center;">{{ row.mrn }}</td>
                         <td>{{ row.gender }}</td>
                         <td>{{ DateOfBirth(row.dob) }}</td>

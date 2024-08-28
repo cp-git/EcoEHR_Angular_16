@@ -282,6 +282,12 @@ logout() {
 
   }
 
+
+  
+GoToPatientList(){
+  this.router.navigate(['/list'])
+}
+
   createEmployee(patient:PatientDetails){
 
     this.patientDetailsService.inserPatientDetails(patient)

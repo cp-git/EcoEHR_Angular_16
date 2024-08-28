@@ -64,7 +64,7 @@
               <div class="row"  id="data">
                 <a>
                   <span class="sidebar-mini"><i class="fas fa-solid fa-hospital-user"></i></span>
-                  <span class="sidebar-normal" style="margin-left: 5px;">Patient List</span>
+                  <span class="sidebar-normal" style="margin-left: 5px;" (click)="GoToPatientList()">Patient List</span>
                 </a>
               </div>
               <div class="row"  id="data">
@@ -151,8 +151,6 @@
                                 <strong>Patient Name already exists!</strong>
                             </div>
                             <form #employeeForm="ngForm" (ngSubmit)="createEmployee(patientDetail)" novalidate>
-
-         
                                 <div class="row" style="margin-top: 20px;">
                                     <div class="col-md-2" style="right:-50px;">
                                         <div class="picture-container">
@@ -168,10 +166,10 @@
                 
                 
                                     <div class="col-md-10">
-                                        <div class="row adjust-content">
-                                            <div class="col-xs-1 col-md-1 col-sm-6" style="top:7px;">
-                                                <div class="form-group label-floating">
-                                                    <mat-form-field style="width: 90px;height: 70px;background-color: white;">
+                                        <div class="row adjust-content" style="margin-top: 5px;">
+                                            <div class="col-xs-1 col-md-1 col-sm-6" style="top:7px;width: 100px;" >
+                                                <div class="form-group label-floating" >
+                                                    <mat-form-field appearance="outline" class="w-500" style="  position: relative;top:  -0.3em; ">
                                                         <mat-label> Title</mat-label>
                                                         <select id="title" name="title" [(ngModel)]="patientDetail.title" matNativeControl required > 
                                                             <ng-container>
@@ -185,10 +183,10 @@
                                                 </div>
                                             </div>
                 
-                                            <div class="col-xs-6 col-md-3 col-sm-6" style="width: 300px;margin-left: 50px;">
+                                            <div class="col-xs-6 col-md-3 col-sm-6" style="width: 300px;margin-left: 50px; font-size: 18px">
                                                 <div class="form-group label-floating">
 
-                                                    <mat-form-field class="example-full-width">
+                                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
                                                         <mat-label>Last Name</mat-label>
                                                         <input matInput type="text"  id="lastName"
                                                         name="lastName" [(ngModel)]="patientDetail.lastName" required>
@@ -202,11 +200,11 @@
                                                 </div>
                                             </div>
                 
-                                            <div class="col-xs-6 col-md-4 col-sm-6" style="width:280px;margin-left: 50px;">
+                                            <div class="col-xs-6 col-md-4 col-sm-6" style="width:300px;margin-left: 50px;">
                                                 <div class="form-group label-floating">
 
 
-                                                    <mat-form-field class="example-full-width">
+                                                    <mat-form-field class="example-full-width"  appearance="outline" class="wt-500">
                                                         <mat-label>Middle name</mat-label>
                                                         <input matInput type="text" id="middleName"
                                                             name="middleName" [(ngModel)]="patientDetail.middleName" >
@@ -220,10 +218,10 @@
                                                 </div>
                                             </div>
                 
-                                            <div class="col-xs-4 col-md-4 col-sm-6">
+                                            <div class="col-xs-4 col-md-4 col-sm-6" style="width:300px;margin-left: 50px;">
                                                 <div class="form-group label-floating">
 
-                                                    <mat-form-field class="example-full-width">
+                                                    <mat-form-field class="example-full-width"  appearance="outline" class="wt-500">
                                                         <mat-label>First Name</mat-label>
                                                         <input matInput type="text"  id="firstName"
                                                         name="firstName" [(ngModel)]="patientDetail.firstName" required>
@@ -235,7 +233,7 @@
                                             <div class="col-md-1 col-xs-6 col-sm-6" style="top:7px;">
                                                 <div class="form-group label-floating">
                                                    
-                                                    <mat-form-field style="width: 90px;">
+                                                    <mat-form-field style="width: 90px;" appearance="outline" class="wt-500" >
                                                         <mat-label>Sex</mat-label>
                                                         <select id="gender" name="gender" [(ngModel)]="patientDetail.gender" matNativeControl required> 
                                                             <ng-container>  
@@ -255,7 +253,7 @@
                                                     
 
                                                         <div class="input-icon-wrap" style="margin-top:-8px;height: 50px;margin-top: 10px;">
-                                                            <input type="date" id="dob" name="dob" [(ngModel)]="patientDetail.dob" class="required-asterisk" placeholder="Date" style="border: 0;background-color:lightgray;" required/>
+                                                            <input type="date" id="dob" name="dob" [(ngModel)]="patientDetail.dob" class="required-asterisk" placeholder="Date"  appearance="outline" class="wt-500" required/>
                                                            
                                                           
                                                         </div>
@@ -269,7 +267,7 @@
                 
                                             <div class="col-md-1 col-xs-6  col-sm-6 ">
                                                 <div class="form-group label-floating ">
-                                                    <mat-form-field class="example-full-width" style="width: 90px;">
+                                                    <mat-form-field class="example-full-width" style="width: 90px;" appearance="outline" class="w-500" >
                                                         <mat-label>Age</mat-label>
                                                         <input matInput type="text" placeholder="age" id="age"
                                                             name="age" [(ngModel)]="patientDetail.age" >
@@ -282,7 +280,7 @@
                                              <div class="col-md-4 col-xs-6  col-sm-6" >
                                                 <div class="form-group label-floating">
                                                    
-                                                    <mat-form-field class="example-full-width">
+                                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                         <mat-label>Phone no</mat-label>
                                                         <input matInput type="text"  id="phone no"
                                                             name="primaryNo" [(ngModel)]="patientDetail.primaryNo" >
@@ -296,7 +294,7 @@
                                             <div class="col-md-4 col-xs-6  col-sm-6 ">
                                                 <div class="form-group label-floating">
 
-                                                    <mat-form-field class="example-full-width">
+                                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                         <mat-label>Mobile no</mat-label>
                                                         <input matInput type="text" id="secondaryNo"
                                                             name="secondaryNo" [(ngModel)]="patientDetail.secondaryNo" >
@@ -316,7 +314,7 @@
                                             <div class="form-group label-floating">
                                              
                 
-                                                <mat-form-field class="example-full-width">
+                                                <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                     <input matInput type="email" placeholder="Email" id="primaryEmail"
                                                         name="primaryEmail" [(ngModel)]="patientDetail.primaryEmail" >
                                                 </mat-form-field>     
@@ -326,7 +324,7 @@
                                         <div class="col-xs-6 col-md-3 col-sm-6 ">
                                             <div class="form-group label-floating">
                                              
-                                                <mat-form-field class="example-full-width">
+                                                <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                     <input matInput type="email" placeholder="Secondary Email" id="secondaryEmail"
                                                         name="secondaryEmail" [(ngModel)]="patientDetail.secondaryEmail" required>
                                                 </mat-form-field>    
@@ -338,7 +336,7 @@
                                             <div class="form-group label-floating">
                                               
                 
-                                                     <mat-form-field class="example-full-width">
+                                                     <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                         <input matInput type="text" placeholder="Social Security Number" id="ssn"
                                                             name="ssn" [(ngModel)]="patientDetail.ssn" >
                                                     </mat-form-field>                                      
@@ -348,7 +346,7 @@
                                             <div class="form-group label-floating">
                                                
                 
-                                                <mat-form-field class="example-full-width">
+                                                <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                     <input matInput type="text" placeholder="licenseNo" id="licenseNo"
                                                         name="licenseNo" [(ngModel)]="patientDetail.licenseNo" >
                                                 </mat-form-field>       
@@ -365,7 +363,7 @@
                                             <div class="form-group label-floating">
                                               
                 
-                                                <mat-form-field class="example-full-width">
+                                                <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                     <input matInput type="text" placeholder="Street Name" id="patientStreetAddress"
                                                         name="patientStreetAddress" [(ngModel)]="patientDetail.patientStreetAddress" >
                                                 </mat-form-field>      
@@ -375,7 +373,7 @@
                                             <div class="form-group label-floating">
                                              
                 
-                                                <mat-form-field class="example-full-width">
+                                                <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                     <input matInput type="text" placeholder="building No" id="buildingNo"
                                                         name="buildingNo" [(ngModel)]="patientDetail.buildingNo" required>
                                                 </mat-form-field>   
@@ -386,7 +384,7 @@
                                           
                                                 <div class="form-group label-floating">
                                                    
-                                                    <mat-form-field class="example-full-width">
+                                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                         <input matInput type="text" placeholder="Appartment Number" id="patientApartmentNo"
                                                             name="patientApartmentNo" [(ngModel)]="patientDetail.patientApartmentNo" >
                                                     </mat-form-field>   
@@ -398,7 +396,7 @@
                                             <div class="form-group label-floating">
                                               
                 
-                                                <mat-form-field class="example-full-width">
+                                                <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                     <input matInput type="text" placeholder="City" id="patientCity"
                                                         name="patientCity" [(ngModel)]="patientDetail.patientCity" >
                                                 </mat-form-field>  
@@ -415,7 +413,7 @@
                                             <div class="form-group label-floating">
                                               
                 
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline" class="wt-500" >
                                                     <mat-label>State</mat-label>
                                                     <select id="patientState" name="patientState" [(ngModel)]="patientDetail.patientState" matNativeControl >
                                                         <ng-container>
@@ -435,7 +433,7 @@
                                             <div class="form-group label-floating">
                                              
                 
-                                                <mat-form-field class="example-full-width">
+                                                <mat-form-field class="example-full-width" appearance="outline" class="wt-500" >
                                                     <input matInput type="text" placeholder="Zip Code" id="zipCode"
                                                         name="zipCode" [(ngModel)]="patientDetail.zipCode" >
                                                 </mat-form-field>  
@@ -445,7 +443,7 @@
                                         <div class="col-sm-4 col-md-3 col-xs-4" style="top:0px;">
                                             <div class="form-group label-floating">
                                               
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline" class="wt-500" >
                                                     <mat-label>Primary  Provider</mat-label>
                                                     <select id="staffId" name="staffId" [(ngModel)]="patientDetail.staffId" matNativeControl required>
                                     
@@ -468,7 +466,7 @@
                                             <div class="form-group label-floating">
                                                
                 
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline" class="wt-500" >
                                                     <mat-label> Service Location</mat-label>
                                                     <select id="clinicLocationId" name="clinicLocationId" [(ngModel)]="patientDetail.clinicLocationId" matNativeControl required>                        
                                                         <ng-container>
@@ -491,7 +489,7 @@
                                             <div class="form-group label-floating">
                                             
                 
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline" class="wt-500" >
                                                     <mat-label>Pref.language</mat-label>
                                                     <select id="patientLanguage" name="patientLanguage" [(ngModel)]="patientDetail.patientLanguage" matNativeControl >
                                     
@@ -512,7 +510,7 @@
                                         </div>
                                         <div class="col-md-3 col-xs-6  col-sm-6 " style="top:7px;">
                                             <div class="form-group label-floating">
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline" class="wt-500" >
                                                     <mat-label>Race</mat-label>
                                                     <select id="race" name="race" [(ngModel)]="patientDetail.race" matNativeControl >
                                                         <ng-container>
@@ -528,7 +526,7 @@
                                         </div>
                                         <div class="col-md-3 col-xs-6  col-sm-6 " style="top:6px">
                                             <div class="form-group label-floating">
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline" class="wt-500" >
                                                     <mat-label>Ethnicity</mat-label>
                                                     <select id="ethnicity" name="ethnicity" [(ngModel)]="patientDetail.ethnicity" matNativeControl >
                                                         <ng-container>
@@ -545,7 +543,7 @@
                 
                                         <div class="col-md-3 col-xs-6  col-sm-6 " style="top:7px;">
                                             <div class="form-group label-floating">
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline" class="wt-500" >
                                                     <mat-label>Status</mat-label>
                                                     <select id="additionalInfo" name="additionalInfo" [(ngModel)]="patientDetail.additionalInfo" matNativeControl >
                                                         <ng-container>

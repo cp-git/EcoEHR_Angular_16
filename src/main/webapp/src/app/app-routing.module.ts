@@ -8,6 +8,7 @@ import { PatientListComponent } from './patients/patientlist/patientlist.compone
 import { AddPatientComponent } from './patients/add-patient/add-patient.component';
 import { UpdatePatientComponent } from './patients/update-patient/update-patient.component';
 
+
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
 // import { GlobalErrorComponent } from './shared/global-error/global-error.component'; // Assuming you have a GlobalErrorComponent
 
@@ -36,6 +37,8 @@ const routes: Routes = [
     path:'updatepatient/:id',
     component:UpdatePatientComponent
   },
+
+
 
   // {
   //   /** SECURE ROUTES declared here **/

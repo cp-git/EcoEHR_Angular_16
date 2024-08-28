@@ -33,12 +33,14 @@ import { ClinicLocationService } from './patients/services/clinicLocationService
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     AboutUsComponent,
     EHRLayoutComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -74,7 +76,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     PatientDetailsService,
     MasterLookupService,
     StaffDetailsService,
-    ClinicLocationService
+    
     // provideAnimationsAsync()
   ],
  bootstrap:[AppComponent],
