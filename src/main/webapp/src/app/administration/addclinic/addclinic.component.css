@@ -13,11 +13,17 @@
     align-items: center;
     background-color: #4a99c7;
     width: 80%;
-    height: 50px;
-    margin-top: 5px;
+    height: 40px;
     margin-left: 40px;
 }
 
 .card-title{
     text-align: center;
 }
+
+.wt-500{
+    height: 30px; /* Adjust as needed */
+    margin-top: 3px;
+  }
+
+  

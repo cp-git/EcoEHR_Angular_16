@@ -1,15 +1,15 @@
-<mat-dialog-content>
+<mat-dialog-content style="overflow: hidden;">
     <div class="card custom-card">
         <div class="card-header card-header-danger">
             <div class="header-content">
                 <h4 style="margin-left: 120px;color: white;font-size: 24px;">Add Clinic Location</h4>
                 <p class="card-category"></p>
             </div>
-            <!-- <div class="button-container">
+            <div class="button-container">
                 <button mat-icon-button color="white" [mat-dialog-close]="false">
                     <mat-icon>arrow_back</mat-icon>
                 </button>
-            </div> -->
+            </div>
         </div>
         <div class="card-body" style="height: fit-content;">
 
@@ -166,11 +166,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div>
+                    <div class="col-md-6">
                         <button type='button'  style="background-color:#0471AF;margin-left: 3%;" mat-raised-button type="submit" (click)="updateClinic(clinic)">Submit</button>
                     </div>
-                    <div>
-                        <button type='button' style="margin-left: 80%;">Cancel</button>
+                    <div class="col-md-6">
+                        <button type='button' style="background-color:#0471AF;margin-left: 60%;" [mat-dialog-close]="false">Cancel</button>
                     </div>
                 </div>
                 <div class="clearfix"></div>

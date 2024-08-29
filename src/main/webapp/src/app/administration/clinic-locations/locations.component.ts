@@ -5,7 +5,7 @@
 // import { Data } from 'app/data';
 // import { NgxSpinnerService } from 'ngx-spinner';
 
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 
 import { NgxSpinnerService } from "ngx-spinner";
@@ -21,6 +21,8 @@ import { Route, Router } from "@angular/router";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { AddclinicComponent } from "../addclinic/addclinic.component";
 import { UpdateclinicComponent } from "../updateclinic/updateclinic.component";
+import { CurrentUserService } from "src/app/profiles/currentUserService";
+import { StaffMember } from "../staff-members/staffmember";
 
 
 // declare interface DataTable {
@@ -34,7 +36,7 @@ import { UpdateclinicComponent } from "../updateclinic/updateclinic.component";
 @Component({
     selector: 'ehr-locations',
     templateUrl: './locations.component.html',
-    styleUrls: ['../admin.component.css', '../../app.component.css'],
+    styleUrls: ['../admin.component.css', '../../app.component.css','./locations.component.css'],
     standalone: true,
     imports: [MatSidenavModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
 })
@@ -46,19 +48,25 @@ export class LocationsComponent {
     headerName:any;
     clinic: ClinicLocation[] = [];
   
+    readonly panelOpenState = signal(false);
     locName: any;
+    staffImage: any;
+
+    loggedInUser!: StaffMember;
 
     constructor(private formBuilder: FormBuilder,
         private clinicLocationService: ClinicLocationService,
         private spinner : NgxSpinnerService,
         private route:Router,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private currentUserService: CurrentUserService
     ) { }
 
     
 
     ngOnInit() {
         this.getClinicAllLocations();
+        this.getLoggedInUserDetails();
     
      
      
@@ -72,6 +80,53 @@ export class LocationsComponent {
     openDialog(): void {
         this.dialog.open(AddclinicComponent);
       }
+
+      getLoggedInUserDetails(){
+        this.currentUserService.getCurrentStaffMember()
+        .subscribe(data => {
+          this.loggedInUser = data;
+          if (data.staffImage == null || data.staffImage == "") {
+            this.staffImage = "./assets/img/default-avatar.png";
+          }
+          else{
+              this.staffImage = data.staffImage;
+          }
+        })
+    }
+
+    logout() {
+        //   this.currentUserService.getCurrentStaffMember()
+        // .subscribe(data => {
+            //   this.loggedInUser =  data;
+            //  //console.log(this.loggedInUser)
+            //  let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+            //   this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+            //   this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', null, null, null, null, null, null, null, this.loggedInUser.licenseNumber, 
+            //   this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+            //   this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+        
+            //   this.loginService.updateLogoutTime(staffToUpdate)
+            //   .subscribe(()=>{
+          //     })
+          // })  
+        
+        //   this.router.navigate(['/login']);
+          location.reload(); 
+          localStorage.removeItem('jwt');   
+          
+        }
+
+        GoToPatientList(){
+            this.route.navigate(['/list'])
+          }
+          
+          displayClinic(){
+            this.route.navigate(['/clinicLocation'])
+          }
+
+          AddPatient(){
+            this.route.navigate(['/addpatient'])
+          }
 
 
 

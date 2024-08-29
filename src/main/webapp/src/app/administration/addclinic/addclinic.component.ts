@@ -19,9 +19,9 @@ import { Route, Router } from '@angular/router';
 @Component({
   selector: 'app-addclinic',
   templateUrl: './addclinic.component.html',
-  styleUrls: ['./addclinic.component.css'],
+  styleUrls: ['../admin.component.css', '../../app.component.css','./addclinic.component.css'],
   standalone: true,
-  imports: [FormsModule ,CommonModule,TimerModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule],
+  imports: [FormsModule ,CommonModule,TimerModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule,MatIconModule],
 
 })
 export class AddclinicComponent {
@@ -52,8 +52,9 @@ export class AddclinicComponent {
 
   }
 
-  onCancel(){
-    this._route.navigate(['/clinicLocation'])
+  back(){
+    console.log("welcome");
+    this._route.navigate(['/list'])
   }
 
 

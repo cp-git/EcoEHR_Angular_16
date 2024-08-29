@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from 'src/app/patients/patientlist/patientlist.component';
 import { ClinicLocationService } from 'src/app/patients/services/clinicLocationService';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -21,7 +22,7 @@ import { ClinicLocationService } from 'src/app/patients/services/clinicLocationS
   templateUrl: './updateclinic.component.html',
   styleUrls: ['./updateclinic.component.css'],
   standalone: true,
-  imports: [MatSidenavModule, MatButtonModule,FormsModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule],
+  imports: [MatSidenavModule, MatButtonModule,FormsModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule,MatIconModule],
 })
 export class UpdateclinicComponent {
   clinic!: ClinicLocation;
