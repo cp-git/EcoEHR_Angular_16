@@ -7,6 +7,9 @@ import { AuthGuard } from './shared/AuthGuard/auth-guard';
 import { PatientListComponent } from './patients/patientlist/patientlist.component';
 import { AddPatientComponent } from './patients/add-patient/add-patient.component';
 import { UpdatePatientComponent } from './patients/update-patient/update-patient.component';
+import { LocationsComponent } from './administration/clinic-locations/locations.component';
+import { AddclinicComponent } from './administration/addclinic/addclinic.component';
+import { UpdateclinicComponent } from './administration/updateclinic/updateclinic.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -38,6 +41,20 @@ const routes: Routes = [
     component:UpdatePatientComponent
   },
 
+  {
+    path:'clinicLocation',
+    component:LocationsComponent
+  },
+
+  {
+    path:'addclinic',
+    component:AddclinicComponent
+  },
+
+  {
+    path:'updateclinic',
+    component:UpdateclinicComponent
+  },
 
 
   // {

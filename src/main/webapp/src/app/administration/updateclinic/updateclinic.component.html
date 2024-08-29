@@ -1,0 +1,181 @@
+<mat-dialog-content>
+    <div class="card custom-card">
+        <div class="card-header card-header-danger">
+            <div class="header-content">
+                <h4 style="margin-left: 120px;color: white;font-size: 24px;">Add Clinic Location</h4>
+                <p class="card-category"></p>
+            </div>
+            <!-- <div class="button-container">
+                <button mat-icon-button color="white" [mat-dialog-close]="false">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div> -->
+        </div>
+        <div class="card-body" style="height: fit-content;">
+
+            <form  #employeeForm="ngForm">
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-1">
+                        <div class="form-group label-floating">
+
+
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>Location Name</mat-label>
+                                <input matInput type="text"  id="locationName"
+                                name="locationName" [(ngModel)]="clinic.locationName" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5 ">
+                        <div class="form-group label-floating">
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>Street Name</mat-label>
+                                <input matInput type="text"  id="addressStreet"
+                                name="addressStreet" [(ngModel)]="clinic.addressStreet" required>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                  
+                </div>
+                <div class="row">
+                        <div class="col-md-5 col-md-offset-1">
+                                <div class="form-group label-floating">
+
+                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                        <mat-label>Building No</mat-label>
+                                        <input matInput type="text"  id="buildingNo"
+                                        name="buildingNo" [(ngModel)]="clinic.buildingNo" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                    <div class="col-md-5">
+                        <div class="form-group label-floating">
+
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>Address </mat-label>
+                                <input matInput type="text"  id="addressDoorNo"
+                                name="addressDoorNo" [(ngModel)]="clinic.addressDoorNo" required>
+                            </mat-form-field>
+
+                          
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                        <div class="col-md-5 col-md-offset-1">
+                                <div class="form-group label-floating">
+
+                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                        <mat-label>City</mat-label>
+                                        <input matInput type="text"  id="addressCity"
+                                        name="addressCity" [(ngModel)]="clinic.addressCity" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                    <div class="col-md-5 ">
+                        <div class="form-group label-floating">
+
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>State</mat-label>
+                                <input matInput type="text"  id="addressState"
+                                name="addressState" [(ngModel)]="clinic.addressState" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                        <div class="col-md-5 col-md-offset-1">
+                                <div class="form-group label-floating">
+
+                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                        <mat-label>Zip Code</mat-label>
+                                        <input matInput type="text"  id="addressZip"
+                                        name="addressZip" [(ngModel)]="clinic.addressZip" required>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+
+                    <div class="col-md-5 ">
+                        <div class="form-group label-floating">
+
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>Contact Name</mat-label>
+                                <input matInput type="text"  id="contactName"
+                                name="contactName" [(ngModel)]="clinic.contactName" required>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                        <div class="col-md-5 col-md-offset-1">
+                                <div class="form-group label-floating">
+
+                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                        <mat-label>Contact Email</mat-label>
+                                        <input matInput type="text"  id="contactEmail"
+                                        name="contactEmail" [(ngModel)]="clinic.contactEmail" required>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+
+                    <div class="col-md-5 ">
+                        <div class="form-group label-floating">
+
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>Mobile No</mat-label>
+                                <input matInput type="text"  id="primaryNo"
+                                name="primaryNo" [(ngModel)]="clinic.primaryNo" required>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                        <div class="col-md-5 col-md-offset-1">
+                                <div class="form-group label-floating">
+
+                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                        <mat-label>Fax.no</mat-label>
+                                        <input matInput type="text"  id="faxNo"
+                                        name="faxNo" [(ngModel)]="clinic.faxNo" required>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+
+                    <div class="col-md-5 ">
+                        <div class="form-group label-floating">
+
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>Ein Number</mat-label>
+                                <input matInput type="text"  id="einNumber"
+                                name="einNumber" [(ngModel)]="clinic.einNumber" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <button type='button'  style="background-color:#0471AF;margin-left: 3%;" mat-raised-button type="submit" (click)="updateClinic(clinic)">Submit</button>
+                    </div>
+                    <div>
+                        <button type='button' style="margin-left: 80%;">Cancel</button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </form>
+          
+        </div>
+    </div>
+</mat-dialog-content>

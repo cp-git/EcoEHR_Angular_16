@@ -215,7 +215,7 @@ GoToPatientList(){
 }
 
 displayClinic(){
-  this.router.navigate(['/clinicDetails'])
+  this.router.navigate(['/clinicLocation'])
 }
 
 }

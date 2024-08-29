@@ -1,0 +1,48 @@
+<!-- {{clinic | json}} -->
+
+
+<button (click)=" openDialog()" > ADD CLINIC</button>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="bold-header">
+            <tr>
+                <th>location Name</th>
+                <th>Street Name</th>
+                <th>Building Number</th>
+                <th>Unit Suite</th>
+                <th>City-State-Zip Code</th>
+                <th>Fax Number</th>
+                <th>Phone Number</th>
+                <th>Location Npi</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let clinicData of clinic">
+               
+
+
+                <td style="text-align: center;">{{clinicData.locationName}}</td>
+                <td style="text-align: center;">{{ clinicData.addressStreet}}</td>
+                <td style="text-align: center;">{{ clinicData.buildingNo}}</td>
+               <td style="text-align: center;">{{ clinicData.addressDoorNo}}</td>
+                 <td style="text-align: center;">{{ clinicData.addressCity}}-{{ clinicData.addressState}}-{{ clinicData.addressZip}}</td>
+                 <td style="text-align: center;">{{ clinicData.faxNo }}</td>
+                <td style="text-align: center;">{{ clinicData.primaryNo}}</td>
+                <td style="text-align: center;">{{ clinicData.einNumber}}</td> 
+                <td class="text-center">
+                    <button
+                    (click)="updateLocation(clinicData)">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </td>
+            <td>
+                <!-- <button
+                (click)='deleteClinicLocation(clinicData.locationId,clinicData.locationName)'>Delete
+            </button> -->
+            </td>
+          
+            </tr>
+        </tbody>
+    </table>

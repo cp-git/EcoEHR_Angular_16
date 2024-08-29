@@ -76,6 +76,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     PatientDetailsService,
     MasterLookupService,
     StaffDetailsService,
+    ClinicLocationService
     
     // provideAnimationsAsync()
   ],

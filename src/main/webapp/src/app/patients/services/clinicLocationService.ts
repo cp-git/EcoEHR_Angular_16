@@ -19,14 +19,23 @@ export class ClinicLocationService {
     }
     
     //Create Clinic location
-    // insertClinicLocation(clinicLocation: ClinicLocation):Observable<number> {
+    insertClinicLocation(clinicLocation: ClinicLocation):Observable<number> {
+
+        
+		const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+    
+		return this.http.post<any>(this.addClinicLocationUrl, clinicLocation, {headers})
        
-	//     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token":localStorage.getItem('jwt') });
-    //     let options = new RequestOptions({ headers: cpHeaders });
-    //     return this.http.post(this.addClinicLocationUrl, clinicLocation, options)
-    //            .map(success => success.status)
-    //            .catch(this.handleError);
-    // }
+	    // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token":localStorage.getItem('jwt') });
+        // let options = new RequestOptions({ headers: cpHeaders });
+        // return this.http.post(this.addClinicLocationUrl, clinicLocation, options)
+        //        .map(success => success.status)
+        //        .catch(this.handleError);
+    }
 
     //get all clinic locations
     // getAllClinicLocations(): Observable<ClinicLocation[]> {
@@ -64,13 +73,22 @@ export class ClinicLocationService {
     //     .catch(this.handleError);
     // }
     //   //Update clinic location
-    // updateClinicLocation(clinic: ClinicLocation):Observable<number> {
-	//     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-    //     let options = new RequestOptions({ headers: cpHeaders });
-    //     return this.http.put(this.updateClinicLocationUrl, clinic, options)
-    //            .map(success => success.status)
-    //            .catch(this.handleError);
-    // } 
+    updateClinicLocation(clinic: ClinicLocation):Observable<number> {
+
+        const token = localStorage.getItem('jwt') || '';
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'x-auth-token': token
+		});
+		return this.http.put<any>(this.updateClinicLocationUrl, clinic, {headers})
+
+
+	    let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.put<any>(this.updateClinicLocationUrl, clinic, options)
+               .map(success => success.status)
+               .catch(this.handleError);
+    } 
 
     //  //delete clinic location
     //  deleteClinicLocation(clinicLocation: ClinicLocation):Observable<number> {
