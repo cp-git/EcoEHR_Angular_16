@@ -83,11 +83,11 @@ export class ClinicLocationService {
 		return this.http.put<any>(this.updateClinicLocationUrl, clinic, {headers})
 
 
-	    let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-        let options = new RequestOptions({ headers: cpHeaders });
-        return this.http.put<any>(this.updateClinicLocationUrl, clinic, options)
-               .map(success => success.status)
-               .catch(this.handleError);
+	    // let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+        // let options = new RequestOptions({ headers: cpHeaders });
+        // return this.http.put<any>(this.updateClinicLocationUrl, clinic, options)
+        //        .map(success => success.status)
+        //        .catch(this.handleError);
     } 
 
     //  //delete clinic location
