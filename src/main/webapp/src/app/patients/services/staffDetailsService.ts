@@ -42,16 +42,23 @@ export class StaffDetailsService {
     //     .catch(this.handleError);
 	// }
 	
-	// getAllStaffMembers(): Observable<StaffDetails[]> {
+	getAllStaffMembers(): Observable<StaffDetails[]> {
+
+        const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+		return this.http.get<StaffDetails[]>(this.getAllStaffMembersUrl, {headers});
 		
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-	// 	let cpParams = new URLSearchParams();
-    //     //cpParams.set('organizationId', organizationId.toString());
-	// 	let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.get(this.getAllStaffMembersUrl,options)
-    //     .map(this.extractData)
-    //     .catch(this.handleError);
-    // }
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+		// let cpParams = new URLSearchParams();
+        // //cpParams.set('organizationId', organizationId.toString());
+		// let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.get(this.getAllStaffMembersUrl,options)
+        // .map(this.extractData)
+        // .catch(this.handleError);
+    }
 
 	//  getStaffDetailsById(staffId: number): Observable<StaffDetails> {
     //     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});

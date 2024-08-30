@@ -161,22 +161,35 @@ export class MasterLookupService {
     //         .catch(this.handleError);
     // }
 
-    // getCredentials(): Observable<MasterLookup[]> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let cpParams = new URLSearchParams();
-    //     let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.get(this.getCredentialsUrl, options)
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
-    // getProviderTypes(): Observable<MasterLookup[]> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let cpParams = new URLSearchParams();
-    //     let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.get(this.getProviderTypesUrl, options)
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
+    getCredentials(): Observable<MasterLookup[]> {
+
+        const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+		return this.http.get<MasterLookup[]>(this.getCredentialsUrl, {headers});
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let cpParams = new URLSearchParams();
+        // let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.get(this.getCredentialsUrl, options)
+        //     .map(this.extractData)
+        //     .catch(this.handleError);
+    }
+    getProviderTypes(): Observable<MasterLookup[]> {
+        const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+		return this.http.get<MasterLookup[]>(this.getProviderTypesUrl, {headers});
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let cpParams = new URLSearchParams();
+        // let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.get(this.getProviderTypesUrl, options)
+        //     .map(this.extractData)
+        //     .catch(this.handleError);
+    }
 
     // getSpecializationTypes(): Observable<MasterLookup[]> {
     //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });

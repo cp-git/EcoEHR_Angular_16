@@ -10,6 +10,7 @@ import { UpdatePatientComponent } from './patients/update-patient/update-patient
 import { LocationsComponent } from './administration/clinic-locations/locations.component';
 import { AddclinicComponent } from './administration/addclinic/addclinic.component';
 import { UpdateclinicComponent } from './administration/updateclinic/updateclinic.component';
+import { ListDoctorComponent } from './administration/staff-members/doctor-list.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -55,6 +56,11 @@ const routes: Routes = [
     path:'updateclinic',
     component:UpdateclinicComponent
   },
+
+  {
+    path:'stafflist',
+    component:ListDoctorComponent
+  }
 
 
   // {

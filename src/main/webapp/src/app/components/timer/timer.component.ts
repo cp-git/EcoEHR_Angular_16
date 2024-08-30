@@ -69,20 +69,20 @@ export class TimerComponent implements OnInit {
 
     setLogoutStatus(){
         
-        this.currentUserService.getCurrentStaffMember()
-		.subscribe(data => {
-            this.loggedInUser =  data;
-           //console.log(this.loggedInUser)
-           let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
-            this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
-            this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', '', '', '', new Date(), '',new Date(), '', this.loggedInUser.licenseNumber, 
-            this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
-            this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+        // this.currentUserService.getCurrentStaffMember()
+		// .subscribe(data => {
+        //     this.loggedInUser =  data;
+        //    //console.log(this.loggedInUser)
+        //    let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+        //     this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+        //     this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', '', '', '', new Date(), '',new Date(), '', this.loggedInUser.licenseNumber, 
+        //     this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+        //     this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
 
-            this.loginService.updateLogoutTime(staffToUpdate)
-            .subscribe(()=>{
-            })
-        })  
+        //     this.loginService.updateLogoutTime(staffToUpdate)
+        //     .subscribe(()=>{
+        //     })
+        // })  
     }    
 
 

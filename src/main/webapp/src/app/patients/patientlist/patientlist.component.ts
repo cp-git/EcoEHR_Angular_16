@@ -217,5 +217,8 @@ GoToPatientList(){
 displayClinic(){
   this.router.navigate(['/clinicLocation'])
 }
+displayStaff(){
+  this.router.navigate(['/stafflist'])
+}
 
 }
