@@ -17,6 +17,9 @@ import { MasterLookupService } from 'src/app/patients/services/masterLookupServi
 import { MasterLookupServiceService } from 'src/app/patients/services/master-lookup-service.service';
 import { ClinicLocationService } from 'src/app/patients/services/clinicLocationService';
 
+import { StaffMember } from '../../staff-members/staffmember';
+import { StaffMemberService } from 'src/app/patients/services/staffmemberservice';
+
 
 @Component({
   selector: 'app-add-staff',
@@ -30,12 +33,13 @@ export class AddStaffComponent {
     public dialogRef: MatDialogRef<AddStaffComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private clinicLocationService:ClinicLocationService,
-    private  masterLookupService:MasterLookupService
+    private  masterLookupService:MasterLookupService,
+    private staffMemberService:StaffMemberService
   ){
     dialogRef.disableClose = true;
   }
 
-  staffData: StaffDetails = new StaffDetails();
+  staffData: StaffMember = new StaffMember();
   staffRole: StaffRole = new StaffRole();
 
   allProvider!: StaffDetails[];
@@ -51,6 +55,7 @@ alladditionalInfo!: MasterLookup[];
 staffImage: any;
 allCredentials!: MasterLookup[];
 allProviderTypes!: MasterLookup[];
+authority:any;
 
 
 ngOnInit(){
@@ -63,6 +68,7 @@ dropdownValues(){
   
   this.getPrimaryServiceLocation();
   this.getCredentials();
+  this.getProviderTypes();
 
 
 }
@@ -71,7 +77,22 @@ dropdownValues(){
 
 
 
-  createStaff(){
+  createStaff(staff:StaffMember){
+  
+    let staffRoles=new StaffRole();
+    this.staffMemberService.insertStaffMember(staff)
+    .subscribe(data => {
+      alert(data)
+      console.log("Entered in api call")
+   
+      
+      
+
+      });
+         
+  
+    
+    
     
   }
 
@@ -87,6 +108,8 @@ dropdownValues(){
   getCredentials() {
     this.masterLookupService.getCredentials()
       .subscribe(data => {
+        console.log(data);
+        
         this.allCredentials = data;
       
       },

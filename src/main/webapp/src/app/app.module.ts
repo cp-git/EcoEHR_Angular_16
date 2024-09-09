@@ -31,6 +31,7 @@ import { MasterLookupService } from './patients/services/masterLookupService';
 import { StaffDetailsService } from './patients/services/staffDetailsService';
 import { ClinicLocationService } from './patients/services/clinicLocationService';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { StaffMemberService } from './patients/services/staffmemberservice';
 
 
 
@@ -76,7 +77,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     PatientDetailsService,
     MasterLookupService,
     StaffDetailsService,
-    ClinicLocationService
+    ClinicLocationService,
+    StaffMemberService
     
     // provideAnimationsAsync()
   ],

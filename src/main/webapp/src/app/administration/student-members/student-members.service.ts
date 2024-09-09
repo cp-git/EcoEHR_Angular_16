@@ -34,17 +34,27 @@ export class StudentMembersService {
     // }
 
     getAllStudentMembers(): Observable<StudentMembers[]> {
-		
-		let cpParams = new HttpParams();
-        let token = localStorage.getItem('jwt');
-        let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' ,  'x-auth-token': token ? token : ''});
 
-        //cpParams.set('organizationId', organizationId.toString());
-		let options = { headers: cpHeaders, params: cpParams };
-        return this.http.get(this.getAllStudentMembersUrl,options)
-        .pipe(
-        map(this.extractData),
-        catchError(this.handleError));
+        const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+		return this.http.get<StudentMembers[]>(this.getAllStudentMembersUrl, {headers});
+        
+		
+		// let cpParams = new HttpParams();
+        // let token = localStorage.getItem('jwt');
+        // let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' ,  'x-auth-token': token ? token : ''});
+
+        // //cpParams.set('organizationId', organizationId.toString());
+		// let options = { headers: cpHeaders, params: cpParams };
+        // return this.http.get(this.getAllStudentMembersUrl,options)
+        // .pipe(
+        // map(this.extractData),
+        // catchError(this.handleError));
+
+        
     }
 
     

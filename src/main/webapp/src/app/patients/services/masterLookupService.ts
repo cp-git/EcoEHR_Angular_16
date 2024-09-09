@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AppSettings } from 'src/app/appsettings';
 import { MasterLookup } from '../models/masterLookup';
 @Injectable()
@@ -30,31 +30,55 @@ export class MasterLookupService {
     //Create constructor to get Http instance
     constructor(private http: HttpClient) { }
 
-    // getAllMasterLookupType(): Observable<string> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let cpParams = new URLSearchParams();
-    //     let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.get(this.getAllMasterLookupTypeUrl, options)
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
+    getAllMasterLookupType(): Observable<MasterLookup[]> {
 
-    // getAllMasterlookup(): Observable<MasterLookup[]> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let cpParams = new URLSearchParams();
-    //     let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.get(this.getAllMasterlookupUrl, options)
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
+        const token = localStorage.getItem('jwt') || '';
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'x-auth-token': token
+		});
+        return this.http.get<MasterLookup[]>(this.getAllMasterLookupTypeUrl, {headers});
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let cpParams = new URLSearchParams();
+        // let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.get(this.getAllMasterLookupTypeUrl, options)
+        //     .map(this.extractData)
+        //     .catch(this.handleError);
+    }
 
-    // insertMasterLookup(masterlookup: MasterLookup): Observable<number> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let options = new RequestOptions({ headers: cpHeaders });
-    //     return this.http.post(this.insertMasterLookupUrl, masterlookup, options)
-    //         .map(success => success.status)
-    //         .catch(this.handleError);
-    // }
+    getAllMasterlookup(): Observable<MasterLookup[]> {
+
+        const token = localStorage.getItem('jwt') || '';
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'x-auth-token': token
+		});
+        return this.http.get<MasterLookup[]>(this.getAllMasterlookupUrl, {headers});
+		//return this.http.put<any>(this.getAllMasterlookupUrl, {headers})
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let cpParams = new URLSearchParams();
+        // let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.get(this.getAllMasterlookupUrl, options)
+        //     .map(this.extractData)
+        //     .catch(this.handleError);
+    }
+
+    insertMasterLookup(masterlookup: MasterLookup): Observable<number> {
+
+        const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+    
+		return this.http.post<any>(this.insertMasterLookupUrl, masterlookup, {headers})
+       
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let options = new RequestOptions({ headers: cpHeaders });
+        // return this.http.post(this.insertMasterLookupUrl, masterlookup, options)
+        //     .map(success => success.status)
+        //     .catch(this.handleError);
+    }
 
 
     
@@ -225,15 +249,22 @@ export class MasterLookupService {
     }
 
     // //delete master lookup
-    // deleteMasterLookup(lookupId: number): Observable<number> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let cpParams = new URLSearchParams();
-    //     cpParams.set('lookupId', lookupId.toString());
-    //     let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.delete(this.deleteMasterLookupUrl, options)
-    //         .map(success => success.status)
-    //         .catch(this.handleError);
-    // }
+    deleteMasterLookup(lookupId: number): Observable<number> {
+
+        const token = localStorage.getItem('jwt') || '';
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'x-auth-token': token
+		});
+		
+		
+		const params = new HttpParams().set('lookupId', lookupId.toString());
+
+        return this.http.delete<any>(this.deleteMasterLookupUrl,{headers, params} )
+        // return this.http.delete(this.deleteMasterLookupUrl, options)
+        //     .map(success => success.status)
+        //     .catch(this.handleError);
+    }
 
     // getLookUpTypeAsRefill(): Observable<MasterLookup[]> {
     //     //console.log("MSTLOOKUPRefillService");

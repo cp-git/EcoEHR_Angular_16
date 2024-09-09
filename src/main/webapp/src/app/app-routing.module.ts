@@ -11,6 +11,10 @@ import { LocationsComponent } from './administration/clinic-locations/locations.
 import { AddclinicComponent } from './administration/addclinic/addclinic.component';
 import { UpdateclinicComponent } from './administration/updateclinic/updateclinic.component';
 import { ListDoctorComponent } from './administration/staff-members/doctor-list.component';
+import { StudentMembers } from './administration/student-members/student-members';
+import { StudentMembersComponent } from './administration/student-members/student-members.component';
+import { ListMasterLookupComponent } from './administration/master-lookup/list-master-lookup.component';
+import { AddMasterLookUpComponent } from './administration/add-master-look-up/add-master-look-up.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -60,6 +64,19 @@ const routes: Routes = [
   {
     path:'stafflist',
     component:ListDoctorComponent
+  },
+  {
+    path:'studentlist',
+    component:StudentMembersComponent
+
+  },
+  {
+    path:'masterlookup',
+    component:ListMasterLookupComponent
+  },
+  {
+    path:'addMasterLookUp',
+    component:AddMasterLookUpComponent
   }
 
 

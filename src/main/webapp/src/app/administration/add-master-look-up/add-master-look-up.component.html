@@ -1,0 +1,77 @@
+<mat-dialog-content style="height:800px; overflow: hidden;">
+    <div class="card custom-card">
+        <div class="card-header card-header-danger">
+            <div class="header-content">
+                <h4 style="margin-left: 120px;color: white;font-size: 24px;margin-top: 5px;">Add Clinic Location</h4>
+                <p class="card-category"></p>
+            </div>
+            <div class="button-container">
+                <button mat-icon-button color="white" [mat-dialog-close]="false">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <form  #employeeForm="ngForm" (ngSubmit)="createMaster(masterLookUp)">
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-1">
+                        <div class="form-group label-floating">
+                            <mat-form-field appearance="outline" class="wt-500" >
+                                <mat-label>LookUp Type</mat-label>
+                                <select id="lookupType" name="lookupType" [(ngModel)]="masterLookUp.lookupType" matNativeControl required>                        
+                                    <ng-container>
+                                        <option *ngFor="let master of masterLookUpType"  [value]="master">
+                                            {{master}}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                              
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 ">
+                        <div class="form-group label-floating">
+                            <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                <mat-label>LookUp Code</mat-label>
+                                <input matInput type="text"  id="lookupCode"
+                                name="lookupCode" [(ngModel)]="masterLookUp.lookupCode" required>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                  
+                </div>
+                <div class="row">
+                        <div class="col-md-5 col-md-offset-1">
+                                <div class="form-group label-floating">
+
+                                    <mat-form-field class="example-full-width" appearance="outline" class="wt-500">
+                                        <mat-label>LookUp Description</mat-label>
+                                        <input matInput type="text"  id="lookupDesc"
+                                        name="lookupDesc" [(ngModel)]="masterLookUp.lookupDesc" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                   
+                </div>
+               
+                
+                <div class="row">
+                    <div class="col-md-6" style="margin-top: 3px;">
+                        <button type='button'  style="background-color:#0471AF;margin-left: 3%;" mat-raised-button type="submit" >Submit</button>
+                    </div>
+                    <div class="col-md-6" style="margin-top: 3px;">
+                     <button  [mat-dialog-close]="false">Cancel</button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </form>
+          
+        </div>
+    </div>
+</mat-dialog-content>

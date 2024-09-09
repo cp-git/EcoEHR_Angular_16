@@ -221,4 +221,14 @@ displayStaff(){
   this.router.navigate(['/stafflist'])
 }
 
+displayStudent(){
+  this.router.navigate(['/studentlist'])
+
+}
+
+displayMasterLookUp(){
+  this.router.navigate(['/masterlookup'])
+
+}
+
 }

@@ -1,257 +1,195 @@
-// import { Component, OnInit, PipeTransform, Pipe } from "@angular/core";
-// import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
-// import { MasterLookupService } from "app/administration/master-lookup/masterLookupService";
-// import { MasterLookup } from "app/administration/master-lookup/masterLookup";
-// import { NgxSpinnerService } from "ngx-spinner";
+import { CommonModule } from "@angular/common";
+import { Component, OnInit, PipeTransform, Pipe, signal } from "@angular/core";
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatSidenavModule } from "@angular/material/sidenav";
 
-// declare const $: any;
+import { NgxSpinnerService } from "ngx-spinner";
+import { TimerModule } from "src/app/components/timer/timer.module";
+import { MasterLookup } from "src/app/patients/models/masterLookup";
+import { PatientListComponent } from "src/app/patients/patientlist/patientlist.component";
+import { MasterLookupService } from "src/app/patients/services/masterLookupService";
+import { StaffMember } from "../staff-members/staffmember";
+import { CurrentUserService } from "src/app/profiles/currentUserService";
+import { Router } from "@angular/router";
+import { AddMasterLookUpComponent } from "../add-master-look-up/add-master-look-up.component";
 
-// declare interface DataTable {
-//     headerRow: string[];
-//     footerRow: string[];
-//     dataRows: string[][];
-// }
+declare const $: any;
 
-// @Component({
-//     selector: 'ehr-list-master-lookup',
-//     templateUrl: './list-master-lookup.component.html',
-//     styleUrls: ['../admin.component.css', '../../app.component.css']
-// })
+declare interface DataTable {
+    headerRow: string[];
+    footerRow: string[];
+    dataRows: string[][];
+}
 
-// export class ListMasterLookupComponent implements OnInit {
-//     public dataTable: DataTable = {
-//         headerRow: ['Lookup Id', 'Lookup Type', 'Lookup Code', 'Active', 'Disable'],
-//         footerRow: [],
-//         dataRows: []
-//     };
-//     addMasterLookupForm: FormGroup;
-//     statusCode: number;
-//     requestProcessing = false;
-//     allLookupType: string;
-//     lookupCode: string;
-//     showme: boolean = false;
-//     type_selectedValue: string = '';
-//     name: any;
-//     buttonName:any;
-//     deleteConfirmForm: FormGroup;
-//     _search:string = '';
-//     masterFloatLable: string = '';
+@Component({
+    selector: 'ehr-list-master-lookup',
+    templateUrl: './list-master-lookup.component.html',
+    styleUrls: ['../admin.component.css', '../../app.component.css','./list-master-lookup.component.css'],
+    standalone: true,
+    imports: [MatSidenavModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
+})
+
+export class ListMasterLookupComponent implements OnInit {
+
+    masterLookUp: MasterLookup[] = [];
+  
+  
+
+
+    showme: boolean = false;
+    type_selectedValue: string = '';
+    name: any;
+    buttonName:any
+    _search:string = '';
+    masterFloatLable: string = '';
+
+    readonly panelOpenState = signal(false);
+    locName: any;
+    staffImage: any;
+
+    loggedInUser!: StaffMember;
+
+
+    items: any[] = [];
+    paginatedItems: any[] = [];
+    currentPage: number = 1;
+    pageSize: number = 10;
     
-//     constructor(private formBuilder: FormBuilder,
-//                 private masterLookupService: MasterLookupService,
-//                 private spinner:NgxSpinnerService) { }
+    constructor(
+                private masterLookupService: MasterLookupService,
+                private spinner:NgxSpinnerService,
+                private currentUserService: CurrentUserService,
+            private route:Router,
+            private dialog: MatDialog,) { }
 
 
-//     ngOnInit() {
-//         this.addMasterLookupForm = this.formBuilder.group({
-//             type: [null, [Validators.required]],
-//             code: [null, [Validators.required]],
-//             description: [null, [Validators.required]],
-//         });
+    ngOnInit() {
+       
 
-//         this.deleteConfirmForm = this.formBuilder.group({
-//             lookupId: [null],
-//             lookupCode: [null]
-//         });
+        this.getMasterLookupType();
+        this.getAllMasterlookup();
+        this.getLoggedInUserDetails();
+    }
 
-//         this.getMasterLookupType();
-//         this.getAllMasterlookup();
-//     }
+    getLoggedInUserDetails(){
+        this.currentUserService.getCurrentStaffMember()
+        .subscribe(data => {
+          this.loggedInUser = data;
+          if (data.staffImage == null || data.staffImage == "") {
+            this.staffImage = "./assets/img/default-avatar.png";
+          }
+          else{
+              this.staffImage = data.staffImage;
+          }
+        })
+    }
 
-//     openMasterLookupForm(){
-//         this.type_selectedValue = '';
-//         $('#masterLookupButton').prop('disabled', false);
-//         this.showme = true;
-//     }
+    logout() {
+        //   this.currentUserService.getCurrentStaffMember()
+        // .subscribe(data => {
+            //   this.loggedInUser =  data;
+            //  //console.log(this.loggedInUser)
+            //  let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+            //   this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+            //   this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', null, null, null, null, null, null, null, this.loggedInUser.licenseNumber, 
+            //   this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+            //   this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+        
+            //   this.loginService.updateLogoutTime(staffToUpdate)
+            //   .subscribe(()=>{
+          //     })
+          // })  
+        
+        //   this.router.navigate(['/login']);
+          location.reload(); 
+          localStorage.removeItem('jwt');   
+          
+        }
 
-//     getAllMasterlookup() {
-//         this.setTimeOut();
-//         this.spinner.show();
-//         var self = this;
-//         this.masterLookupService.getAllMasterlookup()
-//             .subscribe(
-//                 data => {
-//                     this.spinner.hide();
-//                     $('#datatables').DataTable().destroy();
-//                     this.dataTable.dataRows = <any>data;
-//                     setTimeout(function () {
-//                         self.initTable();
-//                     }, 10);
-//                 },
-//                 errorCode => this.statusCode = errorCode);
-//     }
+        GoToPatientList(){
+            this.route.navigate(['/list'])
+          }
+          
+          displayClinic(){
+            this.route.navigate(['/clinicLocation'])
+          }
 
-//     getMasterLookupType() {
-//         this.masterLookupService.getAllMasterLookupType()
-//             .subscribe(master => {
-//                 this.allLookupType = master;
-//             },
-//                 errorCode => this.statusCode = errorCode);
-//     }
+          AddPatient(){
+            this.route.navigate(['/addpatient'])
+          }
 
-//     clearField(val: any) {
-//         $(val).addClass('customfloat');
-//     }
+  
 
-//     onSubmit() {
-//         if (this.addMasterLookupForm.valid) {
-//             this.preProcessConfigurations();
-//             $('#masterLookupButton').prop('disabled', true);
-//             let type = this.addMasterLookupForm.get('type').value.trim();
-//             let code = this.addMasterLookupForm.get('code').value.trim();
-//             let description = this.addMasterLookupForm.get('description').value.trim();
-//             let masterLookup = new MasterLookup(0, type, code, description, true, 0, null, null, null, null);
-//             this.name = code;
-//             this.masterLookupService.insertMasterLookup(masterLookup)
-//                 .subscribe(successCode => {
-//                     this.statusCode = successCode;
-//                     if (this.statusCode === 201) {
-//                         setTimeout(() => {
-//                             let element: HTMLElement = document.getElementById("dismissModal");
-//                             element.click();
-//                         }, 200);
-//                         this.lookupCode = masterLookup.lookupCode;
-//                         this.getAllMasterlookup();
-//                     }
-//                 },
-//                 errorCode => { 
-//                     this.statusCode = errorCode; 
-//                     this.setTimeOut();
-//                 })
-//         }
-//         else {
-//             this.validateAllFormFields(this.addMasterLookupForm);
-//         }
-//     }
+    getAllMasterlookup() {
 
-//     loadDeleteConfirmModal(lookupId: number, lookupCode: string) {
-//         this.deleteConfirmForm.get("lookupId").setValue(lookupId);
-//         this.deleteConfirmForm.get("lookupCode").setValue(lookupCode);
-//     }
+        this.masterLookupService.getAllMasterlookup().subscribe(
+            (            response: any)=>{
+                console.log(response);
+               this.masterLookUp=response;
+               this.updatePaginatedItems();
+                
 
-//     closeDeleteConfirmationModal() {
-//         $('#deleteConfirmationModal').modal('hide');
-//     }
+            }
+        )
+           
+                
+    }
 
-//     deleteMasterLookup(lookupId: number, lookupCode: string) {
-//         this.name = lookupCode;
-//         this.preProcessConfigurations();
-//         $('#masterLookupdelete').prop('disabled', true);
-//         this.masterLookupService.deleteMasterLookup(lookupId)
-//             .subscribe(successCode => {
-//                 this.statusCode = successCode;
-//                 if (this.statusCode === 204) {
-//                     $('#deleteConfirmationModal').modal('hide');
-//                     this.getAllMasterlookup();
-//                 }
-//             },
-//                 errorCode => {
-//                     $('#masterLookupdelete').prop('disabled', false);
-//                     this.statusCode = errorCode;
-//                 });
-//     }
+    getMasterLookupType() {
+        this.masterLookupService.getAllMasterLookupType()
+            .subscribe((master: any) => {
+                console.log(master);
+                
+                
+            });
+    }
 
-//     setTimeOut(){
-//         window.setTimeout(function () {
-//             $(".alert").fadeTo(2000, 500).slideUp(500, function () {
-//                 $(".alert").slideUp(500);
-//             });
-//         }, 4000);
-//     }
 
-//     preProcessConfigurations() {
-//         this.statusCode = null;
-//         this.requestProcessing = true;
-//     }
 
-//     searchdata(v) {
-//         var table = $('#datatables').DataTable();
-//         table.search(v.target.value).draw();
-//     }
+    openDialog(): void {
+        this.dialog.open(AddMasterLookUpComponent);
+      }
 
-//     isFieldValid(form: FormGroup, field: string) {
-//         return !form.get(field).valid && form.get(field).touched;
-//     }
 
-//     onCancel() {
-//         $('.label-floating').addClass('is-empty');
-//         $('#master_floatToLabel').removeClass('customfloat');
-//         this.addMasterLookupForm.reset();
-//     }
+    // Pagination
+updatePaginatedItems(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedItems = this.masterLookUp.slice(startIndex, endIndex);
+  }
+  
+  
+  
+  OnPageChange(page: number): void {
+    this.currentPage = page;
+    this.updatePaginatedItems();
+  }
+  
+  get totalPages(): number {
+    //console.log(this.items.length);
+    
+    return Math.ceil(this.masterLookUp.length / this.pageSize);
+  }
 
-//     floatLable(val: any) {
-//         this.masterFloatLable = '';
-//         $(val).addClass('customfloat');
-//     }
+  deleteMasterLookup(lookupId: number, lookupCode: string) {
+    this.name = lookupCode;
+    this.masterLookupService.deleteMasterLookup(lookupId)
+        .subscribe(successCode => {
+            alert("Deleted...")
+          
+        });
+}
 
-//     validateAllFormFields(formGroup: FormGroup) {
-//         Object.keys(formGroup.controls).forEach(field => {
-//             const control = formGroup.get(field);
-//             if (control instanceof FormControl) {
-//                 control.markAsTouched({ onlySelf: true });
-//             }
-//             else if (control instanceof FormGroup) {
-//                 this.validateAllFormFields(control);
-//             }
-//         });
-//     }
+   
 
-//     private initTable() {
-//         var table = $('#datatables').DataTable({
-//             "ordering": true,
-//             columnDefs: [
-//                 { orderable: false, targets: [3,4] }],
-//             "language": {
-//                 "emptyTable": " "
-//             },
-//             "info": false,
-//             "bLengthChange": false,
-//             "dom": 'lrtip'
-//         });
+  
 
-//         //var table = $('#datatables').DataTable();
-//         // Delete a record
-//         table.on('click', '.remove', function (e: any) {
-//             const $tr = $(this).closest('tr');
-//             table.row($tr).remove().draw();
-//             e.preventDefault();
+ 
+    
 
-//         });
+  
+}
 
-//     }
-
-//     changePage(x) {
-//         if (x.target.value == -1) {
-//             $('#datatables').DataTable().destroy();
-//             $('#datatables').DataTable({
-//                 "pagingType": "full_numbers",
-//                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-//                 "dom": '<lrt<t>p>',
-//                 "pageLength": -1,
-//                 "bLengthChange": false,
-//             });
-//         }
-//         else {
-//             $('#datatables').DataTable().destroy();
-//             $('#datatables').DataTable({
-
-//                 "dom": '<lrt<t>p>',
-//                 "pageLength": x.target.value,
-//                 "bLengthChange": false,
-//             });
-//         }
-//     }
-// }
-
-// @Pipe({ name: 'masterType' })
-// export class MasterPipe implements PipeTransform {
-//     transform(array: any[], query: string): any {
-//         if (query) {
-//             query = query.toLowerCase();
-//             return array.filter((value: any) => value &&
-//                 value.toLowerCase().indexOf(query) > -1);
-//         }
-//         return array;
-//     }
-
-// }
