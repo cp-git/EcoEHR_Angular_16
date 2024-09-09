@@ -16,6 +16,7 @@ import { CurrentUserService } from "src/app/profiles/currentUserService";
 import { Router } from "@angular/router";
 import { AddMasterLookUpComponent } from "../add-master-look-up/add-master-look-up.component";
 
+
 declare const $: any;
 
 declare interface DataTable {
@@ -104,6 +105,8 @@ export class ListMasterLookupComponent implements OnInit {
           // })  
         
         //   this.router.navigate(['/login']);
+        console.log("welcome");
+        
           location.reload(); 
           localStorage.removeItem('jwt');   
           
