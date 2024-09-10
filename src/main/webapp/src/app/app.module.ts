@@ -32,6 +32,7 @@ import { StaffDetailsService } from './patients/services/staffDetailsService';
 import { ClinicLocationService } from './patients/services/clinicLocationService';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { StaffMemberService } from './patients/services/staffmemberservice';
+import { StudentRegistrationComponent } from './home/student-registration/student-registration.component';
 
 
 
@@ -41,6 +42,7 @@ import { StaffMemberService } from './patients/services/staffmemberservice';
     LoginComponent,
     AboutUsComponent,
     EHRLayoutComponent,
+    StudentRegistrationComponent,
     
   ],
   imports: [

@@ -6,6 +6,7 @@ import { AppSettings } from '../../appsettings';
 import { StaffPaymentDetails } from '../../home/payment/staffpaymentdetails';
 import { StaffMember } from 'src/app/administration/staff-members/staffmember';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { StaffRole } from '../models/staffrole';
 
 
 @Injectable()
@@ -36,13 +37,20 @@ export class StaffMemberService {
     //         .catch(this.handleError);
     // }
 
-    // insertStaffRole(staffRoleObject: StaffRole): Observable<number> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let options = new RequestOptions({ headers: cpHeaders });
-    //     return this.http.post(this.addstaffroleUrl, staffRoleObject, options)
-    //         .map(success => success.status)
-    //         .catch(this.handleError);
-    // }
+    insertStaffRole(staffRoleObject: StaffRole): Observable<number> {
+        const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+    
+		return this.http.post<any>(this.addstaffroleUrl, staffRoleObject, {headers})
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let options = new RequestOptions({ headers: cpHeaders });
+        // return this.http.post(this.addstaffroleUrl, staffRoleObject, options)
+        //     .map(success => success.status)
+        //     .catch(this.handleError);
+    }
     // getStaffMemberById(staffId: number): Observable<StaffMember> {
     //     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
 	// 	let cpParams = new URLSearchParams();
@@ -134,13 +142,13 @@ export class StaffMemberService {
 
 
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body;
-    }
+    // private extractData(res: Response) {
+    //     let body = res.json();
+    //     return body;
+    // }
 
-    private handleError(error: Response | any) {
-        console.error(error.message || error);
-        return Observable.throw(error.status);
-    }
+    // private handleError(error: Response | any) {
+    //     console.error(error.message || error);
+    //     return Observable.throw(error.status);
+    // }
 }

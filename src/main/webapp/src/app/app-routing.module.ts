@@ -15,6 +15,7 @@ import { StudentMembers } from './administration/student-members/student-members
 import { StudentMembersComponent } from './administration/student-members/student-members.component';
 import { ListMasterLookupComponent } from './administration/master-lookup/list-master-lookup.component';
 import { AddMasterLookUpComponent } from './administration/add-master-look-up/add-master-look-up.component';
+import { StudentRegistrationComponent } from './home/student-registration/student-registration.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -77,6 +78,10 @@ const routes: Routes = [
   {
     path:'addMasterLookUp',
     component:AddMasterLookUpComponent
+  },
+  {
+    path:'stduentRegister',
+    component:StudentRegistrationComponent
   }
 
 

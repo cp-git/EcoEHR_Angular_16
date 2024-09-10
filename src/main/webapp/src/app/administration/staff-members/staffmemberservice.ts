@@ -19,6 +19,7 @@ export class StaffMemberService {
     getStaffbyIdUrl = AppSettings.API_ENDPOINT + "./admin/getListOfActiveStaffMembers";
     addstaffroleUrl = AppSettings.API_ENDPOINT + "./admin/createStaffRoles";
     addstaffmemberUrl = AppSettings.API_ENDPOINT + "./admin/createStaffMember";
+    
     getStaffMemberbyIdUrl=AppSettings.API_ENDPOINT+"./admin/getStaffMemberById";
     updateStaffMemberUrl=AppSettings.API_ENDPOINT+"./admin/modifyStaffMemberById";
     updateStaffRoleUrl=AppSettings.API_ENDPOINT+"./admin/modifyStaffRolesById";
@@ -57,18 +58,27 @@ export class StaffMemberService {
         );
     }
     insertStaffRole(staffRoleObject: StaffRole): Observable<number> {
-        const token = localStorage.getItem('jwt') || '';
-    
+
+        const token = localStorage.getItem('jwt');
         const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'x-auth-token': token
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
         });
     
-        return this.http.post(this.addstaffroleUrl, staffRoleObject, { headers, observe: 'response' })
-            .pipe(
-                map(response => response.status),
-                catchError(this.handleError)
-            );
+		return this.http.post<any>(this.addstaffroleUrl, staffRoleObject, {headers})
+
+        // const token = localStorage.getItem('jwt') || '';
+    
+        // const headers = new HttpHeaders({
+        //     'Content-Type': 'application/json',
+        //     'x-auth-token': token
+        // });
+    
+        // return this.http.post(this.addstaffroleUrl, staffRoleObject, { headers, observe: 'response' })
+        //     .pipe(
+        //         map(response => response.status),
+        //         catchError(this.handleError)
+        //     );
     }
     getStaffMemberById(staffId: number): Observable<StaffMember> {
 		
@@ -88,17 +98,28 @@ export class StaffMemberService {
         catchError(this.handleError))
     }
     insertStaffMember(staffMemberObject: StaffMember): Observable<StaffMember> {
-        console.log("inside   insertStaffMember service.")
-        const token = localStorage.getItem('jwt') || '';
+
+
+
+        const token = localStorage.getItem('jwt');
         const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'x-auth-token': token
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
         });
-        return this.http.post(this.addstaffmemberUrl, staffMemberObject, {headers})
-        .pipe(
-        map(this.extractData),
-        catchError(this.handleError)
-        );
+    
+		return this.http.post<any>(this.addstaffmemberUrl, staffMemberObject, {headers})
+
+        // console.log("inside   insertStaffMember service.")
+        // const token = localStorage.getItem('jwt') || '';
+        // const headers = new HttpHeaders({
+        //     'Content-Type': 'application/json',
+        //     'x-auth-token': token
+        // });
+        // return this.http.post(this.addstaffmemberUrl, staffMemberObject, {headers})
+        // .pipe(
+        // map(this.extractData),
+        // catchError(this.handleError)
+        // );
     }
   // ** Update Staff Member **
   updateStaffMember(staffMemberObject: StaffMember):Observable<StaffMember> {

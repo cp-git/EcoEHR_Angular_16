@@ -8,9 +8,29 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <strong><a class="navbar-brand" routerLink="/home">Eco EHR</a></strong>
+          <strong><a class="navbar-brand" style="background-color: aqua;"  routerLink="/home">Eco EHR</a></strong>
         </div>
-        <div class="collapse navbar-collapse" id="menu-example">
+
+        <div class="main">
+           <div class="row" style="border: 2px groove red; width: 500px;height: 50px;">
+              <div class="col-md-4" style="margin-top: 10px;">
+                <a routerLink="/stduentRegister">
+                  <i class="fa fa-user-circle" aria-hidden="true"></i> Sign Up
+                </a>
+              </div>
+              <div class="col-md-4" style="margin-top: 10px;">
+                <a routerLink="/login">
+                  <i class="fa fa-user-circle" aria-hidden="true"></i> Sign In
+                </a>
+              </div>
+              <div class="col-md-4" style="margin-top: 10px;">
+                <a routerLink="/studentregistration">
+                  <i class="fa fa-user-circle" aria-hidden="true"></i> Recover
+                </a>
+              </div>
+           </div>
+        </div>
+        <!-- <div class="collapse navbar-collapse" id="menu-example" style="background-color: blue;">
           <ul class="nav navbar-nav navbar-right">
             <li>
               <a routerLink="/studentregistration">
@@ -28,7 +48,7 @@
               </a>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </nav>
     <div class="full-page login-page" filter-color="none">

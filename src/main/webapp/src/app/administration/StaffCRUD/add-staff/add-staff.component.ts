@@ -39,8 +39,8 @@ export class AddStaffComponent {
     dialogRef.disableClose = true;
   }
 
-  staffData: StaffMember = new StaffMember();
-  staffRole: StaffRole = new StaffRole();
+  //staffData: StaffMember = new StaffMember();
+  //staffRole: StaffRole = new StaffRole();
 
   allProvider!: StaffDetails[];
 allCliniclocations!: ClinicLocation[];
@@ -77,24 +77,24 @@ dropdownValues(){
 
 
 
-  createStaff(staff:StaffMember){
+  // createStaff(staff:StaffMember){
   
-    let staffRoles=new StaffRole();
-    this.staffMemberService.insertStaffMember(staff)
-    .subscribe(data => {
-      alert(data)
-      console.log("Entered in api call")
+  //   let staffRoles=new StaffRole();
+  //   this.staffMemberService.insertStaffMember(staff)
+  //   .subscribe(data => {
+  //     alert(data)
+  //     console.log("Entered in api call")
    
       
       
 
-      });
+  //     });
          
   
     
     
     
-  }
+  // }
 
 
   getPrimaryServiceLocation() {
