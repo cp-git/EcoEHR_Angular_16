@@ -121,13 +121,21 @@ export class StaffMemberService {
 // }
    
  // ** Update Staff Member **
-//  updateStaffRole(staffRoleObject: StaffRole):Observable<number> {
-//     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-//     let options = new RequestOptions({ headers: cpHeaders });
-//     return this.http.put(this.updateStaffRoleUrl, staffRoleObject, options)
-//     .map(success => success.status)
-//     .catch(this.handleError);
-// }
+ updateStaffRole(staffRoleObject: StaffRole):Observable<number> {
+
+    const token = localStorage.getItem('jwt') || '';
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'x-auth-token': token
+    });
+    return this.http.put<any>(this.updateStaffRoleUrl, staffRoleObject, {headers})
+
+    // let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+    // let options = new RequestOptions({ headers: cpHeaders });
+    // return this.http.put(this.updateStaffRoleUrl, staffRoleObject, options)
+    // .map(success => success.status)
+    // .catch(this.handleError);
+}
 
 //delete master lookup
 // deleteStaffMember(staffId: number): Observable<number> {

@@ -1,31 +1,26 @@
 <div class="wrapper wrapper-full-page">
-    <nav class="navbar navbar-info navbar-fixed-top navbar-style">
+    <nav class="navbar navbar-info navbar-fixed-top navbar-style" style="background-color: #04519b;">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-example">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <strong><a class="navbar-brand" style="background-color: aqua;"  routerLink="/home">Eco EHR</a></strong>
+       
+          <a class="navbar-brand" style="color: white;"  routerLink="/">Eco EHR</a>
         </div>
 
         <div class="main">
-           <div class="row" style="border: 2px groove red; width: 500px;height: 50px;">
+           <div class="row" style=" width: 500px;height: 40px;margin-left: 80%;">
               <div class="col-md-4" style="margin-top: 10px;">
-                <a routerLink="/stduentRegister">
+                <a routerLink="/stduentRegister" style="font-size: 20px;color: white;">
                   <i class="fa fa-user-circle" aria-hidden="true"></i> Sign Up
                 </a>
               </div>
               <div class="col-md-4" style="margin-top: 10px;">
-                <a routerLink="/login">
-                  <i class="fa fa-user-circle" aria-hidden="true"></i> Sign In
+                <a routerLink="/login" style="font-size: 20px;color: white;">
+                  <i class="fas fa-solid fa-fingerprint"></i> Sign In
                 </a>
               </div>
-              <div class="col-md-4" style="margin-top: 10px;">
-                <a routerLink="/studentregistration">
-                  <i class="fa fa-user-circle" aria-hidden="true"></i> Recover
+              <div class="col-md-4" style="margin-top: 10px;" >
+                <a routerLink="/studentregistration" style="font-size: 20px;color: white;">
+                  <i class="fas fa-solid fa-user-check"></i> Recover
                 </a>
               </div>
            </div>
@@ -121,16 +116,19 @@
       </div>
       <footer class="footer">
         <div class="container-fluid">
-          <nav class="pull-left">
-            <ul>
-              <li>
-                <a class="companyLink" style="color: black !important" href="https://www.datasysamerica.com/">Company</a>
-              </li>
-            </ul>
-          </nav>
-          <p style="color: black" class="copyright pull-right footer">
-            <!-- &copy; {{ date: 'yyyy' }} <a style="color: black !important" href="https://www.datasysamerica.com/">Datasys Consulting and Software Inc.</a>, made with <span style="color:red;font-size:20px"> &hearts; </span> for better Electronic Health Records -->
-          </p>
+
+          <div class="row" style="margin-top: 190px;">
+            <div class="col-md-4">
+              <a class="companyLink" style="color: black !important" href="https://www.datasysamerica.com/">Company</a>
+            </div>
+
+            <div class="col-md-8">
+              <a style="color: black !important;margin-left: 380px;" href="https://www.datasysamerica.com/">Datasys Consulting and Software Inc.</a>, made with <span style="color:red;font-size:20px"> &hearts; </span> for better Electronic Health Records
+            
+            </div>
+          </div>
+         
+         
         </div>
       </footer>
     </div>

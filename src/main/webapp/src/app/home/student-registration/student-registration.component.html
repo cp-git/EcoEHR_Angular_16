@@ -1,144 +1,199 @@
-<form [formGroup]="registerForm" class="form">
-                
-    <div style="margin-top: 98px;" class="card">
-        <div style="margin-top: 21px;" class="card-header text-center" data-background-color>
-            <h4 class="card-title">Registration For Student</h4>
-        </div>
+<div class="navbar-header">
+    <nav class="navbar navbar-info navbar-fixed-top navbar-style">
+        <strong><a class="navbar-brand" routerLink="/home">Eco EHR</a></strong>
+    </nav>
+</div>
+<!-- <div class="wrapper wrapper-full-page"> -->
+
+
+<div class="content">
+    <div class="container">
         <div class="row">
-            <div class="card-content">
-                <div *ngIf="statusCode === 409" class="alert alert-danger registerPage" data-icon-bg-color="alert-red">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <strong>EmailId already registered. Please enter unique Email Id</strong> 
-                </div>
-                <div class="input-group">
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group label-floating">
-                            <label class="control-label required">
-                                <small class="AsteriskColor">*</small>
-                                First Name
-                            </label>
-                            <input type="text" name="firstName" formControlName="firstName"
-                                class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group label-floating">
-                            <label class="control-label required">
-                                <small class="AsteriskColor">*</small>
-                                Last Name
-                            </label>
-                            <input type="text" name="lastName" formControlName="lastName"
-                                class="form-control">
-                        </div>
-                    </div>
-                   
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group label-floating">
-                            <label class="control-label required">
-                                <small class="AsteriskColor">*</small>
-                                Mobile/Phone Number
-                            </label>
-                            <input type="text" id="mobileNo" class="form-control"
-                                formControlName="mobileNo">
-                        </div>
-                    </div>
-                   
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group label-floating">
-                            <label class="control-label required">
-                                <small class="AsteriskColor">*</small>
-                                Email
-                            </label>
-                            <input type="email" id="email" class="form-control" formControlName="email">
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6" style="top:7px;">
-                        <div class="form-group label-floating" id="providerTypesDiv">
-                            <label #providerTypefloatLable class="control-label required">
-                                <small class="AsteriskColor">*</small>
-                                Specialty
-                            </label>
-                            <select name="providerType" id="providerType"
-                            formControlName="providerType"
-                            style="width:100%;">
-                                <option class="decrease-height" 
-                                    *ngFor="let providerType of allProviderTypes"
-                                    [value]="providerType.lookupCode">{{providerType.lookupCode}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6" *ngIf="flag" >
-                        <div class="form-group label-floating">
-                            <label class="control-label required">
-                                <small class="AsteriskColor">*</small>
-                                Other Specialization
-                            </label>
-                            <input type="text" name="Specialization" formControlName="other"
-                                class="form-control">
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group label-floating" id="dobdiv">
-                            <label #dobfloatToLabel
-                                [ngClass]="{'datepicket-label-style': buttonName=='UPDATE'}"
-                                class="control-label control-label-datepicker">
-                                <small class="AsteriskColor">*</small> DOB
-                            </label>
+            <div class="col-md-9 col-sm-12 col-md-offset-1 col-sm-offset-1">
+                <div style="display: flex;">
 
-                            <input  type="date" class="input-with-icon" id="dob"
-                            name="dob"  formControlName="dob"  required>
-<!--                             
-                            <mat-form-field style="width: 100% !important;">
-                                <div class="input-icon-wrap" style="margin-top:-8px;flex-direction: row;display: flex;">
-                                    <input matInput type="text" class="input-with-icon" id="dob"
-                                     name="dob"  formControlName="dob"  required>
-                                    <span class="input-icon">
-                                        <span class="fa fa-calendar fa-lg"></span>
-                                    </span>
+                    <form [formGroup]="registerForm" class="form">
+                        <div style="margin-top: 98px;" class="card">
+                            <div style="margin-top: 21px;height: 20px;" class="card-header text-center" data-background-color style="background-color:  #04519b;">
+                                <h4 class="card-title" style="color: white;margin-top: 10px;">Registration For Student</h4>
+                            </div>
+                            <div class="row">
+                                <div class="card-content">
+                                    <div *ngIf="statusCode === 409" class="alert alert-danger registerPage" data-icon-bg-color="alert-red">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>EmailId already registered. Please enter unique Email Id</strong>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    First Name
+                                                </label>
+                                                <input type="text" name="firstName" formControlName="firstName"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Last Name
+                                                </label>
+                                                <input type="text" name="lastName" formControlName="lastName"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Mobile/Phone Number
+                                                </label>
+                                                <input type="text" id="mobileNo" class="form-control"
+                                                    formControlName="mobileNo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Email
+                                                </label>
+                                                <input type="email" id="email" class="form-control" formControlName="email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6" >
+                                            <div class="form-group label-floating" id="providerTypesDiv">
+                                                <label #providerTypefloatLable class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Specialty
+                                                </label>
+                                                <select name="providerType" id="providerType"
+                                                formControlName="providerType"
+                                                style="width:100%;height: 35px;border-radius: 5px;">
+                                                    <option class="decrease-height"
+                                                        *ngFor="let providerType of allProviderTypes"
+                                                        [value]="providerType.lookupCode">{{providerType.lookupCode}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6" *ngIf="flag" >
+                                            <div class="form-group label-floating">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Other Specialization
+                                                </label>
+                                                <input type="text" name="Specialization" formControlName="other"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="form-group label-floating" id="dobdiv">
+
+                                                <label #dobfloatToLabel
+                                                    [ngClass]="{'datepicket-label-style': buttonName=='UPDATE'}"
+                                                    class="control-label control-label-datepicker">
+                                                    <small class="AsteriskColor">*</small> DOB
+                                                </label>
+
+                                                <div class="form-group label-floating">
+                                                    <div class="input-icon-wrap" style="height: 35px;width: 190px;;flex-direction: row;display: flex;">
+                                                        <input  type="date" class="input-with-icon" id="dob"
+                                                         name="dob"  formControlName="dob"  required>
+                                                    
+                                                    </div>
+                                                </div>
+
+                                                <!-- <label #dobfloatToLabel
+                                                    [ngClass]="{'datepicket-label-style': buttonName=='UPDATE'}"
+                                                    class="control-label control-label-datepicker">
+                                                    <small class="AsteriskColor">*</small> DOB
+                                                </label>
+                                                <input  type="date" class="input-with-icon" id="dob"
+                                                name="dob"  formControlName="dob"  required> -->
+                    <!--
+                                                <mat-form-field style="width: 100% !important;">
+                                                    <div class="input-icon-wrap" style="margin-top:-8px;flex-direction: row;display: flex;">
+                                                        <input matInput type="text" class="input-with-icon" id="dob"
+                                                         name="dob"  formControlName="dob"  required>
+                                                        <span class="input-icon">
+                                                            <span class="fa fa-calendar fa-lg"></span>
+                                                        </span>
+                                                    </div>
+                                                </mat-form-field> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="form-group label-floating">
+                                                <label #genderfloatLable id="gender_floatToLabel"
+                                                    class="pull-left label-floating">
+                                                    <small class="AsteriskColor">*</small> Sex
+                                                </label>
+                                                <div class="radio-inline">
+                                                    &nbsp;&nbsp;
+                                                    <label for="Gender">
+                                                        <input formControlName="gender" value="male" type="radio"> Male
+                                                    </label>
+                                                </div>
+                                                <div class="radio-inline">
+                                                    <label for="female">
+                                                        <input formControlName="gender" value="female" type="radio">Female
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </mat-form-field> -->
-                        </div>
-                    
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group label-floating">
-                            <label #genderfloatLable id="gender_floatToLabel"
-                                class="pull-left label-floating">
-                                <small class="AsteriskColor">*</small> Sex
-                            </label>
-                            <div class="radio-inline">
-                                &nbsp;&nbsp;
-                                <label for="Gender">
-                                    <input formControlName="gender" value="male" type="radio"> Male
-                                </label>
                             </div>
-                            <div class="radio-inline">
-                                <label for="female">
-                                    <input formControlName="gender" value="female" type="radio">Female
-                                </label>
+                            <div class="form-group col-md-4 col-sm-6 col-md-offset-1 regCanBtn">
+                                <input type='button' class="btn btn-info btn-round" name='SAVE'
+                                    value='Register' id="save" (click)="onsubmit($event)" />
+                                <input type='button' routerLink="/login" class="btn btn-info btn-round pull-right"
+                                    name='cancel' value="CANCEL" style="margin-left: 40px;"/>
                             </div>
-                          
-                         
                         </div>
-                    </div>
-
-
-                </div>
+                    </form>
             </div>
 
+            </div>
         </div>
-        <div class="form-group col-md-4 col-sm-6 col-md-offset-1 regCanBtn">
-            <input type='button' class="btn btn-info btn-round" name='SAVE'
-                value='Register' id="save" (click)="onsubmit($event)" />
-            <input type='button' routerLink="/login" class="btn btn-info btn-round pull-right"
-                name='cancel' value="CANCEL" />
 
-
-        </div>
     </div>
-
-</form>
+</div>
+<!-- </div> -->
+<!--<footer class="footer">
+    <div class="container-fluid">
+        <nav class="pull-left">
+            <ul>
+                <li>
+                    <a style="color: black !important" href="http://www.cloudpointamerica.com">
+                        Company
+                    </a>
+                </li>
+                <li>
+                    <a style="color: black !important" href="https://www.datasysamerica.com/about-us/">
+                        About
+                    </a>
+                </li>
+                <li>
+                    <a style="color: black !important" routerLink="/home">
+                        Eco EHR
+                    </a>
+                </li>
+                <li>
+                    <a style="color: black !important" href="https://www.datasysamerica.com/contact-us/">
+                        Contact
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <p style="color: black" class="copyright pull-right footer">
+            &copy; {{test | date: 'yyyy'}} <a style="color: black !important" href="https://www.datasysamerica.com/">Datasys Consulting and Software Inc.</a>, made with <span style="color:red;font-size:20px"> &hearts; </span> for better Electronic Health
+            Records
+        </p>
+    </div>
+</footer>-->
