@@ -1,0 +1,400 @@
+
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="wizard-container">
+            <div class="card wizard-card" data-color="blue" id="wizardProfile">
+                <div class="card-header" data-background-color>
+                    <div class="row">
+                        <!-- <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                            fullScreen="true" type="line-scale-pulse-out-rapid">
+                        </ngx-spinner> -->
+                        <div>
+                            <tr>
+                                <td>
+                                    <h6>Edit Profile</h6>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content ">
+                    
+
+                    <form [formGroup]="staffMemberForm">
+                           
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    First Name
+                                                </label>
+                                                <input type="text" class="form-control" name="firstName" id="firstName" formControlName="firstName">
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Last Name
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="lastName">
+                                              
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="top:7px;">
+                                            <div class="form-group">
+                                                <label  
+                                                    class="control-label" >
+                                                    <small class="AsteriskColor">*</small> Sex
+                                                </label>
+                                                <select name="gender" formControlName="gender"
+                                                    style="width: 100%">
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="unknown">Unknown</option>
+                                                </select>
+                                                <div class="error-display-margin">
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:8px;">
+                                        <div class="col-md-4">
+                                            <div class=" form-group" >
+                                                <!-- <label>
+                                                    class="control-label control-label-datepicker">
+                                                    <small class="AsteriskColor">*</small> DOB
+                                                </label> -->
+                                                <mat-form-field style="width: 100% !important;">
+                                                    <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                        <input matInput type="text" class="input-with-icon" id="dob"
+                                                          name="dob"
+                                                            formControlName="dob" readonly required>
+                                                        <span class="input-icon"
+                                                            >
+                                                            <span class="fa fa-calendar fa-lg"></span>
+                                                        </span>
+                                                    </div>
+                                                </mat-form-field>
+                                            </div>
+                                         
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Login Id
+                                                </label>
+                                                <input type="text" id="loginId" class="form-control"
+                                                    formControlName="loginId" >
+                                              
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label">
+                                                        <small class="AsteriskColor">*</small>
+                                                        Social Security Number
+                                                </label>
+                                                <input type="text" name="ssn" id="ssn" formControlName="ssn"
+                                                    class="form-control">
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Email
+                                                </label>
+                                                <input type="email" id="email" class="form-control"
+                                                    formControlName="email">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label class="control-label required">
+                                                    <small class="AsteriskColor">*</small>
+                                                    Mobile Phone Number
+                                                </label>
+                                                <input type="text" id="mobileNo" class="form-control"
+                                                    formControlName="mobileNo">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group" style="margin-top:4%">
+                                                <label class="control-label">
+                                                    <small class="AsteriskColor">*</small> 
+                                                    Primary Location
+                                                </label>
+                                                <select name="staffAddressId" formControlName="staffAddressId" 
+                                                    style="width:100%;" >
+                                                   
+                                                    <option class="decrease-height"
+                                                        *ngFor="let cliniclocation of allCliniclocations "
+                                                        [value]="cliniclocation.locationId">{{cliniclocation.locationName}}</option>
+                                                </select>
+                                                <div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-offset-1">
+                                    <div class="picture-container">
+                                        <h6>Choose Picture</h6>
+                                        <div class="picture">
+                                            <img src="{{staffImage}}" class="picture-src" id="wizardPicturePreview"
+                                                title="" />
+                                            <input type="file" id="wizard-picture" name="staffImageFile"
+                                                >
+                                            <input type="hidden" class="form-control" formControlName="staffImage"
+                                                id="staffImageId" value="init">
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- (change)="getSelectedCredentials('designation')" -->
+                            <div class="row">
+                                <div class="col-md-4 ">
+                                    <!-- <br> -->
+
+                                    <div class="form-group ">
+                                        <label class="control-label">Credentials   
+                                        </label>
+                                        <select name="designation" formControlName="designation" #cred
+                                             
+                                            style="width:100%;">
+                                          
+                                            <option class="decrease-height"
+                                                *ngFor="let designation of allCredentials "
+                                                [value]="designation.lookupCode">{{designation.lookupCode}}
+                                            </option>
+                                          
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <label class="pull-left label-floating">
+                                            <small class="AsteriskColor">*</small>
+                                            Is the user a provider?</label>
+                                        <div class="radio-inline">
+                                            &nbsp;&nbsp;
+                                            <label for="provider">
+                                                <input name="providerFlag" formControlName="providerFlag" value="Y"
+                                                    type="radio" id="provider"> Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <label for="notAProvider">
+                                                <input name="providerFlag" formControlName="providerFlag" value="N"
+                                                    type="radio" id="notAProvider">No
+                                            </label>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                                <div class="form-group"
+                                   >
+                                    <div class="col-md-4">
+                                        <br>
+                                        <label class="pull-left label-floating">
+                                            <small class="AsteriskColor">*</small>
+                                            Is the user an admin?</label>
+                                        <div class="radio-inline">
+                                            &nbsp;&nbsp;
+                                            <label>
+                                                <input name="authority" formControlName="authority"
+                                                    value="ROLE_ADMIN" type="radio" id="authority1"
+                                                  > Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <label>
+                                                <input name="authority" formControlName="authority"
+                                                    value="ROLE_USER" type="radio" id="authority2"
+                                                  > No
+                                            </label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4" style="top:7px;" id="specialtyDiv">
+                                    <div class="form-group label-floating" >
+                                        <label class="control-label">
+                                            <small class="AsteriskColor" *ngIf="isadmin">*</small>
+                                            Specialty
+                                        </label>
+                                        <select name="providerType" id="providerType"
+                                            formControlName="providerType"
+                                            style="width:100%;"
+                                            [ngClass]="{'disableProviderType': showProviderType,'disableLoginId':(isCredential=='Admin Staff')}">
+                                         
+                                            <option class="decrease-height"
+                                                *ngFor="let providerType of allProviderTypes "
+                                                [value]="providerType.lookupCode">{{providerType.lookupCode}}
+                                            </option>
+                                        </select>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group label-floating" id="npiDiv" [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}">
+                                        <label class="control-label required" >
+                                            <small class="AsteriskColor">*</small>
+                                            NPI
+                                        </label>
+                                        <input type="text" id="npiNumber" class="form-control"
+                                            formControlName="npiNumber" >
+                                     
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:8px;">
+                                <div class="col-md-2">
+                                    <label class="label-floating" style="color:black;margin-top:11px">
+                                        License Number:
+                                    </label>
+                                </div>
+                                <div class="col-md-6" style="right:45px">
+                                    <div class="row">
+                                        <div class="col-md-4" style="top:-25px;">
+                                            <div class="form-group" >
+                                                <label 
+                                                    class="control-label" >
+                                                     State
+                                                </label>
+                                                <select
+                                                    name="staffAddressState" formControlName="staffAddressState" [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}"
+                                                    style="width: 100%">
+                                               
+                                                    <option class="decrease-height"
+                                                        *ngFor="let staffAddressState of allStates "
+                                                        [value]="staffAddressState.lookupCode">
+                                                        {{staffAddressState.lookupCode}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group label-floating" id="numberDiv"  [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}">
+                                                <label class="control-label " >
+                                                    Number
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="licNumber">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="label-floating form-group " id="licExpDiv" [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}">
+                                                <label #licExpDatefloatToLabel [ngClass]="{'datepicket-label-style':  selectedStaff?.licenseExpDate != null}"
+                                                    class="control-label control-label-datepicker">Expiration Date
+                                                </label>
+                                                <mat-form-field style="width: 100% !important;">
+                                                    <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                        <input matInput type="text" class="input-with-icon"
+                                                            id="licExpirationDate"
+                                                            
+                                                            name="licExpirationDate" 
+                                                            formControlName="licExpirationDate" readonly>
+                                                        
+                                                    </div>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="label-floating" style="color:black;">
+                                        DEA Number:
+                                    </label>
+                                </div>
+                                <div class="col-md-6" style="right:45px">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group label-floating" id="deaNumDiv" [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                                <label class="control-label ">
+                                                    Number  
+                                                </label>
+                                                <input type="text" class="form-control" formControlName="deaNumber" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="label-floating form-group" id="deaExpDateDiv" [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                                <label #deaExpDatefloatToLabel [ngClass]="{'datepicket-label-style': selectedStaff?.deaExpDate != null}"
+                                                    class="control-label control-label-datepicker">Expiration Date
+                                                </label>
+                                                <mat-form-field style="width: 100% !important;">
+                                                    <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                        <input matInput type="text" class="input-with-icon"
+                                                            id="deaExpirationDate"
+                                                           
+                                                            name="deaExpirationDate"
+                                                            formControlName="deaExpirationDate" readonly>
+                                                       
+                                                    </div>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group label-floating" id="malPracCovDiv"  [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                        <label class="control-label required">
+                                            Malpractice Coverage
+                                        </label>
+                                        <input type="text" class="form-control" formControlName="malPracCoverage">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="label-floating form-group" id="malPracExpDiv" [ngClass]="{'disableLoginId':(isCredential=='Admin Staff' || isCredential=='Nurse')}">
+                                        <label #malPracExpfloatToLabel [ngClass]="{'datepicket-label-style': selectedStaff?.malpracticeExpiration != null}"
+                                            class="control-label control-label-datepicker">Malpractice Expiration
+                                        </label>
+                                        <mat-form-field style="width: 100% !important;">
+                                            <div class="input-icon-wrap" style="margin-top:-8px;">
+                                                <input matInput type="text" class="input-with-icon"
+                                                    id="malPracExpirationDate"
+                                                    
+                                                    name="malPracExpirationDate"
+                                                    formControlName="malPracExpirationDate" readonly>
+                                                <span class="input-icon"
+                                                    >
+                                                    <span class="fa fa-calendar fa-lg"></span>
+                                                </span>
+                                            </div>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" (click)="onSubmitStaff()"
+                                    class="btn button pull-left" id="staffButton" value="UPDATE"
+                                    #staffMemButton>UPDATE</button>
+                               
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>

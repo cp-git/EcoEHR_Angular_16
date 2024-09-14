@@ -16,6 +16,8 @@ import { StudentMembersComponent } from './administration/student-members/studen
 import { ListMasterLookupComponent } from './administration/master-lookup/list-master-lookup.component';
 import { AddMasterLookUpComponent } from './administration/add-master-look-up/add-master-look-up.component';
 import { StudentRegistrationComponent } from './home/student-registration/student-registration.component';
+import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
+import { ContactUsComponent } from './profiles/contactus/contactus.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -82,6 +84,14 @@ const routes: Routes = [
   {
     path:'stduentRegister',
     component:StudentRegistrationComponent
+  },
+  {
+    path:'editProfile',
+    component:EditProfileComponent
+  },
+  {
+    path:'feedback',
+    component:ContactUsComponent
   }
 
 

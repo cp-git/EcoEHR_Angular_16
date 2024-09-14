@@ -231,4 +231,14 @@ displayMasterLookUp(){
 
 }
 
+editProfile(){
+  this.router.navigate(['/editProfile'])
+  
+}
+
+editfeedBack(){
+  this.router.navigate(['/feedback'])
+
+}
+
 }
