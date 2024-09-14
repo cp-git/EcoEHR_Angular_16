@@ -123,16 +123,26 @@ export class StaffMemberService {
     }
   // ** Update Staff Member **
   updateStaffMember(staffMemberObject: StaffMember):Observable<StaffMember> {
-    const token = localStorage.getItem('jwt') || '';
+
+    const token = localStorage.getItem('jwt');
     const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'x-auth-token': token
+      'Content-Type': 'application/json',
+      'x-auth-token': token ? token : ''
     });
-    return this.http.put(this.updateStaffMemberUrl, staffMemberObject, {headers})
-    .pipe(
-    map(this.extractData),
-    catchError(this.handleError)
-    );
+
+    return this.http.put<any>(this.updateStaffMemberUrl, staffMemberObject, {headers})
+
+
+    // const token = localStorage.getItem('jwt') || '';
+    // const headers = new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     'x-auth-token': token
+    // });
+    // return this.http.put(this.updateStaffMemberUrl, staffMemberObject, {headers})
+    // .pipe(
+    // map(this.extractData),
+    // catchError(this.handleError)
+    // );
 }
 
 updateStaffPayment(staffPaymentObj: StaffPaymentDetails):Observable<StaffMember> {
@@ -170,15 +180,23 @@ updateStudentStatus(staffId: number): Observable<number> {
    
  // ** Update Staff Member **
  updateStaffRole(staffRoleObject: StaffRole):Observable<number> {
-    const token = localStorage.getItem('jwt') || '';
+
+    const token = localStorage.getItem('jwt');
     const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'x-auth-token': token
+      'Content-Type': 'application/json',
+      'x-auth-token': token ? token : ''
     });
-    return this.http.put(this.updateStaffRoleUrl, staffRoleObject, {headers, observe: 'response' }).pipe(
-    map(success => success.status),
-    catchError(this.handleError)
-    );
+
+    return this.http.put<any>(this.updateStaffRoleUrl, staffRoleObject, {headers})
+    // const token = localStorage.getItem('jwt') || '';
+    // const headers = new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     'x-auth-token': token
+    // });
+    // return this.http.put(this.updateStaffRoleUrl, staffRoleObject, {headers, observe: 'response' }).pipe(
+    // map(success => success.status),
+    // catchError(this.handleError)
+    // );
 }
 
 //delete master lookup

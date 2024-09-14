@@ -18,6 +18,7 @@ import { StaffDetails } from './StaffDetails';
 import { Router } from '@angular/router';
 import { CurrentUserService } from 'src/app/profiles/currentUserService';
 import { AddStaffComponent } from '../StaffCRUD/add-staff/add-staff.component';
+import { UpdateStaffComponent } from '../StaffCRUD/update-staff/update-staff.component';
 
 declare interface DataTable {
   headerRow: string[];
@@ -45,6 +46,8 @@ interface FileReaderEvent extends Event {
 })
 export class ListDoctorComponent {
     staff: StaffDetails[] = [];
+
+    staff1!: StaffDetails[];
     readonly panelOpenState = signal(false);
     staffImage: any;
 
@@ -129,6 +132,16 @@ export class ListDoctorComponent {
           });
            
       }
+
+      updateStaff(staff:StaffDetails): void {
+        const dialogRef = this.dialog.open(UpdateStaffComponent, {
+            data: { staff: Object.assign({}, staff) }
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+          });
+      }
+
 
 
 

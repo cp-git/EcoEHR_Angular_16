@@ -27,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class UpdateclinicComponent {
   clinic!: ClinicLocation;
   
+  
   constructor(
     private clinicLocationService: ClinicLocationService,
     public dialog: MatDialog,

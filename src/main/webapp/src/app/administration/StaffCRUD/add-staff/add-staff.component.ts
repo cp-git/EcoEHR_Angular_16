@@ -252,31 +252,14 @@ onSubmitStaff(event: any) {
     let malPracCoverage = this.staffMemberForm.get('malPracCoverage')?.value;
     let malPracExpirationDate = moment.utc((document.getElementById("malPracExpirationDate") as HTMLInputElement).value).toDate();
 
-    let dob = moment.utc((document.getElementById("dob") as HTMLInputElement).value).toDate();
+    let dob = this.staffMemberForm.get('')?.value;
     let gender = this.staffMemberForm.get('gender')?.value;
 
     let ssn = this.staffMemberForm.get('ssn')?.value;
 
     this.fullName = firstName + " " + lastName;
-    if (event == "UPDATE") {
-      let staffToUpdate = new StaffMember(this.staffMemberId, loginId, this.selectedStaff.loginKey, firstName, "", 
-        lastName, staffImage, providerType, designation, providerFlag, 0, true, staffAddressId,
-        mobileNo, "", email, npiNumber, "", "", "", "", dob, "", dob, "", licState, 
-        licNumber, licExpirationDate, deaNumber, deaExpirationDate, malPracCoverage, malPracExpirationDate, 
-        dob, gender, ssn);
-      let staffRoleToUpdate = new StaffRole(this.selectedStaff.staffRoleId, this.staffMemberId, authority,
-        true, dob, "", dob, "");
-      this.staffMemberService.updateStaffMember(staffToUpdate)
-        .subscribe(data => {
-          this.staffMemberService.updateStaffRole(staffRoleToUpdate)
-            .subscribe(successCode => {
-              this.statusCode = successCode;
-          
-            },
-              errorCode => this.statusCode = errorCode)
-        });
-    }
-    else if (event == "ADD"){
+    
+ 
     
       console.log("Entered into else loop of add")
       let staffMemToInsert = new StaffMember(0, loginId, "password", firstName, "", lastName, staffImage, 
@@ -299,7 +282,7 @@ onSubmitStaff(event: any) {
               errorCode => this.statusCode = errorCode);
         });
 
-      }
+      
          
     
   
