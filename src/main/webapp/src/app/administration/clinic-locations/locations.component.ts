@@ -6,7 +6,7 @@
 // import { NgxSpinnerService } from 'ngx-spinner';
 
 import { Component, inject, signal } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, FormsModule } from "@angular/forms";
 
 import { NgxSpinnerService } from "ngx-spinner";
 import { ClinicLocationService } from "src/app/patients/services/clinicLocationService";
@@ -23,6 +23,8 @@ import { AddclinicComponent } from "../addclinic/addclinic.component";
 import { UpdateclinicComponent } from "../updateclinic/updateclinic.component";
 import { CurrentUserService } from "src/app/profiles/currentUserService";
 import { StaffMember } from "../staff-members/staffmember";
+import { SearchPipe } from "src/app/search.pipe";
+
 
 
 // declare interface DataTable {
@@ -38,7 +40,7 @@ import { StaffMember } from "../staff-members/staffmember";
     templateUrl: './locations.component.html',
     styleUrls: ['../admin.component.css', '../../app.component.css','./locations.component.css'],
     standalone: true,
-    imports: [MatSidenavModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
+    imports: [MatSidenavModule,SearchPipe,FormsModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
 })
 
 
@@ -53,6 +55,8 @@ export class LocationsComponent {
     staffImage: any;
 
     loggedInUser!: StaffMember;
+
+    searchClinic='';
 
     constructor(private formBuilder: FormBuilder,
         private clinicLocationService: ClinicLocationService,

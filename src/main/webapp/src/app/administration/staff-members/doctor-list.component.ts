@@ -1,5 +1,5 @@
 import { Component, OnInit, Pipe, PipeTransform, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn, AbstractControl, FormsModule } from '@angular/forms';
 
 import { NgxSpinnerService } from 'ngx-spinner';import { StaffPaymentDetails } from '../../home/payment/staffpaymentdetails';
 
@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { CurrentUserService } from 'src/app/profiles/currentUserService';
 import { AddStaffComponent } from '../StaffCRUD/add-staff/add-staff.component';
 import { UpdateStaffComponent } from '../StaffCRUD/update-staff/update-staff.component';
+import { SearchPipe } from 'src/app/search.pipe';
 
 declare interface DataTable {
   headerRow: string[];
@@ -42,7 +43,7 @@ interface FileReaderEvent extends Event {
   templateUrl: './doctor-list.component.html',
   styleUrls: ['../admin.component.css', '../../app.component.css','./doctor-list.component.css'],
   standalone: true,
-  imports: [MatSidenavModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule] 
+  imports: [MatSidenavModule,FormsModule,SearchPipe, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule] 
 })
 export class ListDoctorComponent {
     staff: StaffDetails[] = [];
@@ -50,6 +51,8 @@ export class ListDoctorComponent {
     staff1!: StaffDetails[];
     readonly panelOpenState = signal(false);
     staffImage: any;
+
+    searchStaff='';
 
     loggedInUser!: StaffMember;
     constructor(private staffDetailsService:StaffDetailsService,private route:Router,

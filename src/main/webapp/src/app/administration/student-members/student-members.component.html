@@ -146,9 +146,14 @@
                    </div> -->
                    <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1">
                     <div class="form-group-sm is-empty searchHeight">
-                        <input type="search" id="mysearch" style="font-size: 16px;" 
+
+                      <div class="form-group-sm is-empty searchHeight">
+                        <input style="color: white;font-size: 16px;" type="text" class="form-control" [(ngModel)]="searchStudent"
+                            placeholder="Search Records">
+                    </div>
+                        <!-- <input type="search" id="mysearch" style="font-size: 16px;" 
                             class="form-control input-color placeholder-style search-by-name"
-                            placeholder="Search Records" aria-controls="datatables">
+                            placeholder="Search Records" aria-controls="datatables"> -->
                     </div>
                 </div>
                 <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1" style="margin-top: 10px;">
@@ -182,7 +187,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let staffmember of paginatedItems">
+                            <tr *ngFor="let staffmember of paginatedItems | search:searchStudent">
                                 <td style="text-align: center;">{{staffmember.firstName}} {{staffmember.lastName}}</td>
                                  <td style="text-align: center;">{{ staffmember.email}}</td>
                                 <td style="text-align: center;">{{ staffmember.dob | date:'MM/dd/yyyy'}}</td>

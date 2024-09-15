@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit, PipeTransform, Pipe, signal } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormControl, FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
@@ -15,6 +15,7 @@ import { StaffMember } from "../staff-members/staffmember";
 import { CurrentUserService } from "src/app/profiles/currentUserService";
 import { Router } from "@angular/router";
 import { AddMasterLookUpComponent } from "../add-master-look-up/add-master-look-up.component";
+import { SearchPipe } from "src/app/search.pipe";
 
 
 declare const $: any;
@@ -30,12 +31,14 @@ declare interface DataTable {
     templateUrl: './list-master-lookup.component.html',
     styleUrls: ['../admin.component.css', '../../app.component.css','./list-master-lookup.component.css'],
     standalone: true,
-    imports: [MatSidenavModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
+    imports: [MatSidenavModule,FormsModule,SearchPipe, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
 })
 
 export class ListMasterLookupComponent implements OnInit {
 
     masterLookUp: MasterLookup[] = [];
+
+    searchMaster='';
   
   
 

@@ -147,16 +147,18 @@
                    </div>
                    <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1">
                     <div class="form-group-sm is-empty searchHeight">
-                        <input type="search" id="mysearch" style="font-size: 16px;" 
+                      <input style="color: white;font-size: 16px;" type="text" class="form-control" [(ngModel)]="searchStaff"
+                      placeholder="Staff Name">
+                        <!-- <input type="search" id="mysearch" style="font-size: 16px;" 
                             class="form-control input-color placeholder-style search-by-name"
-                            placeholder="Patient Name" aria-controls="datatables">
+                            placeholder="Patient Name" aria-controls="datatables"> -->
                     </div>
                 </div>
                 <div class="col-sm-2 col-md-2 col-xs-2 col-md-offset-1" style="margin-top: 10px;">
                   <div class="input-icon-wrap">
-                    <input style="margin-top: -22px;padding-top: 22px;margin-right: 5px;height: 42px;width: 140px;" type="date"
+                    <!-- <input style="margin-top: -22px;padding-top: 22px;margin-right: 5px;height: 42px;width: 140px;" type="date"
                         id="date_search"
-                        class="form-control input-color placeholder-style" placeholder="Search by DOB">
+                        class="form-control input-color placeholder-style" placeholder="Search by DOB"> -->
                     <!-- <span class="input-icon" (click)="datepicker('date_search')">
                         <span class="fa fa-calendar fa-lg"></span>
                     </span> -->
@@ -183,7 +185,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let staffData of staff">
+                            <tr *ngFor="let staffData of staff | search:searchStaff">
                                 <td style="text-align: center;">{{staffData.firstName}} {{staffData.lastName}},{{staffData.designation}}</td>
                                <td style="text-align: center;">{{ staffData.staffrole}}</td>
                                 <td style="text-align: center;">{{ staffData.providerFlag}}</td>

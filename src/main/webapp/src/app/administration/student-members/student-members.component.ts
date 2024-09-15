@@ -1,5 +1,5 @@
 import { Component, OnInit, Pipe, PipeTransform, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn, AbstractControl, FormsModule } from '@angular/forms';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
@@ -16,6 +16,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from 'src/app/patients/patientlist/patientlist.component';
 import { StaffMember } from '../staff-members/staffmember';
+import { SearchPipe } from 'src/app/search.pipe';
 
 
 declare interface DataTable {
@@ -40,7 +41,7 @@ interface FileReaderEvent extends Event {
   templateUrl: './student-members.component.html',
   styleUrls: ['../admin.component.css', '../../app.component.css','./student-members.component.css'],
   standalone: true,
-    imports: [MatSidenavModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
+    imports: [MatSidenavModule,FormsModule,SearchPipe, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule]  ,
 })
 export class StudentMembersComponent implements OnInit {
   public dataTable: DataTable = {
@@ -69,6 +70,8 @@ export class StudentMembersComponent implements OnInit {
 //   isadmin: boolean;
   allStudentDetails: StudentMembers[] = [];
   readonly panelOpenState = signal(false);
+
+  searchStudent=''
 
   staffImage: any;
   

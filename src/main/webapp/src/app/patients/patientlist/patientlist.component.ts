@@ -9,6 +9,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { CurrentUserService } from 'src/app/profiles/currentUserService';
 import { StaffMember } from 'src/app/administration/staff-members/staffmember';
 import { LoginService } from 'src/app/home/login/login.service';
+import { FormsModule } from '@angular/forms';
+import { SearchPipe } from '../search.pipe';
+import { SharedModule } from 'src/app/shared/shared-module';
 
 
 
@@ -17,7 +20,9 @@ import { LoginService } from 'src/app/home/login/login.service';
   templateUrl: './patientlist.component.html',
   styleUrls: ['./patient.component.css', '../../app.component.css'],
   standalone: true,
-  imports: [MatSidenavModule, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule]  ,
+  imports: [MatSidenavModule, MatButtonModule,SearchPipe ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,FormsModule]  ,
+
+  
 })
 export class PatientListComponent implements OnInit {
   public dataTable: any;
@@ -38,6 +43,10 @@ export class PatientListComponent implements OnInit {
   paginatedItems: any[] = [];
   currentPage: number = 1;
   pageSize: number = 10;
+
+  searchText='';
+
+  searchDate='';
 
   
 

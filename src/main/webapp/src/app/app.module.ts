@@ -33,6 +33,7 @@ import { ClinicLocationService } from './patients/services/clinicLocationService
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { StaffMemberService } from './patients/services/staffmemberservice';
 import { StudentRegistrationComponent } from './home/student-registration/student-registration.component';
+import { SearchPipe } from './patients/search.pipe';
 
 
 
@@ -43,8 +44,8 @@ import { StudentRegistrationComponent } from './home/student-registration/studen
     AboutUsComponent,
     EHRLayoutComponent,
     StudentRegistrationComponent,
-    
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -68,7 +69,8 @@ import { StudentRegistrationComponent } from './home/student-registration/studen
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [// provideClientHydration(), 
     LoginService,
@@ -90,7 +92,8 @@ import { StudentRegistrationComponent } from './home/student-registration/studen
   MatFormFieldModule,
   MatInputModule,
   MatRippleModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  
  ]
  
 })
