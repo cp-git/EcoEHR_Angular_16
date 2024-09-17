@@ -250,4 +250,9 @@ editfeedBack(){
 
 }
 
+addEncounter(patientId:any){
+  this.router.navigate(['/addencounter',patientId])
+
+}
+
 }

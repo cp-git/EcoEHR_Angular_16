@@ -274,6 +274,7 @@ onSubmitStaff(event: any) {
           let staffRoleToInsert = new StaffRole(0, data.staffId, authority, true, dob, "", dob, "");
           this.staffMemberService.insertStaffRole(staffRoleToInsert)
           .subscribe(successCode => {
+            alert("data added...")
             this.statusCode = successCode;
            // .subscribe(sucessCode => {
             //  this.statusCode = sucessCode;

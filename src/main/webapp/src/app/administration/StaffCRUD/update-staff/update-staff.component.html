@@ -1,7 +1,7 @@
 <!-- <p>update-staff works!</p> -->
 <!-- {{staff | json}} -->
 
-<div class="container" style="height: auto;">
+<div class="container">
     <form [formGroup]="staffMemberForm">
         <div *ngIf="statusCode === 201"
             class="alert alert-success" data-icon-bg-color="alert-green">
@@ -30,14 +30,14 @@
                             
                         </div>
                     </div>
-                    <div class="col-md-4" style="top:7px;">
+                    <div class="col-md-4">
                         <div class="form-group label-floating">
                             <label #genderfloatLable id="gender_floatToLabel"
                                 class="control-label" [ngClass]="buttonName=='UPDATE'?'customfloat':'labelPosition'">
                                 <small class="AsteriskColor">*</small> Sex
                             </label>
                             <select name="gender" formControlName="gender"
-                               style="width: 100%">
+                               style="width: 100%;height: 35px;">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="unknown">Unknown</option>
@@ -48,15 +48,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin-top:30px;">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="label-floating form-group" >
                             <label #dobfloatToLabel [ngClass]="{'datepicket-label-style': buttonName=='UPDATE' && selectedStaff.dob != null}"
                                 class="control-label control-label-datepicker">
                                 <small class="AsteriskColor">*</small> DOB
-                            </label>
+                            </label><br>
     
-                            <input  type="text"  id="dob"
+                            <input  type="text"  id="dob" style="width: 180px;height: 35px;"
                             name="dob"
                               formControlName="dob"  required>
     
@@ -126,14 +126,14 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group label-floating" style="margin-top:4%">
+                        <div class="form-group label-floating" >
                             <label #primaryLocationfloatLable id="primaryLocation_floatToLabel" 
                             class="control-label" [ngClass]="buttonName=='UPDATE'?'customfloat':'labelPosition'">
                                 <small class="AsteriskColor">*</small> 
                                 Primary Location
                             </label>
                             <select name="staffAddressId" formControlName="staffAddressId"
-                                style="width:100%;">       
+                                style="width:100%;height: 35px;">       
                                 <option class="decrease-height"
                                     *ngFor="let cliniclocation of allCliniclocations"
                                     [value]="cliniclocation.locationId">{{cliniclocation.locationName}}</option>
@@ -172,7 +172,7 @@
                     <select name="designation" formControlName="designation" #cred
                         
                           
-                        style="width:100%;">
+                        style="width:100%;height: 35px;">
                        
                             <input name="search" type="text"
                                 placeholder="Search for Credentials" [(ngModel)]="_search"
@@ -238,7 +238,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4" style="top:7px;" id="specialtyDiv">
+            <div class="col-md-4"  id="specialtyDiv">
                 <div class="form-group label-floating" >
                     <label #providerTypefloatLable id="providerType_floatToLabel"
                         [ngClass]="buttonName=='UPDATE'?'customfloat':'labelPosition'"
@@ -249,7 +249,7 @@
                     <select name="providerType" id="providerType"
                         formControlName="providerType"
                         
-                        style="width:100%;"
+                        style="width:100%;height: 35px;"
                         [ngClass]="{'disableLoginId':(isCredential=='Admin Staff')|| (showProviderType)}">
                         
                             <input name="search" type="text"
@@ -277,7 +277,7 @@
                 </div>
             </div>
     
-            <div>
+            <!-- <div>
                 <button type="submit" (click)="onSubmitStaff(staffMemButton.value)"
                     class="btn button pull-left" id="staffButton" value="{{buttonName}}"
                     #staffMemButton style="font-size: 20px;background-color: aqua;">update</button>
@@ -287,15 +287,15 @@
                 <div class="col-sm-1 col-xs-1"></div>
                 <button  type="submit" class="btn button pull-right"
                     data-dismiss="modal">Cancel</button>
-            </div>
+            </div> -->
         </div>
-        <div class="row" style="margin-top:8px;">
+        <div class="row">
             <div class="col-md-2">
-                <label class="label-floating" style="color:black;margin-top:11px">
+                <label class="label-floating" style="color:black;">
                     License Number:
                 </label>
             </div>
-            <div class="col-md-6" style="right:45px">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4" style="top:7px;">
                         <div class="form-group label-floating" id="stateDiv">
@@ -305,7 +305,7 @@
                             </label>
                             <select
                                 name="staffAddressState" formControlName="staffAddressState" [ngClass]="{'disableLoginId':isCredential=='Admin Staff'}"
-                                style="width: 100%">
+                                style="width: 100%;height: 35px;">
                                 
                                     <input name="search" type="text"
                                         placeholder="Search for State"
@@ -332,8 +332,8 @@
                             <label #licExpDatefloatToLabel [ngClass]="{'datepicket-label-style': buttonName=='UPDATE' && selectedStaff.licenseExpDate != null}"
                                 class="control-label control-label-datepicker">Expiration Date
                             </label>
-                            <mat-form-field style="width: 100% !important;">
-                                <div class="input-icon-wrap" style="margin-top:-8px;">
+                            <mat-form-field style="width: 100% !important;height: 55px;">
+                                <div class="input-icon-wrap" >
                                     <input matInput type="text" class="input-with-icon"
                                         id="licExpirationDate"
                                         name="licExpirationDate" 
@@ -348,7 +348,7 @@
         </div>
         <div class="row">
             <div class="col-md-2">
-                <label class="label-floating" style="color:black;margin-top:11px">
+                <label class="label-floating" style="color:black;">
                     DEA Number:
                 </label>
             </div>
@@ -367,8 +367,8 @@
                             <label #deaExpDatefloatToLabel [ngClass]="{'datepicket-label-style': buttonName=='UPDATE' && selectedStaff.deaExpDate != null}"
                                 class="control-label control-label-datepicker">Expiration Date
                             </label>
-                            <mat-form-field style="width: 100% !important;">
-                                <div class="input-icon-wrap" style="margin-top:-8px;">
+                            <mat-form-field style="width: 100% !important;height: 55px;">
+                                <div class="input-icon-wrap" >
                                     <input matInput type="text" class="input-with-icon"
                                         id="deaExpirationDate"
                                         name="deaExpirationDate"
@@ -397,7 +397,7 @@
                         class="control-label control-label-datepicker">Malpractice Expiration
                     </label>
                     <mat-form-field style="width: 100% !important;">
-                        <div class="input-icon-wrap" style="margin-top:-8px;">
+                        <div class="input-icon-wrap">
                             <input matInput type="text" class="input-with-icon"
                                 id="malPracExpirationDate"
                                 name="malPracExpirationDate"
@@ -410,15 +410,15 @@
             </div>
         </div>
         <div>
-            <!-- <button type="submit" (click)="onSubmitStaff(staffMemButton.value)"
+            <button type="submit" (click)="onSubmitStaff(staffMemButton.value)"
                 class="btn button pull-left" id="staffButton" value="{{buttonName}}"
-                #staffMemButton>{{buttonName}}</button>
+                #staffMemButton>Update</button>
                 {{staffMemButton.value}}
             <button id="dismissModalOnSubmit" style="display:none;" type="submit"
                 class="btn btn-info pull-left" data-dismiss="modal"></button>
             <div class="col-sm-1 col-xs-1"></div>
             <button  type="submit" class="btn button pull-right"
-                data-dismiss="modal">Cancel</button> -->
+                data-dismiss="modal">Cancel</button>
         </div>
         <div class="clearfix"></div>
     </form>

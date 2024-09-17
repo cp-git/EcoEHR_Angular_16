@@ -34,6 +34,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { StaffMemberService } from './patients/services/staffmemberservice';
 import { StudentRegistrationComponent } from './home/student-registration/student-registration.component';
 import { SearchPipe } from './patients/search.pipe';
+import { PatientAllergyService } from './patients/services/patientAllergyService';
+import { EncounterService } from './patients/services/encounterService';
+import { TemplateService } from './patients/services/templateService';
 
 
 
@@ -82,7 +85,10 @@ import { SearchPipe } from './patients/search.pipe';
     MasterLookupService,
     StaffDetailsService,
     ClinicLocationService,
-    StaffMemberService
+    StaffMemberService,
+    PatientAllergyService,
+    EncounterService,
+    TemplateService
     
     // provideAnimationsAsync()
   ],

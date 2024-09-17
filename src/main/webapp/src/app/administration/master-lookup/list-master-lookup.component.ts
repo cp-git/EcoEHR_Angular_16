@@ -61,6 +61,8 @@ export class ListMasterLookupComponent implements OnInit {
     paginatedItems: any[] = [];
     currentPage: number = 1;
     pageSize: number = 10;
+
+    pageSizeOptions: number[] = [5, 10, 15];
     
     constructor(
                 private masterLookupService: MasterLookupService,
@@ -166,6 +168,8 @@ updatePaginatedItems(): void {
     const endIndex = startIndex + this.pageSize;
     this.paginatedItems = this.masterLookUp.slice(startIndex, endIndex);
   }
+
+ 
   
   
   

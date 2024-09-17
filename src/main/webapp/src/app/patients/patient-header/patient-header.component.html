@@ -1,0 +1,72 @@
+<div class="container" style="width: 800px;">
+    <div class="row">
+        <h2 style="text-align: center;">Patient Details</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Patient Name {{patientRecords.lastName}}  </h4>
+        </div>
+        <div class="col-md-6">
+            <h4>Dob {{patientRecords.dob}}</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Physician {{patientRecords.providerFirstName}} {{patientRecords.providerLastName}}  {{patientRecords.designation}}  </h4>
+        </div>
+        <div class="col-md-6">
+            <h4>Gender {{patientRecords.gender}}</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <h4 style="text-align: center;color: black;">Encounter Details</h4>
+    </div>
+
+    <div class="row">
+                    <div class="col-md-6">
+                        <h4>Chief Compliant {{encounter.chiefCompliant}}</h4>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4>Encounter Date {{encounter.completionDate}}</h4>
+                    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Level ofAcuity {{encounter.emId}}</h4>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Patient Unique Character {{encounter.patientUniqueCharacters}}</h4>
+        </div>
+    </div>
+</div>
+
+        <div class="row">
+            <h4 style="text-align: center;">ICD-10 CODE DETAILS</h4>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+              <h4 style="margin-left: 40px;">{{icdCode}}</h4>
+             </div>
+
+             <div class="col-md-6">
+                <h4>{{description}}</h4>
+            </div>
+
+        </div>
+
+
+        
+
+
+
+
+
+
+

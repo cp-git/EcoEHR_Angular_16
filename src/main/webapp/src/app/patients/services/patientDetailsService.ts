@@ -70,6 +70,7 @@ export class PatientDetailsService {
 	}
 
 	getPatientRecordsByPatientId(patientId: number): Observable<PatientRecord> {
+
 		const token = localStorage.getItem('jwt') || '';
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json',
@@ -79,11 +80,21 @@ export class PatientDetailsService {
 		
 		const params = new HttpParams().set('patientId', patientId.toString());
 
-		return this.http.get(this.getPatientRecordByPatientIdUrl, {headers, params})
-		.pipe(
-			map((response: any) => this.extractData(response)),
-		//	catchError(this.handleError)
-		);
+		return this.http.get<any>(this.getPatientRecordByPatientIdUrl,{headers, params} )
+		// const token = localStorage.getItem('jwt') || '';
+		// const headers = new HttpHeaders({
+		// 	'Content-Type': 'application/json',
+		// 	'x-auth-token': token
+		// });
+		
+		
+		// const params = new HttpParams().set('patientId', patientId.toString());
+
+		// return this.http.get(this.getPatientRecordByPatientIdUrl, {headers, params})
+		// .pipe(
+		// 	map((response: any) => this.extractData(response)),
+		// //	catchError(this.handleError)
+		// );
 	}
 
 	getPatientDetailsByPatientId(patientId: number): Observable<PatientDetails> {

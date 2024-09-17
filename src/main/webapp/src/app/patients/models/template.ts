@@ -1,0 +1,14 @@
+export class Template {
+    constructor(public templateId: number, 
+                public systemId: number, 
+                public templateName: string,
+                public templateDesc: Blob,
+                public activeFlag: boolean,
+                public version: number,
+                public createdDate: Date,
+                public createdBy: string,
+                public lastUpdatedDate: Date,
+                public lastUpdatedBy: string,
+                public isEdited: string) { 
+    }
+ } 

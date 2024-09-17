@@ -19,6 +19,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { AddPatientComponent } from './add-patient/add-patient.component';
 import { UpdatePatientComponent } from './update-patient/update-patient.component';
 import { SearchPipe } from './search.pipe';
+import { AddEncounterComponent } from './encounter/add-encounter/add-encounter.component';
+import { PatientHeaderComponent } from './patient-header/patient-header.component';
+import { ListEncounterComponent } from './encounter/list-encounter/list-encounter.component';
 
 
 // import { StudentListComponent } from './studentlist/studentlist.component';
@@ -78,7 +81,10 @@ import { SearchPipe } from './search.pipe';
     
   
     UpdatePatientComponent,
-     SearchPipe
+     SearchPipe,
+     AddEncounterComponent,
+     PatientHeaderComponent,
+     ListEncounterComponent
   ],
   providers: [
   // EncounterService,

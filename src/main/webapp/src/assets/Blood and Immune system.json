@@ -1,0 +1,1490 @@
+[  
+    {
+    "ICD10Code":"D50.0",
+    "Description":"Iron deficiency anemia secondary to blood loss (chronic)",
+    "SearchInclusion":"Posthemorrhagic anemia (chronic)\nAnemia due to blood loss\nAnemia due to chronic blood loss\nAnemia, blood loss\nAnemia, chronic blood loss",
+    "ClinicalNotes":""
+   },
+
+    {
+    "ICD10Code":"D50.1",
+    "Description":"Sideropenic dysphagia",
+    "SearchInclusion":"Kelly-Paterson syndrome\nPlummer-Vinson syndrome\nAnemia, plummer vinson syndrome\nPlummer-vinson syndrome",
+    "ClinicalNotes":"A disorder marked by anemia caused by iron deficiency, and a web-like growth of membranes in the throat that makes swallowing difficult. Having plummer-vinson syndrome may increase the risk of developing esophageal cancer.\nA syndrome characterized by dysphagia, upper esophageal webs, iron deficiency anemia, and glossitis.A syndrome of dysphagia with iron-deficiency anemia that is due to congenital anomalies in the esophagus (such as cervical esophageal webs). It is known as patterson-kelly syndrome in the united kingdom."},
+
+    {
+    "ICD10Code":"D50.8",
+    "Description":"Other iron deficiency anemias",
+    "SearchInclusion":"Iron deficiency anemia due to inadequate dietary iron intake Anemia, dietary iron deficiency\nIron deficiency anemia due to dietary causes.\nIron deficiency anemia due to erythropoietin deficiency\nIron deficiency anemia, erythropoietin deficiency",
+    "ClinicalNotes":""
+    },
+    {
+		"ICD10Code": "D50.9",
+		"Description": "Iron deficiency anemia, unspecified",
+		"SearchInclusion": "Anemia, iron deficiency\nAnemia, microcytic, hypochromic\nAnemia, microcytic, normochromic\nAnemia, normocytic, hypochromic\nIron deficiency anemia\nIron deficiency anemia in childbirth\nIron deficiency anemia in pregnancy\nIron deficiency anemia of pregnancy\nIron deficiency anemia postpartum\nMicrocytic anemia\nMicrocytic hypochromic anemia\nMicrocytic normochromic anemia\nNormocytic hypochromic anemia\nPostpartum (after childbirth) iron deficiency anemia",
+		"ClinicalNotes": "Anemia caused by low iron intake, inefficient iron absorption in the gastrointestinal tract, or chronic blood loss.Anemia characterized by decreased or absent iron stores, low serum iron concentration, low transferrin saturation, and low hemoglobin concentration or hematocrit value. The erythrocytes are hypochromic and microcytic and the iron binding capacity is increased."
+    },
+    {
+		"ICD10Code": "D51.0",
+		"Description": "Vitamin B12 deficiency anemia due to intrinsic factor deficiency",
+		"SearchInclusion": "Addison anemia\nBiermer anemia\nPernicious (congenital) anemia\nCongenital intrinsic factor deficiency\nAnemia, pernicious\nPernicious anemia",
+		"ClinicalNotes": "A decrease in red blood cells that occurs when the body cannot absorb vitamin b12,A megaloblastic anemia occurring in children but more commonly in later life, characterized by histamine-fast achlorhydria, in which the laboratory and clinical manifestations are based on malabsorption of vitamin b 12 due to a failure of the gastric mucosa to secrete adequate and potent intrinsic factor. (Dorland, 27th ed),A type of anemia (low red blood cell count) caused by the body's inability to absorb vitamin b12.Anemia due to poor intestinal absorption of vitamin b12 caused by defective production of intrinsic factor (a carrier protein) by the gastric mucosa.Megaloblastic anemia caused by vitamin b-12 deficiency due to impaired absorption. The impaired absorption of vitamin b-12 is secondary to atrophic gastritis and loss of gastric parietal cells."
+    },
+    {   "ICD10Code":"D51.1",
+        "Description":"Vitamin B12 deficiency anemia due to selective vitamin B12 malabsorption with proteinuria",
+        "SearchInclusion":"Imerslund (Gräsbeck) syndrome\nMegaloblastic hereditary anemia\nImmerslund grasbeck syndrome\nSelective malabsorption of cyanocobalamin\nVitamin b12 deficiency anemia due to malabsorption with proteinuria\nVitamin b12 deficiency anemia due to vitamin b12 malab",
+        "ClinicalNotes":""
+    },
+    {
+        "ICD10Code":"D51.2",
+        "Description":"Transcobalamin II deficiency",
+        "SearchInclusion":"",
+        "ClinicalNotes":""
+    },
+
+    {   "ICD10Code":"D51.3",
+        "Description":"Other dietary vitamin B12 deficiency anemia",
+        "SearchInclusion":"",
+        "ClinicalNotes":""
+    },
+
+    { "ICD10Code":"D51.8",
+       "Description":"Other vitamin B12 deficiency anemias",
+       "SearchInclusion":"",
+       "ClinicalNotes":""
+    },
+    {  "ICD10Code":"D51.9",
+        "Description":"Vitamin B12 deficiency anemia, unspecified",
+        "SearchInclusion":"Anemia, vitamin b12 deficiency\nMegaloblastic anemia due to vitamin 12 deficiency",
+        "ClinicalNotes":""
+    },
+    {
+    "ICD10Code":"D52.0",
+    "Description":"Dietary folate deficiency anemia",
+    "SearchInclusion":"Nutritional megaloblastic anemia  Anemia\ndietary folate deficiency\nMegaloblastic anemia due to poor nutrition",
+    "ClinicalNotes":""
+    },
+    {
+    "ICD10Code":"D52.1",
+    "Description":"Drug-induced folate deficiency anemia",
+    "SearchInclusion":"Drug induced folate deficiency anemia\nFolate deficiency anemia, drug-induced",
+    "ClinicalNotes":""
+    },
+
+    {
+    "ICD10Code":"D52.8",
+    "Description":"Other folate deficiency anemias",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+    },
+
+    {
+    "ICD10Code":"D52.9",
+    "Description":"Folate deficiency anemia, unspecified",
+    "SearchInclusion":"Anemia, megaloblastic, folate deficiency\nMegaloblastic anemia due to folate deficiency\nFolic acid deficiency anemia NOS",
+    "ClinicalNotes":""
+    },
+    {
+    "ICD10Code":"D53.0",
+     "Description":"Protein deficiency anemia",
+     "SearchInclusion":"Amino-acid deficiency anemia\nOrotaciduric anemia\nAmino acid deficiency anemia\nAnemia, amino acid deficiency",
+    "ClinicalNotes":""
+    },
+    {
+    "ICD10Code":"D53.1",
+     "Description":"Other megaloblastic anemias, not elsewhere classified",
+     "SearchInclusion":"Megaloblastic anemia NOS\nAcute megaloblastic anemia\nAnemia, b12 and folate deficiency\nAnemia, megaloblastic\nAnemia, megaloblastic, acute\nAnemia, megaloblastic, refractory\nCombined b12 and folate deficiency anemia\nMegaloblastic anemia\nPrimary malignant neoplasm of renal pelvis\nRefractory megaloblastic anemia",
+     "ClinicalNotes":"A disorder characterized by the presence of anemia, abnormally large red blood cells (megalocytes or macrocytes), and megaloblasts.\nAnemia characterized by the presence of unusually large erythroblasts in the bone marrow called megaloblasts. It is usually caused by vitamin b12 or folic acid deficiency. Other causes SearchInclusion toxins and drugs.Anemias associated with impaired dna synthesis in bone marrow progenitor cells leading to odd shaped, macrocytic, or dysfunctional erythrocytes; usually caused by b12 or folate deficiency."
+    },
+    {
+    "ICD10Code":"D53.2",
+     "Description":"Scorbutic anemia",
+     "SearchInclusion":"Vitamin c deficiency anemia",
+     "ClinicalNotes":""
+    },
+    {
+    "ICD10Code":"D53.8",
+    "Description":"Other specified nutritional anemias",
+    "SearchInclusion":"Anemia associated with deficiency of copper\nAnemia associated with deficiency of molybdenum\nAnemia associated with deficiency of zinc",
+    "ClinicalNotes":""
+   },
+   {
+    "ICD10Code":"D53.9",
+    "Description":"Nutritional anemia, unspecified",
+    "SearchInclusion":"Simple chronic anemia\nAnemia, acrostic\nAnemia, nutritional\nAnemia, simple, chronic\nMacrocytic anemia\nNutritional anemia\nSimple chronic anemia",
+    "ClinicalNotes":""
+   },
+   {
+    "ICD10Code":"D55.0",
+    "Description":"Anemia due to glucose-6-phosphate dehydrogenase [G6PD] deficiency",
+    "SearchInclusion":"Favism\nG6PD deficiency anemia\nAnemia, g6pd deficiency\nDeficiency of glucose-6-phosphate dehydrogenase\nGlucose 6 phosphate dehydrogenase deficiency\nGlucose-6-phosphate dehydrogenase deficiency anemia",
+    "ClinicalNotes":"Hemolytic anemia due to the ingestion of fava beans or after inhalation of pollen from the vicia fava plant by persons with glucose-6-phosphate dehydrogenase deficient erythrocytes."
+   },
+   {
+    "ICD10Code":"D55.1",
+    "Description":"Anemia due to other disorders of glutathione metabolism",
+    "SearchInclusion":"Anemia (due to) enzyme deficiencies, except G6PD, related to the hexose monophosphate [HMP] shunt pathway\nAnemia (due to) hemolytic nonspherocytic (hereditary), type I",
+    "ClinicalNotes":""
+   },
+   {
+    "ICD10Code":"D55.2",
+    "Description":"Anemia due to disorders of glycolytic enzymes",
+    "SearchInclusion":"Hemolytic nonspherocytic (hereditary) anemia, type II\nHexokinase deficiency anemia\nPyruvate kinase [PK] deficiency anemia\nTriose-phosphate isomerase deficiency anemia\nAnemia, glutathione reductase deficiency\nHnsha due to glutathione reductase deficiency",
+    "ClinicalNotes":""  
+   },
+   {
+    "ICD10Code":"D55.3",
+    "Description":"Anemia due to disorders of nucleotide metabolism",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D55.8",
+    "Description":"Other anemias due to enzyme disorders",
+    "SearchInclusion":"",
+    "ClinicalNotes":""},
+{
+    "ICD10Code":"D55.9",
+    "Description":"Anemia due to enzyme disorder, unspecified",
+    "SearchInclusion":"Anemia due to enzyme disorder\nHemolytic anemia due to enzyme deficiency",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D56.0",
+    "Description":"Alpha thalassemia",
+    "SearchInclusion":"Alpha thalassemia major\nHemoglobin H Constant Spring\nHemoglobin H disease\nHydrops fetalis due to alpha thalassemia\nSevere alpha thalassemia\nTriple gene defect alpha thalassemia             Hgb h disease,\ndeletion type\nHgb h disease, nondeletion type\nHomozygous alpha thalassemia\nThalassemia, alpha\nThalassemia, alpha plus, deletion type\nThalassemia, alpha plus, nondeletion type\nThalassemia, alpha, homozygous",
+    "ClinicalNotes":"A disorder characterized by reduced synthesis of the alpha chains of hemoglobin. The severity of this condition can vary from mild anemia to death, depending on the number of genes deleted.\nA genetic hematologic disorder characterized by partial or complete absence of the alpha globin chains of the heme molecule."
+},
+{
+    "ICD10Code":"D56.1",
+    "Description":"Beta thalassemia",
+    "SearchInclusion":"Beta thalassemia major\nCooley's anemia\nHomozygous beta thalassemia\nSevere beta thalassemia\nThalassemia intermedia\nThalassemia major\nHgb c beta plus thalassemia\nHgb c beta zero thalassemia\nHgb d beta plus thalassemia\nHgb d beta zero thalassemia\nHgb e beta plus thalassemia\nHgb e beta zero thalassemia\nHomozygous beta thalassemia\nThalassemia, beta\nThalassemia, beta plus\nThalassemia, beta zero\nThalassemia, beta, homozygous",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D56.2",
+    "Description":"Delta-beta thalassemia",
+    "SearchInclusion":"Homozygous delta-beta thalassemia\nDelta beta thalassemia\nThalassemia, delta beta",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D56.3",
+    "Description":"Thalassemia minor",
+    "SearchInclusion":"Alpha thalassemia minor\nAlpha thalassemia silent carrier\nAlpha thalassemia trait\nBeta thalassemia minor\nBeta thalassemia trait\nDelta-beta thalassemia minor\nDelta-beta thalassemia trait\nThalassemia trait NOS                                                             Alpha\nthalassemia 2 trait\nAlpha trait thalassemia\nBeta thalassemia trait\nDelta beta thalassemia trait\nHemoglobin lepore trait\nHeterozygous thalassemia\nHgb lepore trait\nHomozygous hemoglobin lepore\nHomozygous hgb lepore\nThalassemia trait\nThalassemia trait, alpha\nThalassemia trait, beta",
+    "ClinicalNotes":"A condition in which a person has reduced protein production from one of the four alpha-globin alleles.\nA condition in which a person has reduced protein production from two of the four alpha-globin alleles."
+},
+{
+    "ICD10Code":"D56.4",
+    "Description":"Hereditary persistence of fetal hemoglobin [HPFH]",
+    "SearchInclusion":"Hereditary persistence of fetal hemoglobin thalassemia\nThalassemia, persistence of fetal hemoglobin",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D56.5",
+    "Description":"Hemoglobin E-beta thalassemia",
+    "SearchInclusion":"Hemoglobin e/beta thalassemia disease\nThalassemia, hemoglobin e beta",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D56.8",
+    "Description":"Other thalassemias",
+    "SearchInclusion":"Dominant thalassemia\nHemoglobin C thalassemia\nMixed thalassemia\nThalassemia with other hemoglobinopathy\nHemoglobin beta thalassemia disease\nHemoglobin constant spring trait\nHemoglobin d/beta thalassemia disease\nHemoglobin e/beta thalassemia disease\nHemoglobin h constant spring thalassemia\nHemoglobin h disease\nHereditary persistence of fetal hemoglobin thalassemia\nHomozygous hemoglobin h constant spring thalassemia\nThalassemia, hemoglobin c beta\nThalassemia, hemoglobin constant spring carrier\nThalassemia, hemoglobin d beta\nThalassemia, hemoglobin e beta\nThalassemia, hemoglobin h constant spring disease\nThalassemia, hemoglobin h disease\nThalassemia, homozygous hemoglobin constant spring\nThalassemia, persistence of fetal hemoglobin",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D56.9",
+    "Description":"Thalassemia, unspecified",
+    "SearchInclusion":"Maternal thalassemia in childbirth\nMaternal thalassemia in pregnancy\nPostpartum (after childbirth) maternal thalassemia\nThalassemia\nThalassemia in pregnancy\nThalassemia postpartum\nMediterranean anemia (with other hemoglobinopathy)",
+    "ClinicalNotes":"A group of hereditary hemolytic anemias in which there is decreased synthesis of one or more hemoglobin polypeptide chains. There are several genetic types with clinical pictures ranging from barely detectable hematologic abnormality to severe and fatal anemia.\nAn inherited blood disorder characterized by a decreased synthesis of one of the polypeptide chains that form hemoglobin. Anemia results from this abnormal hemoglobin formation.An inherited form of anemia Heterogeneous group of hereditary hemolytic anemias which have in common a decreased rate of synthesis of one or more hemoglobin polypeptide chains.If you have thalassemia, your body has problems making hemoglobin, the protein in red blood cells that carries oxygen through your body. When your blood does not carry enough oxygen to the rest of your body, you have anemia.thalassemia, a genetic disease, can be mild or severe. Some carriers of the gene have no symptoms. The most common severe form in the United States is a type called cooley's anemia. It mainly affects people of mediterranean or asian ancestry. It usually appears during the first two years of life. Severe thalassemia is treated with blood transfusions and treatment to remove excess iron in the blood."
+},
+{
+    "ICD10Code":"D57.00",
+    "Description":"Hb-SS disease with crisis, unspecified",
+    "SearchInclusion":"Hemoglobin s sickling disorder with crisis\nSickle cell anemia, crisis",
+    "ClinicalNotes":"Broad term used to describe several different acute conditions occurring with sickle cell disease, including aplastic crisis, hemolytic crisis, and vasoocclusive crisis."
+},
+{
+    "ICD10Code":"D57.01",
+    "Description":"Hb-SS disease with acute chest syndrome",
+    "SearchInclusion":"Acute chest syndrome\nSickle cell anemia with acute chest syndrome\nSickle cell anemia, acute chest syndrome",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.02",
+    "Description":"Hb-SS disease with splenic sequestration",
+    "SearchInclusion":"Acute sickle cell splenic sequestration crisis\nSickle cell anemia acute crisis splenic sequestrat",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.1",
+    "Description":"Sickle-cell disease without crisis",
+    "SearchInclusion":"Hb-SS disease without crisis\nSickle-cell anemia NOS\nSickle-cell disease NOS\nSickle-cell disorder NOS  Hb ss disease\nHemoglobin s sickling disorder without crisis\nMaternal sickle cell anemia in pregnancy\nMicrohematuria due to sickle cell disease\nPostpartum (after childbirth) sickle cell anemia\nPostpartum sickle cell anemia\nPriapism due to sickle cell disease\nProliferative retinopathy due to sickle cell disease\nSickle cell anemia\nSickle cell anemia in childbirth\nSickle cell anemia, without crisis\nSickle cell proliferative retinopathy\nSickle cell retinopathy\nSickle cell retinopathy (eye condition)\nSickle cell w/ microhematuria",
+    "ClinicalNotes":"A blood disorder characterized by the appearance of sickle-shaped red blood cells and anemia.\nA disease characterized by chronic hemolytic anemia, episodic painful crises, and pathologic involvement of many organs. It is the clinical expression of homozygosity for hemoglobin s.An inherited disease in which the red blood cells have an abnormal crescent shape, block small blood vessels, and do not last as long as normal red blood cells. Sickle cell anemia is caused by a mutation (change) in one of the genes for hemoglobin (the substance inside red blood cells that binds to oxygen and carries it from the lungs to the tissues). It is most common in people of west and central african descent.Disease characterized by chronic hemolytic anemia, episodic painful crises, and pathologic involvement of many organs; the clinical expression of homozygosity for hemoglobin s.Sickle cell anemia is a disease in which your body produces abnormally shaped red blood cells. The cells are shaped like a crescent or sickle. They don't last as long as normal, round red blood cells, which leads to anemia. The sickle cells also get stuck in blood vessels, blocking blood flow. This can cause pain and organ damage. A genetic problem causes sickle cell anemia. People with the disease are born with two sickle cell genes, one from each parent. If you only have one sickle cell gene, it's called sickle cell trait. About 1 in 12 african americans has sickle cell trait. A blood test can show if you have the trait or anemia. Most states test newborn babies as part of their newborn screening programs."
+},
+{
+    "ICD10Code":"D57.20",
+    "Description":"Sickle-cell/Hb-C disease without crisis",
+    "SearchInclusion":"Sickle cell, hemoglobin c\nSickle cell-hemoglobin c disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.211",
+    "Description":"Sickle-cell/Hb-C disease with acute chest syndrome",
+    "SearchInclusion":"Acute chest syndrome due to sickle cell-hemoglobin c\ndisease crisis\nAcute chest syndrome sickle cell hb-c crisis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.212",
+    "Description":"Sickle-cell/Hb-C disease with splenic sequestration",
+    "SearchInclusion":"Sickle cell hgb c disease w splenic sequestration\nSickle cell-hemoglobin c disease with splenic sequestration",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.219",
+    "Description":"Sickle-cell/Hb-C disease with crisis, unspecified",
+    "SearchInclusion":"Sickle-cell/Hb-C disease with crisis NOS\nSickle cell hgb c disease w crisis\nSickle cell-hemoglobin c disease with crisis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.3",
+    "Description":"Sickle-cell trait",
+    "SearchInclusion":"Hb-S trait\nHeterozygous hemoglobin S\nMaternal ickle cell trait in pregnancyMaternal sickle cell trait in pregnancy\nPostpartum (after childbirth) sickle cell trait\nPostpartum sickle cell trait\nSickle cell trait\nSickle cell trait in childbirth",
+    "ClinicalNotes":"The condition of being heterozygous for hemoglobin s."
+},
+{
+    "ICD10Code":"D57.40",
+    "Description":"Sickle-cell thalassemia without crisis",
+    "SearchInclusion":"Sickle cell-thalassemia disease\nThalassemia, sickle cell\nThalassemia, sickle cell, beta plus\nThalassemia, sickle cell, beta zero\nMicrodrepanocytosis\nSickle-cell thalassemia NOS",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.411",
+    "Description":"Sickle-cell thalassemia with acute chest syndrome",
+    "SearchInclusion":"Sickle cell thalassemia disease with acute chest syndrome",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.412",
+    "Description":"Sickle-cell thalassemia with splenic sequestration",
+    "SearchInclusion":"Sickle cell thalassemia with splenic sequestration",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.419",
+    "Description":"Sickle-cell thalassemia with crisis, unspecified",
+    "SearchInclusion":"Sickle cell thalassemia disease w crisis\nSickle cell-thalassemia disease with crisis\nSickle-cell thalassemia with crisis NOS",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.80",
+    "Description":"Other sickle-cell disorders without crisis",
+    "SearchInclusion":"Sickle cell nephropathy\nSickle cell, hemoglobin d\nSickle cell, hemoglobin e\nSickle cell-hemoglobin d disease\nSickle cell-hemoglobin e disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.811",
+    "Description":"Other sickle-cell disorders with acute chest syndrome",
+    "SearchInclusion":"Acute chest syndrome due to sickle cell-hemoglobin d disease crisis\nAcute chest syndrome due to sickle cell-hemoglobin e disease crisis\nAcute chest syndrome sickle cell hb-d crisis\nAcute chest syndrome sickle cell hb-e crisis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.812",
+    "Description":"Other sickle-cell disorders with splenic sequestration",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D57.819",
+    "Description":"Other sickle-cell disorders with crisis, unspecified",
+    "SearchInclusion":"Other sickle-cell disorders with crisis NOS\nHbg s hbg d dis w/ crisis\nSickle cell-hemoglobin d disease with crisis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D58.0",
+    "Description":"Hereditary spherocytosis",
+    "SearchInclusion":"Acholuric (familial) jaundice\nCongenital (spherocytic) hemolytic icterus\nMinkowski-Chauffard syndrome\nSpherocytosis, hereditary",
+    "ClinicalNotes":"A familial congenital hemolytic anemia characterized by numerous abnormally shaped erythrocytes which are generally spheroidal. The erythrocytes have increased osmotic fragility and are abnormally permeable to sodium ions.\nAn autosomal dominant inherited disorder characterized by the presence of smaller than normal, sphere-shaped erythrocytes. It results in hemolytic anemia and splenomegaly.Autosomal dominant trait marked by splenomegaly, jaundice, and fragile, spheroid erythrocytes which are prematurely cleared by the spleen; anemia is usually mild; treatment is splenectomy."
+},
+{
+    "ICD10Code":"D58.1",
+    "Description":"Hereditary elliptocytosis",
+    "SearchInclusion":"Elliptocytosis (congenital)\nOvalocytosis (congenital) (hereditary)\nElliptocytosis, hereditary",
+    "ClinicalNotes":"A peripheral blood finding in which a large number of erythrocytes are shaped in a slightly oval-shaped form.\nAn intrinsic defect of erythrocytes inherited as an autosomal dominant trait. The erythrocytes assume an oval or elliptical shape.Intrinsic defect of erythrocytes inherited as an autosomal dominant trait; erythrocytes assume an oval or elliptical shape."
+},
+{
+    "ICD10Code":"D58.2",
+    "Description":"Other hemoglobinopathies",
+    "SearchInclusion":"Abnormal hemoglobin NOS\nCongenital Heinz body anemia\nHb-C disease\nHb-D disease\nHb-E disease\nHemoglobinopathy NOS\nUnstable hemoglobin hemolytic disease\nAbnormal hgb, alpha variant\nAbnormal hgb, alpha variant homozygous\nAbnormal hgb, beta variant\nAbnormal hgb, delta variant\nAbnormal hgb, delta variant homozygous\nAbnormal hgb, gamma variant\nAbnormal hgb, unidentified variant\nAbnormal presence of hemoglobin, alpha variant\nAbnormal presence of hemoglobin, alpha variant,\n homozygous\nAbnormal presence of hemoglobin, beta variant\nAbnormal presence of hemoglobin, delta variant\nAbnormal presence of hemoglobin, delta variant,\n homozygous\nAbnormal presence of hemoglobin, gamma variant\nAbnormal presence of hemoglobin, unidentified variant\nHemoglobin c disease\nHemoglobin c trait\nHemoglobin d disease\nHemoglobin d trait\nHemoglobin e disease\nHemoglobin e trait\nHemoglobinopathy\nHemoglobinopathy, hereditary\nHereditary hemoglobinopathy",
+    "ClinicalNotes":"A blood disorder characterized by the appearance of sickle-shaped red blood cells and anemia. This disorder is caused by a specific mutation in the beta-globin hbb gene, whereby a lysine is substituted for a glutamic acid at the sixth amino acid in the protein.A disease characterized by compensated hemolysis with a normal hemoglobin level or a mild to moderate anemia. There may be intermittent abdominal discomfort, splenomegaly, and slight jaundice.A group of inherited disorders characterized by structural alterations within the hemoglobin molecule.An inherited disorder characterized by structural alterations of a globin chain within the hemoglobin molecule.Group of inherited disorders characterized by structural alterations within the hemoglobin molecule.Hemoglobins characterized by structural alterations within the molecule. The alteration can be either absence, addition or substitution of one or more amino acids in the globin part of the molecule at selected positions in the polypeptide chains."
+},
+{
+    "ICD10Code":"D58.8",
+    "Description":"Other specified hereditary hemolytic anemias",
+    "SearchInclusion":"Stomatocytosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D58.9",
+    "Description":"Hereditary hemolytic anemia, unspecified",
+    "SearchInclusion":"Hemolytic anemia\nHemolytic anemia associated with lymphoproliferative disorder\nHemolytic anemia associated with ulcerative colitis\nHemolytic anemia, hereditary\nHemolytic anemia, lymphoproliferative disease\nHemolytic anemia, with ulcerative colitis\nHereditary hemolytic anemia",
+    "ClinicalNotes":"A congenital hemolytic anemia caused by defects of the erythrocyte membrane, enzyme deficiencies, or hemoglobinopathies.Hemolytic anemia due to various intrinsic defects of the erythrocyte.SearchInclusions hereditary erythrocyte membrane defects, enzyme deficiencies, hemoglobin abnormalities, stem cell defects (paroxysmal nocturnal hemoglobinuria), and alloimmune (rh) disease of newborn."
+},
+{
+    "ICD10Code":"D59.0",
+    "Description":"Drug-induced autoimmune hemolytic anemia",
+    "SearchInclusion":"Drug-induced immune hemolytic anemia, immune complex type\nHemolytic anemia, drug induced autoimmune\nHemolytic anemia, drug induced immune complex type",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D59.1",
+    "Description":"Other autoimmune hemolytic anemias",
+    "SearchInclusion":"Autoimmune hemolytic disease (cold type) (warm type)\nChronic cold hemagglutinin disease\nCold agglutinin disease\nCold agglutinin hemoglobinuria\nCold type (secondary) (symptomatic) hemolytic anemia\nWarm type (secondary) (symptomatic) hemolytic anemia\nAnemia, autoimmune hemolytic\nAutoimmune hemolytic anemia\nChronic cold agglutinin disease\nCold agglutinin disease, chronic\nCold autoimmune hemolytic anemia\nDrug-induced autoimmune hemolytic anemia\nHapten type high affinity hemolytic anemia\nHapten type low affinity hemolytic anemia\nHemolytic anemia associated with rheumatic disorder\nHemolytic anemia associated with systemic lupus\n erythematosus\nHemolytic anemia with systemic lupus erythematosus\nHemolytic anemia, cold antibody\nHemolytic anemia, drug induced autoimmune\nHemolytic anemia, due to warm antibody\nHemolytic anemia, high affinity hapten\nHemolytic anemia, low affinity hapten\nHemolytic anemia, rheumatic disease\nWarm autoimmune hemolytic anemia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D59.2",
+    "Description":"Drug-induced nonautoimmune hemolytic anemia",
+    "SearchInclusion":"Drug-induced enzyme deficiency anemia\nAnemia, hemolytic, drug induced nonautoimmune\nNon-autoimmune hemolytic anemia due to drug",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D59.3",
+    "Description":"Hemolytic-uremic syndrome",
+    "SearchInclusion":"Hemolytic uremic syndrome",
+    "ClinicalNotes":"A disorder characterized by a form of thrombotic microangiopathy with renal failure, hemolytic anemia, and severe thrombocytopenia.\nA form of thrombotic microangiopathy with renal failure, hemolytic anemia, and severe thrombocytopenia.A syndrome that is associated with microvascular diseases of the kidney, such as renal cortical necrosis. It is characterized by hemolytic anemia (anemia, hemolytic); thrombocytopenia; and acute renal failure."
+},
+{
+    "ICD10Code":"D59.4",
+    "Description":"Other nonautoimmune hemolytic anemias",
+    "SearchInclusion":"Hemolytic anemia due to babesiosis\nHemolytic anemia due to infection\nHemolytic anemia due to plasmodium falciparum\nHemolytic anemia with infection\nHemolytic anemia, babesiosis\nHemolytic anemia, microangiopathic\nHemolytic anemia, nonautoimmune\nHemolytic anemia, p falciparum\nHemolytic anemia, traumatic cardiac\nMicroangiopathic hemolytic anemia\nNon-autoimmune hemolytic anemia\nPolyagglutinable erythrocyte syndrome\nTraumatic cardiac hemolytic anemia\nMechanical hemolytic anemia\nMicroangiopathic hemolytic anemia\nToxic hemolytic anemia",
+    "ClinicalNotes":"Acquired anemia due to destruction of red blood cells by physical trauma such as fibrin strands in the blood vessels, artificial heart valve, aortic coarctation. I can also be associated with hematologic diseases such as disseminated intravascular coagulation; hemolytic-uremic syndrome; and thrombotic thrombocytopenic purpura."
+},
+{
+    "ICD10Code":"D59.5",
+    "Description":"Paroxysmal nocturnal hemoglobinuria [Marchiafava-Micheli]",
+    "SearchInclusion":"Paroxsymal nocturia hemoglobinuria\nParoxysmal nocturnal hemoglobinuria",
+    "ClinicalNotes":"A rare acquired hematologic disorder characterized by hemolytic anemia, dark-colored urine due to the release of hemoglobin in the blood, and thrombosis. The episodes of hemolysis tend to occur at night. It is caused by a somatic mutation in the glycosylphosphatidylinositol biosynthesis gene.\nA rare disorder in which red blood cells are easily destroyed by certain immune system proteins. Symptoms SearchInclusion blood clots, and red or brownish urine in the morning. Aplastic anemia (decreased production of blood cells) may lead to pnh, and people with pnh are at increased risk of acute myelogenous leukemia.Disorder characterized by intravascular hemolysis and hemoglobinuria; some cases occur on exposure to cold and are due to the presence of an autohemolysin in the serum; other cases are more marked during or immediately after sleep and are considered to be due to an acquired intracorpuscular defect."
+},
+{
+    "ICD10Code":"D59.6",
+    "Description":"Hemoglobinuria due to hemolysis from other external causes",
+    "SearchInclusion":"Hemoglobinuria from exertion\nMarch hemoglobinuria\nParoxysmal cold hemoglobinuria\nHemoglobinuria - external causation\nHemoglobinuria, extrinsic",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D59.8",
+    "Description":"Other acquired hemolytic anemias",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D59.9",
+    "Description":"Acquired hemolytic anemia, unspecified",
+    "SearchInclusion":"Acquired hemolytic anemia\nAnemia hemolytic, associated with sle\nHemolytic anemia associated with chronic inflammatory disease\nHemolytic anemia associated with systemic lupus erythematosus\nHemolytic anemia due to chronic inflammatory disease\nHemolytic anemia, acquired\nIdiopathic hemolytic anemia, chronic",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D60.0",
+    "Description":"Chronic acquired pure red cell aplasia",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D60.1",
+    "Description":"Transient acquired pure red cell aplasia",
+    "SearchInclusion":"Erythroblastopenia of childhood, transient\nTransient erythroblastopenia of childhood",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D60.8",
+    "Description":"Other acquired pure red cell aplasias",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D60.9",
+    "Description":"Other nonautoimmune hemolytic anemias",
+    "SearchInclusion":"Hemolytic anemia due to babesiosis\nHemolytic anemia due to infection\nHemolytic anemia due to plasmodium falciparum\nHemolytic anemia with infection\nHemolytic anemia, babesiosis\nHemolytic anemia, microangiopathic\nHemolytic anemia, nonautoimmune\nHemolytic anemia, p falciparum\nHemolytic anemia, traumatic cardiac\nMicroangiopathic hemolytic anemia\nNon-autoimmune hemolytic anemia\nPolyagglutinable erythrocyte syndrome\nTraumatic cardiac hemolytic anemia\nMechanical hemolytic anemia\nMicroangiopathic hemolytic anemia\nToxic hemolytic anemia",
+    "ClinicalNotes":"A disease characterized by normocytic, normochromic anemia, low hematocrit, reticulocytopenia and selective erythroid hypoplasia. It can occur as a chronic or acute form; the former is predominantly seen in adults and the latter in children. Pathogenesis involves immune dysfunction with antibodies directed against erythroid precursor cells or erythropoietin, or due to t-cell mediated suppression of erythropoiesis.A rare disorder in which the bone marrow makes almost no red blood cells. It may be caused by infection or by certain drugs. Patients with this disorder may also have a thymoma (a tumor of the thymus) or an autoimmune condition such as lupus erythematosus or rheumatoid arthritis."
+},
+{
+    "ICD10Code":"D61.01",
+    "Description":"Constitutional (pure) red blood cell aplasia",
+    "SearchInclusion":"Blackfan-Diamond syndrome\nCongenital (pure) red cell aplasia\nFamilial hypoplastic anemia\nPrimary (pure) red cell aplasia\nRed cell (pure) aplasia of infants\nAnemia, blackfan-diamond\nConstitutional red blood cell aplasia\nConstitutional red cell aplasia\nDiamond-blackfan anemia\nPure red cell aplasia",
+    "ClinicalNotes":"A rare congenital hypoplastic anemia that usually presents early in infancy. The disease is characterized by a moderate to severe macrocytic anemia, occasional neutropenia or thrombocytosis, a normocellular bone marrow with erythroid hypoplasia, and an increased risk of developing leukemia.  A very rare disorder in which the bone marrow doesn't make enough red blood cells. It is usually seen in the first year of life. Patients may have deformed thumbs and other physical problems. They also have an increased risk of leukemia and sarcoma, especially osteosarcoma (bone cancer). Patients with congenital pure red cell aplasia may have a mutation (change) in one of the genes that make proteins found in the cell's ribosomes.\nAn inborn condition characterized by deficiencies of red cell precursors that sometimes also SearchInclusions leukopenia and thrombocytopenia.An inherited condition characterized by aplasia of the erythroid series only. The white cells and platelets are not affected. Patients develop anemia usually in infancy."
+},
+{
+    "ICD10Code":"D61.09",
+    "Description":"Other constitutional aplastic anemia",
+    "SearchInclusion":"Fanconi's anemia\nPancytopenia with malformations",
+    "ClinicalNotes":"A rare inherited disorder in which the bone marrow does not make blood cells. It is usually diagnosed in children between 2 and 15 years old. Symptoms SearchInclusion frequent infections, easy bleeding, and extreme tiredness. People with fanconi anemia may have a small skeleton and brown spots on the skin. They also have an increased risk of developing certain types of cancer.An autosomal recessive genetic disorder characterized by bone marrow failure, skeletal abnormalities, and an increase incidence of development of neoplasias.Congenital disorder affecting all bone marrow elements, resulting in anemia; leukopenia; and thrombopenia, and associated with cardiac, renal, and limb malformations as well as dermal pigmentary changes. Spontaneous chromosome breakage is a feature of this disease along with predisposition to leukemia. There are at least 7 complementation groups in fanconi anemia: fanca, fancb, fancc, fancd1, fancd2, fance, fancf, fancg, and fancl. "
+},
+{
+    "ICD10Code":"D61.1",
+    "Description":"Drug-induced aplastic anemia",
+    "SearchInclusion":"Anemia, drug induced aplastic\nAplastic anemia due to chemotherapy\nAplastic anemia due to drugs",
+    "ClinicalNotes":"A state of bone marrow suppression and failure that is caused by a cytotoxic or adverse immunologic response to a drug treatment, leading to a failure of production of red blood cells, white cells and platelets."
+},
+{
+    "ICD10Code":"D61.2",
+    "Description":"Aplastic anemia due to other external agents",
+    "SearchInclusion":"Anemia due to lead\nAnemia due to toxic effect of lead\nAnemia, aplastic due to external agent\nAplasic anemia due to parvovirus\nAplastic anemia due to a specified infection\nAplastic anemia due to external agent\nAplastic anemia due to infection\nAplastic anemia due to parvovirus",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D61.3",
+    "Description":"Idiopathic aplastic anemia",
+    "SearchInclusion":"Aplastic anemia without a known cause.",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D61.810",
+    "Description":"Antineoplastic chemotherapy induced pancytopenia",
+    "SearchInclusion":"Pancytopenia caused by antineoplastic chemotherapy\nPancytopenia induced by antineoplastic chemotherapy",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D61.811",
+    "Description":"Other drug-induced pancytopenia",
+    "SearchInclusion":"Pancytopenia caused by antidiabetic drug\nPancytopenia caused by antiepileptic drug\nPancytopenia caused by antithyroid drug\nPancytopenia caused by chloramphenicol\nPancytopenia caused by colchicine\nPancytopenia caused by nonsteroidal anti-inflammatory drug\nPancytopenia caused by phenothiazine drug\nPancytopenia caused by sulfonamide drug\nPancytopenia caused by thiazide drug\nPancytopenia induced by antidiabetics\nPancytopenia induced by antiepileptics\nPancytopenia induced by antithyroids\nPancytopenia induced by chloramphenicol\nPancytopenia induced by colchicine\nPancytopenia induced by nonsteroidal anti-inflammatory drugs (nsaids)\nPancytopenia induced by phenothiazines\nPancytopenia induced by sulfonamides\nPancytopenia induced by thiazides",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D61.818",
+    "Description":"Other pancytopenia",
+    "SearchInclusion":"Acquired pancytopenia\nPancytopenia\nPancytopenia (reduction all blood elements) acquired\nPancytopenia (reduction of all blood elements)",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D61.82",
+    "Description":"Myelophthisis",
+    "SearchInclusion":"Leukoerythroblastic anemia\nMyelophthisic anemia\nPanmyelophthisis",
+    "ClinicalNotes":"Anemia characterized by appearance of immature myeloid and nucleated erythrocytes in the peripheral blood, resulting from infiltration of the bone marrow by foreign or abnormal tissue."
+},
+{
+    "ICD10Code":"D61.89",
+    "Description":"Other specified aplastic anemias and other bone marrow failure syndromes",
+    "SearchInclusion":"Aplastic anemia due to chemotherapy",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D61.9",
+    "Description":"Aplastic anemia, unspecified",
+    "SearchInclusion":"Hypoplastic anemia NOS\nMedullary hypoplasia\nAnemia, aplastic\nAnemia, aplastic, secondary\nAplastic anemia\nAplastic anemia crisis\nAplastic crisis\nSecondary aplastic anemia",
+    "ClinicalNotes":"A condition in which the bone marrow is unable to produce blood cells.A disorder characterized by the inability of the bone marrow to produce hematopoietic elements.A form of anemia in which the bone marrow fails to produce adequate numbers of peripheral blood elements.A laboratory finding indicating decreased number of hematopoietic cells in the bone marrow. It may result from decreased proliferation of all or part of the hematopoietic series (erythroid, myeloid, and megakaryocytic). Microscopically, the hematopoietic cells are replaced by adipocytes.Anemia associated with a fatty, hypocellular bone marrow and global dyshematopoiesis; can be idiopathic or due to microbial, metabolic, autoimmune, or other abnormality.Anemia resulting from bone marrow failure (aplastic or hypoplastic bone marrow). The production of erythroblasts and red cells is markedly decreased, and it may be associated with decreased production of granulocytes (granulocytopenia) and platelets (thrombocytopenia) as well. Aplastic anemia may be idiopathic or secondary due to bone marrow damage by toxins, radiation, or immunologic factors.Aplastic anemia is a rare but serious blood disorder. If you have it, your bone marrow doesn't make enough new blood cells. Causes SearchInclusion being exposed to toxic substances, such as pesticides, arsenic, and benzene radiation therapy and chemotherapy for cancer certain medicines infections such as hepatitis, epstein-barr virus, or hiv autoimmune disorders certain inherited conditions in many people, the cause is unknown.your doctor will diagnose aplastic anemia based on your medical and family histories, a physical exam, and test results. Once your doctor knows the cause and severity of the condition, he or she can create a treatment plan for you. Treatments SearchInclusion blood transfusions, blood and marrow stem cell transplants, and medicines. "
+},
+
+{
+    "ICD10Code":"D62.",
+    "Description":"Acute posthemorrhagic anemia\nY",
+    "SearchInclusion":"Anemia due to acute postoperative blood loss\nAnemia following acute postoperative blood loss\nAnemia, posthemorrhagic, acute",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D63.0",
+    "Description":"Anemia in neoplastic disease\nY",
+    "SearchInclusion":"Anemia, neoplastic\nHemolytic anemia due to nonlymphoid neoplasm\nHemolytic anemia, nonlymphoid neoplasm",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D63.1",
+    "Description":"Anemia in chronic kidney disease\nY",
+    "SearchInclusion":"Anemia co-occurrent and due to chronic kidney disease stage 1\nAnemia co-occurrent and due to chronic kidney disease stage 2\nAnemia co-occurrent and due to chronic kidney disease stage 3\nAnemia co-occurrent and due to chronic kidney disease stage 4\nAnemia co-occurrent and due to chronic kidney disease stage 5\nAnemia due to chronic kidney disease\nAnemia due to end stage renal disease\nAnemia in chronic kidney dis\nAnemia in chronic kidney disease stage 1\nAnemia in chronic kidney disease stage 2\nAnemia in chronic kidney disease stage 3\nAnemia in chronic kidney disease stage 4\nAnemia in chronic kidney disease stage 5\nAnemia in ckd stage 3\nAnemia in end stage renal diseasen\nAnemia in kidney disease\nAnemia of chronic renal failure\nAnemia, end stage renal disease\nErythropoietin resistance in anemia of chronic kidney disease\nIron deficiency anemia in ckd after erythropoietin",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D63.8",
+    "Description":"Anemia in other chronic diseases classified elsewhere\nY",
+    "SearchInclusion":"Anemia of chronic disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D64.0",
+    "Description":"Hereditary sideroblastic anemia\nY",
+    "SearchInclusion":"Sex-linked hypochromic sideroblastic anemia\nAnemia, hereditary sideroblastic",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D64.1",
+    "Description":"Secondary sideroblastic anemia due to disease\nY",
+    "SearchInclusion":"Anemia, sideroblastic due to medical disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D64.2",
+    "Description":"Secondary sideroblastic anemia due to drugs and toxins\nY",
+    "SearchInclusion":"Anemia, drug induced sideroblastic\nSecondary sideroblastic anemia due to drug",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D64.3",
+    "Description":"Other sideroblastic anemias\nY",
+    "SearchInclusion":"Sideroblastic anemia NOS\nPyridoxine-responsive sideroblastic anemia NEC\nAnemia, sideroblastic\nSideroblastic anemia",
+    "ClinicalNotes":"Acquired or hereditary anemia marked by sideroblasts: bone marrow cells with large mitochondrial deposits of insoluble iron due to defective heme synthesis, leading to ineffective erythropoiesis.\nAnemia characterized by the presence of erythroblasts containing excessive deposits of iron in the marrow."
+},
+{
+    "ICD10Code":"D64.4",
+    "Description":"Congenital dyserythropoietic anemia\nY",
+    "SearchInclusion":"Dyshematopoietic anemia (congenital)\nAnemia, congenital dyserythropoietic",
+    "ClinicalNotes":"A familial disorder characterized by anemia with multinuclear erythroblasts, karyorrhexis, asynchrony of nuclear and cytoplasmic maturation, and various nuclear abnormalities of bone marrow erythrocyte precursors (erythroid precursor cells). Type ii is the most common of the 3 types; it is often referred to as hempas, based on the hereditary erythroblast multinuclearity with positive acidified serum test.\nA rare congenital anemia caused by mutations in the cdan1 and sec23b genes."
+},
+{
+    "ICD10Code":"D64.81",
+    "Description":"Anemia due to antineoplastic chemotherapy\nY",
+    "SearchInclusion":"Anemia due to chemotherapy\nAntineoplastic chemotherapy induced anemia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D64.89",
+    "Description":"Other specified anemias\nY",
+    "SearchInclusion":"Infantile pseudoleukemia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D64.9",
+    "Description":"Anemia, unspecified\nY",
+    "SearchInclusion":"Anemia\nAnemia chronic\nAnemia due to lead paint exposure\nAnemia due to medication\nAnemia due to radiation\nAnemia during pregnancy - baby not yet delivered\nAnemia in childbirth\nAnemia in mother complicating childbirth\nAnemia postpartum\nAnemia, due to another condition\nAnemia, due to medications\nAnemia, normocytic, normochromic\nAnemia, radiation\nChronic anemia\nMaternal anemia in pregnancy, before birth\nNormocytic normochromic anemia\nPostpartum anemia (after childbirth)\nSecondary anemia",
+    "ClinicalNotes":"A condition in which the number of red blood cells is below normal.A disorder characterized by an reduction in the amount of hemoglobin in 100 ml of blood. Signs and symptoms of anemia may SearchInclusion pallor of the skin and mucous membranes, shortness of breath, palpitations of the heart, soft systolic murmurs, lethargy, and fatigability.A reduction in the number of circulating erythrocytes or in the quantity of hemoglobin.A reduction in the number of red blood cells per cu mm, the amount of hemoglobin in 100 ml of blood, and the volume of packed red blood cells per 100 ml of blood. Clinically, anemia represents a reduction in the oxygen-transporting capacity of a designated volume of blood, resulting from an imbalance between blood loss (through hemorrhage or hemolysis) and blood production. Signs and symptoms of anemia may SearchInclusion pallor of the skin and mucous membranes, shortness of breath, palpitations of the heart, soft systolic murmurs, lethargy, and fatigability.If you have anemia, your blood does not carry enough oxygen to the rest of your body. The most common cause of anemia is not having enough iron. Your body needs iron to make hemoglobin. Hemoglobin is an iron-rich protein that gives the red color to blood. It carries oxygen from the lungs to the rest of the body.your iron might be too low because of heavy periods pregnancy ulcers colon polyps or colon cancer inherited disorders a diet that does not have enough iron, folic acid or vitamin b12 blood disorders such as sickle cell anemia and thalassemia, or cancer aplastic anemia, a condition that can be inherited or acquired anemia can make you feel weak, cold, dizzy and irritable. It is confirmed with a blood test. Treatment depends on the kind of anemia you have.Subnormal levels or function of erythrocytes, resulting in symptoms of tissue hypoxia."
+},
+{
+    "ICD10Code":"D65.",
+    "Description":"Disseminated intravascular coagulation [defibrination syndrome]",
+    "SearchInclusion":"Afibrinogenemia, acquired\nConsumption coagulopathy\nDiffuse or disseminated intravascular coagulation [DIC]\nFibrinolytic hemorrhage, acquired\nFibrinolytic purpura\nPurpura fulminans\n  Disseminated intravascular coagulation\nPurpura fulminans",
+    "ClinicalNotes":"A disease where the blood clots throughout the body and increases the risk of bleeding A disorder characterized by procoagulant substances entering the general circulation causing a systemic thrombotic process. The activation of the clotting mechanism may arise from any of a number of disorders. A majority of the patients manifest skin lesions, sometimes leading to purpura fulminans.A disorder characterized by reduction in the elements involved in blood coagulation due to their utilization in widespread blood clotting within the vessels.A disorder characterized by systemic pathological activation of blood clotting mechanisms which results in clot formation throughout the body. There is an increase in the risk of hemorrhage as the body is depleted of platelets and coagulation factors.A pathological process in the body where the blood starts to coagulate throughout the whole body. This depletes the body of its platelets and coagulation factors, and there is an increased the risk of hemorrhage.A pathological process where the blood starts to coagulate throughout the whole body. This depletes the body of its platelets and coagulation factors, and there is an increased risk of hemorrhage.A severe, rapidly fatal reaction occurring most commonly in children following an infectious illness. It is characterized by large, rapidly spreading skin hemorrhages, fever, or shock. Purpura fulminans often accompanies or is triggered by disseminated intravascular coagulation.Disorder characterized by reduction in the elements involved in blood coagulation due to their utilization in widespread blood clotting within the vessels; the activation of the clotting mechanism may arise from any of a number of disorders; in the late stages, it is marked by profuse hemorrhaging."
+},
+
+{
+    "ICD10Code":"D66.",
+    "Description":"Hereditary factor VIII deficiency",
+    "SearchInclusion":"Hemophilia\nHemophilia a\nHemophilic arthritis\nHemophilic arthropathy\nHereditary factor viii deficiency disease\nClassical hemophilia\nDeficiency factor VIII (with functional defect)\nHemophilia NOS\nHemophilia A",
+    "ClinicalNotes":"An inherited deficiency of coagulation factor viii characterized by the tendency to spontaneous or exaggerated post-traumatic hemorrhage. Inherited as an x-linked recessive disease, hemophilia a is the most common hemophilia, occurring in approximately 1 in 10,000 male births.\nClassic hemophilia resulting from a deficiency of factor viii; an inherited disorder of blood coagulation characterized by a permanent tendency to hemorrhage.The classic hemophilia resulting from a deficiency of factor viii. It is an inherited disorder of blood coagulation characterized by a permanent tendency to hemorrhage."
+},
+{
+    "ICD10Code":"D67.",
+    "Description":"Hereditary factor IX deficiency",
+    "SearchInclusion":"Christmas disease\nFactor IX deficiency (with functional defect)\nHemophilia B\nPlasma thromboplastin component [PTC] deficiency Acquired factor ix deficiency disease\nHemophilia b, acquired\nHereditary factor ix deficiency disease",
+    "ClinicalNotes":"A deficiency of blood coagulation factor ix inherited as an x-linked disorder. (also known as christmas disease, after the first patient studied in detail, not the holy day.) historical and clinical features resemble those in classic hemophilia (hemophilia a), but patients present with fewer symptoms. Severity of bleeding is usually similar in members of a single family. Many patients are asymptomatic until the hemostatic system is stressed by surgery or trauma. Treatment is similar to that for hemophilia a.\nAn x-linked inherited bleeding disorder caused by deficiency of the coagulation factor ix.Deficiency of blood coagulation factor ix inherited as an x-linked disorder; clinical features resemble those in hemophilia a, but patients present with fewer symptoms."
+},
+{
+    "ICD10Code":"D68.0",
+    "Description":"Von Willebrand's disease",
+    "SearchInclusion":"Angiohemophilia\nFactor VIII deficiency with vascular defect\nVascular hemophilia\n Von willebrand disease\nVon willebrand disorder",
+    "ClinicalNotes":"Group of hemorrhagic disorders in which the von willebrand factor is either quantitatively or qualitatively abnormal. They are usually inherited as an autosomal dominant trait though rare kindreds are autosomal recessive. Symptoms vary depending on severity and disease type but may SearchInclusion prolonged bleeding time, deficiency of factor viii, and impaired platelet adhesion.Hemophilioid disorder due to deficiency of von willebrand factor and thus of factor viii complex.Hereditary or acquired coagulation disorder characterized by a qualitative or quantitative deficiency of the von willebrand factor. The latter plays an important role in platelet adhesion. Signs and symptoms SearchInclusion bruises, nose bleeding, gum bleeding following a dental procedure, heavy menstrual bleeding, and gastrointestinal bleeding.SearchInclusions true von willebrand disease with mutation at the vwf locus, as well as mimicking disorders with other mutations (pseudo vwd) and acquired von willebrand syndrome"
+},
+{
+    "ICD10Code":"D68.1",
+    "Description":"Hereditary factor XI deficiency",
+    "SearchInclusion":"Hemophilia C\nPlasma thromboplastin antecedent [PTA] deficiency\nRosenthal's disease\nFactor xi deficiency, type i\nHemophilia c\nHemophilia c, type 1\nHereditary factor xi deficiency disease",
+    "ClinicalNotes":"A hereditary deficiency of blood coagulation factor xi (also known as plasma thromboplastin antecedent or pta or antihemophilic factor c) resulting in a systemic blood-clotting defect called hemophilia c or rosenthal's syndrome, that may resemble classical hemophilia.\nA rare inherited bleeding disorder caused by deficiency of coagulation factor xi. It may be asymptomatic or manifest with bleeding."
+},
+{
+    "ICD10Code":"D68.2",
+    "Description":"Hereditary deficiency of other clotting factors",
+    "SearchInclusion":"AC globulin deficiency\nCongenital afibrinogenemia\nDeficiency of factor I [fibrinogen]\nDeficiency of factor II [prothrombin]\nDeficiency of factor V [labile]\nDeficiency of factor VII [stable]\nDeficiency of factor X [Stuart-Prower]\nDeficiency of factor XII [Hageman]\nDeficiency of factor XIII [fibrin stabilizing]\nDysfibrinogenemia (congenital)\nHypoproconvertinemia\nOwren's disease\nProaccelerin deficiency\nClotting factor deficiency, congenital\nCongenital coagulation factor deficiency\nDysfibrinogenemia\nDysfibrinogenemia, congenital\nFactor 10 deficiency\nFactor 12 deficiency\nFactor 2 mutation\nFactor 5 deficiency\nFactor 7 deficiency\nFactor ii deficiency\nFactor v deficiency\nFactor v quebec\nFactor vii deficiency\nFactor x deficiency\nFactor xii deficiency disease\nHereditary dysfibrinogenemia\nPlatelet factor v deficiency (factor v quebec)",
+    "ClinicalNotes":"A blood coagulation disorder characterized by the complete absence of fibrinogen in the blood, resulting in bleeding.\nA deficiency of blood coagulation factor v (known as proaccelerin or accelerator globulin or labile factor) leading to a rare hemorrhagic tendency known as owren's disease or parahemophilia. It varies greatly in severity. Factor v deficiency is an autosomal recessive trait. (Dorland, 27th ed)A deficiency or absence of fibrinogen in the blood.A usually inherited blood coagulation disorder characterized by the partial or complete absence of fibrinogen in the blood, resulting in bleeding.A very rare autosomal recessive inherited blood coagulation disorder characterized by deficiency of factor v, resulting in bleeding.An autosomal recessive characteristic or a coagulation disorder acquired in association with vitamin k deficiency. Factor vii is a vitamin k dependent glycoprotein essential to the extrinsic pathway of coagulation.Deficiency or absence of fibrinogen (coagulation factor i) in the blood."
+},
+{
+    "ICD10Code":"D68.311",
+    "Description":"Acquired hemophilia",
+    "SearchInclusion":"Autoimmune hemophilia\nAutoimmune inhibitors to clotting factors\nSecondary hemophilia\nAcquired factor ix deficiency disease\nHemophilia b, acquired",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.312",
+    "Description":"Antiphospholipid antibody with hemorrhagic disorder",
+    "SearchInclusion":"Lupus anticoagulant (LAC) with hemorrhagic disorder\nSystemic lupus erythematosus [SLE] inhibitor with hemorrhagic disorder",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.318",
+    "Description":"Other hemorrhagic disorder due to intrinsic circulating anticoagulants, antibodies, or inhibitors",
+    "SearchInclusion":"Antithromboplastinemia\nAntithromboplastinogenemia\nHemorrhagic disorder due to intrinsic increase in antithrombin\nHemorrhagic disorder due to intrinsic increase in anti-VIIIa\nHemorrhagic disorder due to intrinsic increase in anti-IXa\nHemorrhagic disorder due to intrinsic increase in anti-XIa\nHemorrhagic disorder due to intrinsic circulating anti\nHemorrhagic disorder due to intrinsic circulating anticoagulants",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.32",
+    "Description":"Hemorrhagic disorder due to extrinsic circulating anticoagulants",
+    "SearchInclusion":"Drug-induced hemorrhagic disorder\nHemorrhagic disorder due to increase in anti-IIa\nHemorrhagic disorder due to increase in anti-Xa\nHyperheparinemia\nHemorrhagic disord extrinsic circul anticoagulants",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.4",
+    "Description":"Acquired coagulation factor deficiency",
+    "SearchInclusion":"Deficiency of coagulation factor due to liver disease\nDeficiency of coagulation factor due to vitamin K deficiency\n   Acquired factor viii deficiency disease\nAcquired factor x deficiency disease\nAcquired factor xii deficiency disease\nClotting factor deficiency due to liver disease\nClotting factor deficiency from vitamin k deficien\nClotting factor deficiency, acquired\nDeficiency of coagulation factor due to liver disease\nDeficiency of coagulation factor due to vitamin k deficiency\nFactor 10 deficiency, acquired\nFactor 12 deficiency, acquired\nFactor 8 deficiency, acquired ",
+    "ClinicalNotes":"Deficiency of a coagulation factor that is not caused by genetic alterations. Causes SearchInclusion vitamin k deficiency, amyloidosis, and severe liver disease."
+},
+{
+    "ICD10Code":"D68.51",
+    "Description":"Activated protein C resistance",
+    "SearchInclusion":"Factor V Leiden mutation\nFactor 5 leiden mutation\nFactor 5 leiden mutation, heterozygous\nFactor 5 leiden mutation, homozygous\nFactor v leiden mutation\nHeterozygous factor v leiden mutation\nHomozygous factor v leiden mutation\nProtein c resistance\nResistance to activated protein c due to factor v leiden",
+    "ClinicalNotes":"A hemostatic disorder characterized by a poor anticoagulant response to activated protein c (apc). The activated form of factor v (factor va) is more slowly degraded by activated protein c. Factor v leiden mutation (r506q) is the most common cause of apc resistance.\nAn abnormality that refers to mutation of factor v leiden, which is a variant of human factor v. It results in thrombophilia, deep vein thrombosis, and a slightly increased risk of miscarriage."
+},
+{
+    "ICD10Code":"D68.52",
+    "Description":"Prothrombin gene mutation",
+    "SearchInclusion":"Prothrombin g20210a mutation",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.59",
+    "Description":"Other primary thrombophilia",
+    "SearchInclusion":"Antithrombin III deficiency\nHypercoagulable state NOS\nPrimary hypercoagulable state NEC\nPrimary thrombophilia NEC\nProtein C deficiency\nProtein S deficiency\nThrombophilia NOS\nAntithrombin 3 deficiency\nAntithrombin iii deficiency\nHereditary thrombophilia\nHypercoagulability state\nHypercoagulable state (tendency to form clots)\nProtein c deficiency disease\nProtein s deficiency disease",
+    "ClinicalNotes":"A disorder of hemostasis in which there is a tendency for the occurrence of thrombosis.\nA rare disorder characterized by the presence of low levels of antithrombin iii which prohibits the formation of blood clots. It may be inherited, usually in an autosomal dominant pattern, or acquired. It may lead to venous thrombosis and pulmonary embolism.A rare thrombophilia disorder characterized by deficiency of protein c. It results in venous thromboembolism.A rare thrombophilia disorder characterized by deficiency of protein s. It results in venous thromboembolism.An absence or deficiency in protein c which leads to impaired regulation of blood coagulation. It is associated with an increased risk of severe or premature thrombosis. (stedman's med. Dict., 26th ed.)An absence or reduced level of antithrombin iii leading to an increased risk for thrombosis.An autosomal dominant disorder showing decreased levels of plasma protein s antigen or activity, associated with venous thrombosis and pulmonary embolism. Protein s is a vitamin k-dependent plasma protein that inhibits blood clotting by serving as a cofactor for activated protein c (also a vitamin k-dependent protein), and the clinical manifestations of its deficiency are virtually identical to those of protein c deficiency. Treatment with heparin for acute thrombotic processes is usually followed by maintenance administration of coumarin drugs for the prevention of recurrent thrombosis."
+},
+{
+    "ICD10Code":"D68.61",
+    "Description":"Antiphospholipid syndrome",
+    "SearchInclusion":"Anticardiolipin syndrome\nAntiphospholipid antibody syndrome\nAnticardiolipin syndrome\nAntiphospholipid syndrome complication in pregnancy\nAntiphospholipid syndrome in childbirth\nAntiphospholipid syndrome in pregnancy\nAntiphospholipid syndrome postpartum\nPostpartum (after childbirth) antiphospholipid syndrome\nPrimary antiphospholipid syndrome\nSecondary antiphospholipid syndrome",
+    "ClinicalNotes":"A syndrome associated with a variety of diseases, notably systemic lupus erythematosus and other connective tissue diseases, thrombopenia, and arterial or venous thromboses, marked by the presence of antibodies directed against phospholipids.\nAssociated with a variety of diseases, notably systemic lupus erythematosus and other connective tissue diseases, thrombopenia, and arterial or venous thromboses; involves the presence of antibodies directed against phospholipids; cardiolipins show markedly elevated levels of anticardiolipin antibodies; present also are high levels of lupus anticoagulant; in pregnancy it can cause abortion.The presence of antibodies directed against phospholipids (antibodies, antiphospholipid). The condition is associated with a variety of diseases, notably systemic lupus erythematosus and other connective tissue diseases, thrombopenia, and arterial or venous thromboses. In pregnancy it can cause abortion. Of the phospholipids, the cardiolipins show markedly elevated levels of anticardiolipin antibodies (antibodies, anticardiolipin). Present also are high levels of lupus anticoagulant (lupus coagulation inhibitor)."
+},
+{
+    "ICD10Code":"D68.62",
+    "Description":"Lupus anticoagulant syndrome",
+    "SearchInclusion":"Lupus anticoagulant\nPresence of systemic lupus erythematosus [SLE] inhibitor\nLupus anticoagulant disorder",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.69",
+    "Description":"Other thrombophilia",
+    "SearchInclusion":"Hypercoagulable state,\nsecondary Thrombophilia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.8",
+    "Description":"Other specified coagulation defects",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D68.9",
+    "Description":"Coagulation defect, unspecified",
+    "SearchInclusion":"Blood coagulation disorder\nBlood coagulation disorder in childbirth\nBlood coagulation disorder in pregnancy\nCoagulation condition in childbirth\nCoagulation defect in pregnancy\nCoagulopathy (clotting or bleeding disorder)",
+    "ClinicalNotes":"A condition in which there is a deviation from or interruption of the normal coagulation properties of the blood.\nCondition in which there is a deviation from or interruption of the normal coagulation properties of the blood.Disorders involving the elements of blood coagulation, including platelets, coagulation factors and inhibitors, and the fibrinolytic system.Hemorrhagic and thrombotic disorders that occur as a consequence of abnormalities in blood coagulation due to a variety of factors such as coagulation protein disorders; blood platelet disorders; blood protein disorders or nutritional conditions."
+},
+{
+    "ICD10Code":"D69.0",
+    "Description":"Allergic purpura",
+    "SearchInclusion":"Allergic vasculitis\nNonthrombocytopenic hemorrhagic purpura\nNonthrombocytopenic idiopathic purpura\nPurpura anaphylactoid\nPurpura Henoch(-Schönlein)\nPurpura rheumatica\nVascular purpura\nGlomerulonephritis due to henoch schonlein purpura\nHenoch-schˆnlein purpura\nHenoch-schönlein purpura\n",
+    "ClinicalNotes":"A systemic non-thrombocytopenic purpura caused by hypersensitivity vasculitis and deposition of iga-containing immune complexes within the blood vessels throughout the body, including those in the kidney (kidney glomerulus). Clinical symptoms SearchInclusion urticaria; erythema; arthritis; gastrointestinal hemorrhage; and renal involvement. Most cases are seen in children after acute upper respiratory infections.A systemic, usually self-limited immune complex vasculitis, characterized by immunoglobulin a deposition in the small vessels and kidneys. It is manifested with small hemorrhages in the skin, gastrointestinal symptoms, arthritis, and nephropathy.Disorder characterized by a vasculitic syndrome associated with exposure to an antigen such as a drug, infectious agent, or other foreign or endogenous substance. Its pathophysiology SearchInclusions immune complex deposition and a wide range of skin lesions. Hypersensitivity or allergy is present in some but not all cases."
+},
+{
+    "ICD10Code":"D69.1",
+    "Description":"Qualitative platelet defects",
+    "SearchInclusion":"Bernard-Soulier [giant platelet] syndrome\nGlanzmann's disease\nGrey platelet syndrome\nThromboasthenia (hemorrhagic) (hereditary)\nThrombocytopathy\nPlatelet disorder\nPlatelet disorder, qualitative\nPlatelet dysfunction due to drugs\nPlatelet dysfunction, drug induced\nQualitative platelet disorder",
+    "ClinicalNotes":"A congenital bleeding disorder with prolonged bleeding time, absence of aggregation of platelets in response to most agents, especially adp, and impaired or absent clot retraction. Platelet membranes are deficient in or have a defect in the glycoprotein iib-iiia complex (platelet glycoprotein gpiib-iiia complex).A rare inherited bleeding disorder characterized by the decrease or absence of the platelet alpha-granules and their proteins in the peripheral blood platelets.A rare, autosomal recessive inherited and less frequently acquired platelet disorder. It is characterized by deficient or dysfunctional glycoprotein iib/iiia complex. It leads to defective platelet aggregation, resulting in bleeding.A rare, inherited platelet disorder characterized by a selective deficiency in the number and contents of platelet alpha-granules. It is associated with thrombocytopenia, enlarged platelets, and prolonged bleeding time.Platelet abnormality characterized by defective clot formation, impaired aggregation, and prolonged bleeding time; other manifestations SearchInclusion nosebleeds, inappropriate bruising, and excessive bleeding."
+},
+{
+    "ICD10Code":"D69.2",
+    "Description":"Other nonthrombocytopenic purpura",
+    "SearchInclusion":"Purpura NOS\nPurpura simplex\nSenile purpura\nSolar purpura",
+    "ClinicalNotes":"A disorder characterized by hemorrhagic areas of the skin and mucous membrane. Newer lesions appear reddish in color. Older lesions are usually a darker purple color and eventually become a brownish-yellow color.\nA hemorrhagic area of the skin and mucous membrane. Newer lesions appear reddish in color. Older lesions are usually a darker purple color and eventually become a brownish-yellow color.Purplish or brownish red discoloration, easily visible through the epidermis, caused by hemorrhage into the tissues. When the size of the discolorization is >2-3 cm it is generally called ecchymoses (ecchymosis).Small hemorrhage in the skin, mucous membrane or serosal surface, or a group of hemorrhagic diseases characterized by purpuric lesions."
+},
+{
+    "ICD10Code":"D69.3",
+    "Description":"Immune thrombocytopenic purpura",
+    "SearchInclusion":"Hemorrhagic (thrombocytopenic) purpura\nIdiopathic thrombocytopenic purpura\nTidal platelet dysgenesis\nAcute idiopathic thrombocytopenic purpura\nChronic idiopathic thrombocytopenic purpura\nIdiopathic thrombocytopenia purpura (itp)\nIdiopathic thrombocytopenic purpura\nIdiopathic thrombocytopenic purpura, chronic\nPurpura, idiopathic thrombocytopenia, acute",
+    "ClinicalNotes":"A condition in which platelets (blood cells that cause blood clots to form) are destroyed by the immune system. The low platelet count causes easy bruising and bleeding, which may be seen as purple areas in the skin, mucous membranes, and outer linings of organs.\nAn autoimmune disorder in which the number of circulating platelets is reduced due to their antibody-mediated destruction. Itp is a diagnosis of exclusion and is heterogeneous in origin.Bleeding or bruising tendency due to low platelet level.Thrombocytopenia occurring in the absence of toxic exposure or a disease associated with decreased platelets. It is mediated by immune mechanisms, in most cases immunoglobulin g autoantibodies which attach to platelets and subsequently undergo destruction by macrophages. The disease is seen in acute (affecting children) and chronic (adult) forms."
+},
+{
+    "ICD10Code":"D69.41",
+    "Description":"Evans syndrome",
+    "SearchInclusion":"",
+    "ClinicalNotes":"A rare, chronic and relapsing autoimmune disorder of unknown etiology, characterized by the presence of immune thrombocytopenia and autoimmune hemolytic anemia."
+},
+{
+    "ICD10Code":"D69.42",
+    "Description":"Congenital and hereditary thrombocytopenia purpura",
+    "SearchInclusion":"Congenital thrombocytopenia\nHereditary thrombocytopenia\nCongenital and hereditary thrombocytopenic purpura",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D69.49",
+    "Description":"Other primary thrombocytopenia",
+    "SearchInclusion":"Megakaryocytic hypoplasia\nPrimary thrombocytopenia NOS\nKasabach merritt syndrome\nPrimary thrombocytopenia\nThrombocytopenia, primary",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D69.51",
+    "Description":"Posttransfusion purpura",
+    "SearchInclusion":"Posttransfusion purpura from whole blood (fresh) or blood products\nPTP\nPurpura, posttransfusion",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D69.59",
+    "Description":"Other secondary thrombocytopenia",
+    "SearchInclusion":"Dilutional thrombocytopenia\nImmune thrombocytopenia\nSecondary autoimmune thrombocytopenia\nSecondary thrombocytopenia\nThrombocytopenia due to alcoholism\nThrombocytopenia due to drugs\nThrombocytopenia due to extracorporal circulation\nThrombocytopenia due to massive blood transfusion\nThrombocytopenia, autoimmune, secondary\nThrombocytopenia, dilutional",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D69.6",
+    "Description":"Thrombocytopenia, unspecified",
+    "SearchInclusion":"Acquired thrombocytopenia\nThrombocytopenia (low blood platelets)\nThrombocytopenic disorder",
+    "ClinicalNotes":"A condition in which there is a lower-than-normal number of platelets in the blood. It may result in easy bruising and excessive bleeding from wounds or bleeding in mucous membranes and other tissues.\nA condition in which there is an abnormally small number of platelets in the circulating blood.A decrease in the number of platelets in the blood that may result in easy bruising and excessive bleeding from wounds or bleeding in mucous membranes and other tissues.A finding based on laboratory test results that indicate a decrease in number of platelets in a blood specimen.A subnormal level of blood platelets.Decrease in the number of blood platelets."
+},
+{
+    "ICD10Code":"D69.8",
+    "Description":"Other specified hemorrhagic conditions",
+    "SearchInclusion":"Capillary fragility (hereditary)\nVascular pseudohemophilia",
+    "ClinicalNotes":"Group of hemorrhagic disorders in which the von willebrand factor is either quantitatively or qualitatively abnormal. They are usually inherited as an autosomal dominant trait though rare kindreds are autosomal recessive. Symptoms vary depending on severity and disease type but may SearchInclusion prolonged bleeding time, deficiency of factor viii, and impaired platelet adhesion.\nHemophilioid disorder due to deficiency of von willebrand factor and thus of factor viii complex.Hereditary or acquired coagulation disorder characterized by a qualitative or quantitative deficiency of the von willebrand factor. The latter plays an important role in platelet adhesion. Signs and symptoms SearchInclusion bruises, nose bleeding, gum bleeding following a dental procedure, heavy menstrual bleeding, and gastrointestinal bleeding.SearchInclusions true von willebrand disease with mutation at the vwf locus, as well as mimicking disorders with other mutations (pseudo vwd) and acquired von willebrand syndrome"
+},
+{
+    "ICD10Code":"D69.9",
+    "Description":"Hemorrhagic condition, unspecified",
+    "SearchInclusion":"Spontaneous or near spontaneous bleeding caused by a defect in clotting mechanisms (blood coagulation disorders) or another abnormality causing a structural flaw in the blood vessels (hemostatic disorders).\nSpontaneous or near spontaneous bleeding caused by a defect in clotting mechanisms (blood coagulation disorders) or another abnormality causing a structural flaw in the blood vessels (vascular hemostatic disorders).",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D70.0",
+    "Description":"Congenital agranulocytosis",
+    "SearchInclusion":"Congenital neutropenia\nInfantile genetic agranulocytosis\nKostmann's disease\nCongenital neutropenia\nNeutropenia, congenital",
+    "ClinicalNotes":"A rare disorder characterized by recurrent infantile infections and absence of neutrophils in the peripheral blood.\nAn inherited disorder in which there is a lower-than-normal number of neutrophils (a type of white blood cell that is important in fighting infections). Infants with the disorder get infections caused by bacteria, and are at an increased risk of acute myelogenous leukemia (aml) or myelodysplasia (a bone marrow disorder)."
+},
+{
+    "ICD10Code":"D70.1",
+    "Description":"Agranulocytosis secondary to cancer chemotherapy",
+    "SearchInclusion":"Agranulocytosis due to cancer chemotherapy\nChemotherapy-induced neutropenia\nNeutropenia due to chemotherapy",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D70.2",
+    "Description":"Other drug-induced agranulocytosis",
+    "SearchInclusion":"Drug-induced neutropenia\nNeutropenia, drug induced",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D70.3",
+    "Description":"Neutropenia due to infection",
+    "SearchInclusion":"Neutropenia associated with infectious disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D70.4",
+    "Description":"Cyclic neutropenia",
+    "SearchInclusion":"Cyclical neutropenia\nNeutropenia, cyclic\nCyclic hematopoiesis\nPeriodic neutropenia",
+    "ClinicalNotes":"A chronic condition that affects neutrophils (a type of white blood cell). In cyclic neutropenia, the number of neutrophils in the blood goes in cycles from normal to low and back to normal again. Symptoms SearchInclusion fever, inflamed mucous membranes in the mouth, and infections."
+},
+{
+    "ICD10Code":"D70.8",
+    "Description":"Other neutropenia",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D70.9",
+    "Description":"Neutropenia, unspecified",
+    "SearchInclusion":"Agranulocytosis, chronic\nAgranulocytosis, pernicious\nChronic agranulocytosis\nChronic benign neutropenia\nFebrile neutropenia\nImmune neutropenia\nNeutropenia (low white blood cells)\nNeutropenia, chronic benign\nNeutropenia, immune\nNeutropenic disorder\nNeutropenic fever\nPernicious agranulocytosis",
+    "ClinicalNotes":"A decrease in the number of neutrophils found in the blood.\nDecrease in the number of neutrophilic leukocytes in the blood."
+},
+{
+    "ICD10Code":"D71.",
+    "Description":"Functional disorders of polymorphonuclear neutrophils",
+    "SearchInclusion":"Chronic granulomatous disease\nCongenital dysphagocytosis\nDysphagocytosis, congenital\nGranulomatous disease\nGranulomatous disorder\nCell membrane receptor complex [CR3] defect\nChronic (childhood) granulomatous disease\nCongenital dysphagocytosis\nProgressive septic granulomatosis",
+    "ClinicalNotes":"A recessive x-linked defect of leukocyte function in which phagocytic cells ingest but fail to digest bacteria, resulting in recurring bacterial infections with granuloma formation.\nRecessive x-linked defect of leukocyte function in which phagocytic cells ingest but fail to digest bacteria, resulting in recurring bacterial infections with granuloma formation."
+},
+{
+    "ICD10Code":"D72.0",
+    "Description":"Genetic anomalies of leukocytes",
+    "SearchInclusion":"Alder syndrome\nAlders syndrome\nChediak higashi syndrome\nChédiak-higashi syndrome\nGenetic anomaly of leukocyte\nHereditary giant neutrophilia\nHereditary hypersegmentation\nHypersegmentation\nHypersegmentation, hereditary\nLeukocyte adhesion deficiency - type 1\nLeukocyte adhesion deficiency - type 2\nLeukocyte adhesion deficiency type 1\nLeukocyte adhesion deficiency type 2\nLeukocyte disorder, genetic\nMay hegglin anomaly\nPelger-huet anomaly\nPelger-huët anomaly\nPelger-huît anomaly",
+    "ClinicalNotes":"A form of phagocyte bactericidal dysfunction characterized by unusual oculocutaneous albinism, high incidence of lymphoreticular neoplasms, and recurrent pyogenic infections. In many cell types, abnormal lysosomes are present leading to defective pigment distribution and abnormal neutrophil functions. The disease is transmitted by autosomal recessive inheritance and a similar disorder occurs in the beige mouse, the aleutian mink, and albino hereford cattle.A rare autosomal recessive immunodeficiency disorder characterized by abnormal intracellular protein transport. Chediak-higashi syndrome (chs) is characterized by immune deficiency; partial oculocutaneous albinism; a bleeding disorder due to deficient platelet dense bodies; neutropenia; neutrophils with impaired chemotaxis and bactericidal activity; recurrent infection; and abnormal natural killer (nk) cell function. Chs may be associated with hepatosplenomegaly, lymphadenopathy, anemia, thrombocytopenia, roentgenologic changes in bones, lungs and heart, and skin and psychomotor abnormalities; it is often fatal in childhood as a result of infection or an accelerated lymphoma-like phase. Chs occurs in mink, cattle, and mice, as well as man.Form of phagocyte bactericidal dysfunction characterized by unusual oculocutaneous albinism, high incidence of lymphoreticular neoplasms, and recurrent pyogenic infections; in many cell types, abnormal lysosomes are present leading to defective pigment distribution and abnormal neutrophil functions; transmitted by autosomal recessive inheritance and a similar disorder occurs in the beige mouse, the aleutian mink, and albino hereford cattle."
+},
+{
+    "ICD10Code":"D72.1",
+    "Description":"Eosinophilia",
+    "SearchInclusion":"Allergic eosinophilia\nEosinophil count raised\nEosinophilia, allergic\nEosinophilic nonallergic rhinitis\nNon-allergic nasal rhinitis with eosinophilia",
+    "ClinicalNotes":"Abnormal increase of eosinophils in the blood, tissues or organs.\nDisordered formation of eosinophils or an abnormal accumulation or deficiency of these cells."
+},
+{
+    "ICD10Code":"D72.810",
+    "Description":"Lymphocytopenia",
+    "SearchInclusion":"Decreased lymphocytes",
+    "ClinicalNotes":"A condition in which there is a lower-than-normal number of lymphocytes (a type of white blood cell) in the blood.\nA finding based on laboratory test results that indicate a decrease in number of lymphocytes in a blood specimen.An abnormally small number of lymphocytes in the circulating blood.Decrease in the proportion of lymphocytes in the blood.Reduction in the number of lymphocytes."
+},
+{
+    "ICD10Code":"D72.818",
+    "Description":"Other decreased white blood cell count",
+    "SearchInclusion":"Basophilic leukopenia\nEosinophilic leukopenia\nMonocytopenia\nOther decreased leukocytes\nPlasmacytopenia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D72.819",
+    "Description":"Decreased white blood cell count, unspecified",
+    "SearchInclusion":"Decreased leukocytes, unspecified\nLeukocytopenia, unspecified\nLeukopenia",
+    "ClinicalNotes":"A condition in which there is a lower-than-normal number of leukocytes (white blood cells) in the blood.\nA finding based on laboratory test results that indicate an decrease in number of white blood cells in a blood specimen.A laboratory test result indicating a decreased number of white blood cells in the peripheral blood.An abnormally low white blood cell count.Reduction in the number of leukocytes in the blood, the count being 5000 per cubic millimeter or less."
+},
+{
+    "ICD10Code":"D72.820",
+    "Description":"Lymphocytosis (symptomatic)",
+    "SearchInclusion":"Elevated lymphocytes\nLymphocytosis\nLymphocytosis, symptomatic\nSymptomatic lymphocytosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D72.821",
+    "Description":"Monocytosis (symptomatic)",
+    "SearchInclusion":"Monocytosis\nMonocytosis, symptomatic\nSymptomatic monocytosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D72.822",
+    "Description":"Plasmacytosis",
+    "SearchInclusion":"",
+    "ClinicalNotes":"A morphologic finding indicating the presence of plasma cell infiltrates in tissues, or the presence of plasma cells in the peripheral blood."
+},
+{
+    "ICD10Code":"D72.823",
+    "Description":"Leukemoid reaction",
+    "SearchInclusion":"Basophilic leukemoid reaction\nLeukemoid reaction NOS\nLymphocytic leukemoid reaction\nMonocytic leukemoid reaction\nMyelocytic leukemoid reaction\nNeutrophilic leukemoid reaction",
+    "ClinicalNotes":"A hematology test result that indicates the presence of an increased white blood cell count and increased neutrophil precursors resembling leukemia, in a peripheral blood smear.\nA peripheral blood picture resembling that of leukemia or indistinguishable from it on the basis of morphologic appearance alone. "
+},
+{
+    "ICD10Code":"D72.824",
+    "Description":"Basophilia",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D72.825",
+    "Description":"Bandemia",
+    "SearchInclusion":"Bandemia without diagnosis of specific infection\nBand neutrophil count above reference range",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D72.828",
+    "Description":"Other elevated white blood cell count",
+    "SearchInclusion":"Neutrocytosis\nNeutrophilia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D72.829",
+    "Description":"Elevated white blood cell count, unspecified",
+    "SearchInclusion":"Elevated leukocytes, unspecified\nLeukocytosis, unspecified",
+    "ClinicalNotes":"A transient increase in the number of leukocytes in a body fluid.\nTransient increase in the number of leukocytes in a body fluid."
+},
+{
+    "ICD10Code":"D72.89",
+    "Description":"Other specified disorders of white blood cells",
+    "SearchInclusion":"Abnormality of white blood cells NEC",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D72.9",
+    "Description":"Disorder of white blood cells, unspecified",
+    "SearchInclusion":"Abnormal leukocyte differential NOS\nWhite blood cell disorder",
+    "ClinicalNotes":"Disordered formation of various types of leukocytes or an abnormal accumulation or deficiency of these cells."
+},
+{
+    "ICD10Code":"D73.0",
+    "Description":"Hyposplenism",
+    "SearchInclusion":"Atrophy of spleen\nFunctional asplenia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D73.1",
+    "Description":"Hypersplenism",
+    "SearchInclusion":"",
+    "ClinicalNotes":"Condition characterized by splenomegaly, some reduction in the number of circulating blood cells in the presence of a normal or hyperactive bone marrow, and the potential for reversal by splenectomy."
+},
+{
+    "ICD10Code":"D73.2",
+    "Description":"Chronic congestive splenomegaly",
+    "SearchInclusion":"Splenomegaly, congestive, chronic",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D73.3",
+    "Description":"Abscess of spleen",
+    "SearchInclusion":"Spleen abscess\nSplenic abscess",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D73.4",
+    "Description":"Cyst of spleen",
+    "SearchInclusion":"Spleen cyst\nSplenic cyst",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D73.5",
+    "Description":"Infarction of spleen",
+    "SearchInclusion":"Splenic rupture, nontraumatic\nTorsion of spleen\nSplenic infarct\nSplenic infarction",
+    "ClinicalNotes":"Insufficiency of arterial or venous blood supply to the spleen due to emboli, thrombi, vascular torsion, or pressure that produces a macroscopic area of necrosis."
+},
+{
+    "ICD10Code":"D73.81",
+    "Description":"Neutropenic splenomegaly",
+    "SearchInclusion":"Doan-wiseman syndrome\nWerner-Schultz disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D73.89",
+    "Description":"Other diseases of spleen",
+    "SearchInclusion":"Fibrosis of spleen NOS\nPerisplenitis\nSplenitis NOS\nCalcification of spleen\nLesion, spleen\nSplenic calcification\nSplenic lesion",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D73.9",
+    "Description":"Disease of spleen, unspecified",
+    "SearchInclusion":"Disorder of spleen\nSpleen disease",
+    "ClinicalNotes":"A disorder of the spleen.A non-neoplastic or neoplastic disorder affecting the spleen. Examples SearchInclusion infection, hemangioma, lymphoma, leukemia and angiosarcoma.Condition in which there is a deviation from or interruption of the normal structure or function of the spleen.Your spleen is an organ above your stomach and under your ribs on your left side. It is about as big as your fist. The spleen is part of your lymphatic system, which fights infection and keeps your body fluids in balance. It contains white blood cells that fight germs. Your spleen also helps control the amount of blood in your body, and destroys old and damaged cells. Certain diseases might cause your spleen to swell. You can also damage or rupture your spleen in an injury, especially if it is already swollen. If your spleen is too damaged, you might need surgery to remove it. You can live without a spleen. Other organs, such as your liver, will take over some of the spleen's work. Without a spleen, however, your body will lose some of its ability to fight infections."
+},
+{
+    "ICD10Code":"D74.0",
+    "Description":"Congenital methemoglobinemia",
+    "SearchInclusion":"Congenital NADH-methemoglobin reductase deficiency\nHemoglobin-M [Hb-M] disease\nMethemoglobinemia, hereditary",
+    "ClinicalNotes":"Methemoglobinemia inherited in an autosomal recessive pattern. It is caused by deficiency of the enzyme nadh methemoglobin reductase or the presence of abnormal hemoglobin m. It presents with cyanosis early in life. There is no evidence of cardiopulmonary disease present."
+},
+{
+    "ICD10Code":"D74.8",
+    "Description":"Other methemoglobinemias",
+    "SearchInclusion":"Acquired methemoglobinemia\nAcquired methemoglobinemia (with sulfhemoglobinemia)\nToxic methemoglobinemia",
+    "ClinicalNotes":"A condition in which a higher-than-normal amount of methemoglobin is found in the blood. Methemoglobin is a form of hemoglobin that cannot carry oxygen. In methemoglobinemia, tissues cannot get enough oxygen. Symptoms may SearchInclusion headache, dizziness, fatigue, shortness of breath, nausea, vomiting, rapid heartbeat, loss of muscle coordination, and blue-colored skin. Methemoglobinemia can be caused by injury or being exposed to certain drugs, chemicals, or foods. It can also be an inherited condition.An inherited or acquired condition characterized by abnormally increased levels of methemoglobin in the blood. Signs and symptoms SearchInclusion cyanosis, dyspnea, headache, fatigue, mental status changes, and loss of consciousness.The presence of methemoglobin in the blood, resulting in cyanosis. A small amount of methemoglobin is present in the blood normally, but injury or toxic agents convert a larger proportion of hemoglobin into methemoglobin, which does not function reversibly as an oxygen carrier. Methemoglobinemia may be due to a defect in the enzyme nadh methemoglobin reductase (an autosomal recessive trait) or to an abnormality in hemoglobin m (an autosomal dominant trait)"
+},
+{
+    "ICD10Code":"D74.9",
+    "Description":"Methemoglobinemia, unspecified",
+    "SearchInclusion":"Methemoglobinemia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D75.0",
+    "Description":"Familial erythrocytosis",
+    "SearchInclusion":"Benign polycythemia\nFamilial polycythemia\nFamilial polycythemia vera\nPolycythemia vera, familial",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D75.1",
+    "Description":"Secondary polycythemia",
+    "SearchInclusion":"Acquired polycythemia\nEmotional polycythemia\nErythrocytosis NOS\nHypoxemic polycythemia\nNephrogenous polycythemia\nPolycythemia due to erythropoietin\nPolycythemia due to fall in plasma volume\nPolycythemia due to high altitude\nPolycythemia due to stress\nPolycythemia NOS\nRelative polycythemia\nErythrocytosis\nErythrocytosis secondary to tobacco use\nErythrocytosis secondary to tobacco use or abuse\nPolycythemia, secondary",
+    "ClinicalNotes":"An abnormal increase of the red blood cell in the circulating blood\nAn increase in the total red cell mass of the blood.Increase in the total red cell mass of the blood.Peripheral blood red cell count above the normal range"
+},
+{
+    "ICD10Code":"D75.81",
+    "Description":"Myelofibrosis",
+    "SearchInclusion":"Myelofibrosis NOS\nSecondary myelofibrosis NOS",
+    "ClinicalNotes":"A chronic myeloproliferative neoplasm characterized by bone marrow fibrosis, proliferation of atypical megakaryocytes and granulocytes in the bone marrow, anemia, splenomegaly, and extramedullary hematopoiesis. The cause is unknown. The median survival time is 3-5 years from diagnosis. (who, 2001)A de novo myeloproliferation arising from an abnormal stem cell. It is characterized by the replacement of bone marrow by fibrous tissue, a process that is mediated by cytokines arising from the abnormal clone.A disorder in which the bone marrow is replaced by fibrous tissue.A partial or complete replacement of the bone marrow stroma by fibrous tissue. It can be a primary bone marrow lesion as part of the chronic myeloproliferative disorders (chronic idiopathic myelofibrosis), a manifestation of acute myeloid leukemia (acute panmyelosis with myelofibrosis), or a secondary phenomenon due to bone marrow involvement by a metastatic tumor (e.g., metastatic breast carcinoma).A progressive, chronic disease in which the bone marrow is replaced by fibrous tissue and blood is made in organs such as the liver and the spleen, instead of in the bone marrow. This disease is marked by an enlarged spleen and progressive anemia.Replacement of the bone marrow by fibrous tissue, occurring in association with a myeloproliferative disorder or secondary to another unrelated condition."
+},
+{
+    "ICD10Code":"D75.82",
+    "Description":"Heparin induced thrombocytopenia (HIT)",
+    "SearchInclusion":"Heparin-induced thrombocytopenia\nThrombocytopenia, heparin induced",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D75.89",
+    "Description":"Other specified diseases of blood and blood-forming organs",
+    "SearchInclusion":"Macrocytosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D75.9",
+    "Description":"Disease of blood and blood-forming organs, unspecified",
+    "SearchInclusion":"Arthropathy associated with a hematological disorder\nArthropathy associated with hematological disorder\nArthropathy, hemolytic\nBlood and blood forming organ disease\nBone marrow suppression\nDisorder of hematopoietic structure\nHematological disorder with arthropathy\nHemolytic arthropathy\nMyelosuppression",
+    "ClinicalNotes":"A neoplastic or non-neoplastic disorder that affects the production and proliferation of the hematopoietic cells including lymphoid cells, the synthesis of hemoglobin, and/or the mechanisms of coagulation.\nCondition in which there is a deviation from or interruption of the normal structure or function of the blood and blood forming tissues.Determination of a blood disorder based on symptoms, medical history, risk factors, and clinical tests.Disorders of the blood and blood forming tissues.Your blood is living tissue made up of liquid and solids. The liquid part, called plasma, is made of water, salts and protein. Over half of your blood is plasma. The solid part of your blood contains red blood cells, white blood cells and platelets.blood disorders affect one or more parts of the blood and prevent your blood from doing its job. They can be acute or chronic. Many blood disorders are inherited. Other causes SearchInclusion other diseases, side effects of medicines, and a lack of certain nutrients in your diet.types of blood disorders SearchInclusion platelet disorders, excessive clotting, and bleeding problems, which affect how your blood clots anemia, which happens when your blood does not carry enough oxygen to the rest of your body cancers of the blood, such as leukemia and myeloma eosinophilic disorders, which are problems with one type of white blood cell."
+},
+{
+    "ICD10Code":"D76.1",
+    "Description":"Hemophagocytic lymphohistiocytosis",
+    "SearchInclusion":"Familial hemophagocytic reticulosis\nHistiocytoses of mononuclear phagocytes",
+    "ClinicalNotes":"A group of related disorders characterized by lymphocytosis; histiocytosis; and hemophagocytosis. The two major forms are familial and reactive.\nA rare but potentially life-threatening disorder characterized by the proliferation of histiocytes and macrophages and phagocytosis of red blood cells, white blood cells, and platelets. It may be inherited or secondary, due to infections, autoimmune disorders, or underlying malignancies. Signs and symptoms SearchInclusion fever, lymphadenopathy, hepatomegaly, splenomegaly, and pancytopenia.A rare disorder in which histiocytes and lymphocytes (types of white blood cells) build up in organs including the skin, spleen, and liver, and destroy other blood cells. Hemophagocytic lymphohistiocytosis may be inherited or caused by certain conditions or diseases, including infections, immunodeficiency (inability of the body to fight infections), and cancer.A rare, life-threatening disorder usually appearing during the first few months of life. It is caused by abnormalities in the prf1, unc13d, and stx11 genes. It is characterized by histiocytic proliferation and phagocytosis. Patients present with fever, lymphadenopathy, and hepatosplenomegaly.Rare form of hemophagocytic lymphohistiocytosis with multiorgan involvement seen in infants and young children"
+},
+{
+    "ICD10Code":"D76.2",
+    "Description":"Hemophagocytic syndrome, infection-associated",
+    "SearchInclusion":"Hemophagocytic syndrome, infection associated\nInfection w hemophagocytic syndrome",
+    "ClinicalNotes":"Proliferation of histiocytes in response to viral, bacterial, fungal, or parasitic infections."
+},
+{
+    "ICD10Code":"D76.3",
+    "Description":"Other histiocytosis syndromes",
+    "SearchInclusion":"Acute histiocytosis\nChronic histiocytosis\nHemophagocytic syndrome\nHemophagocytic syndromes\nHistiocytic syndrome\nHistiocytosis\nHistiocytosis, acute\nHistiocytosis, chronic\nHistiocytosis, undetermined cell\nJuvenile xanthogranuloma\nLangerhans cell histiocytosis, disseminated (clinical)\nRosai dorfman syndrome\nSinus histiocytosis with massive lymphadenopathy\nUndetermined cell histiocytosis\nXanthogranuloma\nReticulohistiocytoma (giant-cell)",
+    "ClinicalNotes":"A morphologic finding indicating the presence of histiocytic infiltrates within distended lymph node sinuses.\nA rare non-neoplastic disorder of unknown etiology characterized by distention of the lymph node sinuses and sinusoidal histiocytic infiltration. The histiocytes characteristically contain ingested lymphocytes. It is usually manifested with cervical lymphadenopathy, fever, leukocytosis, and hypergammaglobulinemia. . it can affect extranodal sites, including the skin, bones, and the respiratory tract. It usually regresses spontaneously.Benign, non-langerhans-cell, histiocytic proliferative disorder that primarily affects the lymph nodes. It is often referred to as sinus histiocytosis with massive lymphadenopathy.Condition of faulty lipid metabolism in which yellow nodules of lipoid matter are deposited in the skin and mucosae, giving rise to granulomatous reactions."
+},
+{
+    "ICD10Code":"D77.",
+    "Description":"Other disorders of blood and blood-forming organs in diseases classified elsewhere",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.01",
+    "Description":"Intraoperative hemorrhage and hematoma of the spleen complicating a procedure on the spleen",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.02",
+    "Description":"Intraoperative hemorrhage and hematoma of the spleen complicating other procedure",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.11",
+    "Description":"Accidental puncture and laceration of the spleen during a procedure on the spleen",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.12",
+    "Description":"Accidental puncture and laceration of the spleen during other procedure",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.21",
+    "Description":"Postprocedural hemorrhage of the spleen following a procedure on the spleen",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.22",
+    "Description":"Postprocedural hemorrhage of the spleen following other procedure",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.31",
+    "Description":"Postprocedural hematoma of the spleen following a procedure on the spleen",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.32",
+    "Description":"Postprocedural hematoma of the spleen following other procedure",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.33",
+    "Description":"Postprocedural seroma of the spleen following a procedure on the spleen",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.34",
+    "Description":"Postprocedural seroma of the spleen following other procedure",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.81",
+    "Description":"Other intraoperative complications of the spleen",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D78.89",
+    "Description":"Other postprocedural complications of the spleen",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.0",
+    "Description":"Hereditary hypogammaglobulinemia",
+    "SearchInclusion":"Autosomal recessive agammaglobulinemia (Swiss type)\nX-linked agammaglobulinemia [Bruton] (with growth\nhormone deficiency)  Agammaglobulinemia, x linked\nCongenital agammaglobulinemia\nHypogammaglobulinemia, congenital\nX linked hypogammaglobulinemia\nX-linked agammaglobulinemia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.1",
+    "Description":"Nonfamilial hypogammaglobulinemia",
+    "SearchInclusion":"Agammaglobulinemia with immunoglobulin-bearing B-lymphocytes\nCommon variable agammaglobulinemia [CVAgamma]\nHypogammaglobulinemia NOS\nHypogammaglobulinemia co-occurrent and due to\nmonoclonal gammopathy of undetermined significance\nHypogammaglobulinemia co-occurrent and due to multiple\nmyeloma\nMonoclonal gammopathy of undetermined significance w\nhypogammaglobulinemia\nMultiple myeloma w hypogammaglobulinemia",
+    "ClinicalNotes":"A condition in which the level of immunoglobulins (antibodies) in the blood is low and the risk of infection is high.\nCondition characterized by abnormally low levels of all classes of gamma globulins in the blood.Decreased concentration of the gamma fraction of serum globulin"
+},
+{
+    "ICD10Code":"D80.2",
+    "Description":"Selective deficiency of immunoglobulin A [IgA]",
+    "SearchInclusion":"Immunoglobulin a deficiency\nImmunoglobulin deficiency, iga",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.3",
+    "Description":"Selective deficiency of immunoglobulin G [IgG] subclasses",
+    "SearchInclusion":"Immunoglobulin deficiency, immunoglobulin g\nImmunoglobulin g deficiency\nImmunoglobulin g subclass deficiency",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.4",
+    "Description":"Selective deficiency of immunoglobulin M [IgM]",
+    "SearchInclusion":"Immunoglobulin deficiency, igm\nSelective immunoglobulin m deficiency",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.5",
+    "Description":"Immunodeficiency with increased immunoglobulin M [IgM]",
+    "SearchInclusion":"Hyperimmunoglobulin m syndrome",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.6",
+    "Description":"Antibody deficiency with near-normal immunoglobulins or with hyperimmunoglobulinemia",
+    "SearchInclusion":"Antibody deficiency w near normal immunoglobulins\nAntibody deficiency with hyperimmunoglobulinemia\nSpecific antibody deficiency",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.7",
+    "Description":"Transient hypogammaglobulinemia of infancy",
+    "SearchInclusion":"Hypogammaglobulinemia of infancy",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.8",
+    "Description":"Other immunodeficiencies with predominantly antibody defects",
+    "SearchInclusion":"Kappa light chain deficiency",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D80.9",
+    "Description":"Immunodeficiency with predominantly antibody defects, unspecified",
+    "SearchInclusion":"Humoral immunoglobulin deficiency\nImmunodeficiency with predominantly antibody defects\nPredominant humoral immune deficiency",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D81.0",
+    "Description":"Severe combined immunodeficiency [SCID] with reticular dysgenesis",
+    "SearchInclusion":"Severe combined immunodefic w reticular dysgenesis\nSevere combined immunodefiency with reticular dysgenesis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D81.1",
+    "Description":"Severe combined immunodeficiency [SCID] with low T- and B-cell numbers",
+    "SearchInclusion":"Immunodeficiency, severe comb low t- and b-cells\nSevere combined immunodeficiency with low t- and b-cell numbers",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D81.2",
+    "Description":"Severe combined immunodeficiency [SCID] with low or normal B-cell numbers",
+    "SearchInclusion":"Immunodeficiency severe comb low or normal b-cells\nSevere combined immunodeficiency with low or normal b-cell numbers",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D81.3",
+    "Description":"Adenosine deaminase [ADA] deficiency",
+    "SearchInclusion":"",
+    "ClinicalNotes":"An autosomal recessive deficiency of the purine salvage enzyme adenosine deaminase which results in severe combined immunodeficiency disease (scid). The most common form of scid, accounting for about 50% of autosomal recessive cases. The first disease for which gene therapy was applied."
+},
+{
+    "ICD10Code":"D81.4",
+    "Description":"Nezelof's syndrome",
+    "SearchInclusion":"Nezelofs syndrome",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D81.5",
+    "Description":"Purine nucleoside phosphorylase [PNP] deficiency",
+    "SearchInclusion":"Purine nucleoside phosphorylase deficiency",
+    "ClinicalNotes":"Pnp reversibly catalyzes the phosphorolysis of the purine nucleosides, (deoxy)inosine and (deoxy)guanosine, to their respective purine bases and the corresponding ribose-1-phosphate. Deficiency in this enzyme is an autosomal recessive cause of combined immunodeficiency."
+},
+{
+    "ICD10Code":"D81.6",
+    "Description":"Major histocompatibility complex class I deficiency",
+    "SearchInclusion":"Bare lymphocyte syndrome\nMajor histocompatibility complex class i deficien",
+    "ClinicalNotes":"A hereditary immunodeficiency disorder caused by the absence of major histocompatibility complex class ii expression. Signs SearchInclusion upper and lower respiratory tract bacterial infections, malabsorption, diarrhea, and mucocutaneous candidiasis."
+},
+{
+    "ICD10Code":"D81.7",
+    "Description":"Major histocompatibility complex class II deficiency",
+    "SearchInclusion":"Major histocompatibility complex class ii deficien",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D81.810",
+    "Description":"Biotinidase deficiency",
+    "SearchInclusion":"",
+    "ClinicalNotes":"A genetic disorder caused by mutations in the btd gene. It is characterized by reduced or absent activity of the enzyme biotinidase which is responsible for the recycling of the vitamin biotin. Signs and symptoms appear in childhood and SearchInclusion seizures, hypotonia and developmental delays. If left untreated, it leads to vision and hearing loss, infections, alopecia and ataxia.\nThe late onset form of multiple carboxylase deficiency (deficiency of the activities of biotin-dependent enzymes propionyl-coa carboxylase, methylcrotonyl-coa carboxylase, and pyruvate carboxylase) due to a defect or deficiency in biotinidase which is essential for recycling biotin."
+},
+{
+    "ICD10Code":"D81.818",
+    "Description":"Other biotin-dependent carboxylase deficiency",
+    "SearchInclusion":"Holocarboxylase synthetase deficiency\nOther multiple carboxylase deficiency\nDeficiency, holocarboxylase synthease\nHolocarboxylase synthase deficiency",
+    "ClinicalNotes":"A rare autosomal recessive inherited disorder caused by mutations in the hlcs gene. It is characterized by deficiency of the enzyme holocarboxylase synthetase which facilitates the effective use of the vitamin biotin in the body. Signs and symptoms appear early in life and SearchInclusion breathing difficulties, feeding difficulties, alopecia, skin rash, and lethargy. Lifelong administration of biotin supplements is required. If it is not treated properly, it may lead to developmental delays, seizures, and coma.\nA rare autosomal recessive inherited disorder that is manifested in the neonatal period and is caused by mutations in the hlcs gene. It is characterized by deficiency of the enzyme holocarboxylase synthetase which facilitates the effective use of the vitamin biotin in the body. Signs and symptoms SearchInclusion difficulties in feeding and breathing, skin rash, seizures, lethargy, and coma.The neonatal form of multiple carboxylase deficiency that is caused by a defect or deficiency in holocarboxylase synthetase. Hlcs is the enzyme that covalently links biotin to the biotin dependent carboxylases (propionyl-coa-carboxylase, pyruvate carboxylase, and beta-methylcrotonyl-coa carboxylase)."
+},
+{
+    "ICD10Code":"D81.819",
+    "Description":"Biotin-dependent carboxylase deficiency, unspecified",
+    "SearchInclusion":"Multiple carboxylase deficiency, unspecified\nBiotin dependent carboxylase deficiency",
+    "ClinicalNotes":"A deficiency in the activities of biotin-dependent enzymes (propionyl-coa carboxylase, methylcrotonyl-coa carboxylase, and pyruvate carboxylase) due to one of two defects in biotin metabolism. The neonatal form is due to holocarboxylase synthetase deficiency. The late-onset form is due to biotinidase deficiency."
+},
+{
+    "ICD10Code":"D81.89",
+    "Description":"Other combined immunodeficiencies",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D81.9",
+    "Description":"Combined immunodeficiency, unspecified",
+    "SearchInclusion":"Combined immunodeficiency\nCombined immunodeficiency disease\nImmunodeficiency, severe combined\nSevere combined immunodeficiency disease\nSevere combined immunodeficiency disorder [SCID] NOS",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D82.0",
+    "Description":"Wiskott-Aldrich syndrome",
+    "SearchInclusion":"Immunodeficiency with thrombocytopenia and eczema\nWiskott aldrich syndrome",
+    "ClinicalNotes":"A rare, x-linked immunodeficiency syndrome characterized by eczema, thrombocytopenia, and recurrent pyogenic infection. It is seen exclusively in young boys. Typically, igm levels are low and iga and ige levels are elevated. Lymphoreticular malignancies are common.\nA rare, x-linked immunodeficiency syndrome characterized by eczema; lymphopenia; and, recurrent pyogenic infection. It is seen exclusively in young boys. Typically, immunoglobulin m levels are low and immunoglobulin a and immunoglobulin e levels are elevated. Lymphoreticular malignancies are common.An inherited immune disorder that occurs in young boys. It causes eczema (a type of skin inflammation), a decrease in the number of platelets (blood cells that help prevent bleeding), and frequent bacterial infections. People with wiskott-aldrich syndrome are at increased risk of developing leukemia and lymphoma.Rare x-linked immunodeficiency syndrome of young boys characterized by eczema, thrombocytopenic purpura and recurrent pyogenic infection; igm levels are low and iga and ige levels are elevated; lymphoreticular malignancies are common."
+},
+{
+    "ICD10Code":"D82.1",
+    "Description":"Di George's syndrome",
+    "SearchInclusion":"Pharyngeal pouch syndrome\nThymic alymphoplasia\nThymic aplasia or hypoplasia with immunodeficiency\nDigeorge syndrome",
+    "ClinicalNotes":"A congenital anomaly characterized by immunodeficiency, abnormal facies, congenital heart disease, hypocalcemia, and increased susceptibility to infections. Pathologic characteristics SearchInclusion conotruncal abnormalities and absence or hypoplasia of thymus and parathyroid glands. Digeorge syndrome is associated with abnormalities of chromosome 22. Also known as digeorge anomaly.\nA developmental defect of derivatives of the third and fourth pharyngeal pouches, almost always associated with agenesis or hypoplasia of the thymus and parathyroid gland, characteristic facies with downslanting palpebral fissures and ocular and nasal anomalies, hypocalcemia, cardiovascular anomalies, immunodeficiency, and other variable abnormalities. Patients who survive infancy are usually mentally retarded. Digeorge syndrome is considered by some researchers as a developmental field defect consisting of several casually distinct disorders, rather than a distinct syndromic entity. Conditions associated with the development of digeorge syndrome SearchInclusion diabetic embryopathy, fetal alcohol syndrome, and zellweger syndrome. Major features of this syndrome have been designated by the newcastle upon tyne group catch 22 (cardiac, abnormal facies, thymic hypoplasia, cleft palate, and hypocalcemia), the number 22 indicating deletion of the long arm of chromosome 22 (22q11).Branchial arch defects with craniofacial abnormalities, hearing loss, short stature, and learning difficulty.Congenital syndrome characterized by a wide spectrum of characteristics including the absence of the thymus and parathyroid glands resulting in t-cell immunodeficiency, hypocalcemia, defects in the outflow tract of the heart, and craniofacial anomalies.Congenital syndrome with the absence of the thymus and parathyroids causing impairment of cellular immunity; immunoglobulin levels are normal."
+},
+{
+    "ICD10Code":"D82.2",
+    "Description":"Immunodeficiency with short-limbed stature",
+    "SearchInclusion":"Immunodeficiency w short limbed stature\nLymphopenic agammaglobulinemia - short-limbed dwarfism syndrome",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D82.3",
+    "Description":"Immunodeficiency following hereditary defective response to Epstein-Barr virus",
+    "SearchInclusion":"X-linked lymphoproliferative disease\nImmunodeficiency, response to epstein-barr virus",
+    "ClinicalNotes":"An x-linked immunodeficiency syndrome that exclusivesly affects males, although females can be carriers. The syndrome is characterized by life-threatening episodes of infectious mononucleosis, hypogammaglobulinemia, and subsequent development of lymphomas (usually b-cell lymphomas) and other lymphoproliferative disorders."
+},
+{
+    "ICD10Code":"D82.4",
+    "Description":"Hyperimmunoglobulin E [IgE] syndrome",
+    "SearchInclusion":"Hyperimmunoglobulin e syndrome",
+    "ClinicalNotes":"Primary immunodeficiency syndrome characterized by recurrent infections and hyperimmunoglobulinemia e. Most cases are sporadic. Of the rare familial forms, the dominantly inherited subtype has additional connective tissue, dental and skeletal involvement that the recessive type does not share."
+},
+{
+    "ICD10Code":"D82.8",
+    "Description":"Immunodeficiency associated with other specified major defects",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D82.9",
+    "Description":"Immunodeficiency associated with major defect, unspecified",
+    "SearchInclusion":"Immunodeficiency due to major defect",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D83.0",
+    "Description":"Common variable immunodeficiency with predominant abnormalities of B-cell numbers and function",
+    "SearchInclusion":"Common variable immunodeficiency w predominant abnorma\nCommon variable immunodeficiency with predominant abnormalities of b-cell numbers and functions",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D83.1",
+    "Description":"Common variable immunodeficiency with predominant immunoregulatory T-cell disorders",
+    "SearchInclusion":"Common variable immunodeficiency w predominant immunor\nImmunodeficiency, t cell defect\nT-cell immunodeficiency defect",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D83.2",
+    "Description":"Common variable immunodeficiency with autoantibodies to B- or T-cells",
+    "SearchInclusion":"Immunodeficiency w autoantibodies to b or t-cell",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D83.8",
+    "Description":"Other common variable immunodeficiencies",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D83.9",
+    "Description":"Common variable immunodeficiency, unspecified",
+    "SearchInclusion":"Common variable agammaglobulinemia\nCommon variable immunodeficiency",
+    "ClinicalNotes":"A primary immunodeficiency characterized by low levels or absence of all the immunoglobulin classes and lack of b-lymphocytes or plasma cells. It results in recurrent bacterial infections. Complications SearchInclusion autoimmune phenomena and cancer development.\nHeterogeneous group of immunodeficiency syndromes characterized by hypogammaglobulinemia of most isotypes, variable b-cell defects, and the presence of recurrent bacterial infections."
+},
+{
+    "ICD10Code":"D84.0",
+    "Description":"Lymphocyte function antigen-1 [LFA-1] defect",
+    "SearchInclusion":"Lymphocyte function antigen-1 defect",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D84.1",
+    "Description":"Defects in the complement system",
+    "SearchInclusion":"Angioedema, hereditary\nCirculating enzyme deficiency\nComplement 4 deficiency\nComplement deficiency c4\nComplement deficiency disease\nDeficiency of circulating enzyme\nHereditary angioneurotic edema\nHypocomplementemia\nC1 esterase inhibitor [C1-INH] deficiency",
+    "ClinicalNotes":"Rare disease where complement protein(s) are absent or in diminished amount relative to the normal requirement of an organism; associated with autoimmune disease or increased susceptibility to infections, problems encountered depend on which pathway is affected."
+},
+{
+    "ICD10Code":"D84.8",
+    "Description":"Other specified immunodeficiencies",
+    "SearchInclusion":"Cellular immune defect\nDeficiency of cell-mediated immunity\nMannose binding lectin deficiency\nMannose binding lectin protein deficiency",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D84.9",
+    "Description":"Immunodeficiency, unspecified",
+    "SearchInclusion":"Congenital immunodeficiency disease\nImmunodeficiency\nImmunodeficiency disorder\nImmunodeficiency, acquired\nSecondary immune deficiency disorder",
+    "ClinicalNotes":"A deficiency of immune response or a disorder characterized by deficient immune response.\nA disorder in which the immune system is unable to mount an adequate immune response.Deficiency of immune response or a disorder characterized by deficient immune response; classified as antibody (b cell), cellular (t cell), or combined immunodeficiency, or phagocytic dysfunction disorders.Syndromes in which there is a deficiency or defect in the mechanisms of immunity, either cellular or humoral.The decreased ability of the body to fight infection and disease.The inability of the body to produce an immune response."
+},
+{
+    "ICD10Code":"D86.0",
+    "Description":"Sarcoidosis of lung",
+    "SearchInclusion":"Pulmonary sarcoidosis\nSarcoidosis with lung involvement",
+    "ClinicalNotes":"Sarcoidosis affecting predominantly the lungs, the site most frequently involved and most commonly causing morbidity and mortality in sarcoidosis. Pulmonary sarcoidosis is characterized by sharply circumscribed granulomas in the alveolar, bronchial, and vascular walls, composed of tightly packed cells derived from the mononuclear phagocyte system. The clinical symptoms when present are dyspnea upon exertion, nonproductive cough, and wheezing.Sarcoidosis affecting the lung parenchyma. It is characterized by the presence of non-necrotizing granulomas in the lung tissues. It is manifested with dyspnea, cough, fever, night sweats, fatigue, and weight loss."
+},
+{
+    "ICD10Code":"D86.1",
+    "Description":"Sarcoidosis of lymph nodes",
+    "SearchInclusion":"Lymph node sarcoidosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.2",
+    "Description":"Sarcoidosis of lung with sarcoidosis of lymph nodes",
+    "SearchInclusion":"Pulmonary sarcoidosis w lymph node sarcoidosis\nSarcoidosis of the lung w lymph node sarcoidosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.3",
+    "Description":"Sarcoidosis of skin",
+    "SearchInclusion":"Cutaneous sarcoidosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.81",
+    "Description":"Sarcoid meningitis",
+    "SearchInclusion":"Meningitis due to sarcoidosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.82",
+    "Description":"Multiple cranial nerve palsies in sarcoidosis",
+    "SearchInclusion":"Sarcoidosis with multiple cranial nerve palsies",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.83",
+    "Description":"Sarcoid iridocyclitis",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.84",
+    "Description":"Sarcoid pyelonephritis",
+    "SearchInclusion":"Tubulo-interstitial nephropathy in sarcoidosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.85",
+    "Description":"Sarcoid myocarditis",
+    "SearchInclusion":"Sarcoid heart muscle disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.86",
+    "Description":"Sarcoid arthropathy",
+    "SearchInclusion":"Polyarthritis in sarcoidosis",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.87",
+    "Description":"Sarcoid myositis",
+    "SearchInclusion":"Inflammatory myopathy due to sarcoidosis\nMyositis in sarcoidosis\nSarcoid myopathy",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D86.89",
+    "Description":"Sarcoidosis of other sites",
+    "SearchInclusion":"Hepatic granuloma\nUveoparotid fever [Heerfordt]\nSarcoidosis with glomerulonephritis\nSarcoidosis with glomerulonephritis (gn)",
+    "ClinicalNotes":"A manifestation of sarcoidosis marked by chronic inflammation of the parotid gland and the uvea."
+},
+{
+    "ICD10Code":"D86.9",
+    "Description":"Sarcoidosis, unspecified",
+    "SearchInclusion":"Sarcoidosis",
+    "ClinicalNotes":"A disease that produces messes especially in the liver, lungs, skin, and lymph nodes\nAn idiopathic inflammatory disorder characterized by the formation of non-necrotizing epithelioid granulomas which contain giant cells. It usually affects the lungs, lymph nodes, liver, and skin. Cardiac involvement is also possible.An idiopathic systemic inflammatory granulomatous disorder comprised of epithelioid and multinucleated giant cells with little necrosis. It usually invades the lungs with fibrosis and may also involve lymph nodes, skin, liver, spleen, eyes, phalangeal bones, and parotid glands.An inflammatory disease marked by the formation of granulomas (small nodules of immune cells) in the lungs, lymph nodes, and other organs. Sarcoidosis may be acute and go away by itself, or it may be chronic and progressive.Inflammatory disease characterized by small lumps or granulomas in lymph nodes and other organs.Sarcoidosis is a disease that leads to inflammation, usually in your lungs, skin, or lymph nodes. It starts as tiny, grain-like lumps, called granulomas. Sarcoidosis can affect any organ in your body. No one is sure what causes sarcoidosis. It affects men and women of all ages and races. It occurs mostly in people ages 20 to 50, african americans, especially women, and people of northern european origin. Many people have no symptoms. If you have symptoms, they may SearchInclusion cough shortness of breath weight loss night sweats fatigue tests to diagnose sarcoidosis SearchInclusion chest x-rays, lung function tests, and a biopsy. Not everyone who has the disease needs treatment. If you do, prednisone, a type of steroid, is the main treatment.What: sarcoidosis: sarcoidosis: a disorder of unknown etiology that affects many organ systems with noncaseating epithelioid cell granulomas. It has a special predilection for the lung and lymph tissues. Why: sarcoidosis can result in an acute arthritis commonly affecting the ankles and knees and less commonly the proximal interphalangeal joints, wrists, and elbows. The acute arthritis is symmetric and lasts for a few weeks. A less common chronic arthritis is destructive and may have dactylitis and telescoping digits. How: sarcoidosis is a diagnosis of exclusion based on the clinical presentation and histology of biopsy tissue."
+},
+{
+    "ICD10Code":"D89.0",
+    "Description":"Polyclonal hypergammaglobulinemia",
+    "SearchInclusion":"Benign hypergammaglobulinemic purpura\nPolyclonal gammopathy NOS\nBenign primary hypergammaglobulinemic purpura\nHypergammaglobulinemia, polyclonal\nPurpura, hypergammaglobulinemic, benign primary",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.1",
+    "Description":"Cryoglobulinemia",
+    "SearchInclusion":"Cryoglobulinemic purpura\nCryoglobulinemic vasculitis\nEssential cryoglobulinemia\nIdiopathic cryoglobulinemia\nMixed cryoglobulinemia\nPrimary cryoglobulinemia\nSecondary cryoglobulinemia\nCryoglobulinemia due to chronic hepatitis c",
+    "ClinicalNotes":"A condition characterized by the presence of abnormal quantities of cryoglobulins in the blood. Upon cold exposure, these abnormal proteins precipitate into the microvasculature leading to restricted blood flow in the exposed areas.\nA condition characterized by the presence of cryoglobulins in the blood. Cryoglobulins are abnormal proteins that precipitate within the microvasculature on exposure to cold; microvasculature effects of cryoglobulinemia may result in restricted tissue blood flow, tissue hypoxia, and tissue necrosis."
+},
+{
+    "ICD10Code":"D89.2",
+    "Description":"Hypergammaglobulinemia, unspecified",
+    "SearchInclusion":"Hypergammaglobulinemia",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.3",
+    "Description":"Immune reconstitution syndrome",
+    "SearchInclusion":"Immune reconstitution inflammatory syndrome [IRIS]",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.40",
+    "Description":"Mast cell activation, unspecified",
+    "SearchInclusion":"Mast cell activation disorder, unspecified\nMast cell activation syndrome, NOS",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.41",
+    "Description":"Monoclonal mast cell activation syndrome",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.42",
+    "Description":"Idiopathic mast cell activation syndrome",
+    "SearchInclusion":"",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.43",
+    "Description":"Secondary mast cell activation",
+    "SearchInclusion":"Secondary mast cell activation syndrome",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.49",
+    "Description":"Other mast cell activation disorder",
+    "SearchInclusion":"Other mast cell activation syndrome",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.810",
+    "Description":"Acute graft-versus-host disease",
+    "SearchInclusion":"Acute graft versus host disease\nAcute graft versus host disease due to kidney transplant\nAcute graft versus host reaction due to bone marrow\ntransplant\nGraft versus host disease due to kidney transplant\nGraft versus host reaction, bone marrow transplant",
+    "ClinicalNotes":"A syndrome of immologically mediated tissue damage occurring following allogeneic transplant usually affecting the skin, liver, and gi tract. Onset is usually within one hundred days of transplantation or immunologic manipulation."
+},
+{
+    "ICD10Code":"D89.811",
+    "Description":"Chronic graft-versus-host disease",
+    "SearchInclusion":"Chronic graft versus host disease\nChronic graft versus host disease due to bone marrow\ntransplant\nChronic graft versus host disease due to kidney transplant\nGraft versus host disease due to kidney transplant\nGraft versus host reaction, bone marrow transplant",
+    "ClinicalNotes":"A syndrome of immologically mediated tissue damage occurring following allogeneic transplant and may affect multiple organs with manifestations similar to autoimmune diseases. Onset is usually within three years of transplantation or immunologic manipulation."
+},
+{
+    "ICD10Code":"D89.812",
+    "Description":"Acute on chronic graft-versus-host disease",
+    "SearchInclusion":"Acute chronic graft versus host disease\nAcute on chronic graft versus host disease\nAcute on chronic graft versus host disease due to kidney\ntransplant\nGraft versus host disease due to kidney transplant",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.813",
+    "Description":"Graft-versus-host disease, unspecified",
+    "SearchInclusion":"Graft versus host disease\nGraft versus host disease due to kidney transplant",
+    "ClinicalNotes":"A disease caused when cells from a donated stem cell graft attack the normal tissue of the transplant patient. Symptoms SearchInclusion jaundice, skin rash or blisters, a dry mouth, or dry eyes.\nAn incompatibility reaction (which may be fatal) in a subject (host) of low immunological competence (deficient lymphoid tissue) who has been the recipient of immunologically competent lymphoid tissue from a donor who lacks at least one antigen possessed by the recipient host; the reaction, or disease, is the result of action of the transplanted cells against those host tissues that possess the antigen not possessed by the donor. Seen most commonly following bone marrow transplantation, acute disease is seen after 5-40 days and chronic disease weeks to months after transplantation, affecting, principally, the gastrointestinal tract, liver, and skin.Caused by immunologically competent t cells in the graft recognizing and attacking host tissues as foreign; clinical symptoms SearchInclusion skin rashes, diarrhea, and abnormal liver functions.The clinical entity characterized by anorexia, diarrhea, loss of hair, leukopenia, thrombocytopenia, growth retardation, and eventual death brought about by the graft vs host reaction."
+},
+{
+    "ICD10Code":"D89.82",
+    "Description":"Autoimmune lymphoproliferative syndrome [ALPS]",
+    "SearchInclusion":"Autoimmune lymphoproliferative syndrome",
+    "ClinicalNotes":"An autoimmune hematologic disorder characterized by autoimmune hemolytic anemia, thrombocytopenia, lymphadenopathy, hepatomegaly and splenomegaly. Patients are at an increased risk of developing hodgkin and non-hodgkin lymphomas.\nRare congenital lymphoid disorder due to mutations in certain fas-fas ligand pathway genes. Known causes SearchInclusion mutations in fas, tnfsf6, nras, casp8, and casp10 proteins. Clinical features SearchInclusion lymphadenopathy; splenomegaly; and autoimmunity."
+},
+{
+    "ICD10Code":"D89.89",
+    "Description":"Other specified disorders involving the immune mechanism, not elsewhere classified",
+    "SearchInclusion":"Antisynthetase syndrome\nIgg4-related disease",
+    "ClinicalNotes":""
+},
+{
+    "ICD10Code":"D89.9",
+    "Description":"Disorder involving the immune mechanism, unspecified",
+    "SearchInclusion":"Immune disease NOS\n Disorder of immune function\nImmune system disorder\nImmunosuppression",
+    "ClinicalNotes":"A disorder resulting from an abnormality in the immune system.\nDisorders caused by abnormal or absent immunologic mechanisms, whether humoral, cell-mediated, or both.Your immune system is a complex network of cells, tissues, and organs that work together to defend against germs. It helps your body to recognize these foreign invaders. Then its job is to keep them out, or if it can't, to find and destroy them.if your immune system cannot do its job, the results can be serious. Disorders of the immune system SearchInclusion allergy and asthma - immune responses to substances that are usually not harmful immune deficiency diseases - disorders in which the immune system is missing one or more of its parts autoimmune diseases - diseases causing your immune system to attack your own body's cells and tissues by mistake"
+}
+
+
+
+    ]
+

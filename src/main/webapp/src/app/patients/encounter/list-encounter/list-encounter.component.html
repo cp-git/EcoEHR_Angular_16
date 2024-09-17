@@ -1,0 +1,68 @@
+<h1>ICD-10 Code</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <tr *ngFor="let rows of ICD10Group">
+                <td>{{rows.groupDescription}}</td>
+            </tr>
+        </div>
+
+        <div class="col-md-8">
+            <input type="text" [(ngModel)]="searchText" placeholder="welcome to input..."/>
+<button (click)="search1()">Search</button>
+<table class="table table-bordered"
+style="overflow-y:auto;max-height:400px;display:block;">
+<tbody>
+    <tr>
+        <th class="text-center">Select</th>
+        <th class="text-center">ICD10</th>
+        <th class="text-center" style="user-select: auto;width: 230px;">Description</th>
+        <th class="text-center" style="user-select: auto;width: 430px;">Search Inclusion</th>
+        <th style="white-space:nowrap;"
+            title="Click the below icon to view full detail of ICD-10 Code">
+            Detail</th>
+        <th hidden class="text-center"
+            title="Select below checkbox if ICD Code is primary ICD Code">
+            Primary
+            ICD-10?</th>
+    </tr>
+    <tr *ngFor='let data of filteredData' style="height:auto">
+        <td class="text-center">
+            <input type="checkbox" id="icd_{{data.ICD10Code}}"
+                name="checkListItem" 
+                (change)="onChange(data,icdgroupName, $event)"                 
+                value="{{data}}"> <label
+                for="icd_{{data.ICD10Code}}"></label>
+        </td>
+        <td>{{data.ICD10Code}} </td>
+        <td> {{data.Description}} </td>
+        <td [innerHTML]=data.SearchInclusion></td>
+        <!-- <td class="text-center">
+            <a href="#" (click)="openSearchWindow(data.ICD10Code)"
+                data-toggle="modal" title="View Details">
+                <i class="fa fa-eye icon-color"></i>
+            </a>
+        </td> -->
+        <td class="text-center" hidden>
+            <input type="checkbox" name="primaryIcd"
+                id="primary_{{data.ICD10Code}}"
+              
+                (change)="onChange(data,icdgroupName, $event)"
+                value={{data.ICD10Code}}> <label
+                for="primary_{{data.ICD10Code}}"></label>
+        </td>
+
+
+    </tr>
+</tbody>
+</table>
+<button type="submit" (click)="submitData()" [mat-dialog-close]="false" id="AddClose"
+class="btn button" >ADD & CLOSE</button>
+<button id="dismissmodal" style="display:none;" type="submit"
+class="btn btn-info pull-left" data-dismiss="modal"></button>
+
+
+        </div>
+    </div>
+</div>
+

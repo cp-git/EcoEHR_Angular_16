@@ -1,0 +1,195 @@
+
+<div class="header-contents" style="border: 2px groove black;margin-top: 20px;">
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div>
+                <label class="header-style">Last Name:</label>
+                <label class="input-size">{{patientRecords && patientRecords.lastName}}</label>
+            </div>
+            <div>
+                <!-- <a (click)="showAllergiesModal()" role="button"
+                    style="text-decoration: underline;color:white">
+                    <b>List Of Allergies</b>
+                </a> -->
+                <br>
+               
+            </div>
+        </div>
+
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div>
+                <label class="header-style">First Name:</label>
+                <label class="input-size">{{patientRecords && patientRecords.firstName}}</label>
+            </div>
+            <div>
+                    <label class="header-style">Sex:</label>
+                    <label class="input-size">{{patientRecords && patientRecords.gender}}</label>
+                </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div>
+                <label class="header-style">DOB:</label>
+                <label class="input-size">{{patientRecords && patientRecords.dob}}</label>
+            </div>
+            <div>
+                <!-- <label class="header-style">Age:</label>
+                <label class="input-size">{{patientRecords &&
+                    calculateAge(patientRecords.dob)}}</label> -->
+            </div>
+        </div>
+        <!-- <div class="col-md-1">
+            <div>
+                <label class="header-style">Sex:</label>
+                <label class="input-size">{{patientRecords && patientRecords.gender}}</label>
+            </div>
+        </div> -->
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div>
+                <label class="header-style">Date:</label>
+                <label class="input-size">{{today | date:'MM/dd/yyyy'}}</label>
+            </div>
+            <div>
+                <label class="header-style">Time:</label>
+                <label class="input-size">{{today | date:'HH:mm:ss'}}</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-6">
+            <div>
+                <label class="header-style">Primary Care Provider:</label>
+                <label class="input-size">{{patientRecords && patientRecords.providerFirstName}}
+                    {{patientRecords && patientRecords.providerLastName}}</label>
+            </div>
+            <div *ngIf="show">
+
+                <label class="header-style">Patient Unique Characters:</label>
+                <label class="input-size">{{encounterdata && encounterdata.patientUniqueCharacters}}
+                    </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+       <div class="row" style="margin-left:57px;margin-bottom:1%">
+            <div id="expansionPanel3" *ngIf="value">
+                <!-- <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="text-center">Allergy</th>
+                            <th class="text-center">Form</th>
+                            <th class="text-center">Route</th>
+                            <th class="text-center">Dose</th>
+                        </tr>
+                        <ng-container *ngIf="patientAllergies?.length > 0">
+                            <tr *ngFor="let allergy of patientAllergies" style="color:white">
+                                    <td>{{allergy.productName}}</td>
+                                    <td>{{allergy.form}}</td>
+                                    <td>{{allergy.route}}</td>
+                                    <td [innerHTML]=allergy.dose></td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="patientAllergies?.length == 0">
+                            <tr style="color:white" class="text-center">
+                                <td colspan="4">No Allergies found!!</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table> -->
+            </div>
+        </div>
+</div>
+</div>
+
+<div class="container-fluid" style="border: 3px groove grey; margin-top: 20px;">
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="side-header" style="border: 2px groove red;height: 500px;">
+                <h4 style="text-align: center;">Encounter History</h4>
+                <table>
+                    <tbody>
+                        <tr  *ngFor="let enc of allEncounters">
+                            <td><button style="margin-top: 10px;" (click)="openDialog(enc.encounterId,patientId)">{{enc.encounterDate}}</button></td>
+                        </tr>
+                    </tbody>       
+                </table>
+             </div>
+        </div>
+
+        <div class="col-md-9" style="border: 2px groove brown;">
+           
+            <form [formGroup]="AddEncounterForm" action="" method="">
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-2" style="margin-top:18px;margin-left:18px;">
+                        <label class="label-style"><small class="AsteriskColor">*
+                            </small>Chief compliant:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <textarea class="form-control" formControlName="chiefCompliant"
+                            placeholder="type here...."></textarea>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-2" style="margin-top:18px;margin-left:18px;">
+                        <label class="label-style"><small class="AsteriskColor">*
+                            </small>Patient Unique Characters:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" placeholder="type here...."
+                            formControlName="patientUniqueCharacter"
+                            class="form-control">
+                    </div>
+                </div>
+
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title> Level Of Acuity</mat-panel-title>
+                      <mat-panel-description> This is a summary of the content </mat-panel-description>
+                    </mat-expansion-panel-header>
+                     <table *ngFor="let acuity of acuityData">
+                       <!-- {{acuity | json}} -->
+                       <tr> 
+                        <input type="radio"
+                        [value]="acuity.id">
+                        New {{ acuity.New }} {{ acuity.DESC }}
+                      
+                  
+                       </tr>
+
+                     </table>
+                  </mat-expansion-panel>
+
+
+                <!-- <div class="row" id="collapsePanel1">
+                    <div class="card-header collapse-card-style"
+                        (click)="expandPanel1()" id="change-collapse1"
+                        data-toggle="collapse" data-target="#expansionPanel2"
+                        data-background-color>
+                        <small class="AsteriskColor">* </small>Level of acuity :
+                        {{acuityName}}
+                    </div>
+                   
+                </div> -->
+
+
+                <div class="row" style=" margin-left:25px;margin-top: 30px;">
+                    <label class="label-style"><small class="AsteriskColor">*
+                        </small>ICD
+                        10 code search</label>&nbsp;
+
+                        <i class="fas fa-plus-circle" (click)="toICDCode()"></i>
+                   
+                   
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+ 
+
+
+   
+</div>

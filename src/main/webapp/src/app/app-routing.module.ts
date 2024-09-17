@@ -18,6 +18,7 @@ import { AddMasterLookUpComponent } from './administration/add-master-look-up/ad
 import { StudentRegistrationComponent } from './home/student-registration/student-registration.component';
 import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
 import { ContactUsComponent } from './profiles/contactus/contactus.component';
+import { AddEncounterComponent } from './patients/encounter/add-encounter/add-encounter.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -92,6 +93,12 @@ const routes: Routes = [
   {
     path:'feedback',
     component:ContactUsComponent
+  },
+
+  //add encounter
+  {
+    path:'addencounter/:id',
+    component:AddEncounterComponent
   }
 
 
