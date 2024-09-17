@@ -218,16 +218,16 @@ onSubmitStaff(event: any) {
     console.log("in  if (this.staffMemberForm.valid) ")
    // this.preProcessConfigurations();
       // $('#staffButton').prop('disabled', true);
-    let firstName = this.staffMemberForm.get('firstName')?.value.trim()
-    let lastName = this.staffMemberForm.get('lastName')?.value.trim();
+    let firstName = this.staffMemberForm.get('firstName')?.value
+    let lastName = this.staffMemberForm.get('lastName')?.value
     let staffImage = this.staffMemberForm.get('staffImage')?.value
-    let loginId = this.staffMemberForm.get('loginId')?.value.trim();
-    let npiNumber = this.staffMemberForm.get('npiNumber')?.value.trim();
+    let loginId = this.staffMemberForm.get('loginId')?.value
+    let npiNumber = this.staffMemberForm.get('npiNumber')?.value
     let designation = this.staffMemberForm.get('designation')?.value;
-    let providerFlag = this.staffMemberForm.get('providerFlag')?.value.trim();
+    let providerFlag = this.staffMemberForm.get('providerFlag')?.value
     let authority = this.staffMemberForm.get('authority')?.value;
     let providerType = this.staffMemberForm.get('providerType')?.value;
-    let mobileNo = this.staffMemberForm.get('mobileNo')?.value.trim();
+    let mobileNo = this.staffMemberForm.get('mobileNo')?.value
     let email = this.staffMemberForm.get('email')?.value.trim();
     let staffAddressId = this.staffMemberForm.get('staffAddressId')?.value;
     let licState = this.staffMemberForm.get('staffAddressState')?.value;

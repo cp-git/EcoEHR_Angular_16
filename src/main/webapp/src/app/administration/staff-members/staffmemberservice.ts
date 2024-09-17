@@ -208,12 +208,25 @@ deleteStaffMember(staffId: number): Observable<number> {
         'Content-Type': 'application/json',
         'x-auth-token': token
     });
+   
+    
+    
     const params = new HttpParams().set('staffId', staffId.toString());
 
-    return this.http.delete(this.deleteStaffMemberUrl,  { headers, params,  observe: 'response' }).pipe(
-        map(success => success.status),
-        catchError(this.handleError)
-    );
+    return this.http.delete<any>(this.deleteStaffMemberUrl,{headers, params} )
+    // let cpParams = new URLSearchParams();
+    // cpParams.set('staffId', staffId.toString());
+    // const token = localStorage.getItem('jwt') || '';
+    // const headers = new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     'x-auth-token': token
+    // });
+    // const params = new HttpParams().set('staffId', staffId.toString());
+
+    // return this.http.delete(this.deleteStaffMemberUrl,  { headers, params,  observe: 'response' }).pipe(
+    //     map(success => success.status),
+    //     catchError(this.handleError)
+    // );
 }
 
 

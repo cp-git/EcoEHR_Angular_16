@@ -149,9 +149,29 @@
                      <table *ngFor="let acuity of acuityData">
                        <!-- {{acuity | json}} -->
                        <tr> 
-                        <input type="radio"
-                        [value]="acuity.id">
-                        New {{ acuity.New }} {{ acuity.DESC }}
+                        <div class="row"
+                        *ngFor='let data of acuityData;let i=index'>
+                        <!-- <div *ngIf="allEncounterList.length==0 && i<5"> -->
+                        <span class="col-md-2 col-sm-2 col-xs-2"
+                            style="width: 0px;">
+                            <label><input type="radio"
+                                    name="optradio"></label>
+                        </span>
+                        <div class="col-md-8 col-sm-6 col-xs-8">
+                            <label><b>{{data.type}}</b> -
+                                {{data.NEW}}
+                                {{data.DESC}}
+                            </label>
+                        </div>
+                        <div class="col-sm-4 col-xs-2 col-md-2">
+                            <!-- <a href="#"
+                                (click)="openAcuity(data.NEW)"
+                                data-toggle="modal"
+                                title="View Details">
+                                <i class="fa fa-eye"></i>
+                            </a> -->
+                        </div>
+                        </div>
                       
                   
                        </tr>
@@ -182,11 +202,54 @@
                    
                 </div>
 
+                <div class="table-content">
+                    <table class="table table-bordered">
+                        <tbody style="overflow-y:auto;display:bdata">
+                            <tr>
+                                <th class="text-center" style="width:5%;">ICD-10
+                                </th>
+                                <th class="text-center" style="width:25%;">
+                                    Description</th>
+                                <th class="text-center" style="width:5%;">
+                                    Delete</th>
+                            </tr>
+                            <tr
+                                *ngFor="let data of receivedData ;let i=index">
+                                <td class="text-center" id="icd10CodeData">
+                                    <div id="icd10CodeData1">
+                                        <b> {{data.ICD10Code}}</b></div>
+                                </td>
+                                <td>{{data.Description}}</td>
+                                <!-- <td class="text-center">
+                                    <button
+                                        class="btn btn-simple btn-danger btn-icon "
+                                        (click)="deleteIcd(data.value)"
+                                        title="Delete">
+                                        <i class="fa fa-trash"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                </td> -->
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-offset-8 col-md-offset-9 col-xs-offset-2">
+                    <button type="submit" class="btn button" 
+                        #encounterButton (click)="onSubmit(encounterButton.value);">Save&
+                        NEXT</button>
+                    <button type="submit" class="btn button">Back</button>
+                </div>
+
             </form>
 
         </div>
 
     </div>
+
+    {{receivedData | json}}
+   
 
  
 

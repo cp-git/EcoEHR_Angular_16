@@ -31,13 +31,14 @@ import { HttpClient } from '@angular/common/http';
 import { ICD10Group } from '../../models/ICD10Group';
 import { ListEncounterComponent } from '../list-encounter/list-encounter.component';
 import { StateServicesService } from '../../services/state-services.service';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-add-encounter',
   templateUrl: './add-encounter.component.html',
   styleUrls: ['./add-encounter.component.css'],
   standalone: true,
-  imports: [MatSidenavModule,FormsModule,ReactiveFormsModule,SearchPipe, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule] 
+  imports: [MatSidenavModule,FormsModule,ListEncounterComponent,ReactiveFormsModule,SearchPipe, MatButtonModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatDialogModule] 
 })
 export class AddEncounterComponent {
   @Output() 
@@ -67,7 +68,10 @@ export class AddEncounterComponent {
   readonly panelOpenState = signal(false);
   ICD10Group!: ICD10Group[];
 
-  receivedData: any[] = [];
+  ICD10: ICD10Group[]=[];
+  //receivedData: any[] = [];
+
+  receivedData: ICD10[] = [];
    
 
   constructor(
@@ -92,8 +96,7 @@ export class AddEncounterComponent {
       // Now you can use the 'id' parameter in your component
     });
 
-    this.receivedData = this.stateService.getState() || [];
-    console.log(this.receivedData);
+     
     
 
     this.getEncounterByPatientId();
@@ -114,10 +117,89 @@ export class AddEncounterComponent {
 
     this.getAcutityDate();
     this.getAllICD10Groups();
+
+
+
+    this.stateService.data$.subscribe(data => {
+      this.receivedData = data;  // Update receivedData when new data is emitted
+      console.log('Data received from child:', this.receivedData);
+    });
    
    
   }
 
+  getPatientRecordByPatientId(patientId: number){ 
+    this.patientDetailsService.getPatientRecordsByPatientId(patientId)
+    .subscribe(data => {
+      this.patientRecords = data;
+    })
+    
+  }
+
+
+
+  handleData(data: ICD10[]): void {
+    this.receivedData = data;
+    console.log('Data received from child:', this.receivedData);
+  }
+  
+
+  // selectedRadioValue(acuityName:any, acuityNumber:any) {
+  //   this.acuityNumber=null;
+  //   this.acuityName = acuityName;
+  //   this.acuityNumber = acuityNumber;
+  //   this.acuityFlag=false;
+  // }
+  onSubmit(val:any) {
+    // console.log("on submit encounter called");
+    let icdCodesList: ChiefCompliantDtl[] = [];
+    let cardioTempId, detailtedNeuroTempId, eyeTempId, physicalTempId, simpleNeuroTempId: number = 0;
+    let isEdited = "no";
+
+      
+    // (<HTMLInputElement>document.getElementById(val)).disabled = true;
+    let chiefCompliant = this.AddEncounterForm.get('chiefCompliant')?.value.trim();
+    console.log(chiefCompliant);
+    
+    let patientUniqueCharacter = this.AddEncounterForm.get('patientUniqueCharacter')?.value.trim();
+
+    let encToInsert = new Encounter(this.encounterId, this.patientId, this.patientRecords.primaryProvider, this.patientRecords.primaryLocation, 0,
+      new Date(), chiefCompliant, this.acuityNumber, true, 1, 3, 2, 4, 5, new Date(), "", new Date(), "", patientUniqueCharacter,isEdited,new Date);
+    //insert encounter  
+    this.encounterService.insertEncounter(encToInsert).subscribe(
+      data=>{  
+        this.encounterId = data.encounterId;
+        console.log(this.encounterId);
+        
+
+        for (let i = 0; i < this.receivedData.length; i++) {
+          console.log(this.encounterId);
+          
+          let icdDetail = new ChiefCompliantDtl(0, this.encounterId, this.receivedData[i].ICD10Code, this.receivedData[i].Description, true, new Date, "",new Date, "");
+          icdCodesList.push(icdDetail);
+        }
+
+        console.log(icdCodesList);
+        
+
+        this.encounterService.insertChiefCompliantDtl(icdCodesList,this.encounterId).subscribe(
+          response=>{
+            console.log("In Response");
+            alert("added...")
+            
+            console.log(response);
+            
+          });
+        
+      });
+
+    
+    
+
+    
+  }
+
+  
 
   
   getEncounterByEncounterId(encounterId:any) {

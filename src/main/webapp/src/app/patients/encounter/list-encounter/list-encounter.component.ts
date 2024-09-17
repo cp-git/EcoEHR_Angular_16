@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ICD10Group } from '../../models/ICD10Group';
 import { ICD10 } from '../../models/ICD10';
@@ -45,6 +45,8 @@ export class ListEncounterComponent {
 
   filterICd:ICD10[]=[];
 
+  @Output() onIcdCode = new EventEmitter<any>();
+
   filteredData: any[] = []; 
 
   selectedItems: any[] = [];
@@ -75,7 +77,7 @@ export class ListEncounterComponent {
       data=>{
         console.log(data);
         this.ICDData=data;
-        this.filteredData = data;
+        data=this.filteredData;
         
       }
     )
@@ -163,12 +165,11 @@ export class ListEncounterComponent {
     const target = event.target as HTMLInputElement;
     const isChecked = target.checked;
     // console.log(data);
-    
+    this.filterICd.push(data);
     // console.log(data, icdgroupName, isChecked);
-    for(let i=0;i<data.length;i++){
-      this.filterICd.push(data[i]);
-    }
-    console.log(this.filterICd);
+    //  this.filterICd=data;
+     console.log(this.filterICd);
+     
     
   }
 
@@ -194,8 +195,13 @@ export class ListEncounterComponent {
 
   submitData() {
     console.log(this.filterICd);
+   
     
-    this.stateService.setState(this.selectedItems);
+
+    this.stateService.setData(this.filterICd)
+    
+    
+   
     // this.router.navigate(['/addencounter/:id'], { state: { data: this.selectedItems } });
     //    this.isCheckedPrimaryFlag();
         if (!this.icdPrimaryErrorFlag) {

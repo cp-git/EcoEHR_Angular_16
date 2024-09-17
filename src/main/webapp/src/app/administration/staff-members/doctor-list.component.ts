@@ -20,6 +20,9 @@ import { CurrentUserService } from 'src/app/profiles/currentUserService';
 import { AddStaffComponent } from '../StaffCRUD/add-staff/add-staff.component';
 import { UpdateStaffComponent } from '../StaffCRUD/update-staff/update-staff.component';
 import { SearchPipe } from 'src/app/search.pipe';
+import { StaffMemberService } from './staffmemberservice';
+import { data } from 'jquery';
+
 
 declare interface DataTable {
   headerRow: string[];
@@ -53,11 +56,13 @@ export class ListDoctorComponent {
     staffImage: any;
 
     searchStaff='';
+    fullName: any;
 
     loggedInUser!: StaffMember;
     constructor(private staffDetailsService:StaffDetailsService,private route:Router,
       private dialog: MatDialog,
-     private currentUserService:CurrentUserService){
+     private currentUserService:CurrentUserService,
+     private staffMemberService: StaffMemberService,){
 
     }
     ngOnInit(){
@@ -146,6 +151,18 @@ export class ListDoctorComponent {
       }
 
 
+      deleteStaffMember(staffId: number, firstName: string, lastName: string) {
+        this.fullName = firstName + " " + lastName;
+        
+        this.staffMemberService.deleteStaffMember(staffId).subscribe(
+          data=>{
+            alert("delete...")
+          }
+        )
+         
+           
+      }
+    
 
 
  

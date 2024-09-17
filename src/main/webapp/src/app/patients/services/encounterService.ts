@@ -205,16 +205,29 @@ export class EncounterService {
     }
 
     // //insert chief Compliant dtl
-    // insertChiefCompliantDtl(chiefCompliantDtl: ChiefCompliantDtl[],encounterId:number): Observable<number> {
-    //    //console.log("insert")
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let cpParams = new URLSearchParams();
-    //     cpParams.set('encounterId', encounterId.toString());
-    //     let options = new RequestOptions({ headers: cpHeaders, params: cpParams  });
-    //     return this.http.post(this.addChiefCompliantDtlUrl, chiefCompliantDtl, options)
-    //         .map(success => success.status)
-    //         .catch(this.handleError);
-    // }
+    insertChiefCompliantDtl(chiefCompliantDtl: ChiefCompliantDtl[],encounterId:number): Observable<number> {
+       //console.log("insert")
+
+       const token = localStorage.getItem('jwt') || '';
+       const headers = new HttpHeaders({
+           'Content-Type': 'application/json',
+           'x-auth-token': token
+       });
+       
+       
+       const params = new HttpParams().set('encounterId', encounterId.toString());
+
+       
+       return this.http.post<any>(this.addChiefCompliantDtlUrl, chiefCompliantDtl, {headers,params})
+
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let cpParams = new URLSearchParams();
+        // cpParams.set('encounterId', encounterId.toString());
+        // let options = new RequestOptions({ headers: cpHeaders, params: cpParams  });
+        // return this.http.post(this.addChiefCompliantDtlUrl, chiefCompliantDtl, options)
+        //     .map(success => success.status)
+        //     .catch(this.handleError);
+    }
 
     //  //update chief Compliant dtl
     //  updatechiefCompliant(chiefCompliantDtl: ChiefCompliantDtl[],encounterId:number): Observable<number> {
