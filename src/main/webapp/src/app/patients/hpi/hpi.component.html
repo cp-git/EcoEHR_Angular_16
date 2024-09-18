@@ -1,0 +1,174 @@
+
+
+
+<div class="container">
+
+    <div class="header">
+        <div class="col-md-4">
+            History Of Present Illness (HPI)
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-1">HPI</div>
+                <div class="col-md-1">ROS</div>
+                <div class="col-md-2">Medication</div>
+                <div class="col-md-2">History</div>
+                <div class="col-md-1">plan</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container-fluid" style="border: 2px groove red;margin-top: 30px;">
+
+<form [formGroup]="HPIForm" mmethod="#" action="">
+    <div class="row">
+        <div class="col-md-1" *ngFor="let system of HPISystems">
+            <h4 style="text-align: center;" (click)="openTab(system.systemId,system.systemDesc,system.systemCode)">{{system.systemCode}}</h4>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-4">
+        <ng-container *ngFor="let group of questionGroupList;let i = index">
+            <div class="row">
+                <div class="col-md-8 col-sm-7 col-xs-1">
+                    <a data-toggle="tab" id="group_{{i}}" title="{{group.questionGroupName}}"  (click)="goToSelectedTab(group,i)"  [ngClass]="{'colorchange':group.questionGroupId==questionGroupId}"
+                        class="btn btn-style btn-left question-group-style" data-toggle="modal">
+                        <div class="question-group-name">{{group.questionGroupName}} </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-5 col-xs-1">
+                    <input type="checkbox" id="hpi_{{group.questionGroupId}}"
+                    [checked]="isChecked(group.questionGroupId)"
+                        (change)="getAllQuestions(group,$event)" 
+                        name="checkListItem">
+                    <label for="hpi_{{group.questionGroupId}}"></label>
+                </div>
+            </div>
+        </ng-container>
+        <br>
+    </div>
+
+    <div *ngFor="let question of questionGroupList">
+        <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
+            <div class="card question-card-style col-md-9 col-sm-6">
+                <!-- <h6 class="text-center">
+                    <b> {{question.questionGroupName}}</b>
+                </h6> -->
+            </div>
+
+            <ng-container *ngFor="let commonQues of commonQuestions; let i=index">
+                <div class="row "
+                    *ngIf="commonQues.questionGroupId===question.questionGroupId">
+                    <div class="col-md-8 col-sm-6">
+                        <label class="text-dark" style="max-width: 30%;">{{commonQues.questionDesc}}
+                        </label>
+                    </div>
+
+
+                    <div style="right:30px;">
+                        <!-- radio div -->
+                      
+                        <div class="col-md-4 col-sm-5"
+                            *ngIf="commonQues.optionType=='radio'">
+                            <span *ngFor="let options of commonQues.optionRecord">
+                                <input  name="radio{{options.optionId}}"
+                                    type="radio" id="radioType_{{i}}" [checked]="isCheckedRadio(options.optionId)" (input)="onRowEdit(commonQues,options)" />
+                                <label class="text-dark"
+                                    for="radioType_{{i}}">{{options.optionNames}}</label>
+                                &nbsp; &nbsp; &nbsp; &nbsp;
+                            </span>
+                        </div>
+
+                                <div id="temp{{i}}" class="col-md-4 col-sm-5"
+                                *ngIf="commonQues.optionType=='dropdown'">
+                                <select id="dropdown{{i}}" [(ngModel)]="selectedValue[commonQues.questionId]"
+                                    style="width: 100%"
+                                    (change)="onRowEdit(commonQues,$event)" >
+                                    <option selected>Please Select</option>
+                                    <option class="decrease-height"
+                                        *ngFor="let options of commonQues.optionRecord"
+                                        [value]="options">{{options.optionNames}}
+                                    </option>
+                                </select>
+                            </div>
+
+                                <div class="col-md-4 col-sm-5"
+                                *ngIf="commonQues.optionType=='mdropdown'">
+                            
+                                <select id="mdropdown{{commonQues.questionId}}"
+                                    [multiple]="true" placeholder="Please select"
+                                    [(ngModel)]="multiSelectedValue[commonQues.questionId]"
+                                    style="width: 100%;"
+                                    (change)="onRowEdit(commonQues,$event)">
+                                    <option class="decrease-height"
+                                        
+                                        *ngFor="let options of commonQues.optionRecord"
+                                        [value]="options">{{options.optionNames}}
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                        <div class="col-md-4 col-sm-5"
+                        *ngIf="commonQues.optionType=='tdropdown'">
+                        <div class="col-md-6" style="top:-8px;right:15px">
+                            <input type="text"
+                                id="showText{{commonQues.questionId}}"
+                                [(ngModel)]="textDropdownVal[commonQues.questionId]"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="Please Enter"
+                                class="form-control input-color-style" 
+                                >
+                        </div>
+                        <div class="col-md-3" style="right:31px">
+                            <select id="tdropdown{{i}}"
+                                [(ngModel)]="selectedTValue[commonQues.questionId]"
+                                (change)="onRowEdit(commonQues,$event)">
+                                <option selected>Please Select </option>
+                                <option class="decrease-height"
+                                    *ngFor="let options of commonQues.optionRecord"
+                                    [value]="options">{{options.optionNames}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 col-sm-5">
+                         <input type="text" id="text{{commonQues.questionId}}"
+                                                                placeholder="Please enter value"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                class="form-control input-color-style"
+                                                                [(ngModel)]="textVal[commonQues.questionId]">
+                                                         
+                        </div>
+
+
+
+
+
+                        
+                    </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-7">
+        <button type="submit" class="btn button"  #savebutton (click)="onSave(savebutton.value)">Save & NEXT</button>
+        <button type="submit" class="btn button" >Back</button>     
+    </div>
+
+   
+
+
+
+   
+
+    
+</form>
+ 
+</div>

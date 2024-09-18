@@ -1,0 +1,116 @@
+<div class="container">
+
+    <div class="header">
+        <div class="col-md-4">
+            Review Of System (ROS)
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-1">HPI</div>
+                <div class="col-md-1">ROS</div>
+                <div class="col-md-2">Medication</div>
+                <div class="col-md-2">History</div>
+                <div class="col-md-1">plan</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+<form [formGroup]="ROSForm" mmethod="#" action="">
+    <div class="btn-group btn-group-justified">
+        <ng-container *ngFor="let system of ROSSystems">
+            <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)" title="{{system.systemDesc}}"
+                class="btn btn-style systems-tab-style ">{{system.systemCode}}</a>
+        </ng-container>
+    </div>
+
+
+    <div class="col-md-12 col-sm-12">
+        <!-- ROS Questionaire Table -->
+        <div class="col-md-4 col-sm-4 " >
+                <ng-container *ngFor="let group of questionGroupList;let i=index">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-2">
+                            <a data-toggle="tab" id="ros_{{i}}"   title={{group.questionGroupName}} (click)="goToSelectedTab(group,i)"
+                                class="btn btn-style btn-left question-group-style" 
+                                data-toggle="modal">
+                                <div class="question-group-name">{{group.questionGroupName}}
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-2 col-sm-1 col-xs-10">
+                            <input type="checkbox" id="icd_{{group.questionGroupName}}" [checked]="isChecked(group.questionGroupId)" (change)="showDiv(group,$event)"
+                                name="checkListItem">
+                            <label for="icd_{{group.questionGroupName}}"></label>
+                        </div>
+                    </div>
+                </ng-container>
+          
+        </div>
+    </div>
+    
+    <div *ngFor="let question of questionGroupList">
+        <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
+            <div class="card col-md-9 col-sm-6" [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">
+                <h5 class="text-center">
+                    <b> {{questionGroupName}}</b>
+                </h5>
+
+                <ng-container *ngFor="let commonQues of commonQuestionsList;let i=index">
+                    <div class="row " *ngIf="commonQues.questionGroupId===question.questionGroupId">
+                        <div class="col-md-8 col-sm-6">
+                            <label class="text-dark">{{commonQues.questionDesc}}
+                            </label>
+
+                              <!-- radio div -->
+                              <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='radio'">
+                                <span *ngFor="let options of commonQues.optionRecord">
+                                    <input  name="radio{{i}}" type="radio" id="radioType_{{i}}" [checked]="isCheckedRadio(options.optionId)" [(ngModel)]="selectedRadioValue[commonQues.questionId]" [ngModelOptions]="{standalone: true}" [value]="options.optionId"
+                                        (input)="onRowEdit(commonQues,options)" />
+                                    <label class="text-dark" for="radioType_{{i}}">{{options.optionNames}}</label>
+                                    &nbsp; &nbsp; &nbsp; &nbsp;
+                                </span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='text'">
+                                <input type="text" id="text{{commonQues.questionId}}" placeholder="Please enter value" [ngModelOptions]="{standalone: true}"
+                                    class="form-control input-color-style" [(ngModel)]="textVal[commonQues.questionId]">
+                            </div>
+
+                            <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='dropdown'">
+                                <select id="dropdown{{i}}" style="width: 100%;" [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" (change)="onRowEdit(commonQues,$event)">
+                                    <option [value]="0">Please Select</option>
+                                    <option class="decrease-height" *ngFor="let options of commonQues.optionRecord" [value]="options">{{options.optionNames}}
+                                    </option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-6">
+        <button type="submit" class="btn button" id="saveNext" (click)="onSubmit();">Save & Next
+        </button>
+        <button type="submit" class="btn button">Back</button>     
+
+    </div>
+
+
+
+
+ 
+</form>        
+    
+</div>
+

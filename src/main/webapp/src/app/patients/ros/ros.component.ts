@@ -1,0 +1,207 @@
+import { Component } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { QuestionGroupService } from '../services/questionGroupService';
+import { QuestionGroup } from '../models/questionGroup';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { TimerModule } from 'src/app/components/timer/timer.module';
+import { PatientListComponent } from '../patientlist/patientlist.component';
+import { SystemService } from '../services/systemService';
+import { System } from '../models/system';
+import { QuestionsService } from '../services/questionsService';
+import { QuestionRecord } from '../models/questionRecord';
+import { EncounterHistory } from '../models/encounterHistory';
+import { EncounterQuestionOptionService } from '../services/encounterQuestionOptionService';
+import { EncounterQuestionGroupService } from '../services/encounterQuestionGroupService';
+import { Router } from '@angular/router';
+import { StateServicesService } from '../services/state-services.service';
+
+@Component({
+  selector: 'app-ros',
+  templateUrl: './ros.component.html',
+  styleUrls: ['./ros.component.css'],
+  standalone: true,
+  imports: [MatSidenavModule, MatButtonModule,FormsModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,],
+})
+export class RosComponent {
+
+  ROSForm!: FormGroup;
+  questionGroups!: QuestionGroup[];
+  ROSSystems: System[] = [];
+  systemDesc: any;
+  systemId: any;
+  commonQuestions: QuestionRecord[] = [];
+  questionGroupList!: QuestionGroup[];
+  questionGroupName:any;
+  questionGroupId: any;
+  QuestionSelectedArray: any;
+  commonQuestionsList: QuestionRecord[] = [];
+  flag!: boolean;
+
+  calenderVal: any[] = [];
+  textDropdownVal: any[] = [];
+  selectedValue: any[] = [];
+  multiSelectedValue: any[] = [];
+  selectedTValue: any[] = [];
+  textVal: any[] = [];
+  list!:EncounterHistory[];
+  selectedRadioValue:any[]=[];
+  number:any;
+  sysName="ROS";
+  constructor(private questionGroupService:QuestionGroupService,private formBuilder: FormBuilder,private systemService:SystemService,
+    private questionsService:QuestionsService,private encounterQuestionOptionService:EncounterQuestionOptionService,
+    private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService
+  ){}
+
+  ngOnInit(){
+
+    this.ROSForm = this.formBuilder.group({
+      QuestionSelectedIDS: this.formBuilder.array([]),
+  });
+
+    //GetAll Questions...
+    this.questionGroupService.getAllQuestionGroups()
+   .subscribe(data => {
+    //  console.log(data);
+    this.questionGroups=data;
+    console.log(this.questionGroups);
+    
+      
+   })
+
+   this.stateService.currentNumber.subscribe(number => {
+    this.number = number;
+    console.log(this.number);
+    
+  });
+
+
+
+   this.systemService.getAllSystems().subscribe(data => {
+    for(let i=0;i<data.length;i++){
+      if(data[i].systemType == "ROS"){
+       // console.log(data[i]);
+        this.ROSSystems.push(data[i]);    
+      }       
+    }
+    console.log(this.ROSSystems);
+    
+ });
+
+
+ this.QuestionSelectedArray = <FormArray>this.ROSForm.controls['QuestionSelectedIDS'];
+
+  }
+
+  isCheckedRadio(optionId: number): boolean {
+    let index = this.QuestionSelectedArray.controls.findIndex((x: { value: { optionId: number; }; }) => x.value.optionId == optionId)
+    return (index == -1 ? false : true);
+  
+  }
+
+  goToSelectedTab(questionGroup: any, i:any) {
+    setTimeout(() => {
+    
+    if (!this.flag) {
+        this.systemId = questionGroup.systemId;
+        this.questionGroupName = questionGroup.questionGroupName;
+        this.questionGroupId = questionGroup.questionGroupId;
+    }
+  });
+  }
+
+
+
+  openTab(system:any) {
+ 
+    this.systemDesc = system.systemDesc;
+    this.systemId = system.systemId;
+  
+    this.questionsService.getAllQuestionsOfGroup(system.systemId)
+        .subscribe(data => {
+
+
+          console.log(data);
+          
+            this.commonQuestions = data;
+            localStorage.setItem('questionrecord_' + system.systemId, JSON.stringify(data));
+            this.questionGroupList = this.questionGroups.filter(t => t.systemId == system.systemId);
+            console.log(this.questionGroupList);
+            
+         
+        })}
+
+        isChecked(questionGroupId: number): boolean {
+          let index = this.QuestionSelectedArray.controls.findIndex((x: { value: { questionGroupId: number; }; }) => x.value.questionGroupId == questionGroupId)
+          return (index == -1 ? false : true);
+      }
+
+      showDiv(group: any, event:Event) {
+        {
+            this.commonQuestionsList = this.commonQuestions.filter(t => t.questionGroupId == group.questionGroupId);
+            this.systemId = group.systemId;
+            this.questionGroupId=group.questionGroupId;
+            this.questionGroupName = group.questionGroupName;
+        }
+    }
+
+    onRowEdit(commonQues:any, option:any) {
+      
+      if (option != undefined) {
+          commonQues.optionName = option.optionNames;
+          commonQues.optionId = option.optionId;
+      }
+      if (commonQues.optionType == 'calender') {
+          
+          this.calenderVal[commonQues.questionId] = "";
+      }
+      if (commonQues.optionType == 'tdropdown' && option === undefined) {
+          commonQues.optionName = option;
+          commonQues.optionId = option;
+          this.textDropdownVal[commonQues.questionId] = "";
+      }
+      if (commonQues.optionType == 'mdropdown') {
+          commonQues.optionName = Array.prototype.map.call(option, function (item) { return item.optionId; }).join("-");
+          commonQues.answer = Array.prototype.map.call(option, function (item) { return item.optionNames; }).join(",");
+      }
+      //formArray for selected question
+      let index = this.QuestionSelectedArray.controls.findIndex((x: { value: { questionId: any; }; }) => x.value.questionId == commonQues.questionId)
+      if (index == -1) {
+          this.QuestionSelectedArray.push(new FormControl(commonQues));
+        }
+      else {
+          this.QuestionSelectedArray.removeAt(index);
+              if (option !== undefined && commonQues.answer != "") {
+              this.QuestionSelectedArray.push(new FormControl(commonQues));
+          }
+      }
+     
+    }
+
+
+    onSubmit() {
+      this.encounterQuestionOptionService.deleteEncQustionOptions(this.number,this.sysName).subscribe(
+        response=>{
+          console.log(response);
+          this.encounterQuestionGroupService.deleteEncQustionGroups(this.number,this.sysName).subscribe(
+            data=>{
+              alert("Added..")
+              console.log(data);
+              this.route.navigate(['ros'])
+              
+            }
+          )
+          
+        }
+      )
+   
+  }
+  
+
+}

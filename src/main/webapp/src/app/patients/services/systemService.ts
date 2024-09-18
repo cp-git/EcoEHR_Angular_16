@@ -24,22 +24,32 @@ export class SystemService {
 
 
     getAllSystems(): Observable<System[]> {
-        const token = localStorage.getItem('jwt') ;
+
+
+      const token = localStorage.getItem('jwt');
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'x-auth-token': token ? token : ''
         });
-        const options = {headers}
+		return this.http.get<System[]>(this.getallSystemUrl, {headers});
+
+
+        // const token = localStorage.getItem('jwt') ;
+        // const headers = new HttpHeaders({
+        //   'Content-Type': 'application/json',
+        //   'x-auth-token': token ? token : ''
+        // });
+        // const options = {headers}
     
-        if (!this.getallSystemUrl) {
-          return throwError('API URL is not set');
-        }
+        // if (!this.getallSystemUrl) {
+        //   return throwError('API URL is not set');
+        // }
     
-        return this.http.get<System[]>(this.getallSystemUrl, options)
-        .pipe(
-          map((response: any) => this.extractData(response)),
-          catchError(this.handleError)
-        );
+        // return this.http.get<System[]>(this.getallSystemUrl, options)
+        // .pipe(
+        //   map((response: any) => this.extractData(response)),
+        //   catchError(this.handleError)
+        // );
       }
 
       getReferenceLinkForSysCode(sysCode: string): Observable<System> {

@@ -19,7 +19,7 @@ import { EncounterService } from '../../services/encounterService';
 import { PatientAllergyService } from '../../services/patientAllergyService';
 
 import { Encounter } from '../../models/encounter';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PatientDetailsService } from '../../services/patientDetailsService';
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
@@ -53,6 +53,9 @@ export class AddEncounterComponent {
    encounterdata!:Encounter;
    show!:boolean;
 
+   @Output() onEncounter = new EventEmitter<any>();
+
+
 
 
    allEncounterList: Encounter[]=[];
@@ -82,7 +85,8 @@ export class AddEncounterComponent {
     public dialog: MatDialog,
     private formBuilder:FormBuilder,
     httpService: HttpClient,
-    private stateService: StateServicesService
+    private stateService: StateServicesService,
+    private route:Router
   
   ) { }
 
@@ -156,6 +160,10 @@ export class AddEncounterComponent {
     let cardioTempId, detailtedNeuroTempId, eyeTempId, physicalTempId, simpleNeuroTempId: number = 0;
     let isEdited = "no";
 
+   
+    
+    
+
       
     // (<HTMLInputElement>document.getElementById(val)).disabled = true;
     let chiefCompliant = this.AddEncounterForm.get('chiefCompliant')?.value.trim();
@@ -170,6 +178,7 @@ export class AddEncounterComponent {
       data=>{  
         this.encounterId = data.encounterId;
         console.log(this.encounterId);
+        this.stateService.changeNumber(this.encounterId)
         
 
         for (let i = 0; i < this.receivedData.length; i++) {
@@ -185,13 +194,15 @@ export class AddEncounterComponent {
         this.encounterService.insertChiefCompliantDtl(icdCodesList,this.encounterId).subscribe(
           response=>{
             console.log("In Response");
-            alert("added...")
+           alert("added...")
+           
             
             console.log(response);
             
           });
         
       });
+      this.route.navigate(['hpi']);
 
     
     

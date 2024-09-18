@@ -37,6 +37,9 @@ import { SearchPipe } from './patients/search.pipe';
 import { PatientAllergyService } from './patients/services/patientAllergyService';
 import { EncounterService } from './patients/services/encounterService';
 import { TemplateService } from './patients/services/templateService';
+import { QuestionsService } from './patients/services/questionsService';
+import { EncounterQuestionOptionService } from './patients/services/encounterQuestionOptionService';
+import { EncounterQuestionGroupService } from './patients/services/encounterQuestionGroupService';
 
 
 
@@ -88,7 +91,10 @@ import { TemplateService } from './patients/services/templateService';
     StaffMemberService,
     PatientAllergyService,
     EncounterService,
-    TemplateService
+    TemplateService,
+    QuestionsService,
+    EncounterQuestionOptionService,
+    EncounterQuestionGroupService
     
     // provideAnimationsAsync()
   ],

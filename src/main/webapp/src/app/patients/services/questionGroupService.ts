@@ -17,17 +17,24 @@ export class QuestionGroupService {
     constructor(private http:HttpClient) {}
 
      getAllQuestionGroups(): Observable<QuestionGroup[]> {
+       
+      
+
+
+
         const token = localStorage.getItem('jwt');
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'x-auth-token': token ? token : ''
         });
+
+        return this.http.get<QuestionGroup[]>(this.getAllQuestionGroupsUrl, {headers});
     
-		return this.http.get(this.getAllQuestionGroupsUrl, {headers})
-        .pipe(
-        map(this.extractData),
-        catchError(this.handleError)
-        );
+		// return this.http.get(this.getAllQuestionGroupsUrl, {headers})
+    //     .pipe(
+    //     map(this.extractData),
+    //     catchError(this.handleError)
+    //     );
     }
 
     private extractData(res: Response | any) {

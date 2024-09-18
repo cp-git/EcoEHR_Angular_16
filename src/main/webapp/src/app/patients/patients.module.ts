@@ -22,6 +22,8 @@ import { SearchPipe } from './search.pipe';
 import { AddEncounterComponent } from './encounter/add-encounter/add-encounter.component';
 import { PatientHeaderComponent } from './patient-header/patient-header.component';
 import { ListEncounterComponent } from './encounter/list-encounter/list-encounter.component';
+import { HpiComponent } from './hpi/hpi.component';
+import { RosComponent } from './ros/ros.component';
 
 
 // import { StudentListComponent } from './studentlist/studentlist.component';
@@ -84,7 +86,9 @@ import { ListEncounterComponent } from './encounter/list-encounter/list-encounte
      SearchPipe,
      AddEncounterComponent,
      PatientHeaderComponent,
-     ListEncounterComponent
+     ListEncounterComponent,
+     HpiComponent,
+     RosComponent
   ],
   providers: [
   // EncounterService,

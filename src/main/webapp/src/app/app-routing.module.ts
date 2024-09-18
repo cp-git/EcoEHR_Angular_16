@@ -19,6 +19,8 @@ import { StudentRegistrationComponent } from './home/student-registration/studen
 import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
 import { ContactUsComponent } from './profiles/contactus/contactus.component';
 import { AddEncounterComponent } from './patients/encounter/add-encounter/add-encounter.component';
+import { HpiComponent } from './patients/hpi/hpi.component';
+import { RosComponent } from './patients/ros/ros.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -99,6 +101,16 @@ const routes: Routes = [
   {
     path:'addencounter/:id',
     component:AddEncounterComponent
+  },
+
+  {
+    path:'hpi',
+    component:HpiComponent
+  },
+  
+  {
+    path:'ros',
+    component:RosComponent
   }
 
 
