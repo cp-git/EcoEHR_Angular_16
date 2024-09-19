@@ -2,7 +2,7 @@
 
     <div class="header">
         <div class="col-md-4">
-            Review Of System (ROS)
+            History
         </div>
 
         <div class="col-md-8">
@@ -14,17 +14,13 @@
                 <div class="col-md-1">plan</div>
             </div>
         </div>
-
     </div>
-
 </div>
 
 
-<div class="container">
-
-<form [formGroup]="ROSForm" mmethod="#" action="">
+<form [formGroup]="ExamForm" mmethod="#" action="">
     <div class="btn-group btn-group-justified">
-        <ng-container *ngFor="let system of ROSSystems">
+        <ng-container *ngFor="let system of ExamSystems">
             <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)" title="{{system.systemDesc}}"
                 class="btn btn-style systems-tab-style ">{{system.systemCode}}</a>
         </ng-container>
@@ -108,6 +104,3 @@
 
  
 </form>        
-    
-</div>
-

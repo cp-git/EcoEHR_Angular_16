@@ -24,6 +24,10 @@ import { PatientHeaderComponent } from './patient-header/patient-header.componen
 import { ListEncounterComponent } from './encounter/list-encounter/list-encounter.component';
 import { HpiComponent } from './hpi/hpi.component';
 import { RosComponent } from './ros/ros.component';
+import { MedicationComponent } from './medication/medication.component';
+import { AddMedicationsComponent } from './add-medications/add-medications.component';
+import { HistoryCompComponent } from './history-comp/history-comp.component';
+import { ExaminationComponent } from './examination/examination.component';
 
 
 // import { StudentListComponent } from './studentlist/studentlist.component';
@@ -88,7 +92,11 @@ import { RosComponent } from './ros/ros.component';
      PatientHeaderComponent,
      ListEncounterComponent,
      HpiComponent,
-     RosComponent
+     RosComponent,
+     MedicationComponent,
+     AddMedicationsComponent,
+     HistoryCompComponent,
+     ExaminationComponent
   ],
   providers: [
   // EncounterService,

@@ -1,7 +1,18 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { QuestionGroupService } from '../services/questionGroupService';
+import { FormGroup, FormBuilder, FormArray, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { EncounterHistory } from '../models/encounterHistory';
+import { EncounterQuestionGroup } from '../models/encounterQuestionGroup';
+import { EncounterQuestionOption } from '../models/encounterQuestionOption';
 import { QuestionGroup } from '../models/questionGroup';
+import { QuestionRecord } from '../models/questionRecord';
+import { System } from '../models/system';
+import { EncounterQuestionGroupService } from '../services/encounterQuestionGroupService';
+import { EncounterQuestionOptionService } from '../services/encounterQuestionOptionService';
+import { QuestionGroupService } from '../services/questionGroupService';
+import { QuestionsService } from '../services/questionsService';
+import { StateServicesService } from '../services/state-services.service';
+import { SystemService } from '../services/systemService';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,30 +23,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from '../patientlist/patientlist.component';
-import { SystemService } from '../services/systemService';
-import { System } from '../models/system';
-import { QuestionsService } from '../services/questionsService';
-import { QuestionRecord } from '../models/questionRecord';
-import { EncounterHistory } from '../models/encounterHistory';
-import { EncounterQuestionOptionService } from '../services/encounterQuestionOptionService';
-import { EncounterQuestionGroupService } from '../services/encounterQuestionGroupService';
-import { Router } from '@angular/router';
-import { StateServicesService } from '../services/state-services.service';
-import { EncounterQuestionOption } from '../models/encounterQuestionOption';
-import { EncounterQuestionGroup } from '../models/encounterQuestionGroup';
 
 @Component({
-  selector: 'app-ros',
-  templateUrl: './ros.component.html',
-  styleUrls: ['./ros.component.css'],
+  selector: 'app-history-comp',
+  templateUrl: './history-comp.component.html',
+  styleUrls: ['./history-comp.component.css'],
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule,FormsModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,],
 })
-export class RosComponent {
-
-  ROSForm!: FormGroup;
+export class HistoryCompComponent {
+  HistoryForm!: FormGroup;
   questionGroups!: QuestionGroup[];
-  ROSSystems: System[] = [];
+  HistorySystems: System[] = [];
   systemDesc: any;
   systemId: any;
   commonQuestions: QuestionRecord[] = [];
@@ -55,7 +54,7 @@ export class RosComponent {
   list!:EncounterHistory[];
   selectedRadioValue:any[]=[];
   number:any;
-  sysName="ROS";
+  sysName="History";
   constructor(private questionGroupService:QuestionGroupService,private formBuilder: FormBuilder,private systemService:SystemService,
     private questionsService:QuestionsService,private encounterQuestionOptionService:EncounterQuestionOptionService,
     private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService
@@ -63,7 +62,7 @@ export class RosComponent {
 
   ngOnInit(){
 
-    this.ROSForm = this.formBuilder.group({
+    this.HistoryForm = this.formBuilder.group({
       QuestionSelectedIDS: this.formBuilder.array([]),
   });
 
@@ -87,17 +86,17 @@ export class RosComponent {
 
    this.systemService.getAllSystems().subscribe(data => {
     for(let i=0;i<data.length;i++){
-      if(data[i].systemType == "ROS"){
+      if(data[i].systemType == "HISTORY"){
        // console.log(data[i]);
-        this.ROSSystems.push(data[i]);    
+        this.HistorySystems.push(data[i]);    
       }       
     }
-    console.log(this.ROSSystems);
+    console.log(this.HistorySystems);
     
  });
 
 
- this.QuestionSelectedArray = <FormArray>this.ROSForm.controls['QuestionSelectedIDS'];
+ this.QuestionSelectedArray = <FormArray>this.HistoryForm.controls['QuestionSelectedIDS'];
 
   }
 
@@ -197,7 +196,7 @@ export class RosComponent {
               console.log(data);
               this.insertData();
 
-              this.route.navigate(['medication'])
+              this.route.navigate(['exam'])
               
             }
           )
@@ -260,6 +259,5 @@ export class RosComponent {
                 
             }
         }
-  
 
 }

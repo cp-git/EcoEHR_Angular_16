@@ -179,16 +179,21 @@ export class AddEncounterComponent {
         this.encounterId = data.encounterId;
         console.log(this.encounterId);
         this.stateService.changeNumber(this.encounterId)
+
+        // this.stateService.changeNumber(this.patientId)
         
 
         for (let i = 0; i < this.receivedData.length; i++) {
-          console.log(this.encounterId);
+          
           
           let icdDetail = new ChiefCompliantDtl(0, this.encounterId, this.receivedData[i].ICD10Code, this.receivedData[i].Description, true, new Date, "",new Date, "");
           icdCodesList.push(icdDetail);
         }
 
         console.log(icdCodesList);
+
+        console.log("*******"+this.encounterId);
+        
         
 
         this.encounterService.insertChiefCompliantDtl(icdCodesList,this.encounterId).subscribe(

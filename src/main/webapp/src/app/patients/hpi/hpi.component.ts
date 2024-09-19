@@ -22,6 +22,7 @@ import { StateServicesService } from '../services/state-services.service';
 import { EncounterQuestionGroup } from '../models/encounterQuestionGroup';
 import { EncounterQuestionGroupService } from '../services/encounterQuestionGroupService';
 import { Router } from '@angular/router';
+import { EncounterQuestionOption } from '../models/encounterQuestionOption';
 
 @Component({
   selector: 'app-hpi',
@@ -74,8 +75,6 @@ export class HpiComponent {
 
   ngOnInit(){
 
-   
-
     this.stateService.currentNumber.subscribe(number => {
       this.number = number;
       console.log(this.number);
@@ -117,6 +116,13 @@ export class HpiComponent {
     QuestionSelectedIDS: this.formBuilder.array([])
   });
   }
+
+  onInputChange(event: Event, commonQues: any) {
+    const input = event.target as HTMLInputElement; // Cast to HTMLInputElement
+    commonQues.answer = input.value; // Use the value
+   // Call your validation method
+    this.onRowEdit(commonQues, input); // Call your row edit method
+}
 
 
   
@@ -170,8 +176,10 @@ onSave(val:any) {
       console.log(response);
       this.encounterQuestionGroupService.deleteEncQustionGroups(this.number,this.sysName).subscribe(
         data=>{
-          alert("Added..")
+          
           console.log(data);
+          this.insertData(val);
+      
           this.route.navigate(['ros'])
           
         }
@@ -266,6 +274,70 @@ getAllQuestions(group: any,  event: Event) {
           
       }
   }
+
+  insertData(val:any){
+    // console.log("insert dataaaa called");
+     let encounterQuestionGroupList: EncounterQuestionGroup[] = [];
+     let encounterQuestionOptionList: EncounterQuestionOption[] = [];
+     //seperation questionGroup id and system id from QuestionSelectedArray
+     let uniqueQuestionId = Array.from(new Set(this.QuestionSelectedArray.controls.map((item: any) => item.value.questionGroupId)))
+     if (uniqueQuestionId.length > 0) {
+         for (let i = 0; i < uniqueQuestionId.length; i++) {
+          console.log(uniqueQuestionId);
+          
+             console.log("insert dataaaa called for loop");
+             let obj = this.QuestionSelectedArray.controls.find((t: { value: { questionGroupId: unknown; }; }) => t.value.questionGroupId == uniqueQuestionId[i]);
+             
+             console.log(this.number);
+             
+             
+             let encounterQuestionGroup = new EncounterQuestionGroup(0, this.number, obj.value.questionGroupId, obj.value.systemId, 'Yes', new Date, "", new Date, "");
+             encounterQuestionGroupList.push(encounterQuestionGroup);
+         }
+         this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
+             .subscribe(response => {
+              console.log(response);
+
+              this.stateService.changeNumber(this.number)
+
+             
+           
+             
+              
+                // console.log("insert dataaaa called insert question service");
+               
+                 
+             })
+     }
+     //inserting questions into DB 
+     if (this.QuestionSelectedArray.length > 0) {
+      console.log(this.QuestionSelectedArray);
+      
+         for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
+          console.log(this.QuestionSelectedArray.at(i).value.optionName);
+          
+             let encounterQuestionOption = new EncounterQuestionOption(0, this.number, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, new Date, "", new Date, "","");
+             encounterQuestionOptionList.push(encounterQuestionOption);
+             console.log(encounterQuestionOptionList);
+             
+         }
+        
+         
+         this.encounterQuestionOptionService.insertQuestionOptions(encounterQuestionOptionList)
+             .subscribe(successCode => {
+              console.log(successCode);
+              
+              
+              
+               
+               
+             });
+                
+ }
+
+
+ 
+}
 
 
   

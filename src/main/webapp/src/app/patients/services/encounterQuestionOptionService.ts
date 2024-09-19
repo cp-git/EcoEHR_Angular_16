@@ -15,14 +15,22 @@ export class EncounterQuestionOptionService {
     constructor(private http:HttpClient) {}
 
      
-    // insertQuestionOptions(encounterQuestionOption: EncounterQuestionOption[]): Observable<number> {
+    insertQuestionOptions(encounterQuestionOption: EncounterQuestionOption[]): Observable<number> {
 
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let options = new RequestOptions({ headers: cpHeaders });
-    //     return this.http.post(this.insertAllQuestionOptionsUrl, encounterQuestionOption, options)
-    //         .map(success => success.status)
-    //         .catch(this.handleError);
-    // }
+      const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+    
+		return this.http.post<any>(this.insertAllQuestionOptionsUrl, encounterQuestionOption, {headers})
+
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let options = new RequestOptions({ headers: cpHeaders });
+        // return this.http.post(this.insertAllQuestionOptionsUrl, encounterQuestionOption, options)
+        //     .map(success => success.status)
+        //     .catch(this.handleError);
+    }
 
 
       deleteEncQustionOptions(encounterId:number,sysName:string):Observable<number> {

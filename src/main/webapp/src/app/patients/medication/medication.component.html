@@ -1,0 +1,252 @@
+<div class="container">
+
+    <div class="header">
+        <div class="col-md-4">
+            MEDICATION
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-1">HPI</div>
+                <div class="col-md-1">ROS</div>
+                <div class="col-md-2">Medication</div>
+                <div class="col-md-2">History</div>
+                <div class="col-md-1">plan</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container">
+<form [formGroup]="MedicationForm" mmethod="#" action="">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div 
+                class="btn-group btn-group-justified">
+                <ng-container *ngFor="let system of MedicationSystems">
+                    <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)"
+                        title="{{system.systemDesc}}" class="btn btn-style systems-tab-style ">{{system.systemCode}}
+                       </a>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+
+    <div class=" qcwidth col-md-12 col-sm-10">
+        <div class="col-md-4 col-sm-4 ">
+            <ng-container *ngFor="let group of questionGroupList;let i=index">
+                <div class="row">
+                    <div class="col-md-8 col-sm-6 col-xs-2 cwidth">
+                        <a data-toggle="tab" id="medication_{{i}}"
+                            (click)="goToSelectedTab(group,i)"
+                            class="btn btn-style btn-left question-group-style"
+                            [ngClass]="{'colorchange':group.questionGroupId==questionGroupId}"
+                            data-toggle="modal">
+                            <div class="question-group-name">{{group.questionGroupName}}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 col-sm-1 col-xs-1">
+                        <input type="checkbox" id="medication_{{group.questionGroupId}}"
+                            [checked]="isChecked(group)"
+                            (change)="showDiv(group,$event)" name="checkListItem">
+                        <label for="medication_{{group.questionGroupId}}"></label>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+
+        <div *ngFor="let question of questionGroupList">
+                                    <div id="div_{{question.questionGroupId}}"
+                                        [style.display]="question.questionGroupId==questionGroupId?'block':'none'"
+                                        *ngIf="question.questionGroupName != 'Medication'">
+                                        <div class="card col-md-9 col-sm-6 allergy-card"
+                                            [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">
+                                            <h6 class="text-center">
+                                                <b> {{questionGroupName}}</b>
+                                            </h6>
+
+                                            <ng-container *ngFor="let commonQues of commonQuestions; let i=index">
+                                                <div class="row "
+                                                    *ngIf="commonQues.questionGroupId===question.questionGroupId">
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <label class="text-dark" style="max-width: 30%;">{{commonQues.questionDesc}}
+                                                        </label>
+
+                                                      <div class="col-md-4 col-sm-5 myinput"
+                                                        *ngIf="commonQues.optionType=='text'">
+                                                        <input type="text" id="text{{commonQues.questionId}}"
+                                                            placeholder="Please enter value"
+                                                          [ngModelOptions]="{standalone: true}"
+                                                            class="form-control input-color-style"
+                                                            [(ngModel)]="textVal[commonQues.questionId]"
+                                                             (input)="onRowEdit(commonQues,$event)">
+                                                        </div>
+
+                                                        <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='radio'">
+                                                            <span *ngFor="let options of commonQues.optionRecord">
+                                                                <input  name="radio{{i}}" type="radio" id="radioType_{{i}}" [checked]="isCheckedRadio(options.optionId)" [(ngModel)]="selectedRadioValue[commonQues.questionId]" [ngModelOptions]="{standalone: true}" [value]="options.optionId"
+                                                                    (input)="onRowEdit(commonQues,options)" />
+                                                                <label class="text-dark" for="radioType_{{i}}">{{options.optionNames}}</label>
+                                                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </ng-container>
+
+                                        </div>
+                                        
+                                        
+                                        
+                                    </div>
+        </div>
+    </div>
+
+    <!-- Medication Table-->
+    <div *ngIf="isMedList && systemId != 13" class="table-content contents mytv"
+    style="margin-bottom: 45px !important;">
+    <br>
+    <div class="row">
+
+        <table class="table table-bordered">
+            <tbody style="overflow-y:auto; height:150px;display:bdata;">
+                <tr>
+                    <th colspan="11" class="text-center" style="padding-left:8pc">
+                        Active Medication List
+                        <button  type="submit"  (click)="openDialog(patientId)"
+                            class="btn button btn-sm medButton-style">Add
+                            Medication</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center">Indication
+                    </th>
+                    <th class="text-center">Medication
+                    </th>
+                    <th class="text-center">Form</th>
+                    <th class="text-center">Dose</th>
+                    <th class="text-center">Route</th>
+                    <th class="text-center">Frequency
+                    </th>
+                    <th class="text-center">Refill</th>
+                    <th class="text-center">Start Date
+                    </th>
+                    <th class="text-center">End Date
+                    </th>
+                    <th class="text-center">Prescription
+                    </th>
+                    <th class="text-center">InActive
+                    </th>
+                </tr>
+                <tr *ngFor="let activeMedication of activePatientMedications;let i=index">
+                    <td class="my">{{activeMedication.icd10Code}}
+                    </td>
+                    <td class="my">{{activeMedication.productName}}
+                    </td>
+                    <td class="my">{{activeMedication.form}}</td>
+                    <td class="my">{{activeMedication.dose}}</td>
+                    <td class="my">{{activeMedication.route}}</td>
+                    <td class="my">{{activeMedication.frequency}}
+                    </td>
+                    <td class="my">{{activeMedication.refillCount}}
+                    </td>
+                    <td class="my">{{activeMedication.startDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td class="my">{{activeMedication.endDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <!-- <td class="text-center">
+                        <a href="#" (click)="openPrescription(activeMedication)"
+                            data-toggle="modal" title="Prescription">
+                            <i class="material-icons Prescription-style">content_paste</i>
+                        </a>
+                    </td>
+                    <td *ngIf="showMedicationModal" class="text-center">
+                        <a href="#" (click)="openInActiveMedication(activeMedication)"
+                            data-toggle="modal" title="InActive">
+                            <i class="material-icons InActive-style">highlight_off</i>
+                        </a>
+                    </td> -->
+                </tr>
+
+                <!-- <tr [style.display]="showActiveList?'block':'none'"><b> No Medications
+                        Found</b></tr> -->
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="isMedList && systemId != 13" 
+                            class="table-content contents">
+                            <div class="row">
+                                <!-- <div class="text-center" style="padding-left:8pc">
+                                                      <label>InActive Medication List
+
+                                                      </label>
+                                                  </div> -->
+                                <table class="table table-bordered">
+                                    <tbody style="overflow-y:auto; height:150px;display:bdata">
+                                        <tr>
+                                            <th colspan="11" class="text-center"
+                                                style="padding-left:8px; margin-top: 10px;">
+                                                InActive Medication List
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">Indication
+                                            </th>
+                                            <th class="text-center">Medication
+                                            </th>
+                                            <th class="text-center">Form</th>
+                                            <th class="text-center">Dose</th>
+                                            <th class="text-center">Route</th>
+                                            <th class="text-center">Frequency
+                                            </th>
+                                            <th class="text-center">Refill</th>
+                                            <th class="text-center">Start Date
+                                            </th>
+                                            <th class="text-center">Discontinued
+                                                Date</th>
+                                            <th class="text-center">Reason</th>
+                                        </tr>
+                                        <tr *ngFor="let inActiveMedication of inActivePatientMedications;let i=index">
+                                            <td>{{inActiveMedication.icd10Code}}
+                                            </td>
+                                            <td>{{inActiveMedication.productName}}
+                                            </td>
+                                            <td>{{inActiveMedication.form}}</td>
+                                            <td>{{inActiveMedication.dose}}</td>
+                                            <td>{{inActiveMedication.route}}
+                                            </td>
+                                            <td>{{inActiveMedication.frequency}}
+                                            </td>
+                                            <td>{{inActiveMedication.refillCount}}
+                                            </td>
+                                            <td>{{inActiveMedication.startDate| date:'MM/dd/yyyy'}}
+                                            </td>
+                                            <td>{{inActiveMedication.discontinuedDate| date:'MM/dd/yyyy'}}
+                                            </td>
+                                            <td>{{inActiveMedication.discontinueReason}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+</div>
+
+<div  class="col-md-offset-9 col-sm-offset-8 col-xs-offset-7 mybutton">
+    <button type="submit" class="btn button" id="saveNext" (click)="onSubmit()">Save &
+        Next</button>
+    <button type="submit" class="btn button">Back</button>
+</div>
+    </form>
+
+
+
+</div>

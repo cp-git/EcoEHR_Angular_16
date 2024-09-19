@@ -10,6 +10,7 @@ import { ICD10Group } from '../models/ICD10Group';
 import { ICD10 } from '../models/ICD10';
 
 import { catchError, map } from 'rxjs/operators';
+import { Medication } from '../models/medication';
 @Injectable()
 export class EncounterService {
     addEncounterUrl = AppSettings.API_ENDPOINT + "./encounter/createEncounter";
@@ -71,28 +72,60 @@ export class EncounterService {
     //         .catch(this.handleError);
     // }
       
-    // searchAllergy(terms: string): Observable<Medication[]> {
-    //     if (/\s/.test(terms.toLowerCase())) {
-    //         let val= terms.toLowerCase().split(" ",2);
-    //        return this.http.get('./assets/Dist_MedicationAllergy.json')
-    //             .map(data => {
-    //                 let allAllergyData: Medication[] = data.json();
-    //                 return allAllergyData.filter(d => d.activeingredient.toLowerCase().includes(val[0]) || d.drugname.toLowerCase().includes(val[0]))
-    //                 .filter(d => d.dose.toLowerCase().includes(val[1]));
-    //             }).
-    //             catch(this.handleError);
-    //     }else{
-    //         let val= terms.toLowerCase();
-    //         return this.http.get('./assets/Dist_MedicationAllergy.json')
-    //              .map(data => {
-    //                  let allAllergyData: Medication[] = data.json();
-    //                  return allAllergyData.filter(d => d.activeingredient.toLowerCase().includes(val) || d.drugname.toLowerCase().includes(val))
+    searchAllergy(terms: string): Observable<Medication[]> {
+
+        const normalizedTerms = (terms || '').toLowerCase();
+
+        // Early exit if no terms provided
+        if (!normalizedTerms) {
+            return this.http.get<Medication[]>('./assets/Dist_MedicationAllergy.json').pipe(
+                map(allAllergyData => allAllergyData), // Return all if no search terms
+                catchError(this.handleError)
+            );
+        }
+
+        return this.http.get<Medication[]>('./assets/Dist_MedicationAllergy.json').pipe(
+            map(allAllergyData => {
+                if (/\s/.test(normalizedTerms)) {
+                    const val = normalizedTerms.split(" ", 2);
+                    return allAllergyData.filter(d =>
+                        d.activeingredient.toLowerCase().includes(val[0]) ||
+                        d.drugname.toLowerCase().includes(val[0])
+                    ).filter(d => 
+                        d.dose.toLowerCase().includes(val[1])
+                    );
+                } else {
+                    return allAllergyData.filter(d =>
+                        d.activeingredient.toLowerCase().includes(normalizedTerms) ||
+                        d.drugname.toLowerCase().includes(normalizedTerms)
+                    );
+                }
+            }),
+            catchError(this.handleError)
+        );
+
+
+        // if (/\s/.test(terms.toLowerCase())) {
+        //     let val= terms.toLowerCase().split(" ",2);
+        //    return this.http.get('./assets/Dist_MedicationAllergy.json')
+        //         .map(data => {
+        //             let allAllergyData: Medication[] = data.json();
+        //             return allAllergyData.filter(d => d.activeingredient.toLowerCase().includes(val[0]) || d.drugname.toLowerCase().includes(val[0]))
+        //             .filter(d => d.dose.toLowerCase().includes(val[1]));
+        //         }).
+        //         catch(this.handleError);
+        // }else{
+        //     let val= terms.toLowerCase();
+        //     return this.http.get('./assets/Dist_MedicationAllergy.json')
+        //          .map(data => {
+        //              let allAllergyData: Medication[] = data.json();
+        //              return allAllergyData.filter(d => d.activeingredient.toLowerCase().includes(val) || d.drugname.toLowerCase().includes(val))
                      
-    //              }).
-    //              catch(this.handleError);
-    //     }
+        //          }).
+        //          catch(this.handleError);
+        // }
         
-    // }
+    }
     
     //insert encounter
     insertEncounter(encounter: Encounter): Observable<Encounter> {

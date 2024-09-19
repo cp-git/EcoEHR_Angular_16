@@ -21,6 +21,10 @@ import { ContactUsComponent } from './profiles/contactus/contactus.component';
 import { AddEncounterComponent } from './patients/encounter/add-encounter/add-encounter.component';
 import { HpiComponent } from './patients/hpi/hpi.component';
 import { RosComponent } from './patients/ros/ros.component';
+import { MedicationComponent } from './patients/medication/medication.component';
+import { AddMedicationsComponent } from './patients/add-medications/add-medications.component';
+import { HistoryCompComponent } from './patients/history-comp/history-comp.component';
+import { ExaminationComponent } from './patients/examination/examination.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -111,6 +115,22 @@ const routes: Routes = [
   {
     path:'ros',
     component:RosComponent
+  },
+  {
+    path:'medication',
+    component:MedicationComponent
+  },
+  {
+    path:'addMedication',
+    component:AddMedicationsComponent
+  },
+  {
+    path:'history',
+    component:HistoryCompComponent
+  },
+  {
+    path:'exam',
+    component:ExaminationComponent
   }
 
 

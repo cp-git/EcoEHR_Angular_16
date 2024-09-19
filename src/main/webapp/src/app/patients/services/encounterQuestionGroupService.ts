@@ -14,13 +14,22 @@ export class EncounterQuestionGroupService {
     constructor(private http: HttpClient) { }
 
 
-    // insertQuestionGroups(encounterQuestionGroup: EncounterQuestionGroup[]): Observable<number> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let options = new RequestOptions({ headers: cpHeaders });
-    //     return this.http.post(this.insertAllQuestionGroupsUrl, encounterQuestionGroup, options)
-    //         .map(success => success.status)
-    //         .catch(this.handleError);
-    // }
+    insertQuestionGroups(encounterQuestionGroup: EncounterQuestionGroup[]): Observable<number> {
+
+        const token = localStorage.getItem('jwt');
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'x-auth-token': token ? token : ''
+        });
+    
+		return this.http.post<any>(this.insertAllQuestionGroupsUrl, encounterQuestionGroup, {headers})
+
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let options = new RequestOptions({ headers: cpHeaders });
+        // return this.http.post(this.insertAllQuestionGroupsUrl, encounterQuestionGroup, options)
+        //     .map(success => success.status)
+        //     .catch(this.handleError);
+    }
 
 
     deleteEncQustionGroups(encounterId:number,sysName:string):Observable<number> {

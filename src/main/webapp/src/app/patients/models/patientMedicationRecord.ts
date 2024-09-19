@@ -1,0 +1,36 @@
+
+
+
+export class PatientMedicationRecord {
+    constructor(
+      
+    public patientMedicationId:number,
+	public patientId:number,
+	public frequency:string,
+	public icd10Code:string,
+	public isActiveMedication:string,
+	public medicationDuration:number,
+	public refillCount:number,
+	public startDate: Date,
+	public endDate: Date,
+	public discontinuedDate: Date,
+	public discontinueReason:string,
+	public encounterId:number,
+	public medicationId:number,
+	public patientFirstName:string,
+	public patientMiddleName:string,
+	public patientLastName:string,
+	public providerFirstName:string,
+	public providerMiddleName:string,
+	public providerLastName:string,
+	public clinicLocationName:string,
+	public productName:string,
+	public form:string,
+	public dose:string,
+	public schedule:string,
+	public route:string,
+	public npiNumber:string,
+	public activeingredient:string,
+	public drugname:string,
+    ){}
+}

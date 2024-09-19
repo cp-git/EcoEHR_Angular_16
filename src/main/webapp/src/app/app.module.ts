@@ -40,6 +40,7 @@ import { TemplateService } from './patients/services/templateService';
 import { QuestionsService } from './patients/services/questionsService';
 import { EncounterQuestionOptionService } from './patients/services/encounterQuestionOptionService';
 import { EncounterQuestionGroupService } from './patients/services/encounterQuestionGroupService';
+import { MedicationService } from './patients/services/medicationService';
 
 
 
@@ -94,7 +95,8 @@ import { EncounterQuestionGroupService } from './patients/services/encounterQues
     TemplateService,
     QuestionsService,
     EncounterQuestionOptionService,
-    EncounterQuestionGroupService
+    EncounterQuestionGroupService,
+    MedicationService
     
     // provideAnimationsAsync()
   ],

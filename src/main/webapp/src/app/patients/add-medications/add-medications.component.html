@@ -1,0 +1,109 @@
+<input type="text" [(ngModel)]="searchText" placeholder="welcome to input..."/>
+<button (click)="search1()">Search</button>
+
+<form [formGroup]="MedicationForm" mmethod="#" action="">
+
+<table class="table table-bordered innerTable">
+    <tbody style="overflow-y:auto;max-height:350px;display:block;overflow-x: hidden;">
+        <tr>
+            <th class="text-center">Select</th>
+            <th class="text-center">Indication</th>
+            <th class="text-center">Generic Name</th>
+            <th class="text-center" >Brand Name</th>
+            <th class="text-center">Form</th>
+            <th class="text-center">Dose</th>
+            <th class="text-center">Route</th>
+            <th class="text-center">Frequency</th>
+            <th  class="text-center">Start Date</th>
+            <th  class="text-center">Duration In Days</th>
+            <th  class="text-center">End Date</th>
+            <th class="text-center">Refill</th>
+           
+        </tr>
+        <tr *ngFor='let data of filteredData; let i=index'>
+            <td class="my">
+                <input type="checkbox" id="all_{{data.medicationId}}"
+                    name="checkListItem" [checked]="isCheckedMed(data.medicationId)"  (change)="onChange(data, $event)"  >
+                <label class="labelstyle" for="all_{{data.medicationId}}"></label>
+            </td>
+            <td class="my">
+                <select id="indication{{data.medicationId}}"
+                    [(ngModel)]="selectedIndicationValue[data.medicationId]"
+                   
+                    style="width: 100%" [ngModelOptions]="{standalone: true}">
+                    <option selected>Please Select</option>
+                    <option class="decrease-height" title="{{indication.icd10CodeDescription}}"
+                        *ngFor="let indication of icd10Details" [value]="indication.icd10Code">
+                        {{indication.icd10Code}} &nbsp;<i class="fa fa-eye"></i>
+                    </option>
+                </select>
+                
+            </td>
+           
+            <td class="my">{{data.drugname}}</td>
+            <td class="my">{{data.activeingredient}}</td>
+            <td class="my">{{data.form}} </td>
+            <td class="my">{{data.dose}} </td>
+            <td class="my">{{data.route}} </td>
+            <td class="my">
+
+                 <select id="dropdown{{i}}"
+                    [(ngModel)]="selectedFrequencyValue[data.medicationId]"
+                    [ngModelOptions]="{standalone: true}" style="width: 100%">
+                    <option selected>Please Select</option>
+                    <option class="decrease-height" *ngFor="let frequency of allFrequency"
+                        [value]="frequency.lookupCode">{{frequency.lookupCode}}
+                    </option>
+                </select>
+                
+
+            </td>
+            <td class="my">
+                
+                    <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                        <input  type="date"
+                            [(ngModel)]="date[data.medicationId]"
+                            [ngModelOptions]="{standalone: true}" class="input-with-icon"
+                            class="date" id="startDate{{data.medicationId}}"
+                            name="startDate">
+                    </div> 
+              
+              
+            </td>
+            <td class="my">
+                <input type="text" [(ngModel)]="duration[data.medicationId]"
+                    [ngModelOptions]="{standalone: true}" id="duration"
+                    (input)="calculateDuration(data)"
+                    placeholder="Enter Duration" class="form-control">
+               
+
+            </td>
+            <td class="my">
+                <input type="date" [(ngModel)]="selectedEndDate[data.medicationId]"
+                    id="endDate{{data.medicationId}}" [ngModelOptions]="{standalone: true}"
+                    value="{{data.endDate| date:'MM/dd/yyyy'}}" class="form-control"  />
+            </td>
+            <td class="my">
+                <select [(ngModel)]="selectedRefillValue[data.medicationId]"
+                    [ngModelOptions]="{standalone: true}" style="width: 100%">
+                    <option selected>Please Select</option>
+                    <option class="decrease-height" *ngFor="let refill of refillData"
+                        [value]="refill.lookupCode">
+                        {{refill.lookupCode}}</option>
+                </select>
+              
+
+            </td>
+            
+        </tr>
+    </tbody>
+</table>
+
+            <div class="col-md-2 col-md-offset-1 ancbutton">
+                            <button type="submit" (click)="submitData()" id="addClose" class="btn button"
+                            [mat-dialog-close]="false" >ADD & CLOSE</button>
+                            <button id="dismissmodal" style="display:none;" type="submit" class="btn btn-info pull-left"
+                                data-dismiss="modal"></button>
+                        </div>
+
+</form>
