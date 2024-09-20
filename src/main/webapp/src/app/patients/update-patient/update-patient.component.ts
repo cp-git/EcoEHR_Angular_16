@@ -277,6 +277,7 @@ isFileSelected: boolean = false;
   updateEmployeeByEmployeeId(patient:PatientDetails){
     this.patientDetailsService.updatePatientDetails(patient)
     .subscribe(data => {
+      sessionStorage.setItem('patientId',data.patientId.toString());
       console.log(data);
       alert("data Saved....")
       this.router.navigate(['/list'])

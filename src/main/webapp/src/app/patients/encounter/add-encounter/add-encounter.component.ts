@@ -180,7 +180,12 @@ export class AddEncounterComponent {
         console.log(this.encounterId);
         this.stateService.changeNumber(this.encounterId)
 
-        // this.stateService.changeNumber(this.patientId)
+        this.patientId=data.patientId;
+        console.log(this.patientId);
+        
+        this.stateService.setId(this.patientId);
+
+       
         
 
         for (let i = 0; i < this.receivedData.length; i++) {

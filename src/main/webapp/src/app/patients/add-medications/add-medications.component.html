@@ -23,7 +23,7 @@
         <tr *ngFor='let data of filteredData; let i=index'>
             <td class="my">
                 <input type="checkbox" id="all_{{data.medicationId}}"
-                    name="checkListItem" [checked]="isCheckedMed(data.medicationId)"  (change)="onChange(data, $event)"  >
+                    name="checkListItem" [checked]="isCheckedMed(data.medicationId)"   (change)="checkedMedication($event,data);"  >
                 <label class="labelstyle" for="all_{{data.medicationId}}"></label>
             </td>
             <td class="my">
@@ -81,7 +81,7 @@
             <td class="my">
                 <input type="date" [(ngModel)]="selectedEndDate[data.medicationId]"
                     id="endDate{{data.medicationId}}" [ngModelOptions]="{standalone: true}"
-                    value="{{data.endDate| date:'MM/dd/yyyy'}}" class="form-control"  />
+                    value="{{data.endDate}}" class="form-control"  />
             </td>
             <td class="my">
                 <select [(ngModel)]="selectedRefillValue[data.medicationId]"

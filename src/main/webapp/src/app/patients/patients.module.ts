@@ -28,6 +28,7 @@ import { MedicationComponent } from './medication/medication.component';
 import { AddMedicationsComponent } from './add-medications/add-medications.component';
 import { HistoryCompComponent } from './history-comp/history-comp.component';
 import { ExaminationComponent } from './examination/examination.component';
+import { ViewPrescriptionComponent } from './view-prescription/view-prescription.component';
 
 
 // import { StudentListComponent } from './studentlist/studentlist.component';
@@ -96,7 +97,8 @@ import { ExaminationComponent } from './examination/examination.component';
      MedicationComponent,
      AddMedicationsComponent,
      HistoryCompComponent,
-     ExaminationComponent
+     ExaminationComponent,
+     ViewPrescriptionComponent
   ],
   providers: [
   // EncounterService,

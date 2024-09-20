@@ -28,6 +28,7 @@ import { AddMedicationsComponent } from '../add-medications/add-medications.comp
 import { EncounterService } from '../services/encounterService';
 import { Medication } from '../models/medication';
 import { Router } from '@angular/router';
+import { PatientMedication } from '../models/PatientMedication';
 
 
 
@@ -71,8 +72,12 @@ patientId:any
   searchCount: any;
 
   updatePatientId:any;
-
+  selectedIndicationValue: any[] = [];
+  selectedEndDate: any[] = [];
+  selectedRefillValue: any[] = [];
   medicationFormArray: any;
+
+  
   constructor(private systemService:SystemService,private questionsService:QuestionsService,private questionGroupService:QuestionGroupService,
     private formBuilder:FormBuilder,private stateService:StateServicesService,private encounterQuestionOptionService:EncounterQuestionOptionService,
     private encounterQuestionGroupService:EncounterQuestionGroupService,private medicationService:MedicationService,
@@ -83,15 +88,22 @@ patientId:any
 
   ngOnInit(){
 
+
+    
+    
+
     //Retreive Patient Id Using Angular Subject Behaviour
-    this.stateService.currentNumber.subscribe(number => {
-      this.updatePatientId = number;
-     // console.log(this.patientId);
+
+    this.stateService.id$.subscribe(value => {
+      this.patientId = value;
+      console.log(this.patientId);
       
     });
+  
+  
 
-    this.patientId=this.updatePatientId;
-    console.log(this.patientId);
+    // this.patientId=this.updatePatientId;
+    // console.log(this.patientId);
     
 
 
@@ -149,7 +161,7 @@ patientId:any
    this.medicationService.getPatientMedications(this.patientId)
        .subscribe(
          (       repsonse: any)=>{
-        console.log(repsonse.length);
+        console.log(repsonse);
         this.patientMedications=repsonse;
         if(this.icd10Code == 'all' || this.icd10Code == null){
                     this.activePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'Y');
@@ -394,5 +406,8 @@ patientId:any
     }
   
   }
+
+
+
 
 }

@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { EncounterService } from '../services/encounterService';
 import { Medication } from '../models/medication';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -63,12 +63,11 @@ export class AddMedicationsComponent {
     console.log(this.data.id);
  
 
-    this.stateService.currentNumber.subscribe(number => {
-      this.patientId = number;
+       this.stateService.id$.subscribe(value => {
+      this.patientId = value;
       console.log(this.patientId);
       
     });
-
     this.stateService.currentNumber.subscribe(number => {
       this.number = number;
    //   console.log(this.number);
@@ -163,6 +162,27 @@ export class AddMedicationsComponent {
   }
 
 
+  
+  checkedMedication( event: Event, data: any) {
+    this.checkedMedicationData(data);
+ //   if (event.) {
+      this.medicationFormArray.push(new FormControl({ 'data': data }));
+  //   }
+  //   else {
+  //     let index = this.medicationFormArray.controls.findIndex((x: { value: { data: { medicationId: any; }; }; }) => x.value.data.medicationId == data.medicationId)
+  //     this.medicationFormArray.removeAt(index);
+  //   }
+  //   if (this.medicationFormArray.length == 0) {
+  //     this.medicationFlag = false;
+    
+  //   }
+  //   else {
+  //  //   this.buttonDisabled = false;
+  //   }
+  }
+
+
+
   getAllChiefCompliantDetails() {
     this.encounterService.getAllChiefCompliantDetailsByEncounterId(this.number)
       .subscribe(data => {
@@ -227,41 +247,34 @@ export class AddMedicationsComponent {
     
   }
 
-
   submitData() {
-    
-    
     this.medicationFlag = false;
     let patientMedicationList: PatientMedication[] = [];
     for (let i = 0; i < this.medicationFormArray.length; i++) {
       let indication = this.selectedIndicationValue[this.medicationFormArray.at(i).value.data.medicationId];
-      let refill = this.selectedRefillValue[this.medicationFormArray.at(i).value.data.medicationId];  
+      let refill = this.selectedRefillValue[this.medicationFormArray.at(i).value.data.medicationId];
       let frequency = this.selectedFrequencyValue[this.medicationFormArray.at(i).value.data.medicationId];
       let duration = this.duration[this.medicationFormArray.at(i).value.data.medicationId];
       let startDate: any = (document.getElementById("startDate" + this.medicationFormArray.at(i).value.data.medicationId) as HTMLInputElement).value;
       let selectedEndDate: any = (document.getElementById("endDate" + this.medicationFormArray.at(i).value.data.medicationId) as HTMLInputElement).value;
       if (startDate !== "" && indication !== undefined && frequency !== undefined && refill !== undefined && (duration !== undefined && duration !== "")) {
-        $('#addClose').prop('disabled', true);
-        let patientMedication = new PatientMedication(0, this.patientId, this.number, this.medicationFormArray.at(i).value.data.medicationId, frequency, new Date(startDate), duration, new Date(selectedEndDate), refill, indication, "", 'Y', "", true, new Date(), "", new Date(), "", new Date());
-        console.log(patientMedication);
-        
-        patientMedicationList.push(patientMedication);
+      
 
+        let patientMedication = new PatientMedication(0, this.patientId, this.number, this.medicationFormArray.at(i).value.data.medicationId, frequency, new Date(startDate), duration, new Date(selectedEndDate), refill, indication, "", 'Y', "", true, new Date(), "", new Date(), "", new Date());
+        patientMedicationList.push(patientMedication);
+      }
+      else
+        this.medicationFlag = true;
+    }
+    if (!this.medicationFlag) {
     //  console.log("in ifffffffffffffff");
+    console.log(this.medicationFormArray);
+    
       this.medicationService.insertAllMedication(patientMedicationList)
         .subscribe(successCode => {
-          console.log(successCode);
-          
-          // alert("added...")
-          
-         
-          // this.getPatientMedications(this.patientId);
+        
         });
-      }
-    }
-    
   }
-
   // getFrequency() {
   //   this.masterLookupService.getFrequency()
   //     .subscribe(
@@ -271,6 +284,7 @@ export class AddMedicationsComponent {
   //       },
   //       errorCode => this.statusCode = errorCode);
   // }
+}
 
  
 }

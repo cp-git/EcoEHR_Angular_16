@@ -22,5 +22,13 @@ export class StateServicesService {
   changeNumber(number: number) {
     this.numberSource.next(number);
   }
-  constructor() { }
+
+
+
+  private idSubject = new BehaviorSubject<number>(1);
+  id$ = this.idSubject.asObservable();
+
+  setId(newId: number) {
+    this.idSubject.next(newId)
+  }
 }
