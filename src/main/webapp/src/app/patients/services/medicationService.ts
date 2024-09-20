@@ -77,13 +77,21 @@ export class MedicationService {
     //         .catch(this.handleError);
     // }
 
-    // discontinueMedication(patientMedication: PatientMedication):Observable<number> {
-	//     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-    //     let options = new RequestOptions({ headers: cpHeaders });
-    //     return this.http.put(this.discontinueMedicationUrl, patientMedication, options)
-    //            .map(success => success.status)
-    //            .catch(this.handleError);
-    // } 
+    discontinueMedication(patientMedication: PatientMedication):Observable<number> {
+
+        const token = localStorage.getItem('jwt') || '';
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'x-auth-token': token
+		});
+		return this.http.put<any>(this.discontinueMedicationUrl, patientMedication, {headers})
+
+	    // let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+        // let options = new RequestOptions({ headers: cpHeaders });
+        // return this.http.put(this.discontinueMedicationUrl, patientMedication, options)
+        //        .map(success => success.status)
+        //        .catch(this.handleError);
+    } 
   
     // private extractData(res: Response) {
     //     //console.log(res.toString())

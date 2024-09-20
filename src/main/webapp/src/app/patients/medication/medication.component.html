@@ -160,18 +160,17 @@
                     </td>
                     <td class="my">{{activeMedication.endDate| date:'MM/dd/yyyy'}}
                     </td>
-                    <!-- <td class="text-center">
-                        <a href="#" (click)="openPrescription(activeMedication)"
-                            data-toggle="modal" title="Prescription">
+                  <td class="text-center">
+                        <a  (click)="openPrescription(activeMedication)">
                             <i class="material-icons Prescription-style">content_paste</i>
                         </a>
                     </td>
-                    <td *ngIf="showMedicationModal" class="text-center">
-                        <a href="#" (click)="openInActiveMedication(activeMedication)"
+                      <td class="text-center">
+                        <a  (click)="openInActiveMedication(activeMedication)"
                             data-toggle="modal" title="InActive">
                             <i class="material-icons InActive-style">highlight_off</i>
                         </a>
-                    </td> -->
+                    </td>
                 </tr>
 
                 <!-- <tr [style.display]="showActiveList?'block':'none'"><b> No Medications

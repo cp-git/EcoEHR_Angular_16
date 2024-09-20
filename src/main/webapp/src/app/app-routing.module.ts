@@ -25,6 +25,8 @@ import { MedicationComponent } from './patients/medication/medication.component'
 import { AddMedicationsComponent } from './patients/add-medications/add-medications.component';
 import { HistoryCompComponent } from './patients/history-comp/history-comp.component';
 import { ExaminationComponent } from './patients/examination/examination.component';
+import { ViewPrescriptionComponent } from './patients/view-prescription/view-prescription.component';
+import { DeleteMedicationComponent } from './patients/delete-medication/delete-medication.component';
 
 
 // import { RoleGuard } from '../app/shared/'; // Assuming you have a RoleGuard
@@ -131,6 +133,14 @@ const routes: Routes = [
   {
     path:'exam',
     component:ExaminationComponent
+  },{
+    path:'viewDetails',
+    component:ViewPrescriptionComponent
+  },
+  {
+    path:'deleteMedication',
+    component:DeleteMedicationComponent
+
   }
 
 

@@ -29,6 +29,9 @@ import { EncounterService } from '../services/encounterService';
 import { Medication } from '../models/medication';
 import { Router } from '@angular/router';
 import { PatientMedication } from '../models/PatientMedication';
+import { ViewPrescriptionComponent } from '../view-prescription/view-prescription.component';
+import { data } from 'jquery';
+import { DeleteMedicationComponent } from '../delete-medication/delete-medication.component';
 
 
 
@@ -197,6 +200,30 @@ console.log("welcome");
   
   }
 
+
+  openPrescription(aactiveMedication: any): void {
+    const dialogRef = this.dialog.open(ViewPrescriptionComponent, {
+        data:aactiveMedication
+      
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+  }
+
+  openInActiveMedication(aactiveMedication: any): void {
+    const dialogRef = this.dialog.open(DeleteMedicationComponent, {
+        data:aactiveMedication
+      
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+  }
+
+
+
+
   showDiv(group: any, event:Event) {
     {
         this.commonQuestionsList = this.commonQuestions.filter(t => t.questionGroupId == group.questionGroupId);
@@ -325,6 +352,7 @@ console.log("welcome");
 
   onSubmit() {
     
+    
     //this.router.navigate(['/patients/planandassessment/' + this.encounterId]);
     (<HTMLInputElement>document.getElementById("saveNext")).disabled = true;
 
@@ -335,6 +363,7 @@ console.log("welcome");
           data=>{
            this.insertData()
             console.log(data);
+            this.stateService.changeNumber(this.number)
             this.router.navigate(['/history'])
             
           }

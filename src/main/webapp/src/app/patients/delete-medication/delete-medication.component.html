@@ -1,0 +1,153 @@
+<div class="container" style="width: 400px;">
+    <h1>welcome</h1>
+    <div class="modal-header text-center" style=" padding-top: 15px;">
+        <h6 class="card-header card-style" data-background-color>
+            InActive Medication
+
+        </h6>
+        <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+    </div>
+
+    <form [formGroup]="InActiveMedicationForm" action="" method="">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    <label>Indication:</label>
+                </div>
+                <div class="col-md-7">
+                    {{data.icd10Code}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    <label>Medication:</label>
+                </div>
+                <div class="col-md-7">
+                    {{data.productName}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    <label>Discontinued Date:</label>
+                </div>
+                <div class="col-md-7" style="top:15px">
+                  
+                        <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                            <input  type="date" class="input-with-icon" class="date"
+                                formControlName="endDate" id="endDate"
+                                autocomplete="off" name="endDate">
+                            
+                        </div>
+                   
+                  
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    <label>Discontinued Reason:</label>
+                </div>
+                <div class="col-md-7">
+                    <select name="reason" formControlName="reason" style="width: 90%">
+                        <option class="decrease-height" *ngFor="let item of discontinuedReasonList"
+                            [value]="item.lookupCode">{{item.lookupCode}}</option>
+                    </select>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <button type="submit" id="saveInactive" class="close" (click)=onSubmitInActiveList();
+                    class="btn button-width button pull-left">Submit</button>
+                <button id="dismissModalOnsubmit" style="display:none;" type="submit"
+                    class="btn btn-info pull-left" data-dismiss="modal"></button>
+                <!-- <div class="col-sm-1 col-xs-1"></div> -->
+            </div>
+            <div>
+                <button type="button" data-dismiss="modal" class="btn button pull-right">Cancel</button>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+    </form>
+<div class="card" >
+    <div class="modal fade" id="InActiveMedication" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-md ">
+            <div class="modal-content">
+                <div class="card-content">
+                    <div class="modal-header text-center" style=" padding-top: 15px;">
+                        <h6 class="card-header card-style" data-background-color>
+                            InActive Medication
+
+                        </h6>
+                        <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                    </div>
+                    <br>
+                    <form [formGroup]="InActiveMedicationForm" action="" method="">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <label>Indication:</label>
+                                </div>
+                                <div class="col-md-7">
+                                    {{data.icd10Code}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <label>Medication:</label>
+                                </div>
+                                <div class="col-md-7">
+                                    {{data.productName}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <label>Discontinued Date:</label>
+                                </div>
+                                <div class="col-md-7" style="top:-15px">
+                                  
+                                        <div class="input-icon-wrap" style="margin-top: -1px !important;">
+                                            <input  type="date" class="input-with-icon" class="date"
+                                                formControlName="endDate" id="endDate"
+                                                autocomplete="off" name="endDate">
+                                            
+                                        </div>
+                                   
+                                  
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <label>Discontinued Reason:</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="reason" formControlName="reason" style="width: 90%">
+                                        <option class="decrease-height" *ngFor="let item of discontinuedReasonList"
+                                            [value]="item.lookupCode">{{item.lookupCode}}</option>
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <button type="submit" id="saveInactive" class="close" (click)=onSubmitInActiveList();
+                                    class="btn button-width button pull-left">Submit</button>
+                                <button id="dismissModalOnsubmit" style="display:none;" type="submit"
+                                    class="btn btn-info pull-left" data-dismiss="modal"></button>
+                                <!-- <div class="col-sm-1 col-xs-1"></div> -->
+                            </div>
+                            <div>
+                                <button type="button" data-dismiss="modal" class="btn button pull-right">Cancel</button>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

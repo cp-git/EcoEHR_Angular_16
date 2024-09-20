@@ -41,6 +41,9 @@ export class UpdateclinicComponent {
 
   ngOnInit(): void {
     this.clinic = this.data.clinic;
+
+
+    
   }
 
 
