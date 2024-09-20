@@ -88,6 +88,7 @@ patientId:any
 
   ngOnInit(){
 
+console.log("welcome");
 
     
     
