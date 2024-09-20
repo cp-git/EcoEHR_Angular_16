@@ -258,8 +258,7 @@ export class AddMedicationsComponent {
       let startDate: any = (document.getElementById("startDate" + this.medicationFormArray.at(i).value.data.medicationId) as HTMLInputElement).value;
       let selectedEndDate: any = (document.getElementById("endDate" + this.medicationFormArray.at(i).value.data.medicationId) as HTMLInputElement).value;
       if (startDate !== "" && indication !== undefined && frequency !== undefined && refill !== undefined && (duration !== undefined && duration !== "")) {
-      
-
+    
         let patientMedication = new PatientMedication(0, this.patientId, this.number, this.medicationFormArray.at(i).value.data.medicationId, frequency, new Date(startDate), duration, new Date(selectedEndDate), refill, indication, "", 'Y', "", true, new Date(), "", new Date(), "", new Date());
         patientMedicationList.push(patientMedication);
       }
