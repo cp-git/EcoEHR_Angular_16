@@ -30,6 +30,8 @@ import { HistoryCompComponent } from './history-comp/history-comp.component';
 import { ExaminationComponent } from './examination/examination.component';
 import { ViewPrescriptionComponent } from './view-prescription/view-prescription.component';
 import { DeleteMedicationComponent } from './delete-medication/delete-medication.component';
+import { PlanAssementComponent } from './plan-assement/plan-assement.component';
+import { OrdersComponentComponent } from './orders-component/orders-component.component';
 
 
 // import { StudentListComponent } from './studentlist/studentlist.component';
@@ -100,7 +102,9 @@ import { DeleteMedicationComponent } from './delete-medication/delete-medication
      HistoryCompComponent,
      ExaminationComponent,
      ViewPrescriptionComponent,
-     DeleteMedicationComponent
+     DeleteMedicationComponent,
+     PlanAssementComponent,
+     OrdersComponentComponent
   ],
   providers: [
   // EncounterService,

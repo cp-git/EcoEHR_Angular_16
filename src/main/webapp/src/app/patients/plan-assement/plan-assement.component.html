@@ -1,0 +1,75 @@
+<div class="col-md-12 col-sm-12">
+    <div class="btn-group btn-group-justified">
+        <ng-container *ngFor="let list of tabList let i=index">
+            <a data-toggle="tab" id="list_{{i}}" (click)="toggelChange()"
+                class="btn btn-style systems-tab-style" title="{{list}}">{{list}}</a>
+        </ng-container>
+    </div>
+  
+</div>
+
+<form [formGroup]="assessmentForm" mmethod="#" action="">
+    <div class="col-md-9 col-md-offset-1" style="padding-top:12px;">
+        <select [multiple]="true" style="width:50%" placeholder="Please select"
+            formControlName="icdCode">
+            <option class="decrease-height" *ngFor="let icd10 of icd10Details"
+                [value]="icd10" title="{{icd10.icd10CodeDescription}}">
+                <div>
+                    <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                    {{icd10.icd10Code}}{{icd10.icd10CodeDescription}}
+                </div>
+            </option>
+        </select>
+        <br>
+      <button type="submit" (click)="onSubmit()" class="btn button"
+            id="save">Save</button>
+        <br><br><br>
+    </div>
+
+    <div *ngIf="!showData">
+        <div class="table-content" *ngIf="encounterassessmentdata.length>0">
+            <div class="col-md-8 col-md-offset-1">
+
+                <div>
+                    <label style="color:black"> Assessment History</label>
+                </div>
+                <table class="table table-bordered">
+                    <tbody>
+
+                        <tr>
+                            <th class="text-center">ICD-10 Codes</th>
+                            <th class="text-center">ICD-10 Codes Description</th>
+                            <th class="text-center">PLAN</th>
+                            <th class="text-center">Delete</th>
+
+                        </tr>
+                        <tr *ngFor="let icd10 of encounterassessmentdata">
+                            <ng-container>
+                                <td>{{icd10.icd10Code}}</td>
+                                <td>{{icd10.icd10CodeDescription}}</td>
+                                <td>
+                                    <button type="submit" (click)="openPlan(icd10.icd10Code, icd10.icd10CodeDescription,number)" class="btn button btn-sm" style="width: 100%">
+                                       Plan</button>
+                                </td>
+                                <td class="text-center">
+                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                        (click)="deleteAssessment(icd10.encAsessmentId)"
+                                        title="Delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> 
+                                    </button>-->
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+ 

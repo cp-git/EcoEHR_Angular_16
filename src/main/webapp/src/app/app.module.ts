@@ -41,6 +41,8 @@ import { QuestionsService } from './patients/services/questionsService';
 import { EncounterQuestionOptionService } from './patients/services/encounterQuestionOptionService';
 import { EncounterQuestionGroupService } from './patients/services/encounterQuestionGroupService';
 import { MedicationService } from './patients/services/medicationService';
+import { EncAssessmentService } from './patients/services/encAssessmentService';
+import { OrdersService } from './patients/services/ordersService';
 
 
 
@@ -96,7 +98,9 @@ import { MedicationService } from './patients/services/medicationService';
     QuestionsService,
     EncounterQuestionOptionService,
     EncounterQuestionGroupService,
-    MedicationService
+    MedicationService,
+    EncAssessmentService,
+    OrdersService
     
     // provideAnimationsAsync()
   ],

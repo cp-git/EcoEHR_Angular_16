@@ -196,7 +196,7 @@ export class ExaminationComponent {
               console.log(data);
               this.insertData();
 
-              this.route.navigate(['medication'])
+              this.route.navigate(['plan'])
               
             }
           )

@@ -293,15 +293,27 @@ export class EncounterService {
         //     .catch(this.handleError);
     }
 
-    // getIcd10DetailsOfLastFiveEncounters(patientId:number): Observable<ChiefCompliantDtl[]> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-    //     let cpParams = new URLSearchParams();
-    //     cpParams.set('patientId', patientId.toString());
-    //     let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.get(this.getIcd10DetailsOfLastFiveEncountersUrl, options)
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
+    getIcd10DetailsOfLastFiveEncounters(patientId:number): Observable<ChiefCompliantDtl[]> {
+
+        const token = localStorage.getItem('jwt') || '';
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'x-auth-token': token
+		});
+		
+		
+		const params = new HttpParams().set('patientId', patientId.toString());
+
+		return this.http.get<any>(this.getIcd10DetailsOfLastFiveEncountersUrl,{headers, params} )
+
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+        // let cpParams = new URLSearchParams();
+        // cpParams.set('patientId', patientId.toString());
+        // let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.get(this.getIcd10DetailsOfLastFiveEncountersUrl, options)
+        //     .map(this.extractData)
+        //     .catch(this.handleError);
+    }
 
     // deleteEncounter(encounterId: number):Observable<number> {
     //     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});

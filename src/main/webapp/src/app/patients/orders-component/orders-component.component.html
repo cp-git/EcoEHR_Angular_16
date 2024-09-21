@@ -1,0 +1,375 @@
+<div class="container">
+    <form [formGroup]="ordersForm" mmethod="#" action="">
+        <!-- <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
+                            fullScreen="true" type="line-scale-pulse-out-rapid">
+        </ngx-spinner> -->
+        <div class="row">
+            <div style="text-align: center;">
+                <h6>Selected ICD-10 code : <strong style="color: #03659d;">{{icdCode}} ({{des}})</strong></h6>
+            </div>
+            <div class="col-md-12 col-sm-12" >
+                <div class="col-md-2 col-sm-2">
+                
+                    <ng-container *ngFor="let list of tabList; let i=index">
+                      
+                        <div class="row">
+                            <div class="col-md-8 col-sm-8">
+                                <a data-toggle="tab" id="{{i}}" style="width: 131px !important"
+                                    class="btn btn-style btn-left question-group-style"    (click)="selectTab(list)" 
+                                     title="{{list}}">{{list}}</a>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <br>
+                </div>
+                <div [ngSwitch]="viewMode" class="col-md-10 col-sm-8 col-sm-offset-1 col-md-offset-0">
+                    <div class="card question-card-style col-md-10 col-sm-6">
+                        <div class="col-md-9 col-md-offset-3 icd-tbl-style" style="display: none;">
+                            <select style="width:100%;color: black !important;" [(ngModel)]="icdCode"
+                                [ngModelOptions]="{standalone: true}" placeholder="Please select">
+                                <!-- <md2-option selected>Please Select </md2-option> -->
+                                <option class="decrease-height" style="color: black !important;"
+                                    (click)="changeIcdCode(icd10.icd10Code)" *ngFor="let icd10 of icd10Details"
+                                    [value]="icd10.icd10Code" title="{{icd10.icd10CodeDescription}}">
+                                    <div>
+                                        {{icd10.icd10Code}}
+                                    </div>
+                                </option>
+                               
+                            </select>
+                        </div>
+    
+    
+                        <!-- Condition Div -->
+                        <div class="col-md-10 col-sm-12" *ngSwitchCase="'Condition'">
+                            <div class="col-md-7" style="top: 10px;">
+                                <div class="label-floating form-group ">
+                                    <!-- <label #labDateFloatToLabel class="control-label control-label-datepicker">
+                                   Condition
+                                </label> -->
+                                    <select style="width:100%" placeholder="Please select"
+                                        formControlName="conditionType">
+                                        <!-- <md2-option selected>Please Select </md2-option> -->
+                                        <option class="decrease-height" value="stable">Stable </option>
+                                        <option class="decrease-height" value="UnStable">UnStable </option>
+                                    </select>
+                                    
+                                </div>
+                            </div><br />
+                            <div class="col-md-7" style="margin-left: -15px;">
+                                <div class="form-group label-floating">
+                                    <input type="text" name="Comments" class="form-control" placeholder="Comments"
+                                        formControlName="conditionComments">
+                               
+                                </div>
+                            </div>
+
+                            
+                            <div class="table-content">
+                                <table class="table table-bordered orders-tbl">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center">ICD-10 Codes</th>
+                                            <th class="text-center">Condition Type</th>
+                                            <th class="text-center">Comments</th>
+                                            <th class="text-center">Delete</th>
+                                        </tr>
+                                        
+                                        <tr *ngFor="let condition of allOrdersData">
+                                            <ng-container>
+                                                <td>{{condition.icd10Code}}</td>
+                                                <td>{{condition.conditionType}}</td>
+                                                <td>{{condition.conditionComments}}</td>
+                                                <td class="text-center">
+                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                        (click)="deleteLabRecord(condition.orderId)" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button> -->
+                                                </td>
+    
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+    
+                        </div>
+    
+                        <!-- Medication Div -->
+                        <!-- <div *ngIf="showComponent">
+                            <div class="col-md-12 col-sm-12 medication" *ngSwitchCase="'Medication'">
+                                <ehr-medication [patientId]=patientId [pageName]=pageName [icd10Code]=icdCode
+                                    (patientIdChange)='getpatientId($event)'>
+                                </ehr-medication>
+                            </div>
+                        </div> -->
+    
+                        <!-- Allergy Div -->
+                        <!-- <div class="col-md-10 col-sm-12" *ngSwitchCase="'Allergy'">
+                        <div class="col-md-7" style="padding-left:15px;padding-top:12px;">
+                            
+                        </div>
+                    </div> -->
+    
+    
+                        <!-- Lab Div -->
+                        <div class="col-md-10 col-sm-12" *ngSwitchCase="'Lab'">
+    
+    
+                            <div class="col-md-7" style="padding-left:15px;padding-top:12px;display: none;">
+                                <select style="width:100%" placeholder="Please select" formControlName="icd"
+                                    [(ngModel)]="icdCode">
+                                    <!-- <md2-option selected>Please Select </md2-option> -->
+                                    <option class="decrease-height" *ngFor="let icd10 of icd10Details"
+                                        [value]="icd10.icd10Code" title="{{icd10.icd10CodeDescription}}">
+                                        <div>
+                                            {{icd10.icd10Code}} &nbsp;&nbsp;<i class="fa fa-eye"></i>
+                                        </div>
+                                    </option>
+                                </select>
+                            </div>
+    
+                            <div class="col-md-7 " style="padding-top:6px">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Lab Notes </label>
+                                    <input type="text" name="Comments" class="form-control"
+                                        formControlName="labComments">
+                                
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="label-floating form-group ">
+                                    <label #labDateFloatToLabel class="control-label control-label-datepicker">
+                                        Order Date
+                                    </label>
+                                  
+                                        <div class="input-icon-wrap" style="margin-top:-8px;">
+                                            <input  type="date" class="input-with-icon" id="labDate"
+                                                formControlName="labDate"
+                                               name="labDate">
+                                         
+                                        </div>
+                                 
+                                   
+                                </div>
+                            </div>
+                            <div class="table-content">
+                                <table class="table table-bordered orders-tbl">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center">ICD-10 Codes</th>
+                                            <th class="text-center">Lab Notes</th>
+                                            <th class="text-center">Lab Order Date</th>
+                                            <th class="text-center">Delete</th>
+                                        </tr>
+                                        <tr *ngFor="let lab of allOrdersData">
+                                            <ng-container>
+                                                <td>{{lab.icd10Code}}</td>
+                                                <td>{{lab.labOrderComments}}</td>
+                                                <!-- <td>{{displayOrderDate(lab.labOrderDate) |date:'MM/dd/yyyy'}}</td> -->
+                                                <td class="text-center">
+                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                        (click)="deleteLabRecord(lab.orderId)" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button> -->
+                                                </td>
+    
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+    
+                        </div>
+    
+                    <div class="row">   <!-- Imaging Div -->
+                        <div class="col-md-10 col-sm-12" *ngSwitchCase="'Imaging'">
+    
+                            <div class="col-md-7" style="padding-left:15px; padding-top:12px;display: none;">
+                                <select style="width:100%" placeholder="Please select" formControlName="imagingIcd"
+                                    [(ngModel)]="icdCode">
+                                    <!-- <md2-option selected>Please Select </md2-option> -->
+                                    <option class="decrease-height" *ngFor="let icd10 of icd10Details"
+                                        [value]="icd10.icd10Code" title="{{icd10.icd10CodeDescription}}">
+                                        <div>
+                                            {{icd10.icd10Code}} &nbsp;&nbsp;<i class="fa fa-eye"></i>
+                                        </div>
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-7 " style="padding-top:6px">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Imaging Notes </label>
+                                    <input type="text" name="imagingComments" class="form-control"
+                                        formControlName="imagingComments">
+                                  
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="label-floating form-group ">
+                                    <label #imgDateFloatToLabel class="control-label control-label-datepicker">
+                                        Order Date
+                                    </label>
+                                    
+                                        <div class="input-icon-wrap" style="margin-top:-8px;">
+                                            <input  type="date" class="input-with-icon" id="imagingDate"
+                                                formControlName="imagingDate"
+                                                name="imagingDate" >
+                                           
+                                        </div>
+                                 
+                                  
+                                </div>
+                            </div>
+                            <div class="table-content">
+                                <table class="table table-bordered orders-tbl">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center">ICD 10 Codes</th>
+                                            <th class="text-center">Imaging Notes </th>
+                                            <th class="text-center">Imaging Order Date</th>
+                                            <th class="text-center">Delete</th>
+                                        </tr>
+                                        <tr *ngFor="let imaging of allOrdersData">
+                                            <ng-container>
+                                                <td>{{imaging.icd10Code}}</td>
+                                                <td>{{imaging.imagingOrderComments}}</td>
+                                                <!-- <td>{{displayOrderDate(imaging.imagingOrderDate) |date:'MM/dd/yyyy'}} 
+                                                </td>-->
+                                                <td class="text-center">
+                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                        (click)="deleteLabRecord(imaging.orderId)" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button> -->
+                                                </td>
+    
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                     
+                        <!-- Consulting Div -->
+                        <div class="col-md-10 col-sm-12" *ngSwitchCase="'Consulting'">
+                            <div class="col-md-7 " style="margin-left:15px">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Consulting Notes </label>
+                                    <input type="text" name="consultingComments" class="form-control"
+                                        formControlName="consultingComments">
+                                 
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="label-floating form-group ">
+                                    <label #consultDateFloatToLabel class="control-label control-label-datepicker">
+                                        Consulting Date
+                                    </label>
+                                   
+                                        <div class="input-icon-wrap" style="margin-top:-8px;">
+                                            <input  type="date" class="input-with-icon" id="consultingDate"
+                                                formControlName="consultingDate"
+                                             
+                                                name="consultingDate" >
+                                        
+                                        </div>
+                                    
+                                   
+                                </div>
+                            </div>
+                            <div class="table-content">
+                                <table class="table table-bordered orders-tbl">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center">ICD 10 Codes</th>
+                                            <th class="text-center">Consulting Notes
+                                            </th>
+                                            <th class="text-center">Consulting Order Date</th>
+                                            <th class="text-center">Delete</th>
+                                        </tr>
+                                        <tr *ngFor="let consult of allOrdersData">
+                                            <ng-container>
+                                                <td>{{consult.icd10Code}}</td>
+                                                <td>{{consult.consultingOrderComments}}</td>
+                                                <!-- <td>{{displayOrderDate(consult.consultingOrderDate) |date:'MM/dd/yyyy'}} 
+                                                </td>-->
+                                                <td class="text-center">
+                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                        (click)="deleteLabRecord(consult.orderId)" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button> -->
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+    
+                        <!-- Follow Up Div -->
+                        <div class="col-md-10 col-sm-12" *ngSwitchCase="'Follow up'">
+                            <div class="col-md-7 " style="margin-left:15px">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Follow Up Notes </label>
+                                    <input type="text" name="followupComments" class="form-control"
+                                        formControlName="followupComments">
+                                  
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="label-floating form-group ">
+                                    <label #followDateFloatToLabel class="control-label control-label-datepicker">
+                                        Follow Up Date
+                                    </label>
+                                    
+                                        <div class="input-icon-wrap" style="margin-top:-8px;">
+                                            <input  type="date" class="input-with-icon" id="followupDate"
+                                                formControlName="followupDate"
+                                                name="followupDate" >
+                                          
+                                        </div>
+                                   
+                                </div>
+                                <!-- <td style="margin-top: 5px;"> -->
+                            
+                                <!-- </td> -->
+                            </div>
+                            <div class="table-content">
+                                <table class="table table-bordered orders-tbl">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center">ICD 10 Codes</th>
+                                            <th class="text-center">Follow Up Notes
+                                            </th>
+                                            <th class="text-center">Follow Up Order Date</th>
+                                            <th class="text-center">Delete</th>
+                                        </tr>
+                                        <tr *ngFor="let follow of allOrdersData">
+                                            <ng-container>
+                                                <td>{{follow.icd10Code}}</td>
+                                                <td>{{follow.followupOrderComments}}</td>
+                                                <!-- <td>{{displayOrderDate(follow.followupOrderDate) |date:'MM/dd/yyyy'}} 
+                                                </td>-->
+                                                <td class="text-center">
+                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                        (click)="deleteLabRecord(follow.orderId)" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button> -->
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn button saveplan" id="save" (click)="onSave()"
+                            *ngIf="viewMode!=='Medication'">Save</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    
+        <br>
+    </form>
+    </div>

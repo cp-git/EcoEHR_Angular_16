@@ -1,0 +1,26 @@
+export class Orders {
+    constructor(
+      
+        public orderId: number, 
+        public labOrderDate: Date, 
+        public labOrderComments: string, 
+        public imagingOrderDate: Date,
+        public imagingOrderComments: string,
+        public consultingOrderDate: Date,
+        public consultingOrderComments:string,
+        public followupOrderDate:Date,
+        public followupOrderComments:string,
+        public patientId:number,
+        public encounterId:number,
+        public icd10Code:string,
+        public createdBy:string,
+        public createdDate:Date,
+        public lastUpdatedBy:string,
+        public lastUpdatedDate:Date,
+        public activeFlag:boolean,
+        public conditionType:string,
+        public conditionComments:string,
+        public icd10CodeDesc:string
+       
+    ){}
+}
