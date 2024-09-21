@@ -31,4 +31,36 @@ export class StateServicesService {
   setId(newId: number) {
     this.idSubject.next(newId)
   }
+
+
+
+
+
+  private dataSource = new BehaviorSubject<string>('Initial Data');
+  currentData = this.dataSource.asObservable();
+
+  changeData(data: string) {
+    this.dataSource.next(data);
+  }
+
+
+
+  private dataSource1 = new BehaviorSubject<string>('Initial Data');
+  currentData1 = this.dataSource1.asObservable();
+
+  changeData1(data1: string) {
+    this.dataSource.next(data1);
+  }
+
+
+ 
+
+
+   
+
+
+    
+
+
+  
 }

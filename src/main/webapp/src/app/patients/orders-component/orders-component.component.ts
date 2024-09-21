@@ -40,6 +40,9 @@ export class OrdersComponentComponent {
   encounterassessmentdata:EncAsessment[]=[];
   number:any;
 
+  updateIcdCode:any;
+  updateIcdDesc:any;
+
 
 
 
@@ -94,6 +97,21 @@ export class OrdersComponentComponent {
 
 
   ngOnInit(){
+
+    this.stateService.currentData.subscribe(number => {
+      this.updateIcdCode = number;
+     console.log(this.updateIcdCode);
+      
+    });
+
+
+    this.stateService.currentData1.subscribe(number => {
+      this.updateIcdDesc = number;
+     console.log(this.updateIcdDesc);
+      
+    });
+
+
     this._activateRoute.paramMap.subscribe(params => {
       this.encounterId = params.get('id');
       console.log(this.encounterId);
@@ -104,6 +122,20 @@ export class OrdersComponentComponent {
     this.stateService.id$.subscribe(value => {
       this.patientId = value;
       console.log(this.patientId);
+      
+    });
+
+
+
+    this.stateService.id$.subscribe(value => {
+      this.patientId = value;
+      console.log(this.patientId);
+      
+    });
+
+    this.stateService.currentNumber.subscribe(number => {
+      this.number = number;
+     console.log(this.number);
       
     });
 
@@ -149,15 +181,15 @@ export class OrdersComponentComponent {
         (<HTMLInputElement>document.getElementById("save")).disabled = true;
         let icd = this.icdCode;
         if (this.viewMode == 'Lab') {
-            icd = this.ordersForm.get('icd')?.value;
+            icd = this.updateIcdCode;
             // this.icdCode = this.ordersForm.get('icd').value;
         }
         if (this.viewMode == 'Imaging') {
-            icd = this.ordersForm.get('imagingIcd')?.value;
+            icd = this.updateIcdCode;
             // this.icdCode = this.ordersForm.get('imagingIcd').value;
         }
         if (this.viewMode == 'Condition') {
-            icd = this.icdCode;
+            icd = this.updateIcdCode;
             // this.icdCode = this.ordersForm.get('imagingIcd').value;
         }
         let labComments = this.ordersForm.get('labComments')?.value;
@@ -207,6 +239,16 @@ getAllOrdersByPatientId(patientId: number, icd: string) {
       })
 
       //console.log("all orders-------------->"+this.allOrders);
+}
+
+deleteLabRecord(orderId:any) {
+  this.orderService.deletOrdertData(orderId)
+      .subscribe(successCode => {
+          this.statusCode = successCode;
+          this.getAllOrdersByPatientId(this.patientId, this.icdCode);
+      }, errorCode => {
+          this.statusCode = errorCode;
+      });
 }
 
 

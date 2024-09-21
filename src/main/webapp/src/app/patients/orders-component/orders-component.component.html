@@ -1,12 +1,12 @@
-<div class="container">
+<div class="container" style="margin-top: 150px;">
     <form [formGroup]="ordersForm" mmethod="#" action="">
         <!-- <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"
                             fullScreen="true" type="line-scale-pulse-out-rapid">
         </ngx-spinner> -->
         <div class="row">
-            <div style="text-align: center;">
-                <h6>Selected ICD-10 code : <strong style="color: #03659d;">{{icdCode}} ({{des}})</strong></h6>
-            </div>
+            <!-- <div style="text-align: center;">
+                <h6>Selected ICD-10 code : <strong style="color: #03659d;">{{updateIcdCode}} ({{des}})</strong></h6>
+            </div> -->
             <div class="col-md-12 col-sm-12" >
                 <div class="col-md-2 col-sm-2">
                 
@@ -81,10 +81,10 @@
                                                 <td>{{condition.conditionType}}</td>
                                                 <td>{{condition.conditionComments}}</td>
                                                 <td class="text-center">
-                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                    <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(condition.orderId)" title="Delete">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button> -->
+                                                    </button>
                                                 </td>
     
                                             </ng-container>
@@ -168,10 +168,10 @@
                                                 <td>{{lab.labOrderComments}}</td>
                                                 <!-- <td>{{displayOrderDate(lab.labOrderDate) |date:'MM/dd/yyyy'}}</td> -->
                                                 <td class="text-center">
-                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                    <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(lab.orderId)" title="Delete">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button> -->
+                                                    </button>
                                                 </td>
     
                                             </ng-container>
@@ -294,10 +294,10 @@
                                                 <!-- <td>{{displayOrderDate(consult.consultingOrderDate) |date:'MM/dd/yyyy'}} 
                                                 </td>-->
                                                 <td class="text-center">
-                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                    <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(consult.orderId)" title="Delete">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button> -->
+                                                    </button>
                                                 </td>
                                             </ng-container>
                                         </tr>
@@ -351,10 +351,10 @@
                                                 <!-- <td>{{displayOrderDate(follow.followupOrderDate) |date:'MM/dd/yyyy'}} 
                                                 </td>-->
                                                 <td class="text-center">
-                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                    <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(follow.orderId)" title="Delete">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button> -->
+                                                    </button>
                                                 </td>
                                             </ng-container>
                                         </tr>

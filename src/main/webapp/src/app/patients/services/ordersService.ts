@@ -97,15 +97,28 @@ export class OrdersService {
 	// 		.catch(this.handleError);
 	// }
 
-	// deletOrdertData(orderId: number):Observable<number> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-	// 	let cpParams = new URLSearchParams();
-    //     cpParams.set('orderId', orderId.toString());
-	// 	let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.delete(this.deletOrdertDataUrl, options)
-    //     .map(success => success.status)
-    //            .catch(this.handleError);
-    // }
+	deletOrdertData(orderId: number):Observable<number> {
+
+		
+        const token = localStorage.getItem('jwt') || '';
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'x-auth-token': token
+        });
+        
+        
+        const params = new HttpParams().set('orderId', orderId.toString());
+        return this.http.delete<any>(this.deletOrdertDataUrl, {headers,params})
+
+
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+		// let cpParams = new URLSearchParams();
+        // cpParams.set('orderId', orderId.toString());
+		// let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.delete(this.deletOrdertDataUrl, options)
+        // .map(success => success.status)
+        //        .catch(this.handleError);
+    }
 	// private extractData(res: Response) {
 	// 	let body = res.json();
 	// 	return body;

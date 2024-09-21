@@ -167,6 +167,11 @@ onSubmit(){
       let icd = this.assessmentForm.get('icdCode')?.value;
       for (let i = 0; i < icd.length; i++) {
         console.log(icd[i]);
+       
+      this.stateService.changeData(icd[i].icd10Code)
+
+      // this.stateService.changeData1(icd[i].icd10Code)
+
         
        let asessment = new EncAsessment(0, this.number,this.patientId,icd[i].icd10Code, icd[i].icd10CodeDescription, "", new Date(), "", new Date(),true);
        asessmentList.push(asessment);
@@ -186,7 +191,9 @@ onSubmit(){
 openPlan(icd10Code:string, des:string,number:any){
   this.icdCode = icd10Code;
   this.description = des;
-//   console.log(this.icdCode);
+  console.log(this.icdCode);
+
+
   this.showplanTable=!this.showplanTable;
   this.route.navigate(['order',this.number])
 }
@@ -242,6 +249,17 @@ onSave() {
 
   //  this.ordersForm.reset();
 }
+
+deleteAssessment(encAsessmentId:any){
+  this.encAssessmentService.deleteAssessmentData(encAsessmentId)
+  .subscribe(successCode => {
+     
+      this.getEncAssessmentbyEncounterId(this.number);
+  },errorCode => {
+          this.statusCode = errorCode  ;
+      });
+}
+
 
 
 }

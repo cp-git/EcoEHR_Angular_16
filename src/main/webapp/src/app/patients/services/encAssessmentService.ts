@@ -52,15 +52,32 @@ export class EncAssessmentService {
         //     .catch(this.handleError);
     }
 
-    // deleteAssessmentData(encAsessmentId: number):Observable<number> {
-    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
-	// 	let cpParams = new URLSearchParams();
-    //     cpParams.set('encAsessmentId', encAsessmentId.toString());
-	// 	let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    //     return this.http.delete(this.deleteAssessmentUrl, options)
-    //     .map(success => success.status)
-    //            .catch(this.handleError);
-    // }
+    deleteAssessmentData(encAsessmentId: number):Observable<number> {
+
+
+        const token = localStorage.getItem('jwt') || '';
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'x-auth-token': token
+        });
+        
+        
+        const params = new HttpParams().set('encAsessmentId', encAsessmentId.toString());
+ 
+       
+ 
+        
+        return this.http.delete<any>(this.deleteAssessmentUrl, {headers,params})
+
+
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json' , "x-auth-token":localStorage.getItem('jwt')});
+		// let cpParams = new URLSearchParams();
+        // cpParams.set('encAsessmentId', encAsessmentId.toString());
+		// let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+        // return this.http.delete(this.deleteAssessmentUrl, options)
+        // .map(success => success.status)
+        //        .catch(this.handleError);
+    }
 
     // private extractData(res: Response) {
     //    // console.log(res.toString())
