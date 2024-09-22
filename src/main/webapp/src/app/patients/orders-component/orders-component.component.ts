@@ -90,6 +90,11 @@ export class OrdersComponentComponent {
   tabChoosen!: string;
   mx = new Date().getFullYear() + 10;
 
+  updatedPatient:any;
+  updatedIcdCode:any;
+  updatedIcdDesc:any;
+
+
   allOrdersData: Orders[] = [];
 
 
@@ -98,18 +103,20 @@ export class OrdersComponentComponent {
 
   ngOnInit(){
 
-    this.stateService.currentData.subscribe(number => {
-      this.updateIcdCode = number;
-     console.log(this.updateIcdCode);
-      
-    });
+    this.updatedPatient = sessionStorage.getItem('patientId');
+    console.log(this.updatedPatient);
+    
 
 
-    this.stateService.currentData1.subscribe(number => {
-      this.updateIcdDesc = number;
-     console.log(this.updateIcdDesc);
-      
-    });
+    this.updatedIcdCode = sessionStorage.getItem('IcdCode');
+    console.log(this.updatedIcdCode);
+    
+
+    this.updatedIcdDesc = sessionStorage.getItem('IcdDesc');
+    console.log(this.updatedIcdDesc);
+    
+
+
 
 
     this._activateRoute.paramMap.subscribe(params => {
@@ -119,25 +126,7 @@ export class OrdersComponentComponent {
       // Now you can use the 'id' parameter in your component
     });
 
-    this.stateService.id$.subscribe(value => {
-      this.patientId = value;
-      console.log(this.patientId);
-      
-    });
-
-
-
-    this.stateService.id$.subscribe(value => {
-      this.patientId = value;
-      console.log(this.patientId);
-      
-    });
-
-    this.stateService.currentNumber.subscribe(number => {
-      this.number = number;
-     console.log(this.number);
-      
-    });
+    
 
 
     this.ordersForm = this.formBuilder.group({
@@ -177,21 +166,29 @@ export class OrdersComponentComponent {
 
   
   onSave() {
-    if (this.ordersForm.valid) {
-        (<HTMLInputElement>document.getElementById("save")).disabled = true;
+  
         let icd = this.icdCode;
         if (this.viewMode == 'Lab') {
-            icd = this.updateIcdCode;
+            icd = this.updatedIcdCode;
             // this.icdCode = this.ordersForm.get('icd').value;
         }
         if (this.viewMode == 'Imaging') {
-            icd = this.updateIcdCode;
+            icd = this.updatedIcdCode;
             // this.icdCode = this.ordersForm.get('imagingIcd').value;
         }
         if (this.viewMode == 'Condition') {
-            icd = this.updateIcdCode;
+            icd = this.updatedIcdCode;
             // this.icdCode = this.ordersForm.get('imagingIcd').value;
         }
+        if (this.viewMode == 'Consulting') {
+          icd = this.updatedIcdCode;
+          // this.icdCode = this.ordersForm.get('imagingIcd').value;
+      }
+
+      if (this.viewMode == 'Follow up') {
+        icd = this.updatedIcdCode;
+        // this.icdCode = this.ordersForm.get('imagingIcd').value;
+    }
         let labComments = this.ordersForm.get('labComments')?.value;
         let labDate = moment.utc(this.ordersForm.get('labDate')?.value).toDate();
         let imagingDate = moment.utc(this.ordersForm.get('imagingDate')?.value).toDate();
@@ -205,7 +202,7 @@ export class OrdersComponentComponent {
         //console.log(conditionType);
         //console.log(condiitonComments);
         let orderToInsert = new Orders(0, labDate, labComments, imagingDate, imagingComments, consultingDate, consultingComments,
-            followUpDate, followUpComments, this.patientId, this.encounterId, icd, "", new Date(), "", new Date(), true,conditionType,condiitonComments,this.des);
+            followUpDate, followUpComments, this.updatedPatient, this.encounterId, icd, "", new Date(), "", new Date(), true,conditionType,condiitonComments,this.updatedIcdDesc);
        // console.log(icd);
         this.orderService.insertOrders(orderToInsert)
             .subscribe(data => {
@@ -213,13 +210,14 @@ export class OrdersComponentComponent {
               this.allOrdersData.push(data);
               
               console.log("Saved....");
+              
 
               
               
             })
-    }
+    
  
-    //  this.ordersForm.reset();
+     this.ordersForm.reset();
 }
 
 

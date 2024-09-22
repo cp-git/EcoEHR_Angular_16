@@ -55,12 +55,26 @@ export class HistoryCompComponent {
   selectedRadioValue:any[]=[];
   number:any;
   sysName="History";
+
+  //
+  updatedEncounterId:any;
+  updatedPatientId:any;
+
   constructor(private questionGroupService:QuestionGroupService,private formBuilder: FormBuilder,private systemService:SystemService,
     private questionsService:QuestionsService,private encounterQuestionOptionService:EncounterQuestionOptionService,
     private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService
   ){}
 
   ngOnInit(){
+
+    this.updatedEncounterId = sessionStorage.getItem('encounterId');
+console.log(this.updatedEncounterId);
+
+this.updatedPatientId = sessionStorage.getItem('patientId');
+console.log(this.updatedPatientId);
+
+
+    
 
     this.HistoryForm = this.formBuilder.group({
       QuestionSelectedIDS: this.formBuilder.array([]),
@@ -222,7 +236,7 @@ export class HistoryCompComponent {
              console.log(this.number);
              
              
-             let encounterQuestionGroup = new EncounterQuestionGroup(0, this.number, obj.value.questionGroupId, obj.value.systemId, 'Yes', new Date, "", new Date, "");
+             let encounterQuestionGroup = new EncounterQuestionGroup(0, this.updatedEncounterId, obj.value.questionGroupId, obj.value.systemId, 'Yes', new Date, "", new Date, "");
              encounterQuestionGroupList.push(encounterQuestionGroup);
          }
          this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
@@ -241,7 +255,7 @@ export class HistoryCompComponent {
          for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
           console.log(this.QuestionSelectedArray.at(i).value.optionName);
           
-             let encounterQuestionOption = new EncounterQuestionOption(0, this.number, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, new Date, "", new Date, "","");
+             let encounterQuestionOption = new EncounterQuestionOption(0, this.updatedEncounterId, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, new Date, "", new Date, "","");
              encounterQuestionOptionList.push(encounterQuestionOption);
              console.log(encounterQuestionOptionList);
              

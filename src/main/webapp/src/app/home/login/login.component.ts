@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
               let currentDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
               if (this.userRole == "TRY_ME" && this.paymentStatus == "approved" && currentDate && licenseEndDate && currentDate <= licenseEndDate) {
-                this.router.navigate(['../patients/patients.module#Patients']);
+                this.router.navigate(['/list']);
               } else if (this.userRole != "TRY_ME" && this.paymentStatus == "approved") {
                 this.router.navigate(['/list']);
               } else {

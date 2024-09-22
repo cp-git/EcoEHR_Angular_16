@@ -179,9 +179,16 @@ export class AddEncounterComponent {
         this.encounterId = data.encounterId;
         console.log(this.encounterId);
         this.stateService.changeNumber(this.encounterId)
+        sessionStorage.setItem('encounterId',data.encounterId.toString());
 
+
+       
         this.patientId=data.patientId;
         console.log(this.patientId);
+
+        sessionStorage.setItem('patientId',this.patientId.toString());
+
+      
         
         this.stateService.setId(this.patientId);
 
@@ -370,6 +377,17 @@ toICDCode(){
   this.dialog.open(ListEncounterComponent);
   
 }
+
+
+deleteIcd(data:any){
+  let index= this.IcdCodesArray.controls.findIndex((x: { value: { ICD10Code: any; }; }) => x.value.ICD10Code == data.ICD10Code) //Remove from IcdCodesArray 
+  this.IcdCodesArray.removeAt(index);
+  for (let i = 0; i < this.ICD10Group.length; i++) {
+    if (this.ICD10Group[i].groupDescription == data.icdgroupName) {
+      this.ICD10Group[i].count = this.ICD10Group[i].count - 1;
+    }
+  }
+ }
 
 
 }

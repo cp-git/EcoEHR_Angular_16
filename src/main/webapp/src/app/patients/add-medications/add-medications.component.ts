@@ -53,12 +53,24 @@ export class AddMedicationsComponent {
   isValidIndication: number[] = [-1];
   isValidCount: number[] = [-1];
   patientMedicationList: PatientMedication[] = [];
+
+
+  //
+  updatedEncounterId:any;
+  updatedPatientId:any;
+
   constructor( private encounterService:EncounterService,private formBuilder:FormBuilder,private stateService:StateServicesService,
     private masterLookupService:MasterLookupService,private medicationService:MedicationService,
     @Inject(MAT_DIALOG_DATA) public data: { id: number}
   ){}
 
   ngOnInit(){
+
+    this.updatedEncounterId = sessionStorage.getItem('encounterId');
+console.log(this.updatedEncounterId);
+
+this.updatedPatientId = sessionStorage.getItem('patientId');
+console.log(this.updatedPatientId);
 
     console.log(this.data.id);
  
@@ -184,7 +196,7 @@ export class AddMedicationsComponent {
 
 
   getAllChiefCompliantDetails() {
-    this.encounterService.getAllChiefCompliantDetailsByEncounterId(this.number)
+    this.encounterService.getAllChiefCompliantDetailsByEncounterId(this.updatedEncounterId)
       .subscribe(data => {
         this.icd10Details = data;
         console.log(data);
@@ -259,7 +271,7 @@ export class AddMedicationsComponent {
       let selectedEndDate: any = (document.getElementById("endDate" + this.medicationFormArray.at(i).value.data.medicationId) as HTMLInputElement).value;
       if (startDate !== "" && indication !== undefined && frequency !== undefined && refill !== undefined && (duration !== undefined && duration !== "")) {
     
-        let patientMedication = new PatientMedication(0, this.patientId, this.number, this.medicationFormArray.at(i).value.data.medicationId, frequency, new Date(startDate), duration, new Date(selectedEndDate), refill, indication, "", 'Y', "", true, new Date(), "", new Date(), "", new Date());
+        let patientMedication = new PatientMedication(0, this.updatedPatientId, this.updatedEncounterId, this.medicationFormArray.at(i).value.data.medicationId, frequency, new Date(startDate), duration, new Date(selectedEndDate), refill, indication, "", 'Y', "", true, new Date(), "", new Date(), "", new Date());
         patientMedicationList.push(patientMedication);
       }
       else

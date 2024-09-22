@@ -80,6 +80,12 @@ patientId:any
   selectedRefillValue: any[] = [];
   medicationFormArray: any;
 
+
+  //
+  updatedEncounterId:any;
+  updatedPatientId:any;
+
+
   
   constructor(private systemService:SystemService,private questionsService:QuestionsService,private questionGroupService:QuestionGroupService,
     private formBuilder:FormBuilder,private stateService:StateServicesService,private encounterQuestionOptionService:EncounterQuestionOptionService,
@@ -92,6 +98,14 @@ patientId:any
   ngOnInit(){
 
 console.log("welcome");
+
+
+this.updatedEncounterId = sessionStorage.getItem('encounterId');
+console.log(this.updatedEncounterId);
+
+this.updatedPatientId = sessionStorage.getItem('patientId');
+console.log(this.updatedPatientId);
+
 
     
     
@@ -409,7 +423,7 @@ console.log("welcome");
     if (uniqueQuestionId.length > 0) {
       for (let i = 0; i < uniqueQuestionId.length; i++) {
         let obj = this.QuestionSelectedArray1.controls.find((t: { value: { questionGroupId: unknown; }; }) => t.value.questionGroupId == uniqueQuestionId[i]);
-        let encounterQuestionGroup = new EncounterQuestionGroup(0, this.number, obj.value.questionGroupId, obj.value.systemId, 'Yes', new Date, "", new Date, "");
+        let encounterQuestionGroup = new EncounterQuestionGroup(0, this.updatedEncounterId, obj.value.questionGroupId, obj.value.systemId, 'Yes', new Date, "", new Date, "");
         encounterQuestionGroupList.push(encounterQuestionGroup);
       }
       this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
@@ -421,7 +435,7 @@ console.log("welcome");
     //inserting questions into DB 
     if (this.QuestionSelectedArray1.length > 0) {
       for (let i = 0; i < this.QuestionSelectedArray1.length; i++) {
-        let encounterQuestionOption = new EncounterQuestionOption(0, this.number, this.QuestionSelectedArray1.at(i).value.questionId,
+        let encounterQuestionOption = new EncounterQuestionOption(0, this.updatedEncounterId, this.QuestionSelectedArray1.at(i).value.questionId,
           this.QuestionSelectedArray1.at(i).value.questionGroupId, this.QuestionSelectedArray1.at(i).value.systemId, this.QuestionSelectedArray1.at(i).value.optionId, this.QuestionSelectedArray1.at(i).value.optionName, this.QuestionSelectedArray1.at(i).value.answer, new Date, "", new Date, "", "");
         encounterQuestionOptionList.push(encounterQuestionOption);
       }

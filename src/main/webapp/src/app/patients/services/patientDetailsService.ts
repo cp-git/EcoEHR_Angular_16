@@ -62,11 +62,17 @@ export class PatientDetailsService {
           'Content-Type': 'application/json',
           'x-auth-token': token ? token : ''
         });
-		return this.http.get(this.getPatientRecordByUserIdUrl, {headers})
-		.pipe(
-		map((response: any) => this.extractData(response)),
-		//catchError(this.handleError)
-		);
+		return this.http.get<PatientRecord[]>(this.getPatientRecordByUserIdUrl, {headers});
+		// const token = localStorage.getItem('jwt');
+        // const headers = new HttpHeaders({
+        //   'Content-Type': 'application/json',
+        //   'x-auth-token': token ? token : ''
+        // });
+		// return this.http.get(this.getPatientRecordByUserIdUrl, {headers})
+		// .pipe(
+		// map((response: any) => this.extractData(response)),
+		// //catchError(this.handleError)
+		// );
 	}
 
 	getPatientRecordsByPatientId(patientId: number): Observable<PatientRecord> {

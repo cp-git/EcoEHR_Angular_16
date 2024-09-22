@@ -88,12 +88,23 @@ export class PlanAssementComponent {
   tabChoosen!: string;
   mx = new Date().getFullYear() + 10;
 
+  updatedEncounterId:any;
+  updatedPatientId:any;
+
+
 
   constructor(private encounterService:EncounterService,private stateService:StateServicesService,private formBuilder:FormBuilder,
     private encAssessmentService:EncAssessmentService,private orderService:OrdersService,private route:Router
   ){}
 
   ngOnInit(){
+
+    this.updatedEncounterId = sessionStorage.getItem('encounterId');
+console.log(this.updatedEncounterId);
+
+this.updatedPatientId = sessionStorage.getItem('patientId');
+console.log(this.updatedPatientId);
+
     this.stateService.id$.subscribe(value => {
       this.patientId = value;
       console.log(this.patientId);
@@ -110,7 +121,7 @@ export class PlanAssementComponent {
    
   })
   this.getIcd10DetailsOfLastFiveEncounters();
-  this.getEncAssessmentbyEncounterId(this.number)
+  this.getEncAssessmentbyEncounterId(this.updatedEncounterId)
 
     this.tabList = ["Assessment"]; 
 
@@ -139,7 +150,7 @@ export class PlanAssementComponent {
   }
 
   getIcd10DetailsOfLastFiveEncounters() {
-    this.encounterService.getIcd10DetailsOfLastFiveEncounters(this.patientId)
+    this.encounterService.getIcd10DetailsOfLastFiveEncounters(this.updatedPatientId)
         .subscribe(data => {
             this.icd10Details = data;
         })
@@ -170,16 +181,19 @@ onSubmit(){
        
       this.stateService.changeData(icd[i].icd10Code)
 
+      
+
+
       // this.stateService.changeData1(icd[i].icd10Code)
 
         
-       let asessment = new EncAsessment(0, this.number,this.patientId,icd[i].icd10Code, icd[i].icd10CodeDescription, "", new Date(), "", new Date(),true);
+       let asessment = new EncAsessment(0, this.updatedEncounterId,this.updatedPatientId,icd[i].icd10Code, icd[i].icd10CodeDescription, "", new Date(), "", new Date(),true);
        asessmentList.push(asessment);
       }
        this.encAssessmentService.insertassessmentData(asessmentList)
        .subscribe(successCode => {
        
-         this.getEncAssessmentbyEncounterId(this.number);
+         this.getEncAssessmentbyEncounterId(this.updatedEncounterId);
          this.assessmentForm.reset();
          (<HTMLInputElement>document.getElementById("save")).disabled = false;
        });
@@ -193,9 +207,13 @@ openPlan(icd10Code:string, des:string,number:any){
   this.description = des;
   console.log(this.icdCode);
 
+  sessionStorage.setItem('IcdCode',this.icdCode);
+
+  sessionStorage.setItem('IcdDesc',this.description);
+
 
   this.showplanTable=!this.showplanTable;
-  this.route.navigate(['order',this.number])
+  this.route.navigate(['order',this.updatedEncounterId])
 }
 
 changeIcdCode(icd: string) {
@@ -237,7 +255,7 @@ onSave() {
       //console.log(conditionType);
       //console.log(condiitonComments);
       let orderToInsert = new Orders(0, labDate, labComments, imagingDate, imagingComments, consultingDate, consultingComments,
-          followUpDate, followUpComments, this.patientId, this.number, icd, "", new Date(), "", new Date(), true,conditionType,condiitonComments,this.des);
+          followUpDate, followUpComments, this.updatedPatientId, this.updatedEncounterId, icd, "", new Date(), "", new Date(), true,conditionType,condiitonComments,this.des);
      // console.log(icd);
       this.orderService.insertOrders(orderToInsert)
           .subscribe(data => {
@@ -254,7 +272,7 @@ deleteAssessment(encAsessmentId:any){
   this.encAssessmentService.deleteAssessmentData(encAsessmentId)
   .subscribe(successCode => {
      
-      this.getEncAssessmentbyEncounterId(this.number);
+      this.getEncAssessmentbyEncounterId(this.updatedEncounterId);
   },errorCode => {
           this.statusCode = errorCode  ;
       });

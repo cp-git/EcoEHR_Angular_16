@@ -48,6 +48,10 @@ export class PatientListComponent implements OnInit {
 
   searchDate='';
 
+  userRole:any;
+
+  
+
   
 
 
@@ -74,18 +78,86 @@ export class PatientListComponent implements OnInit {
       dataRows: [],
     };
 
+    
+    
+
     this.getLoggedInUserDetails();
-    this.patientService.getAllPatients().subscribe(
-      (data) => {
-        console.log(data);
-        this.dataTable.dataRows = data;
-        this.updatePaginatedItems();
-      },
-      (error) => {
-        console.error('Error fetching patient data:', error);
-      }
-    );
+    // this.patientService.getAllPatients().subscribe(
+    //   (data) => {
+    //     console.log(data);
+    //     this.dataTable.dataRows = data;
+    //     this.updatePaginatedItems();
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching patient data:', error);
+    //   }
+    // );
+
+    this.setLoginDate();
+
+
   }
+
+  setLoginDate() {
+    this.currentUserService.getCurrentStaffMember()
+        .subscribe(data => {
+          console.log(data);
+          
+            this.loggedInUser = data;
+            this.userRole = this.loggedInUser.designation;
+            console.log(this.userRole);
+         //   this.getAllPatients(this.userRole);
+
+         if (this.userRole == 'TRY_ME') {
+          // console.log("student login");
+          // this.patientService.getAllPatientsByUserId()
+          // .subscribe(data => {
+          //     //console.log(data);
+           
+          //     this.dataTable.dataRows = <any>data;
+            
+          // })
+         }
+         else{
+          console.log("admin log..");
+          this.patientService.getAllPatients().subscribe(
+            (data) => {
+            //  console.log(data);
+              this.dataTable.dataRows = data;
+              this.updatePaginatedItems();
+            },
+            (error) => {
+              console.error('Error fetching patient data:', error);
+            }
+          );
+          
+         }
+
+          
+        })
+    }
+
+
+
+    getAllPatients(userRole: string) {
+     
+      var self = this;
+      if (this.userRole == 'TRY_ME') {
+          this.patientService.getAllPatientsByUserId()
+              .subscribe(data => {
+                  console.log(data);
+                 
+              })
+      } else {
+          this.patientService.getAllPatients()
+              .subscribe(data => {
+              
+              })
+      }
+  }
+
+
+  
 
   changePage(event: Event): void {
     const target = event.target as HTMLSelectElement;
@@ -159,6 +231,9 @@ export class PatientListComponent implements OnInit {
     this.currentUserService.getCurrentStaffMember()
     .subscribe(data => {
       this.loggedInUser = data;
+      this.userRole = this.loggedInUser.designation;
+      console.log(this.userRole);
+      
       if (data.staffImage == null || data.staffImage == "") {
         this.staffImage = "./assets/img/default-avatar.png";
       }
@@ -194,8 +269,10 @@ logout() {
 
 // Pagination
 updatePaginatedItems(): void {
+ 
   const startIndex = (this.currentPage - 1) * this.pageSize;
   const endIndex = startIndex + this.pageSize;
+  console.log(this.dataTable.dataRows);
   this.paginatedItems = this.dataTable.dataRows.slice(startIndex, endIndex);
 }
 
@@ -207,7 +284,7 @@ OnPageChange(page: number): void {
 }
 
 get totalPages(): number {
-  //console.log(this.items.length);
+ // console.log(this.dataTable.dataRows.length);
   
   return Math.ceil(this.dataTable.dataRows.length / this.pageSize);
 }

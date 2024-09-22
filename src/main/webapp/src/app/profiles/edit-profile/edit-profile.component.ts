@@ -135,8 +135,12 @@ export class EditProfileComponent implements OnInit {
    getLoggedInUserDetails(){
       this.currentUserService.getCurrentStaffMember()
       .subscribe(data => {
+        console.log(data);
+        
         this.currentUser = data;
         this.staffId= data.staffId
+        console.log(data.firstName);
+        
         //console.log(this.loggedInUser.firstName);
         
         if (data.staffImage == null || data.staffImage == "") {
@@ -148,6 +152,8 @@ export class EditProfileComponent implements OnInit {
 
         this.staffDetailsService.getStaffDetailsById(data.staffId).subscribe(
           data => {
+            console.log(data);
+            
             //console.log(data);
             this.selectedStaff=data;
             console.log(this.selectedStaff);

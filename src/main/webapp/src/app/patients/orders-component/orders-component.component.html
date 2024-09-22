@@ -76,7 +76,7 @@
                                         </tr>
                                         
                                         <tr *ngFor="let condition of allOrdersData">
-                                            <ng-container>
+                                            <ng-container  *ngIf="condition.conditionType !=null || condition.conditionComments !=null">
                                                 <td>{{condition.icd10Code}}</td>
                                                 <td>{{condition.conditionType}}</td>
                                                 <td>{{condition.conditionComments}}</td>
@@ -163,7 +163,7 @@
                                             <th class="text-center">Delete</th>
                                         </tr>
                                         <tr *ngFor="let lab of allOrdersData">
-                                            <ng-container>
+                                            <ng-container *ngIf="lab.labOrderComments != null">
                                                 <td>{{lab.icd10Code}}</td>
                                                 <td>{{lab.labOrderComments}}</td>
                                                 <!-- <td>{{displayOrderDate(lab.labOrderDate) |date:'MM/dd/yyyy'}}</td> -->
@@ -231,7 +231,7 @@
                                             <th class="text-center">Delete</th>
                                         </tr>
                                         <tr *ngFor="let imaging of allOrdersData">
-                                            <ng-container>
+                                            <ng-container *ngIf="imaging.imagingOrderComments != null" >
                                                 <td>{{imaging.icd10Code}}</td>
                                                 <td>{{imaging.imagingOrderComments}}</td>
                                                 <!-- <td>{{displayOrderDate(imaging.imagingOrderDate) |date:'MM/dd/yyyy'}} 
@@ -288,7 +288,7 @@
                                             <th class="text-center">Delete</th>
                                         </tr>
                                         <tr *ngFor="let consult of allOrdersData">
-                                            <ng-container>
+                                            <ng-container *ngIf="consult.consultingOrderComments != null" >
                                                 <td>{{consult.icd10Code}}</td>
                                                 <td>{{consult.consultingOrderComments}}</td>
                                                 <!-- <td>{{displayOrderDate(consult.consultingOrderDate) |date:'MM/dd/yyyy'}} 
@@ -345,7 +345,7 @@
                                             <th class="text-center">Delete</th>
                                         </tr>
                                         <tr *ngFor="let follow of allOrdersData">
-                                            <ng-container>
+                                            <ng-container *ngIf="follow.followupOrderComments != null">
                                                 <td>{{follow.icd10Code}}</td>
                                                 <td>{{follow.followupOrderComments}}</td>
                                                 <!-- <td>{{displayOrderDate(follow.followupOrderDate) |date:'MM/dd/yyyy'}} 
@@ -362,8 +362,7 @@
                                 </table>
                             </div>
                         </div>
-                        <button type="submit" class="btn button saveplan" id="save" (click)="onSave()"
-                            *ngIf="viewMode!=='Medication'">Save</button>
+                        <button type="submit" class="btn button saveplan" id="save" (click)="onSave()">Save</button>
                     </div>
                 </div>
                 </div>
