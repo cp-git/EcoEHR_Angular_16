@@ -1,18 +1,19 @@
-<div class="container">
+
+<div class="container-fluid" style="background-color: #4a99c7;">
 
     <div class="header">
         <div class="col-md-4">
-            <h3 style="font-weight: bold;">Examination</h3>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Exam</h2>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
             <div class="row">
-                <div class="col-md-1"><a (click)="HpiComp()">HPI</a></div>
-                <div class="col-md-1"><a (click)="Roscomp()">ROS</a></div>
-                <div class="col-md-2"><a (click)="Medicationcomp()">Medication</a></div>
-                <div class="col-md-2"><a (click)="Historycomp()">History</a></div>
-                <div class="col-md-2"><a (click)="Examcomp()">Exam</a></div>
-                <div class="col-md-1"><a (click)="plancomp()" ></a>plan</div>
+                <div class="col-md-1"><a (click)="HpiComp()" style="background-color:white;;">HPI</a></div>
+                <div class="col-md-1"><a (click)="Roscomp()"  style="background-color:white;">ROS</a></div>
+                <div class="col-md-2"><a (click)="Medicationcomp()"  style="background-color:white;">Medication</a></div>
+                <div class="col-md-2"><a (click)="Historycomp()"  style="background-color:white;">History</a></div>
+                <div class="col-md-1"><a (click)="Examcomp()"  style="background-color:white;">Exam</a></div>
+                <div class="col-md-1"><a (click)="plancomp()"  style="background-color:white;">plan</a></div>
             </div>
         </div>
 
@@ -20,31 +21,31 @@
 
 </div>
 
-<div class="row">
+<div class="row" style="margin-top: 30px;border: 2px groove grey;padding: 20px;background-color: dodgerblue;">
     <div class="col-md-12">
-        <div class="col-md-4">Last Name :{{patientRecords.lastName}}</div>
-        <div class="col-md-4">First Name :{{patientRecords.firstName}}</div>
-        <div class="col-md-4"> DOB:{{patientRecords.dob}}  </div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Last Name : {{patientRecords.lastName}}</a></div>
+        <div class="col-md-4"><a style="color: white; font-weight: bold;">First Name : {{patientRecords.firstName}}</a></div>
+        <div class="col-md-4"> <a style="color: white;font-weight: bold;">DOB : {{patientRecords.dob | date:'shortDate'}} </a></div>
     </div>
 
     <div class="col-md-12">
-        <div class="col-md-4">List of Allergy</div>
-        <div class="col-md-4">Sex {{patientRecords.gender}}</div>
-        <div class="col-md-4">Time {{patientRecords.createdDate}}</div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">List of Allergy</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Sex : {{patientRecords.gender}}</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Time : {{patientRecords.createdDate | date:'shortTime'}}</a></div>
     </div>
  
 </div>
 
 
 <form [formGroup]="ExamForm" mmethod="#" action="">
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified" style="border:2px groove grey;width: 100%;margin-top: 10px;">
         <ng-container *ngFor="let system of ExamSystems">
             <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)" title="{{system.systemDesc}}"
-                class="btn btn-style systems-tab-style ">{{system.systemCode}}</a>
+                class="btn btn-style systems-tab-style">{{system.systemCode}}</a>
         </ng-container>
     </div>
 
-<div class="row">
+<div class="row" style="margin-top: 10px;">
     <div class="col-md-4 col-sm-12">
         <!-- ROS Questionaire Table -->
        
@@ -61,7 +62,7 @@
                         <div class="col-md-2 col-sm-1 col-xs-10">
                             <input type="checkbox" id="icd_{{group.questionGroupName}}" [checked]="isChecked(group.questionGroupId)" (change)="showDiv(group,$event)"
                                 name="checkListItem">
-                            <label for="icd_{{group.questionGroupName}}"></label>
+                            <label for="icd_{{group.questionGroupName}}" style="margin-top: 15px;"></label>
                         </div>
                     </div>
                 </ng-container>
@@ -79,9 +80,15 @@
 
                 <ng-container *ngFor="let commonQues of commonQuestionsList;let i=index">
                     <div class="row " *ngIf="commonQues.questionGroupId===question.questionGroupId">
-                        <div class="col-md-8 col-sm-6">
+
+                        <div class="col-md-4">
                             <label class="text-dark">{{commonQues.questionDesc}}
                             </label>
+                        </div>
+
+                        <div class="col-md-8 col-sm-6">
+                            <!-- <label class="text-dark">{{commonQues.questionDesc}}
+                            </label> -->
 
                               <!-- radio div -->
                               <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='radio'">
@@ -114,7 +121,7 @@
 
                         <div class="col-md-4 col-sm-5"
                         *ngIf="commonQues.optionType=='tdropdown'">
-                        <div class="col-md-6" style="top:-8px;margin-left: 350px;width: 300px;margin-top: 10px;">
+                        <div class="col-md-6" style="width: 300px;margin-top: 5px;">
                             <input type="text"
                                 id="showText{{commonQues.questionId}}"
                                 [(ngModel)]="textDropdownVal[commonQues.questionId]"

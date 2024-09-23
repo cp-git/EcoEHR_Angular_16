@@ -1,18 +1,18 @@
-<div class="container">
+<div class="container-fluid" style="background-color: #4a99c7;">
 
     <div class="header">
         <div class="col-md-4">
-            <h3 style="font-weight: bold;">Medication</h3>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Medication</h2>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
             <div class="row">
-                <div class="col-md-1"><a (click)="HpiComp()">HPI</a></div>
-                <div class="col-md-1"><a (click)="Roscomp()">ROS</a></div>
-                <div class="col-md-2"><a (click)="Medicationcomp()">Medication</a></div>
-                <div class="col-md-2"><a (click)="Historycomp()">History</a></div>
-                <div class="col-md-2"><a (click)="Examcomp()">Exam</a></div>
-                <div class="col-md-1"><a (click)="plancomp()" ></a>plan</div>
+                <div class="col-md-1" id="navData"><a (click)="HpiComp()" style="background-color:white;">HPI</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Roscomp()"  style="background-color:white;">ROS</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()"  style="background-color:white;">Medication</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  style="background-color:white;">History</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  style="background-color:white;">Exam</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="plancomp()"  style="background-color:white;">plan</a></div>
             </div>
         </div>
 
@@ -20,31 +20,32 @@
 
 </div>
 
-<div class="row">
+<div class="row" style="margin-top: 30px;border: 2px groove grey;padding: 20px;background-color: #03659d;">
     <div class="col-md-12">
-        <div class="col-md-4">Last Name :{{patientRecords.lastName}}</div>
-        <div class="col-md-4">First Name :{{patientRecords.firstName}}</div>
-        <div class="col-md-4"> DOB:{{patientRecords.dob}}  </div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Last Name : {{patientRecords.lastName}}</a></div>
+        <div class="col-md-4"><a style="color: white; font-weight: bold;">First Name : {{patientRecords.firstName}}</a></div>
+        <div class="col-md-4"> <a style="color: white;font-weight: bold;">DOB : {{patientRecords.dob | date:'shortDate'}} </a></div>
     </div>
 
     <div class="col-md-12">
-        <div class="col-md-4">List of Allergy</div>
-        <div class="col-md-4">Sex {{patientRecords.gender}}</div>
-        <div class="col-md-4">Time {{patientRecords.createdDate}}</div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;text-decoration: underline;">List of Allergy</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Sex : {{patientRecords.gender}}</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Time : {{patientRecords.createdDate | date:'shortTime'}}</a></div>
     </div>
  
 </div>
 
 
-<div class="container">
+
+<div class="container-fluid">
 <form [formGroup]="MedicationForm" mmethod="#" action="">
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div 
-                class="btn-group btn-group-justified">
+                class="btn-group btn-group-justified"  id="data1">
                 <ng-container *ngFor="let system of MedicationSystems">
                     <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)"
-                        title="{{system.systemDesc}}" class="btn btn-style systems-tab-style ">{{system.systemCode}}
+                        title="{{system.systemDesc}}" style="border: 1px groove #4A99C7;width: 50%;" class="btn btn-style systems-tab-style ">{{system.systemCode}}
                        </a>
                 </ng-container>
             </div>
@@ -53,9 +54,9 @@
 
 
     <div class=" qcwidth col-md-12 col-sm-10">
-        <div class="col-md-4 col-sm-4 ">
+        <div class="col-md-4 col-sm-4">
             <ng-container *ngFor="let group of questionGroupList;let i=index">
-                <div class="row">
+                <div class="row" style="background-color: #4a99c7;">
                     <div class="col-md-8 col-sm-6 col-xs-2 cwidth">
                         <a data-toggle="tab" id="medication_{{i}}"
                             (click)="goToSelectedTab(group,i)"
@@ -81,7 +82,7 @@
                                     <div id="div_{{question.questionGroupId}}"
                                         [style.display]="question.questionGroupId==questionGroupId?'block':'none'"
                                         *ngIf="question.questionGroupName != 'Medication'">
-                                        <div class="card col-md-9 col-sm-6 allergy-card"
+                                        <div class="card col-md-9 col-sm-6 allergy-card" style="width: 900px;margin-left: 20px;"
                                             [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">
                                             <h6 class="text-center">
                                                 <b> {{questionGroupName}}</b>
@@ -90,9 +91,13 @@
                                             <ng-container *ngFor="let commonQues of commonQuestions; let i=index">
                                                 <div class="row "
                                                     *ngIf="commonQues.questionGroupId===question.questionGroupId">
-                                                    <div class="col-md-8 col-sm-6">
+                                                    <div class="col-md-4">
                                                         <label class="text-dark" style="max-width: 30%;">{{commonQues.questionDesc}}
                                                         </label>
+                                                    </div>
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <!-- <label class="text-dark" style="max-width: 30%;">{{commonQues.questionDesc}}
+                                                        </label> -->
 
                                                       <div class="col-md-4 col-sm-5 myinput"
                                                         *ngIf="commonQues.optionType=='text'">
@@ -137,7 +142,7 @@
                     <th colspan="11" class="text-center" style="padding-left:8pc">
                         Active Medication List
                         <button  type="submit"  (click)="openDialog(patientId)"
-                            class="btn button btn-sm medButton-style">Add
+                            class="btn button btn-sm medButton-style" style="background-color: #0471AF;color: white;">Add
                             Medication</button>
                     </th>
                 </tr>
@@ -179,13 +184,13 @@
                     </td>
                   <td class="text-center">
                         <a  (click)="openPrescription(activeMedication)">
-                            <i class="material-icons Prescription-style">content_paste</i>
+                            <i class="material-icons Prescription-style" style="color: #1eaafa;">content_paste</i>
                         </a>
                     </td>
                       <td class="text-center">
                         <a  (click)="openInActiveMedication(activeMedication)"
                             data-toggle="modal" title="InActive">
-                            <i class="material-icons InActive-style">highlight_off</i>
+                            <i class="material-icons InActive-style" style="color:red">highlight_off</i>
                         </a>
                     </td>
                 </tr>
@@ -257,9 +262,9 @@
 </div>
 
 <div  class="col-md-offset-9 col-sm-offset-8 col-xs-offset-7 mybutton">
-    <button type="submit" class="btn button" id="saveNext" (click)="onSubmit()">Save &
+    <button type="submit" class="btn button" id="btn" (click)="onSubmit()">Save &
         Next</button>
-    <button type="submit" class="btn button">Back</button>
+    <button type="submit" class="btn button" id="btn">Back</button>
 </div>
     </form>
 

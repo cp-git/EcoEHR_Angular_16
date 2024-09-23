@@ -1,0 +1,18 @@
+#data1{
+    width: 135px;
+    height: 40px;
+}
+
+#btn{
+    background-color: #4A99C7;
+    color: white;
+    margin-left: 10px;
+}
+
+
+#navData{
+    border: 1px groove red;
+    width: 100px;
+    height: 32px;
+    border:1px groove #4A99C7;
+}

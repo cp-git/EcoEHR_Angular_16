@@ -1,0 +1,19 @@
+.AsteriskColor{
+    color: red;  
+  }
+
+  th{
+    background-color: #0590e1;
+    color: white;
+  }
+
+  .btn button{
+    background-color: #0590E1;
+
+  }
+
+  #btn{
+    background-color: #4A99C7;
+    color: white;
+    margin-left: 10px;
+  }

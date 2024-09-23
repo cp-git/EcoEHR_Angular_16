@@ -1,19 +1,19 @@
 
-<div class="container">
+<div class="container-fluid" style="background-color: #4a99c7;">
 
     <div class="header">
         <div class="col-md-4">
-            <h3 style="font-weight: bold;">History Of Present Illness (HPI)</h3>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">History Of Present Illness (HPI)</h2>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
             <div class="row">
-                <div class="col-md-1"><a (click)="HpiComp()">HPI</a></div>
-                <div class="col-md-1"><a (click)="Roscomp()">ROS</a></div>
-                <div class="col-md-2"><a (click)="Medicationcomp()">Medication</a></div>
-                <div class="col-md-2"><a (click)="Historycomp()">History</a></div>
-                <div class="col-md-2"><a (click)="Examcomp()">Exam</a></div>
-                <div class="col-md-1"><a (click)="plancomp()" ></a>plan</div>
+                <div class="col-md-1" id="navData"><a (click)="HpiComp()" style="background-color:white;">HPI</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Roscomp()"  style="background-color:white;">ROS</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()"  style="background-color:white;">Medication</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  style="background-color:white;">History</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  style="background-color:white;">Exam</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="plancomp()"  style="background-color:white;">plan</a></div>
             </div>
         </div>
 
@@ -21,17 +21,17 @@
 
 </div>
 
-<div class="row">
+<div class="row" style="margin-top: 30px;border: 2px groove grey;padding: 20px;background-color: #03659d;">
     <div class="col-md-12">
-        <div class="col-md-4">Last Name :{{patientRecords.lastName}}</div>
-        <div class="col-md-4">First Name :{{patientRecords.firstName}}</div>
-        <div class="col-md-4"> DOB:{{patientRecords.dob}}  </div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Last Name : {{patientRecords.lastName}}</a></div>
+        <div class="col-md-4"><a style="color: white; font-weight: bold;">First Name : {{patientRecords.firstName}}</a></div>
+        <div class="col-md-4"> <a style="color: white;font-weight: bold;">DOB : {{patientRecords.dob | date:'shortDate'}} </a></div>
     </div>
 
     <div class="col-md-12">
-        <div class="col-md-4">List of Allergy</div>
-        <div class="col-md-4">Sex {{patientRecords.gender}}</div>
-        <div class="col-md-4">Time {{patientRecords.createdDate}}</div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold; text-decoration: underline;">List of Allergy</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Sex : {{patientRecords.gender}}</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Time : {{patientRecords.createdDate | date:'shortTime'}}</a></div>
     </div>
  
 </div>
@@ -41,27 +41,27 @@
 <div class="container-fluid" style="margin-top: 30px;">
 
 <form [formGroup]="HPIForm" mmethod="#" action="">
-    <div class="row">
-        <div class="col-md-1" *ngFor="let system of HPISystems">
-            <h4 style="text-align: center;" (click)="openTab(system.systemId,system.systemDesc,system.systemCode)">{{system.systemCode}}</h4>
+    <div class="row" style="height: 40px; margin-left: 10px;">
+        <div class="col-md-1" *ngFor="let system of HPISystems" style="border: 1px groove #4A99C7;margin:0;padding: 0;" id="data1">
+            <h4 style="text-align: center;margin-top: 5px;padding: 0;" (click)="openTab(system.systemId,system.systemDesc,system.systemCode)">{{system.systemCode}}</h4>
         </div>
     </div>
 
-    <div class="col-md-4 col-sm-4" style="height: auto;margin-top: 30px;">
+    <div class="col-md-4 col-sm-4" style="height: auto;margin-top: 30px;width: 390px;" >
         <ng-container *ngFor="let group of questionGroupList;let i = index">
-            <div class="row">
+            <div class="row" style="border: 1px groove black; margin-top: 5px;background-color: white;">
                 <div class="col-md-8 col-sm-7 col-xs-1">
                     <a data-toggle="tab" id="group_{{i}}" title="{{group.questionGroupName}}"  (click)="goToSelectedTab(group,i)"  [ngClass]="{'colorchange':group.questionGroupId==questionGroupId}"
                         class="btn btn-style btn-left question-group-style" data-toggle="modal">
-                        <div class="question-group-name">{{group.questionGroupName}} </div>
+                        <div class="question-group-name" style="color: #4a99c7;;">{{group.questionGroupName}} </div>
                     </a>
                 </div>
-                <div class="col-md-3 col-sm-5 col-xs-1">
+                <div class="col-md-3 col-sm-5 col-xs-1" style="margin-left: 30px;">
                     <input type="checkbox" id="hpi_{{group.questionGroupId}}"
                     [checked]="isChecked(group.questionGroupId)"
                         (change)="getAllQuestions(group,$event)" 
                         name="checkListItem">
-                    <label for="hpi_{{group.questionGroupId}}"></label>
+                    <label for="hpi_{{group.questionGroupId}}"  style="margin-top: 15px;"></label>
                 </div>
             </div>
         </ng-container>
@@ -72,7 +72,7 @@
   
     <div *ngFor="let question of questionGroupList" style="width: 990px;margin-left: 34%;margin-top: 30px;" >
         <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
-            <div class="card question-card-style col-md-9 col-sm-6">
+            <div class="card question-card-style col-md-9 col-sm-6" style="border: none;">
                 <!-- <h6 class="text-center">
                     <b> {{question.questionGroupName}}</b>
                 </h6> -->
@@ -81,15 +81,17 @@
             <ng-container *ngFor="let commonQues of commonQuestions; let i=index">
                 <div class="row "
                     *ngIf="commonQues.questionGroupId===question.questionGroupId">
+              
                     <div class="col-md-4">
                             <!-- <div class="col-md-8 col-sm-6"> -->
-                                <label class="text-dark" style="width: 330px;">{{commonQues.questionDesc}}
+                                <label class="text-dark">{{commonQues.questionDesc}}
                                 </label>
                             <!-- </div> -->
                     </div>
+                  
 
-                <div class="col-md-8">
-                    <div >
+                <div class="col-md-8 col-sm-6" style="border: 4px red;">
+                    <div>
                         <!-- radio div -->
                       
                         <div class="col-md-4 col-sm-5"
@@ -136,7 +138,7 @@
 
                         <div class="col-md-4 col-sm-5"
                         *ngIf="commonQues.optionType=='tdropdown'">
-                        <div class="col-md-6" style="top:-8px;right:15px">
+                        <div class="col-md-6">
                             <input type="text"
                                 id="showText{{commonQues.questionId}}"
                                 [(ngModel)]="textDropdownVal[commonQues.questionId]"
@@ -145,7 +147,7 @@
                                 class="form-control input-color-style" 
                                 >
                         </div>
-                        <div class="col-md-3" style="right:31px">
+                        <div class="col-md-3">
                             <select id="tdropdown{{i}}"
                                 [(ngModel)]="selectedTValue[commonQues.questionId]"
                                 (change)="onRowEdit(commonQues,$event)">
@@ -166,9 +168,9 @@
                                                          
                         </div>
 
-                    </div>
-
-
+                    
+                
+                </div>
 
                         
                     </div>
@@ -177,13 +179,15 @@
             </ng-container>
         </div>
     </div>
+
+  
    
  
 </form>
 
-<div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-7">
-    <button type="submit" class="btn button"  #savebutton (click)="onSave(savebutton.value)">Save & NEXT</button>
-    <button type="submit" class="btn button" >Back</button>     
 </div>
- 
+
+<div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-7">
+    <button type="submit" class="btn button" id="btn"  #savebutton (click)="onSave(savebutton.value)">Save & NEXT</button>
+    <button type="submit" class="btn button" id="btn" >Back</button>     
 </div>

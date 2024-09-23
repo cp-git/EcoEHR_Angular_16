@@ -1,0 +1,31 @@
+#data1{
+    width: 1500px;
+    height: 40px;
+    background-color:white;
+    margin-left: 10px;
+    margin-top: 10px;
+    
+}
+
+#btn{
+    background-color: #4A99C7;
+    color: white;
+    margin-left: 10px;
+}
+
+
+#navData{
+    border: 1px groove red;
+    width: 100px;
+    height: 32px;
+    border:1px groove #4A99C7;
+}
+
+th{
+    background-color: #0590e1;
+    color: white;
+}
+
+table{
+    margin-top: 20px;
+}
