@@ -2,16 +2,17 @@
 
     <div class="header">
         <div class="col-md-4">
-            Review Of System (ROS)
+            <h3 style="font-weight: bold;">Review Of System (ROS)</h3>
         </div>
 
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-1">HPI</div>
-                <div class="col-md-1">ROS</div>
-                <div class="col-md-2">Medication</div>
-                <div class="col-md-2">History</div>
-                <div class="col-md-1">plan</div>
+                <div class="col-md-1"><a (click)="HpiComp()">HPI</a></div>
+                <div class="col-md-1"><a (click)="Roscomp()">ROS</a></div>
+                <div class="col-md-2"><a (click)="Medicationcomp()">Medication</a></div>
+                <div class="col-md-2"><a (click)="Historycomp()">History</a></div>
+                <div class="col-md-2"><a (click)="Examcomp()">Exam</a></div>
+                <div class="col-md-1"><a (click)="plancomp()" ></a>plan</div>
             </div>
         </div>
 
@@ -20,7 +21,24 @@
 </div>
 
 
-<div class="container">
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">Last Name :{{patientRecords.lastName}}</div>
+        <div class="col-md-4">First Name :{{patientRecords.firstName}}</div>
+        <div class="col-md-4"> DOB:{{patientRecords.dob}}  </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-4">List of Allergy</div>
+        <div class="col-md-4">Sex {{patientRecords.gender}}</div>
+        <div class="col-md-4">Time {{patientRecords.createdDate}}</div>
+    </div>
+ 
+</div>
+
+
+
+<div class="container-fluid" style="border: 2px groove red;">
 
 <form [formGroup]="ROSForm" mmethod="#" action="">
     <div class="btn-group btn-group-justified">
@@ -30,10 +48,10 @@
         </ng-container>
     </div>
 
-
-    <div class="col-md-12 col-sm-12">
+<div class="row">
+    <div class="col-md-4 col-sm-12">
         <!-- ROS Questionaire Table -->
-        <div class="col-md-4 col-sm-4 " >
+       
                 <ng-container *ngFor="let group of questionGroupList;let i=index">
                     <div class="row">
                         <div class="col-md-8 col-sm-8 col-xs-2">
@@ -52,9 +70,9 @@
                     </div>
                 </ng-container>
           
-        </div>
+        
     </div>
-    
+ <div class="col-md-8">
     <div *ngFor="let question of questionGroupList">
         <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
             <div class="card col-md-9 col-sm-6" [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">
@@ -62,9 +80,9 @@
                     <b> {{questionGroupName}}</b>
                 </h5>
 
-                <ng-container *ngFor="let commonQues of commonQuestionsList;let i=index">
+                <ng-container *ngFor="let commonQues of commonQuestionsList;let i=index" >
                     <div class="row " *ngIf="commonQues.questionGroupId===question.questionGroupId">
-                        <div class="col-md-8 col-sm-6">
+                        <div class="col-md-8 col-sm-6" style="border: 4px red;">
                             <label class="text-dark">{{commonQues.questionDesc}}
                             </label>
 
@@ -95,13 +113,18 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-6">
-        <button type="submit" class="btn button" id="saveNext" (click)="onSubmit();">Save & Next
-        </button>
-        <button type="submit" class="btn button">Back</button>     
+<div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-6">
+    <button type="submit" class="btn button" id="saveNext" (click)="onSubmit();">Save & Next
+    </button>
+    <button type="submit" class="btn button">Back</button>     
 
-    </div>
+</div>
+</div>
+
+
+  
 
 
 

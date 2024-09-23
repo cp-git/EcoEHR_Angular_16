@@ -19,6 +19,7 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
 import { OrdersService } from '../services/ordersService';
 import * as moment from 'moment';
 import { StateServicesService } from '../services/state-services.service';
+import { PatientDetailsService } from '../services/patientDetailsService';
 
 @Component({
   selector: 'app-orders-component',
@@ -95,16 +96,32 @@ export class OrdersComponentComponent {
   updatedIcdDesc:any;
 
 
+
   allOrdersData: Orders[] = [];
 
 
-  constructor(private _activateRoute:ActivatedRoute,private formBuilder:FormBuilder,private orderService:OrdersService,private stateService:StateServicesService ){}
+  constructor(private _activateRoute:ActivatedRoute,private formBuilder:FormBuilder,private orderService:OrdersService,private stateService:StateServicesService
+    ,private patientDetailsService:PatientDetailsService
+   ){}
 
 
   ngOnInit(){
 
     this.updatedPatient = sessionStorage.getItem('patientId');
     console.log(this.updatedPatient);
+
+
+    this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatient)
+.subscribe(data => {
+  console.log(data);
+  
+  this.patientRecords = data;
+
+  //console.log(this.patientRecords);
+
+  
+});
+
     
 
 

@@ -1,20 +1,19 @@
 
-
-
 <div class="container">
 
     <div class="header">
         <div class="col-md-4">
-            <h3>History Of Present Illness (HPI)</h3>
+            <h3 style="font-weight: bold;">History Of Present Illness (HPI)</h3>
         </div>
 
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-1">HPI</div>
-                <div class="col-md-1">ROS</div>
-                <div class="col-md-2">Medication</div>
-                <div class="col-md-2">History</div>
-                <div class="col-md-1">plan</div>
+                <div class="col-md-1"><a (click)="HpiComp()">HPI</a></div>
+                <div class="col-md-1"><a (click)="Roscomp()">ROS</a></div>
+                <div class="col-md-2"><a (click)="Medicationcomp()">Medication</a></div>
+                <div class="col-md-2"><a (click)="Historycomp()">History</a></div>
+                <div class="col-md-2"><a (click)="Examcomp()">Exam</a></div>
+                <div class="col-md-1"><a (click)="plancomp()" ></a>plan</div>
             </div>
         </div>
 
@@ -22,7 +21,24 @@
 
 </div>
 
-<div class="container-fluid" style="border: 2px groove red;margin-top: 30px;">
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">Last Name :{{patientRecords.lastName}}</div>
+        <div class="col-md-4">First Name :{{patientRecords.firstName}}</div>
+        <div class="col-md-4"> DOB:{{patientRecords.dob}}  </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-4">List of Allergy</div>
+        <div class="col-md-4">Sex {{patientRecords.gender}}</div>
+        <div class="col-md-4">Time {{patientRecords.createdDate}}</div>
+    </div>
+ 
+</div>
+
+
+
+<div class="container-fluid" style="margin-top: 30px;">
 
 <form [formGroup]="HPIForm" mmethod="#" action="">
     <div class="row">
@@ -31,7 +47,7 @@
         </div>
     </div>
 
-    <div class="col-md-4 col-sm-4">
+    <div class="col-md-4 col-sm-4" style="height: auto;margin-top: 30px;">
         <ng-container *ngFor="let group of questionGroupList;let i = index">
             <div class="row">
                 <div class="col-md-8 col-sm-7 col-xs-1">
@@ -52,7 +68,9 @@
         <br>
     </div>
 
-    <div *ngFor="let question of questionGroupList">
+
+  
+    <div *ngFor="let question of questionGroupList" style="width: 990px;margin-left: 34%;margin-top: 30px;" >
         <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
             <div class="card question-card-style col-md-9 col-sm-6">
                 <!-- <h6 class="text-center">
@@ -63,13 +81,15 @@
             <ng-container *ngFor="let commonQues of commonQuestions; let i=index">
                 <div class="row "
                     *ngIf="commonQues.questionGroupId===question.questionGroupId">
-                    <div class="col-md-8 col-sm-6">
-                        <label class="text-dark" style="max-width: 30%;">{{commonQues.questionDesc}}
-                        </label>
+                    <div class="col-md-4">
+                            <!-- <div class="col-md-8 col-sm-6"> -->
+                                <label class="text-dark" style="width: 330px;">{{commonQues.questionDesc}}
+                                </label>
+                            <!-- </div> -->
                     </div>
 
-
-                    <div style="right:30px;">
+                <div class="col-md-8">
+                    <div >
                         <!-- radio div -->
                       
                         <div class="col-md-4 col-sm-5"
@@ -146,7 +166,7 @@
                                                          
                         </div>
 
-
+                    </div>
 
 
 
@@ -157,18 +177,13 @@
             </ng-container>
         </div>
     </div>
-    <div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-7">
-        <button type="submit" class="btn button"  #savebutton (click)="onSave(savebutton.value)">Save & NEXT</button>
-        <button type="submit" class="btn button" >Back</button>     
-    </div>
-
    
-
-
-
-   
-
-    
+ 
 </form>
+
+<div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-7">
+    <button type="submit" class="btn button"  #savebutton (click)="onSave(savebutton.value)">Save & NEXT</button>
+    <button type="submit" class="btn button" >Back</button>     
+</div>
  
 </div>

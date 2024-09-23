@@ -23,6 +23,8 @@ import { EncounterQuestionGroup } from '../models/encounterQuestionGroup';
 import { EncounterQuestionGroupService } from '../services/encounterQuestionGroupService';
 import { Router } from '@angular/router';
 import { EncounterQuestionOption } from '../models/encounterQuestionOption';
+import { PatientDetailsService } from '../services/patientDetailsService';
+import { PatientRecord } from '../models/PatientRecord';
 
 @Component({
   selector: 'app-hpi',
@@ -66,6 +68,8 @@ export class HpiComponent {
 
   updatedPatientId:any
   
+
+  patientRecords!:PatientRecord;
   
    
 
@@ -76,7 +80,8 @@ export class HpiComponent {
     private encounterQuestionOptionService:EncounterQuestionOptionService,
     private stateService: StateServicesService,
      private encounterQuestionGroupService: EncounterQuestionGroupService,
-     private route:Router
+     private route:Router,
+     private patientDetailsService:PatientDetailsService
    ){}
 
   ngOnInit(){
@@ -87,6 +92,23 @@ export class HpiComponent {
 
     this.updatedPatientId = sessionStorage.getItem('patientId');
     console.log(this.updatedPatientId);
+
+
+
+  
+ 
+   
+        this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
+          .subscribe(data => {
+            console.log(data);
+            
+            this.patientRecords = data;
+         
+            //console.log(this.patientRecords);
+          
+            
+          });
+      
 
 
 
@@ -355,6 +377,35 @@ getAllQuestions(group: any,  event: Event) {
  
 }
 
+
+HpiComp(){
+    this.route.navigate(['hpi'])
+}
+
+Roscomp(){
+  this.route.navigate(['ros'])
+
+}
+
+Medicationcomp(){
+  this.route.navigate(['medication'])
+
+}
+
+Historycomp(){
+  this.route.navigate(['history'])
+
+}
+
+plancomp(){
+  this.route.navigate(['plan'])
+
+}
+
+Examcomp(){
+  this.route.navigate(['exam'])
+
+}
 
   
 

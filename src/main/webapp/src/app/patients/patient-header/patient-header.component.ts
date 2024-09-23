@@ -19,6 +19,10 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from '../patientlist/patientlist.component';
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MedicationService } from '../services/medicationService';
+import { PatientMedicationRecord } from '../models/patientMedicationRecord';
+import { PatientPreventiveService } from '../services/patientPreventiveService';
+import { PatientPreventiveCare } from '../models/patientPreventiveCare';
 
 @Component({
   selector: 'app-patient-header',
@@ -33,6 +37,13 @@ export class PatientHeaderComponent {
   encounter!:Encounter
   description:any
   icdCode:any
+
+
+  activeMedicationData: PatientMedicationRecord[] = [];
+  medicationByEncId: PatientMedicationRecord[] = [];
+  inactiveMedicationByEncId: PatientMedicationRecord[] = [];
+
+  allPreventiveCare!: PatientPreventiveCare[];
   
 
 
@@ -43,6 +54,8 @@ export class PatientHeaderComponent {
     private patientAllergyService: PatientAllergyService,
     private encounterService: EncounterService, private spinner:NgxSpinnerService,
     private _activateRoute:ActivatedRoute,
+    private medicationService:MedicationService,
+    private preventiveService: PatientPreventiveService,
     @Inject(MAT_DIALOG_DATA) public data: { id: number,id1:number }
   ){
 
@@ -57,6 +70,32 @@ export class PatientHeaderComponent {
     this.getPatientRecordsByPatientId(this.data.id1);
 
     this.editEncounter(this.data.id);
+
+    this.medicationService.getPatientMedications(this.data.id1)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.activeMedicationData = data;
+          for (let i = 0; i < data.length; i++) {
+            //this.showActiveMedicationFlag = true;
+            if (this.activeMedicationData[i].isActiveMedication == 'Y') {
+              this.medicationByEncId.push(this.activeMedicationData[i]);
+            }
+            else {
+              this.inactiveMedicationByEncId.push(this.activeMedicationData[i])
+            }
+          }
+        });
+
+
+      this.preventiveService.getPatientPreventitiveByPatientId(this.data.id1)
+      .subscribe(data => {
+        console.log(data);
+        
+        this.allPreventiveCare = data;
+      
+      })
+
     
 
     
@@ -104,6 +143,8 @@ export class PatientHeaderComponent {
     
 }
   
+
+
 
   
 }

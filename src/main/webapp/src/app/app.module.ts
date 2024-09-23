@@ -43,6 +43,7 @@ import { EncounterQuestionGroupService } from './patients/services/encounterQues
 import { MedicationService } from './patients/services/medicationService';
 import { EncAssessmentService } from './patients/services/encAssessmentService';
 import { OrdersService } from './patients/services/ordersService';
+import { PatientPreventiveService } from './patients/services/patientPreventiveService';
 
 
 
@@ -100,7 +101,8 @@ import { OrdersService } from './patients/services/ordersService';
     EncounterQuestionGroupService,
     MedicationService,
     EncAssessmentService,
-    OrdersService
+    OrdersService,
+    PatientPreventiveService
     
     // provideAnimationsAsync()
   ],

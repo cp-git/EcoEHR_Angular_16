@@ -22,6 +22,7 @@ import { PatientMedicationRecord } from '../models/patientMedicationRecord';
 import * as moment from 'moment';
 import { OrdersService } from '../services/ordersService';
 import { Router } from '@angular/router';
+import { PatientDetailsService } from '../services/patientDetailsService';
 
 @Component({
   selector: 'app-plan-assement',
@@ -90,11 +91,12 @@ export class PlanAssementComponent {
 
   updatedEncounterId:any;
   updatedPatientId:any;
+ 
 
 
 
   constructor(private encounterService:EncounterService,private stateService:StateServicesService,private formBuilder:FormBuilder,
-    private encAssessmentService:EncAssessmentService,private orderService:OrdersService,private route:Router
+    private encAssessmentService:EncAssessmentService,private orderService:OrdersService,private route:Router,private patientDetailsService:PatientDetailsService
   ){}
 
   ngOnInit(){
@@ -104,6 +106,18 @@ console.log(this.updatedEncounterId);
 
 this.updatedPatientId = sessionStorage.getItem('patientId');
 console.log(this.updatedPatientId);
+
+
+this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
+.subscribe(data => {
+  console.log(data);
+  
+  this.patientRecords = data;
+
+  //console.log(this.patientRecords);
+
+  
+});
 
     this.stateService.id$.subscribe(value => {
       this.patientId = value;
@@ -276,6 +290,37 @@ deleteAssessment(encAsessmentId:any){
   },errorCode => {
           this.statusCode = errorCode  ;
       });
+}
+
+
+
+HpiComp(){
+  this.route.navigate(['hpi'])
+}
+
+Roscomp(){
+this.route.navigate(['ros'])
+
+}
+
+Medicationcomp(){
+this.route.navigate(['medication'])
+
+}
+
+Historycomp(){
+this.route.navigate(['history'])
+
+}
+
+plancomp(){
+this.route.navigate(['plan'])
+
+}
+
+Examcomp(){
+this.route.navigate(['exam'])
+
 }
 
 

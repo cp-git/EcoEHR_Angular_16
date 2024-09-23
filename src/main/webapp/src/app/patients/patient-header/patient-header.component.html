@@ -1,3 +1,4 @@
+<div class="container-fluid scrollable-container">
 <div class="container" style="width: 800px;">
     <div class="row">
         <h2 style="text-align: center;">Patient Details</h2>
@@ -62,7 +63,119 @@
         </div>
 
 
-        
+
+
+<div class="container-fluid">
+    <div class="row">
+        <h1>Active Mediactions</h1>
+    </div>
+    <table class="table table-bordered">
+        <tbody style="overflow-y:auto; height:150px;display:bdata;">
+            <tr>
+                <th class="text-center">Indication
+                </th>
+                <th class="text-center">Medication
+                </th>
+                <th class="text-center">Form</th>
+                <th class="text-center">Dose</th>
+                <th class="text-center">Route</th>
+                <th class="text-center">Frequency
+                </th>
+                <th class="text-center">Refill</th>
+            
+            </tr>
+            <tr *ngFor="let medication of medicationByEncId">
+             
+                <td class="text-center">
+                        <div>{{medication.icd10Code}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.productName}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.form}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.dose}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.route}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.frequency}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.refillCount}}</div>
+                </td>
+                
+              
+        </tr>
+
+           
+        </tbody>
+    </table>
+
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <h1>In Active Medications</h1>
+    </div>
+
+    <table class="table table-bordered">
+        <tbody style="overflow-y:auto; height:150px;display:bdata;">
+            <tr>
+                <th class="text-center">Indication
+                </th>
+                <th class="text-center">Medication
+                </th>
+                <th class="text-center">Form</th>
+                <th class="text-center">Dose</th>
+                <th class="text-center">Route</th>
+                <th class="text-center">Frequency
+                </th>
+                <th class="text-center">Refill</th>
+                
+            </tr>
+            <tr *ngFor="let medication of inactiveMedicationByEncId">
+             
+                <td class="text-center">
+                        <div>{{medication.icd10Code}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.productName}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.form}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.dose}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.route}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.frequency}}</div>
+                </td>
+                <td class="text-center">
+                        <div>{{medication.refillCount}}</div>
+                </td>
+                
+              
+        </tr>
+
+           
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+</div>
 
 
 

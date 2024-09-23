@@ -32,6 +32,8 @@ import { PatientMedication } from '../models/PatientMedication';
 import { ViewPrescriptionComponent } from '../view-prescription/view-prescription.component';
 import { data } from 'jquery';
 import { DeleteMedicationComponent } from '../delete-medication/delete-medication.component';
+import { PatientRecord } from '../models/PatientRecord';
+import { PatientDetailsService } from '../services/patientDetailsService';
 
 
 
@@ -84,6 +86,7 @@ patientId:any
   //
   updatedEncounterId:any;
   updatedPatientId:any;
+  patientRecords!:PatientRecord;
 
 
   
@@ -91,7 +94,7 @@ patientId:any
     private formBuilder:FormBuilder,private stateService:StateServicesService,private encounterQuestionOptionService:EncounterQuestionOptionService,
     private encounterQuestionGroupService:EncounterQuestionGroupService,private medicationService:MedicationService,
     private encounterService:EncounterService,
-    private dialog: MatDialog,private router:Router
+    private dialog: MatDialog,private router:Router,private patientDetailsService:PatientDetailsService
   ){}
 
 
@@ -105,6 +108,19 @@ console.log(this.updatedEncounterId);
 
 this.updatedPatientId = sessionStorage.getItem('patientId');
 console.log(this.updatedPatientId);
+
+this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
+.subscribe(data => {
+  console.log(this.updatePatientId);
+  
+  console.log(data);
+  
+  this.patientRecords = data;
+
+  //console.log(this.patientRecords);
+
+  
+});
 
 
     
@@ -176,7 +192,7 @@ console.log(this.updatedPatientId);
 
    //Fetching 
 
-   this.medicationService.getPatientMedications(this.patientId)
+   this.medicationService.getPatientMedications(this.updatedPatientId)
        .subscribe(
          (       repsonse: any)=>{
         console.log(repsonse);
@@ -185,11 +201,12 @@ console.log(this.updatedPatientId);
                     this.activePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'Y');
                     this.inActivePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'N');
           
-                  }else{
-                    this.activePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'Y' && t.icd10Code == this.icd10Code);
-                    this.inActivePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'N' && t.icd10Code == this.icd10Code);
-          
                   }
+                  // else{
+                  //   this.activePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'Y' && t.icd10Code == this.icd10Code);
+                  //   this.inActivePatientMedications = this.patientMedications.filter(t => t.isActiveMedication == 'N' && t.icd10Code == this.icd10Code);
+          
+                  // }
        
         
        });
@@ -450,6 +467,37 @@ console.log(this.updatedPatientId);
     }
   
   }
+
+
+  
+  HpiComp(){
+    this.router.navigate(['hpi'])
+}
+
+Roscomp(){
+  this.router.navigate(['ros'])
+
+}
+
+Medicationcomp(){
+  this.router.navigate(['medication'])
+
+}
+
+Historycomp(){
+  this.router.navigate(['history'])
+
+}
+
+plancomp(){
+  this.router.navigate(['plan'])
+
+}
+
+Examcomp(){
+  this.router.navigate(['exam'])
+
+}
 
 
 

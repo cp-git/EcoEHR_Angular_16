@@ -1,0 +1,11 @@
+.scrollable-container {
+    width: 1400px;          /* Set a fixed width */
+    height: 700px;         /* Set a fixed height */
+    overflow-y: auto;      /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add a border */
+    padding: 10px;         /* Optional: Add padding */
+}
+
+table{
+    width: fit-content;
+}

@@ -1,3 +1,43 @@
+
+<div class="container">
+
+    <div class="header">
+        <div class="col-md-4">
+            <h3 style="font-weight: bold;">Plan</h3>
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-1"><a (click)="HpiComp()">HPI</a></div>
+                <div class="col-md-1"><a (click)="Roscomp()">ROS</a></div>
+                <div class="col-md-2"><a (click)="Medicationcomp()">Medication</a></div>
+                <div class="col-md-2"><a (click)="Historycomp()">History</a></div>
+                <div class="col-md-2"><a (click)="Examcomp()">Exam</a></div>
+                <div class="col-md-1"><a (click)="plancomp()" ></a>plan</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">Last Name :{{patientRecords.lastName}}</div>
+        <div class="col-md-4">First Name :{{patientRecords.firstName}}</div>
+        <div class="col-md-4"> DOB:{{patientRecords.dob}}  </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-4">List of Allergy</div>
+        <div class="col-md-4">Sex {{patientRecords.gender}}</div>
+        <div class="col-md-4">Time {{patientRecords.createdDate}}</div>
+    </div>
+ 
+</div>
+
+
+
 <div class="col-md-12 col-sm-12">
     <div class="btn-group btn-group-justified">
         <ng-container *ngFor="let list of tabList let i=index">

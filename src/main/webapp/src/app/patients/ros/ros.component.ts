@@ -23,6 +23,8 @@ import { Router } from '@angular/router';
 import { StateServicesService } from '../services/state-services.service';
 import { EncounterQuestionOption } from '../models/encounterQuestionOption';
 import { EncounterQuestionGroup } from '../models/encounterQuestionGroup';
+import { PatientDetailsService } from '../services/patientDetailsService';
+import { PatientRecord } from '../models/PatientRecord';
 
 @Component({
   selector: 'app-ros',
@@ -57,11 +59,13 @@ export class RosComponent {
   number:any;
   sysName="ROS";
 
+  patientRecords!:PatientRecord;
   updatedEncounterId:any
   updatedPatientId:any
   constructor(private questionGroupService:QuestionGroupService,private formBuilder: FormBuilder,private systemService:SystemService,
     private questionsService:QuestionsService,private encounterQuestionOptionService:EncounterQuestionOptionService,
-    private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService
+    private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService,
+    private patientDetailsService:PatientDetailsService
   ){}
 
   ngOnInit(){
@@ -72,6 +76,19 @@ export class RosComponent {
 
     this.updatedPatientId = sessionStorage.getItem('patientId');
     console.log(this.updatedPatientId);
+
+
+    
+    this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
+    .subscribe(data => {
+      console.log(data);
+      
+      this.patientRecords = data;
+   
+      //console.log(this.patientRecords);
+    
+      
+    });
 
 
     this.ROSForm = this.formBuilder.group({
@@ -271,6 +288,36 @@ export class RosComponent {
                 
             }
         }
+
+
+        HpiComp(){
+          this.route.navigate(['hpi'])
+      }
+      
+      Roscomp(){
+        this.route.navigate(['ros'])
+      
+      }
+      
+      Medicationcomp(){
+        this.route.navigate(['medication'])
+      
+      }
+      
+      Historycomp(){
+        this.route.navigate(['history'])
+      
+      }
+      
+      plancomp(){
+        this.route.navigate(['plan'])
+      
+      }
+      
+      Examcomp(){
+        this.route.navigate(['exam'])
+      
+      }
   
 
 }

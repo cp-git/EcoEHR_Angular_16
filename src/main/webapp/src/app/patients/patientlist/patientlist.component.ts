@@ -12,6 +12,8 @@ import { LoginService } from 'src/app/home/login/login.service';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../search.pipe';
 import { SharedModule } from 'src/app/shared/shared-module';
+import { PatientDetails } from '../models/PatientDetails';
+import { PatientRecord } from '../models/PatientRecord';
 
 
 
@@ -35,6 +37,8 @@ export class PatientListComponent implements OnInit {
   showFiller = false;
   readonly panelOpenState = signal(false);
 
+
+  details: PatientRecord[] = [];
 
   loggedInUser!: StaffMember;
   staffImage: any;
@@ -95,6 +99,15 @@ export class PatientListComponent implements OnInit {
 
     this.setLoginDate();
 
+    // this.patientService.getAllPatientsByUserId()
+    // .subscribe(data => {
+    //     console.log(data);
+     
+    //     this.dataTable.dataRows = <any>data;
+    //     this.updatePaginatedItems();
+      
+    // })
+
 
   }
 
@@ -109,22 +122,37 @@ export class PatientListComponent implements OnInit {
          //   this.getAllPatients(this.userRole);
 
          if (this.userRole == 'TRY_ME') {
-          // console.log("student login");
-          // this.patientService.getAllPatientsByUserId()
-          // .subscribe(data => {
-          //     //console.log(data);
-           
-          //     this.dataTable.dataRows = <any>data;
+          console.log("student login");
+          this.patientService.getAllPatients().subscribe(
+            (reponse) => {
+            //  console.log(reponse);
+            for(let i=0;i<reponse.length;i++){
+            //  console.log(reponse[i]);
+              if(reponse[i].createdBy == data.firstName){
+                console.log(reponse[i]);
+                this.details.push(reponse[i]);
+
+                
+              }
+              
+            }
+            console.log(this.details);
+            this.updatePaginatedItems();
             
-          // })
+              
+            },
+            (error) => {
+              console.error('Error fetching patient data:', error);
+            }
+          );
          }
          else{
           console.log("admin log..");
           this.patientService.getAllPatients().subscribe(
             (data) => {
-            //  console.log(data);
-              this.dataTable.dataRows = data;
-              this.updatePaginatedItems();
+             this.details=data;
+             this.updatePaginatedItems();
+             
             },
             (error) => {
               console.error('Error fetching patient data:', error);
@@ -273,7 +301,7 @@ updatePaginatedItems(): void {
   const startIndex = (this.currentPage - 1) * this.pageSize;
   const endIndex = startIndex + this.pageSize;
   console.log(this.dataTable.dataRows);
-  this.paginatedItems = this.dataTable.dataRows.slice(startIndex, endIndex);
+  this.paginatedItems = this.details.slice(startIndex, endIndex);
 }
 
 

@@ -23,6 +23,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from '../patientlist/patientlist.component';
+import { PatientDetailsService } from '../services/patientDetailsService';
+import { PatientRecord } from '../models/PatientRecord';
 
 @Component({
   selector: 'app-history-comp',
@@ -55,6 +57,7 @@ export class HistoryCompComponent {
   selectedRadioValue:any[]=[];
   number:any;
   sysName="History";
+  patientRecords!:PatientRecord;
 
   //
   updatedEncounterId:any;
@@ -62,7 +65,8 @@ export class HistoryCompComponent {
 
   constructor(private questionGroupService:QuestionGroupService,private formBuilder: FormBuilder,private systemService:SystemService,
     private questionsService:QuestionsService,private encounterQuestionOptionService:EncounterQuestionOptionService,
-    private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService
+    private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService,
+    private patientDetailsService:PatientDetailsService
   ){}
 
   ngOnInit(){
@@ -72,6 +76,18 @@ console.log(this.updatedEncounterId);
 
 this.updatedPatientId = sessionStorage.getItem('patientId');
 console.log(this.updatedPatientId);
+
+this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
+.subscribe(data => {
+  console.log(data);
+  
+  this.patientRecords = data;
+
+  //console.log(this.patientRecords);
+
+  
+});
+
 
 
     
@@ -273,5 +289,36 @@ console.log(this.updatedPatientId);
                 
             }
         }
+
+
+        
+        HpiComp(){
+          this.route.navigate(['hpi'])
+      }
+      
+      Roscomp(){
+        this.route.navigate(['ros'])
+      
+      }
+      
+      Medicationcomp(){
+        this.route.navigate(['medication'])
+      
+      }
+      
+      Historycomp(){
+        this.route.navigate(['history'])
+      
+      }
+      
+      plancomp(){
+        this.route.navigate(['plan'])
+      
+      }
+      
+      Examcomp(){
+        this.route.navigate(['exam'])
+      
+      }
 
 }

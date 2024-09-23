@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 import { AppSettings } from '../../appsettings';
-import { PatientPreventiveCare } from 'app/patients/models/patientPreventiveCare';
+
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { PatientPreventiveCare } from '../models/patientPreventiveCare';
 
 @Injectable()
 export class PatientPreventiveService {
@@ -10,29 +12,40 @@ export class PatientPreventiveService {
     insertAllPreventiveUrl = AppSettings.API_ENDPOINT + "./patientPreventive/createPatientPreventiveCare";
     getPatientPrevByPatientIdUrl =  AppSettings.API_ENDPOINT + "./patientPreventive/getPatientPreventiveCareById";
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
     //insert patient Preventive
-    insertAllPreventive(preventive: PatientPreventiveCare[]): Observable<number> {
-       // console.log(preventive)
-        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-        let options = new RequestOptions({ headers: cpHeaders });
-        return this.http.post(this.insertAllPreventiveUrl, preventive, options)
-            .map(success => success.status)
-            .catch(this.handleError);
-    }
+    // insertAllPreventive(preventive: PatientPreventiveCare[]): Observable<number> {
+    //    // console.log(preventive)
+    //     let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+    //     let options = new RequestOptions({ headers: cpHeaders });
+    //     return this.http.post(this.insertAllPreventiveUrl, preventive, options)
+    //         .map(success => success.status)
+    //         .catch(this.handleError);
+    // }
 
     getPatientPreventitiveByPatientId(patientId: number):Observable<PatientPreventiveCare[]>
     {
-        let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
-		let cpParams = new URLSearchParams();
-        cpParams.set('patientID1', patientId.toString());
-        //console.log(cpParams.get('patientId'));
-        //console.log("patientId "+patientId);
-        let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-		return this.http.get(this.getPatientPrevByPatientIdUrl, options)
-			.map(this.extractData)
-			.catch(this.handleError);
+
+        const token = localStorage.getItem('jwt') || '';
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'x-auth-token': token
+		});
+		
+		
+		const params = new HttpParams().set('patientId', patientId.toString());
+
+		return this.http.get<any>(this.getPatientPrevByPatientIdUrl,{headers, params} )
+        // let cpHeaders = new Headers({ 'Content-Type': 'application/json', "x-auth-token": localStorage.getItem('jwt') });
+		// let cpParams = new URLSearchParams();
+        // cpParams.set('patientID1', patientId.toString());
+        // //console.log(cpParams.get('patientId'));
+        // //console.log("patientId "+patientId);
+        // let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+		// return this.http.get(this.getPatientPrevByPatientIdUrl, options)
+		// 	.map(this.extractData)
+		// 	.catch(this.handleError);
     }
 
    
