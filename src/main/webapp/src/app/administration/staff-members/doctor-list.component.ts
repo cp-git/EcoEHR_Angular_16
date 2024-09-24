@@ -162,6 +162,33 @@ export class ListDoctorComponent {
          
            
       }
+
+
+      GoToList(){
+        this.route.navigate(['/list']);
+      }
+    
+    
+      // AddPatient(){
+      //   this.route.navigate(['addpatient'])
+      // }
+    
+      Clinic(){
+        this.route.navigate(['clinicLocation'])
+      }
+    
+      Staff(){
+        this.route.navigate(['stafflist'])
+      }
+    
+    
+      Student(){
+        this.route.navigate(['studentlist'])
+      }
+    
+      Master(){
+        this.route.navigate(['masterlookup'])
+      }
     
 
 

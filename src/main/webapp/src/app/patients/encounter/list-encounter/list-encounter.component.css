@@ -1,0 +1,22 @@
+.scrollable {
+    height: 400px; /* Fixed height */
+    overflow-y: scroll; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Just for visual reference */
+    padding: 10px;
+    
+}
+
+table{
+    margin-top: 15px;
+}
+
+th{
+    background-color: #4A99C7;
+    color: white;
+}
+
+#btn{
+    background-color: #4A99C7;
+    color: white;
+    margin-left: 10px;
+}

@@ -306,6 +306,28 @@ GoToPatientList(){
     this.router.navigate(['/list']);
   }
 
+
+  AddPatient(){
+    this.router.navigate(['addpatient'])
+  }
+
+  Clinic(){
+    this.router.navigate(['clinicLocation'])
+  }
+
+  Staff(){
+    this.router.navigate(['stafflist'])
+  }
+
+
+  Student(){
+    this.router.navigate(['studentlist'])
+  }
+
+  Master(){
+    this.router.navigate(['masterlookup'])
+  }
+
   
   
 

@@ -120,18 +120,6 @@ export class LocationsComponent {
           
         }
 
-        GoToPatientList(){
-            this.route.navigate(['/list'])
-          }
-          
-          displayClinic(){
-            this.route.navigate(['/clinicLocation'])
-          }
-
-          AddPatient(){
-            this.route.navigate(['/addpatient'])
-          }
-
 
 
       updateLocation(clinic:ClinicLocation): void {
@@ -174,5 +162,32 @@ export class LocationsComponent {
     //     );      
     //     }
 
+
+    GoToPatientList(){
+      this.route.navigate(['/list']);
+    }
+  
+  
+    AddPatient(){
+      this.route.navigate(['/addpatient'])
+    }
+  
+    Clinic(){
+      this.route.navigate(['clinicLocation'])
+    }
+  
+    Staff(){
+      this.route.navigate(['stafflist'])
+    }
+  
+  
+    Student(){
+      this.route.navigate(['studentlist'])
+    }
+  
+    Master(){
+      this.route.navigate(['masterlookup'])
+    }
+  
  
 }

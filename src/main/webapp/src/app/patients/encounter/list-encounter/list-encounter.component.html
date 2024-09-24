@@ -1,7 +1,14 @@
-<h1>ICD-10 Code</h1>
-<div class="container">
+<div class="container" style="background-color: #4A99C7;margin-top: 3px;height: 40px;">
+    <h1 style="text-align: center;color: white;">ICD-10 Search</h1>
+    
+</div>
+
+<div class="container" style="height: 550px;">
+    <div class="row" style="width: 370px;margin-top: 20px;">
+        <h4 style="background-color: #4A99C7;color: white;">Frequently Used</h4>
+    </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 scrollable" >
             <tr *ngFor="let rows of ICD10Group">
                 <td>{{rows.groupDescription}}</td>
             </tr>
@@ -9,7 +16,7 @@
 
         <div class="col-md-8">
             <input type="text" [(ngModel)]="searchText" placeholder="welcome to input..."/>
-<button (click)="search1()">Search</button>
+<button (click)="search1()" style="margin-left: 10px;">Search</button>
 
 <table class="table table-bordered"
 style="overflow-y:auto;max-height:400px;display:block;">
@@ -19,9 +26,7 @@ style="overflow-y:auto;max-height:400px;display:block;">
         <th class="text-center">ICD10</th>
         <th class="text-center" style="user-select: auto;width: 230px;">Description</th>
         <th class="text-center" style="user-select: auto;width: 430px;">Search Inclusion</th>
-        <th style="white-space:nowrap;"
-            title="Click the below icon to view full detail of ICD-10 Code">
-            Detail</th>
+       
         <th hidden class="text-center"
             title="Select below checkbox if ICD Code is primary ICD Code">
             Primary
@@ -58,7 +63,7 @@ style="overflow-y:auto;max-height:400px;display:block;">
 </tbody>
 </table>
 <button type="submit" (click)="submitData()" [mat-dialog-close]="false" id="AddClose"
-class="btn button" >ADD & CLOSE</button>
+class="btn button" id="btn" >ADD & CLOSE</button>
 <button id="dismissmodal" style="display:none;" type="submit"
 class="btn btn-info pull-left" data-dismiss="modal"></button>
 

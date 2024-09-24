@@ -219,6 +219,10 @@ export class ListEncounterComponent {
         }
       }
 
+
+
+  
+
   
 
 
