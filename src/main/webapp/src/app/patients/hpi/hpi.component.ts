@@ -70,6 +70,8 @@ export class HpiComponent {
   
 
   patientRecords!:PatientRecord;
+
+  patientidDataId:any
   
    
 
@@ -87,8 +89,8 @@ export class HpiComponent {
   ngOnInit(){
 
 
-    this.updatedEncounterId = sessionStorage.getItem('encounterId');
-    console.log(this.updatedEncounterId);
+    // this.updatedEncounterId = sessionStorage.getItem('encounterId');
+    // console.log(this.updatedEncounterId);
 
     this.updatedPatientId = sessionStorage.getItem('patientId');
     console.log(this.updatedPatientId);
@@ -98,8 +100,31 @@ export class HpiComponent {
   
  
    
-        this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
+     
+
+
+
+    this.stateService.currentNumber.subscribe(number => {
+      this.number = number;
+      
+      console.log(this.number);
+      
+    });
+
+    this.stateService.id$.subscribe(number => {
+      this.patientidDataId = number;
+      
+      console.log(this.patientidDataId);
+      
+    });
+
+
+
+
+
+       this.patientDetailsService.getPatientRecordsByPatientId(this.patientidDataId)
           .subscribe(data => {
+            
             console.log(data);
             
             this.patientRecords = data;
@@ -110,14 +135,6 @@ export class HpiComponent {
           });
       
 
-
-
-
-    this.stateService.currentNumber.subscribe(number => {
-      this.number = number;
-      console.log(this.number);
-      
-    });
     
 
     this.HPIForm = this.formBuilder.group({

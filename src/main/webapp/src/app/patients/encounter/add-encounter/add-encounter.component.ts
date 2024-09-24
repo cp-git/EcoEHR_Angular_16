@@ -211,7 +211,7 @@ export class AddEncounterComponent {
         this.encounterService.insertChiefCompliantDtl(icdCodesList,this.encounterId).subscribe(
           response=>{
             console.log("In Response");
-           alert("added...")
+         
            
             
             console.log(response);

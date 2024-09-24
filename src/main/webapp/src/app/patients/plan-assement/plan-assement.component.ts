@@ -5,7 +5,7 @@ import { StateServicesService } from '../services/state-services.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +23,7 @@ import * as moment from 'moment';
 import { OrdersService } from '../services/ordersService';
 import { Router } from '@angular/router';
 import { PatientDetailsService } from '../services/patientDetailsService';
+import { PatientHeaderComponent } from '../patient-header/patient-header.component';
 
 @Component({
   selector: 'app-plan-assement',
@@ -96,7 +97,8 @@ export class PlanAssementComponent {
 
 
   constructor(private encounterService:EncounterService,private stateService:StateServicesService,private formBuilder:FormBuilder,
-    private encAssessmentService:EncAssessmentService,private orderService:OrdersService,private route:Router,private patientDetailsService:PatientDetailsService
+    private encAssessmentService:EncAssessmentService,private orderService:OrdersService,private route:Router,private patientDetailsService:PatientDetailsService,
+    public dialog: MatDialog,
   ){}
 
   ngOnInit(){
@@ -322,6 +324,13 @@ Examcomp(){
 this.route.navigate(['exam'])
 
 }
+
+openDialog(id: number,id1:number): void {
+  this.dialog.open(PatientHeaderComponent, {
+    data: { id: id,id1:id1 }
+  });
+}
+
 
 
 

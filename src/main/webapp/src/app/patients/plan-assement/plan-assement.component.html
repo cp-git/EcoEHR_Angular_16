@@ -63,6 +63,9 @@
       <button type="submit" (click)="onSubmit()" class="btn button"
             id="save">Save</button>
         <br><br><br>
+
+        <button type="submit" (click)="openDialog(updatedEncounterId,updatedPatientId)" id="sign">Submit
+            Encounter</button>
     </div>
 
     <div *ngIf="!showData">
@@ -98,9 +101,13 @@
                                     </button>
                                 </td>
                             </ng-container>
+
+                         
                         </tr>
                     </tbody>
                 </table>
+
+             
             </div>
         </div>
     </div>
