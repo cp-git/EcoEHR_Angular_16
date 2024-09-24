@@ -371,7 +371,7 @@ getAllQuestions(group: any,  event: Event) {
          for (let i = 0; i < this.QuestionSelectedArray.length; i++) {
           console.log(this.QuestionSelectedArray.at(i).value.optionName);
           
-             let encounterQuestionOption = new EncounterQuestionOption(0, this.updatedEncounterId, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, new Date, "", new Date, "","");
+             let encounterQuestionOption = new EncounterQuestionOption(0, this.number, this.QuestionSelectedArray.at(i).value.questionId, this.QuestionSelectedArray.at(i).value.questionGroupId, this.QuestionSelectedArray.at(i).value.systemId, this.QuestionSelectedArray.at(i).value.optionId, this.QuestionSelectedArray.at(i).value.optionName, this.QuestionSelectedArray.at(i).value.answer, new Date, "", new Date, "","");
              encounterQuestionOptionList.push(encounterQuestionOption);
              console.log(encounterQuestionOptionList);
              

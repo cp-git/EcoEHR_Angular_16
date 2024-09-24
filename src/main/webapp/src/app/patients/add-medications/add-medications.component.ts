@@ -283,6 +283,7 @@ console.log(this.updatedPatientId);
     
       this.medicationService.insertAllMedication(patientMedicationList)
         .subscribe(successCode => {
+          
         
         });
   }

@@ -38,10 +38,10 @@
 
 
 <form [formGroup]="ExamForm" mmethod="#" action="">
-    <div class="btn-group btn-group-justified" style="border:2px groove grey;width: 100%;margin-top: 10px;">
+    <div class="btn-group btn-group-justified"  id="data1">
         <ng-container *ngFor="let system of ExamSystems">
             <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)" title="{{system.systemDesc}}"
-                class="btn btn-style systems-tab-style">{{system.systemCode}}</a>
+                class="btn btn-style systems-tab-style" style="border: 1px groove #4A99C7;">{{system.systemCode}}</a>
         </ng-container>
     </div>
 
@@ -50,7 +50,7 @@
         <!-- ROS Questionaire Table -->
        
                 <ng-container *ngFor="let group of questionGroupList;let i=index">
-                    <div class="row">
+                    <div class="row" style="margin-top: 3px;" style="border: 1px groove black;margin-top: 10px;width: 350px;margin-left: 20px;">
                         <div class="col-md-8 col-sm-8 col-xs-2">
                             <a data-toggle="tab" id="ros_{{i}}"   title={{group.questionGroupName}} (click)="goToSelectedTab(group,i)"
                                 class="btn btn-style btn-left question-group-style" 
@@ -144,9 +144,9 @@
 </div>
 
     <div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-6">
-        <button type="submit" class="btn button" id="saveNext" (click)="onSubmit();">Save & Next
+        <button type="submit" class="btn button" id="btn" (click)="onSubmit();">Save & Next
         </button>
-        <button type="submit" class="btn button">Back</button>     
+        <button type="submit" class="btn button" id="btn">Back</button>     
 
     </div>
 
