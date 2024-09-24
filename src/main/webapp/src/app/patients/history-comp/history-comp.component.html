@@ -38,10 +38,10 @@
 
 <div class="container-fluid">
 <form [formGroup]="HistoryForm" mmethod="#" action="">
-    <div class="btn-group btn-group-justified" style="margin-top: 15px;" id="data1">
+    <div class="btn-group btn-group-justified"  id="data1">
         <ng-container *ngFor="let system of HistorySystems">
             <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)" title="{{system.systemDesc}}"
-                class="col-md-2" style="border: 2px groove #4A99C7;text-align: center;">{{system.systemCode}}</a>
+                class="col-md-2" style="text-align: center;border: 1px groove #4A99C7;height: 40px;">{{system.systemCode}}</a>
         </ng-container>
     </div>
 

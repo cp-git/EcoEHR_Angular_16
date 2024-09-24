@@ -1,263 +1,263 @@
 <div class="container-fluid" style="width: 100%;background-color:#4a99c7;">
-    <h3 style="color: white;margin-top: 20px;margin-bottom: 20px;">ADD ENCOUNTER</h3>
+  <h3 style="color: white;margin-top: 20px;margin-bottom: 20px;">ADD ENCOUNTER</h3>
 </div>
 
 <div class="header-contents" style="border: 2px groove black;margin-top: 20px;background-color: #03659d;">
-    <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <div>
-                <label class="header-style"  style="color: white;font-weight: bold;">Last Name:</label>
-                <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords && patientRecords.lastName}}</label>
-            </div>
-            <div>
-                <!-- <a (click)="showAllergiesModal()" role="button"
-                    style="text-decoration: underline;color:white">
-                    <b>List Of Allergies</b>
-                </a> -->
-                <br>
-               
-            </div>
-        </div>
+  <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-4">
+          <div>
+              <label class="header-style"  style="color: white;font-weight: bold;">Last Name:</label>
+              <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords && patientRecords.lastName}}</label>
+          </div>
+          <div>
+              <!-- <a (click)="showAllergiesModal()" role="button"
+                  style="text-decoration: underline;color:white">
+                  <b>List Of Allergies</b>
+              </a> -->
+              <br>
+             
+          </div>
+      </div>
 
 
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <div>
-                <label class="header-style"  style="color: white;font-weight: bold;">First Name:</label>
-                <label class="input-size" style="color: white;font-weight: bold;">{{patientRecords.firstName}}</label>
-            </div>
-            <div>
-                    <label class="header-style"  style="color: white;font-weight: bold;">Sex:</label>
-                    <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords.gender}}</label>
-                </div>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <div>
-                <label class="header-style"  style="color: white;font-weight: bold;">DOB:</label>
-                <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords.dob | date:'shortDate'}}</label>
-            </div>
-            <div>
-                <!-- <label class="header-style">Age:</label>
-                <label class="input-size">{{patientRecords &&
-                    calculateAge(patientRecords.dob)}}</label> -->
-            </div>
-        </div>
-        <!-- <div class="col-md-1">
-            <div>
-                <label class="header-style">Sex:</label>
-                <label class="input-size">{{patientRecords && patientRecords.gender}}</label>
-            </div>
-        </div> -->
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <div>
-                <label class="header-style"  style="color: white;font-weight: bold;">Date:</label>
-                <label class="input-size"  style="color: white;font-weight: bold;">{{today | date:'MM/dd/yyyy'}}</label>
-            </div>
-            <div>
-                <label class="header-style"  style="color: white;font-weight: bold;">Time:</label>
-                <label class="input-size"  style="color: white;font-weight: bold;">{{today | date:'HH:mm:ss'}}</label>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-6">
-            <div>
-                <label class="header-style"  style="color: white;font-weight: bold;">Primary Care Provider:</label>
-                <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords && patientRecords.providerFirstName}}
-                    {{patientRecords && patientRecords.providerLastName}}</label>
-            </div>
-            <div *ngIf="show">
+      <div class="col-md-4 col-sm-4 col-xs-4">
+          <div>
+              <label class="header-style"  style="color: white;font-weight: bold;">First Name:</label>
+              <label class="input-size" style="color: white;font-weight: bold;">{{patientRecords.firstName}}</label>
+          </div>
+          <div>
+                  <label class="header-style"  style="color: white;font-weight: bold;">Sex:</label>
+                  <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords.gender}}</label>
+              </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-4">
+          <div>
+              <label class="header-style"  style="color: white;font-weight: bold;">DOB:</label>
+              <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords.dob | date:'shortDate'}}</label>
+          </div>
+          <div>
+              <!-- <label class="header-style">Age:</label>
+              <label class="input-size">{{patientRecords &&
+                  calculateAge(patientRecords.dob)}}</label> -->
+          </div>
+      </div>
+      <!-- <div class="col-md-1">
+          <div>
+              <label class="header-style">Sex:</label>
+              <label class="input-size">{{patientRecords && patientRecords.gender}}</label>
+          </div>
+      </div> -->
+      <div class="col-md-4 col-sm-4 col-xs-4">
+          <div>
+              <label class="header-style"  style="color: white;font-weight: bold;">Date:</label>
+              <label class="input-size"  style="color: white;font-weight: bold;">{{today | date:'MM/dd/yyyy'}}</label>
+          </div>
+          <div>
+              <label class="header-style"  style="color: white;font-weight: bold;">Time:</label>
+              <label class="input-size"  style="color: white;font-weight: bold;">{{today | date:'HH:mm:ss'}}</label>
+          </div>
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-6">
+          <div>
+              <label class="header-style"  style="color: white;font-weight: bold;">Primary Care Provider:</label>
+              <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords && patientRecords.providerFirstName}}
+                  {{patientRecords && patientRecords.providerLastName}}</label>
+          </div>
+          <div *ngIf="show">
 
-                <label class="header-style"  style="color: white;font-weight: bold;">Patient Unique Characters:</label>
-                <label class="input-size"  style="color: white;font-weight: bold;">{{encounterdata && encounterdata.patientUniqueCharacters}}
-                    </label>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-       <div class="row" style="margin-left:57px;margin-bottom:1%">
-            <div id="expansionPanel3" *ngIf="value">
-                <!-- <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <th class="text-center">Allergy</th>
-                            <th class="text-center">Form</th>
-                            <th class="text-center">Route</th>
-                            <th class="text-center">Dose</th>
-                        </tr>
-                        <ng-container *ngIf="patientAllergies?.length > 0">
-                            <tr *ngFor="let allergy of patientAllergies" style="color:white">
-                                    <td>{{allergy.productName}}</td>
-                                    <td>{{allergy.form}}</td>
-                                    <td>{{allergy.route}}</td>
-                                    <td [innerHTML]=allergy.dose></td>
-                            </tr>
-                        </ng-container>
-                        <ng-container *ngIf="patientAllergies?.length == 0">
-                            <tr style="color:white" class="text-center">
-                                <td colspan="4">No Allergies found!!</td>
-                            </tr>
-                        </ng-container>
-                    </tbody>
-                </table> -->
-            </div>
-        </div>
+              <label class="header-style"  style="color: white;font-weight: bold;">Patient Unique Characters:</label>
+              <label class="input-size"  style="color: white;font-weight: bold;">{{encounterdata && encounterdata.patientUniqueCharacters}}
+                  </label>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+     <div class="row" style="margin-left:57px;margin-bottom:1%">
+          <div id="expansionPanel3" *ngIf="value">
+              <!-- <table class="table table-bordered">
+                  <tbody>
+                      <tr>
+                          <th class="text-center">Allergy</th>
+                          <th class="text-center">Form</th>
+                          <th class="text-center">Route</th>
+                          <th class="text-center">Dose</th>
+                      </tr>
+                      <ng-container *ngIf="patientAllergies?.length > 0">
+                          <tr *ngFor="let allergy of patientAllergies" style="color:white">
+                                  <td>{{allergy.productName}}</td>
+                                  <td>{{allergy.form}}</td>
+                                  <td>{{allergy.route}}</td>
+                                  <td [innerHTML]=allergy.dose></td>
+                          </tr>
+                      </ng-container>
+                      <ng-container *ngIf="patientAllergies?.length == 0">
+                          <tr style="color:white" class="text-center">
+                              <td colspan="4">No Allergies found!!</td>
+                          </tr>
+                      </ng-container>
+                  </tbody>
+              </table> -->
+          </div>
+      </div>
 </div>
 </div>
 
 <div class="container-fluid" style="border: 3px groove grey; margin-top: 20px;">
-    <div class="row">
+  <div class="row">
 
-        <div class="col-md-3" style="width: 300px;">
-            <div class="side-header" style="height: 500px;">
-                <h4 style="margin-left: 10px;margin-top: 20px;font-weight: bold;margin-left: 2px;">Encounter History</h4>
-                <table>
-                    <tbody>
-                        <tr  *ngFor="let enc of allEncounters" >
-                            <td style="width: 400px;"><i class="fas fa-solid fa-check" style="color: #0471af"></i><button style="margin-top: 10px; width: 50px;background-color: transparent;border: none; text-decoration: underline;color: #0471af;" (click)="openDialog(enc.encounterId,patientId)">
-                                {{enc.encounterDate | date:'shortDate'}} {{enc.chiefCompliant}}</button></td>
-                        </tr>
-                    </tbody>       
-                </table>
-             </div>
-        </div>
+      <div class="col-md-3" style="width: 300px;">
+          <div class="side-header" style="height: 500px;">
+              <h4 style="margin-left: 10px;margin-top: 20px;font-weight: bold;margin-left: 2px;">Encounter History</h4>
+              <table>
+                  <tbody>
+                      <tr  *ngFor="let enc of allEncounters" >
+                          <td style="width: 400px;"><i class="fas fa-solid fa-check" style="color: #0471af"></i><button style="margin-top: 10px; width: 50px;background-color: transparent;border: none; text-decoration: underline;color: #0471af;" (click)="openDialog(enc.encounterId,patientId)">
+                              {{enc.encounterDate | date:'shortDate'}} {{enc.chiefCompliant}}</button></td>
+                      </tr>
+                  </tbody>       
+              </table>
+           </div>
+      </div>
 
-        <div class="col-md-9" style="border: 2px groove brown;width: 80%;">
-           
-            <form [formGroup]="AddEncounterForm" action="" method="">
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-2" style="margin-top:18px;margin-left:18px;color: black;font-weight: bold;">
-                        <label class="label-style"><small class="AsteriskColor">*
-                            </small> Chief compliant:</label>
-                    </div>
-                    <div class="col-md-8">
-                        <textarea class="form-control" formControlName="chiefCompliant"
-                            placeholder="type here...."></textarea>
-                    </div>
-                </div>
+      <div class="col-md-9" style="border: 2px groove brown;width: 80%;">
+         
+          <form [formGroup]="AddEncounterForm" action="" method="">
+              <div class="row" style="margin-top: 10px;">
+                  <div class="col-md-2" style="margin-top:18px;margin-left:18px;color: black;font-weight: bold;">
+                      <label class="label-style"><small class="AsteriskColor">*
+                          </small> Chief compliant:</label>
+                  </div>
+                  <div class="col-md-8">
+                      <textarea class="form-control" formControlName="chiefCompliant"
+                          placeholder="type here...."></textarea>
+                  </div>
+              </div>
 
-                <div class="row" style="margin-top: 20px;">
-                    <div class="col-md-2" style="margin-top:18px;margin-left:18px;color: black;font-weight: bold;">
-                        <label class="label-style"><small class="AsteriskColor">*
-                            </small> Patient Unique Characters:</label>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="text" placeholder="type here...."
-                            formControlName="patientUniqueCharacter"
-                            class="form-control">
-                    </div>
-                </div>
+              <div class="row" style="margin-top: 20px;">
+                  <div class="col-md-2" style="margin-top:18px;margin-left:18px;color: black;font-weight: bold;">
+                      <label class="label-style"><small class="AsteriskColor">*
+                          </small> Patient Unique Characters:</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" placeholder="type here...."
+                          formControlName="patientUniqueCharacter"
+                          class="form-control">
+                  </div>
+              </div>
 
-                <mat-expansion-panel hideToggle style="border:1px groove blue">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title style="color: black;font-weight: bold;"> <small class="AsteriskColor">*
-                    </small>  Level Of Acuity</mat-panel-title>
-                      <!-- <mat-panel-description> This is a summary of the content </mat-panel-description> -->
-                    </mat-expansion-panel-header>
-                     <table *ngFor="let acuity of acuityData">
-                       <!-- {{acuity | json}} -->
-                       <tr> 
-                        <div class="row"
-                        *ngFor='let data of acuityData;let i=index'>
-                        <!-- <div *ngIf="allEncounterList.length==0 && i<5"> -->
-                        <span class="col-md-2 col-sm-2 col-xs-2"
-                            style="width: 0px;">
-                            <label><input type="radio"
-                                    name="optradio"></label>
-                        </span>
-                        <div class="col-md-8 col-sm-6 col-xs-8">
-                            <label><b>{{data.type}}</b> -
-                                {{data.NEW}}
-                                {{data.DESC}}
-                            </label>
-                        </div>
-                        <div class="col-sm-4 col-xs-2 col-md-2">
-                            <!-- <a href="#"
-                                (click)="openAcuity(data.NEW)"
-                                data-toggle="modal"
-                                title="View Details">
-                                <i class="fa fa-eye"></i>
-                            </a> -->
-                        </div>
-                        </div>
-                      
-                  
-                       </tr>
+              <mat-expansion-panel hideToggle style="border:1px groove blue">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title style="color: black;font-weight: bold;"> <small class="AsteriskColor">*
+                  </small>  Level Of Acuity</mat-panel-title>
+                    <!-- <mat-panel-description> This is a summary of the content </mat-panel-description> -->
+                  </mat-expansion-panel-header>
+                   <table *ngFor="let acuity of acuityData">
+                     <!-- {{acuity | json}} -->
+                     <tr> 
+                      <div class="row"
+                      *ngFor='let data of acuityData;let i=index'>
+                      <!-- <div *ngIf="allEncounterList.length==0 && i<5"> -->
+                      <span class="col-md-2 col-sm-2 col-xs-2"
+                          style="width: 0px;">
+                          <label><input type="radio"
+                                  name="optradio"></label>
+                      </span>
+                      <div class="col-md-8 col-sm-6 col-xs-8">
+                          <label><b>{{data.type}}</b> -
+                              {{data.NEW}}
+                              {{data.DESC}}
+                          </label>
+                      </div>
+                      <div class="col-sm-4 col-xs-2 col-md-2">
+                          <!-- <a href="#"
+                              (click)="openAcuity(data.NEW)"
+                              data-toggle="modal"
+                              title="View Details">
+                              <i class="fa fa-eye"></i>
+                          </a> -->
+                      </div>
+                      </div>
+                    
+                
+                     </tr>
 
-                     </table>
-                  </mat-expansion-panel>
-
-
-                <!-- <div class="row" id="collapsePanel1">
-                    <div class="card-header collapse-card-style"
-                        (click)="expandPanel1()" id="change-collapse1"
-                        data-toggle="collapse" data-target="#expansionPanel2"
-                        data-background-color>
-                        <small class="AsteriskColor">* </small>Level of acuity :
-                        {{acuityName}}
-                    </div>
-                   
-                </div> -->
+                   </table>
+                </mat-expansion-panel>
 
 
-                <div class="row" style=" margin-left:25px;margin-top: 30px;color: black;font-weight: bold;margin-right:30px;">
-                    <label class="label-style"><small class="AsteriskColor">*
-                        </small>ICD
-                        10 code search    <i class="fas fa-plus-circle" (click)="toICDCode()"></i></label>&nbsp;
+              <!-- <div class="row" id="collapsePanel1">
+                  <div class="card-header collapse-card-style"
+                      (click)="expandPanel1()" id="change-collapse1"
+                      data-toggle="collapse" data-target="#expansionPanel2"
+                      data-background-color>
+                      <small class="AsteriskColor">* </small>Level of acuity :
+                      {{acuityName}}
+                  </div>
+                 
+              </div> -->
 
-                        <!-- <i class="fas fa-plus-circle" (click)="toICDCode()"></i> -->
-                   
-                   
-                </div>
 
-                <div class="table-content">
-                    <table class="table table-bordered">
-                        <tbody style="overflow-y:auto;display:bdata">
-                            <tr>
-                                <th class="text-center" style="width:5%;">ICD-10
-                                </th>
-                                <th class="text-center" style="width:25%;">
-                                    Description</th>
-                                <th class="text-center" style="width:5%;">
-                                    Delete</th>
-                            </tr>
-                            <tr
-                                *ngFor="let data of receivedData ;let i=index">
-                                <td class="text-center" id="icd10CodeData">
-                                    <div id="icd10CodeData1">
-                                        <b> {{data.ICD10Code}}</b></div>
-                                </td>
-                                <td>{{data.Description}}</td>
-                                <td class="text-center">
-                                    <button
-                                        class="btn btn-simple btn-danger btn-icon "
-                                        (click)="deleteIcd(data)"
-                                        title="Delete">
-                                        <i class="fa fa-trash"
-                                            aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                            </tr>
+              <div class="row" style=" margin-left:25px;margin-top: 30px;color: black;font-weight: bold;margin-right:30px;">
+                  <label class="label-style"><small class="AsteriskColor">*
+                      </small>ICD
+                      10 code search    <i class="fas fa-plus-circle" (click)="toICDCode()"></i></label>&nbsp;
 
-                        </tbody>
-                    </table>
-                </div>
+                      <!-- <i class="fas fa-plus-circle" (click)="toICDCode()"></i> -->
+                 
+                 
+              </div>
 
-                <div class="col-sm-offset-8 col-md-offset-9 col-xs-offset-2">
-                    <button type="submit" class="btn button" id="btn" 
-                        #encounterButton (click)="onSubmit(encounterButton.value);">SAVE &
-                        NEXT</button>
-                    <button type="submit" class="btn button" id="btn" >Back</button>
-                </div>
+              <div class="table-content">
+                  <table class="table table-bordered">
+                      <tbody style="overflow-y:auto;display:bdata">
+                          <tr>
+                              <th class="text-center" style="width:5%;">ICD-10
+                              </th>
+                              <th class="text-center" style="width:25%;">
+                                  Description</th>
+                              <th class="text-center" style="width:5%;">
+                                  Delete</th>
+                          </tr>
+                          <tr
+                              *ngFor="let data of receivedData ;let i=index">
+                              <td class="text-center" id="icd10CodeData">
+                                  <div id="icd10CodeData1">
+                                      <b> {{data.ICD10Code}}</b></div>
+                              </td>
+                              <td>{{data.Description}}</td>
+                              <td class="text-center">
+                                  <button
+                                      class="btn btn-simple btn-danger btn-icon "
+                                      (click)="deleteIcd(data)"
+                                      title="Delete">
+                                      <i class="fa fa-trash"
+                                          aria-hidden="true"></i>
+                                  </button>
+                              </td>
+                          </tr>
 
-            </form>
+                      </tbody>
+                  </table>
+              </div>
 
-        </div>
+              <div class="col-sm-offset-8 col-md-offset-9 col-xs-offset-2">
+                  <button type="submit" class="btn button" id="btn" 
+                      #encounterButton (click)="onSubmit(encounterButton.value);">SAVE &
+                      NEXT</button>
+                  <button type="submit" class="btn button" id="btn" >Back</button>
+              </div>
 
-    </div>
+          </form>
 
-    {{receivedData | json}}
-   
+      </div>
 
+  </div>
+
+  {{receivedData | json}}
  
 
 
-   
+
+
+ 
 </div>

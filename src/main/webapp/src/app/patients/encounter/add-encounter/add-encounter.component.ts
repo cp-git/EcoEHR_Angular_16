@@ -32,6 +32,8 @@ import { ICD10Group } from '../../models/ICD10Group';
 import { ListEncounterComponent } from '../list-encounter/list-encounter.component';
 import { StateServicesService } from '../../services/state-services.service';
 import { data } from 'jquery';
+import { CurrentUserService } from 'src/app/profiles/currentUserService';
+import { StaffMember } from 'src/app/administration/staff-members/staffmember';
 
 @Component({
   selector: 'app-add-encounter',
@@ -75,6 +77,10 @@ export class AddEncounterComponent {
   //receivedData: any[] = [];
 
   receivedData: ICD10[] = [];
+
+  staffImage: any;
+
+  loggedInUser!: StaffMember;
    
 
   constructor(
@@ -86,7 +92,8 @@ export class AddEncounterComponent {
     private formBuilder:FormBuilder,
     httpService: HttpClient,
     private stateService: StateServicesService,
-    private route:Router
+    private route:Router,
+    private currentUserService: CurrentUserService
   
   ) { }
 
@@ -139,6 +146,19 @@ export class AddEncounterComponent {
     })
     
   }
+
+  getLoggedInUserDetails(){
+    this.currentUserService.getCurrentStaffMember()
+    .subscribe(data => {
+      this.loggedInUser = data;
+      if (data.staffImage == null || data.staffImage == "") {
+        this.staffImage = "./assets/img/default-avatar.png";
+      }
+      else{
+          this.staffImage = data.staffImage;
+      }
+    })
+}
 
 
 
@@ -388,6 +408,56 @@ deleteIcd(data:any){
     }
   }
  }
+
+
+ GoToPatientList(){
+  this.route.navigate(['/list']);
+}
+
+
+AddPatient(){
+  this.route.navigate(['/addpatient'])
+}
+
+Clinic(){
+  this.route.navigate(['clinicLocation'])
+}
+
+Staff(){
+  this.route.navigate(['stafflist'])
+}
+
+
+Student(){
+  this.route.navigate(['studentlist'])
+}
+
+Master(){
+  this.route.navigate(['masterlookup'])
+}
+
+logout() {
+  //   this.currentUserService.getCurrentStaffMember()
+  // .subscribe(data => {
+      //   this.loggedInUser =  data;
+      //  //console.log(this.loggedInUser)
+      //  let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+      //   this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+      //   this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', null, null, null, null, null, null, null, this.loggedInUser.licenseNumber, 
+      //   this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+      //   this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+  
+      //   this.loginService.updateLogoutTime(staffToUpdate)
+      //   .subscribe(()=>{
+    //     })
+    // })  
+  
+  //   this.router.navigate(['/login']);
+    location.reload(); 
+    localStorage.removeItem('jwt');   
+    
+  }
+
 
 
 }

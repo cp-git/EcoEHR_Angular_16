@@ -1,3 +1,41 @@
+
+<div class="container-fluid" style="background-color: #4a99c7;">
+
+    <div class="header">
+        <div class="col-md-4">
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Plan And Assessment</h2>
+        </div>
+
+        <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
+            <div class="row">
+                <div class="col-md-1" id="navData"><a (click)="HpiComp()" style="background-color:white;">HPI</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Roscomp()"  style="background-color:white;">ROS</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()"  style="background-color:white;">Medication</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  style="background-color:white;">History</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  style="background-color:white;">Exam</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="plancomp()"  style="background-color:white;">plan</a></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row" style="margin-top: 30px;border: 2px groove grey;padding: 20px;background-color: #03659d;">
+    <div class="col-md-12">
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Last Name : {{patientRecords.lastName}}</a></div>
+        <div class="col-md-4"><a style="color: white; font-weight: bold;">First Name : {{patientRecords.firstName}}</a></div>
+        <div class="col-md-4"> <a style="color: white;font-weight: bold;">DOB : {{patientRecords.dob | date:'shortDate'}} </a></div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-4"><a style="color: white;font-weight: bold;text-decoration: underline;">List of Allergy</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Sex : {{patientRecords.gender}}</a></div>
+        <div class="col-md-4"><a style="color: white;font-weight: bold;">Time : {{patientRecords.createdDate | date:'shortTime'}}</a></div>
+    </div>
+ 
+</div>
+
 <div class="container" style="margin-top: 150px;">
     <form [formGroup]="ordersForm" mmethod="#" action="">
         <!-- <ngx-spinner bdColor="transparent" loadingText="Loading" size="defaut" color="#03659D"

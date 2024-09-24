@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PatientRecord } from '../models/PatientRecord';
 import { Orders } from '../models/orders';
 import { PatientMedicationRecord } from '../models/patientMedicationRecord';
@@ -101,7 +101,7 @@ export class OrdersComponentComponent {
 
 
   constructor(private _activateRoute:ActivatedRoute,private formBuilder:FormBuilder,private orderService:OrdersService,private stateService:StateServicesService
-    ,private patientDetailsService:PatientDetailsService
+    ,private patientDetailsService:PatientDetailsService,private route:Router
    ){}
 
 
@@ -264,6 +264,36 @@ deleteLabRecord(orderId:any) {
       }, errorCode => {
           this.statusCode = errorCode;
       });
+}
+
+
+HpiComp(){
+  this.route.navigate(['hpi'])
+}
+
+Roscomp(){
+this.route.navigate(['ros'])
+
+}
+
+Medicationcomp(){
+this.route.navigate(['medication'])
+
+}
+
+Historycomp(){
+this.route.navigate(['history'])
+
+}
+
+plancomp(){
+this.route.navigate(['plan'])
+
+}
+
+Examcomp(){
+this.route.navigate(['exam'])
+
 }
 
 
