@@ -346,7 +346,7 @@ getAllQuestions(group: any,  event: Event) {
              console.log(this.number);
              
              
-             let encounterQuestionGroup = new EncounterQuestionGroup(0, this.updatedEncounterId, obj.value.questionGroupId, obj.value.systemId, 'Yes', new Date, "", new Date, "");
+             let encounterQuestionGroup = new EncounterQuestionGroup(0, this.number, obj.value.questionGroupId, obj.value.systemId, 'Yes', new Date, "", new Date, "");
              encounterQuestionGroupList.push(encounterQuestionGroup);
          }
          this.encounterQuestionGroupService.insertQuestionGroups(encounterQuestionGroupList)
