@@ -29,3 +29,20 @@ th{
 table{
     margin-top: 20px;
 }
+
+#btn1{
+    width: 140px;
+    background-color: #0590e1;
+    margin-left: 90%;
+    height: 40px;
+    border: none;
+}
+
+.contentAlign {
+    color: black;
+    background-color: white;
+    vertical-align: middle;
+    padding: 0%;
+    margin: auto;
+    text-decoration: none;
+  }

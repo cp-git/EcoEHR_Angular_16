@@ -29,3 +29,17 @@ th{
 table{
     margin-top: 20px;
 }
+
+#save{
+    background-color: #0590e1;
+    margin-top: 150px;
+}
+
+.contentAlign {
+    color: black;
+    background-color: white;
+    vertical-align: middle;
+    padding: 0%;
+    margin: auto;
+    text-decoration: none;
+  }

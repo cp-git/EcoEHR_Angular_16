@@ -29,3 +29,12 @@ th{
 table{
     margin-top: 20px;
 }
+
+.contentAlign {
+    color: black;
+    background-color: white;
+    vertical-align: middle;
+    padding: 0%;
+    margin: auto;
+    text-decoration: none;
+  }

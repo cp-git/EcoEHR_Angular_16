@@ -2,17 +2,17 @@
 
     <div class="header">
         <div class="col-md-4">
-            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Review Of System (ROS)</h2>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">History Of Present Illness (HPI)</h2>
         </div>
 
         <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
             <div class="row">
-                <div class="col-md-1" id="navData"><a (click)="HpiComp()" style="background-color:white;">HPI</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Roscomp()"  style="background-color:white;">ROS</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()"  style="background-color:white;">Medication</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  style="background-color:white;">History</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  style="background-color:white;">Exam</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="plancomp()"  style="background-color:white;">plan</a></div>
+                <div class="col-md-1" id="navData"><a (click)="HpiComp()" class="contentAlign">HPI</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Roscomp()" class="contentAlign">ROS</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()" class="contentAlign">Medication</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  class="contentAlign">History</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  class="contentAlign">Exam</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="plancomp()" class="contentAlign">Plan</a></div>
             </div>
         </div>
 
@@ -51,7 +51,7 @@
         <!-- ROS Questionaire Table -->
        
                 <ng-container *ngFor="let group of questionGroupList;let i=index">
-                    <div class="row"  style="height: auto;margin-top: 30px;width: 300px;border: 1px groove black;">
+                    <div class="row"  style="height: auto;margin-top: 30px;width: 300px;border: 1px groove black;margin-left: 20px;">
                         <div class="col-md-8 col-sm-8 col-xs-2">
                             <a data-toggle="tab" id="ros_{{i}}"   title={{group.questionGroupName}} (click)="goToSelectedTab(group,i)"
                                 class="btn btn-style btn-left question-group-style" 
@@ -70,7 +70,7 @@
           
         
     </div>
- <div class="col-md-8">
+ <div class="col-md-8" style="margin-top: 20px;">
     <div *ngFor="let question of questionGroupList">
         <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
             <div class="card col-md-9 col-sm-6" [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">

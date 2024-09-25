@@ -18,7 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from '../patientlist/patientlist.component';
 import { ActivatedRoute } from '@angular/router';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MedicationService } from '../services/medicationService';
 import { PatientMedicationRecord } from '../models/patientMedicationRecord';
 import { PatientPreventiveService } from '../services/patientPreventiveService';
@@ -29,7 +29,7 @@ import { PatientPreventiveCare } from '../models/patientPreventiveCare';
   templateUrl: './patient-header.component.html',
   styleUrls: ['./patient-header.component.css'],
   standalone: true,
-  imports: [MatSidenavModule, MatButtonModule,FormsModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,],
+  imports: [MatSidenavModule, MatButtonModule,FormsModule ,PatientListComponent,CommonModule,TimerModule,MatExpansionModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule],
 })
 export class PatientHeaderComponent {
   encounterId:any;

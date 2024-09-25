@@ -3,7 +3,7 @@
 </div>
 
 <div class="header-contents" style="border: 2px groove black;margin-top: 20px;background-color: #03659d;">
-  <div class="row">
+  <div class="row" style="margin-left: 20px;">
       <div class="col-md-4 col-sm-4 col-xs-4">
           <div>
               <label class="header-style"  style="color: white;font-weight: bold;">Last Name:</label>
@@ -25,10 +25,6 @@
               <label class="header-style"  style="color: white;font-weight: bold;">First Name:</label>
               <label class="input-size" style="color: white;font-weight: bold;">{{patientRecords.firstName}}</label>
           </div>
-          <div>
-                  <label class="header-style"  style="color: white;font-weight: bold;">Sex:</label>
-                  <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords.gender}}</label>
-              </div>
       </div>
       <div class="col-md-4 col-sm-4 col-xs-4">
           <div>
@@ -63,6 +59,12 @@
               <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords && patientRecords.providerFirstName}}
                   {{patientRecords && patientRecords.providerLastName}}</label>
           </div>
+
+          <div>
+            <label class="header-style"  style="color: white;font-weight: bold;">Sex:</label>
+            <label class="input-size"  style="color: white;font-weight: bold;">{{patientRecords.gender}}</label>
+        </div>
+
           <div *ngIf="show">
 
               <label class="header-style"  style="color: white;font-weight: bold;">Patient Unique Characters:</label>
@@ -70,6 +72,7 @@
                   </label>
           </div>
       </div>
+    
   </div>
   <div class="row">
      <div class="row" style="margin-left:57px;margin-bottom:1%">
@@ -111,7 +114,7 @@
               <table>
                   <tbody>
                       <tr  *ngFor="let enc of allEncounters" >
-                          <td style="width: 400px;"><i class="fas fa-solid fa-check" style="color: #0471af"></i><button style="margin-top: 10px; width: 50px;background-color: transparent;border: none; text-decoration: underline;color: #0471af;" (click)="openDialog(enc.encounterId,patientId)">
+                          <td style="width: 400px;"><i class="fas fa-solid fa-check" style="color: #0471af"></i><button style="margin-top: 10px;background-color: transparent;border: none; text-decoration: underline;color: #0471af;" (click)="openDialog(enc.encounterId,patientId)">
                               {{enc.encounterDate | date:'shortDate'}} {{enc.chiefCompliant}}</button></td>
                       </tr>
                   </tbody>       
@@ -253,7 +256,6 @@
 
   </div>
 
-  {{receivedData | json}}
  
 
 

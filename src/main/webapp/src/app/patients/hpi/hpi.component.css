@@ -16,3 +16,12 @@
     height: 32px;
     border:1px groove #4A99C7;
 }
+
+.contentAlign {
+    color: black;
+    background-color: white;
+    vertical-align: middle;
+    padding: 0%;
+    margin: auto;
+    text-decoration: none;
+  }

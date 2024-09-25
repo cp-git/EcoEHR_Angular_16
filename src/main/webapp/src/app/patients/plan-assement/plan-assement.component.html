@@ -3,17 +3,17 @@
 
     <div class="header">
         <div class="col-md-4">
-            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Plan And Assessment</h2>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">History Of Present Illness (HPI)</h2>
         </div>
 
         <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
             <div class="row">
-                <div class="col-md-1" id="navData"><a (click)="HpiComp()" style="background-color:white;">HPI</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Roscomp()"  style="background-color:white;">ROS</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()"  style="background-color:white;">Medication</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  style="background-color:white;">History</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  style="background-color:white;">Exam</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="plancomp()"  style="background-color:white;">plan</a></div>
+                <div class="col-md-1" id="navData"><a (click)="HpiComp()" class="contentAlign">HPI</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Roscomp()" class="contentAlign">ROS</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()" class="contentAlign">Medication</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  class="contentAlign">History</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  class="contentAlign">Exam</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="plancomp()" class="contentAlign">Plan</a></div>
             </div>
         </div>
 
@@ -37,17 +37,17 @@
 </div>
 
 
-<div class="col-md-12 col-sm-12">
-    <div class="btn-group btn-group-justified">
+<div class="col-md-12 col-sm-12" style="width: 98%;border: 1px groove grey;margin-left: 20px;margin-top: 10px;">
+    <div class="btn-group btn-group-justified" style="width: 98%;">
         <ng-container *ngFor="let list of tabList let i=index">
             <a data-toggle="tab" id="list_{{i}}" (click)="toggelChange()"
-                class="btn btn-style systems-tab-style" title="{{list}}">{{list}}</a>
+                class="btn btn-style systems-tab-style" style="margin-left: 700px;" title="{{list}}">{{list}}</a>
         </ng-container>
     </div>
   
 </div>
 
-<form [formGroup]="assessmentForm" mmethod="#" action="">
+<form [formGroup]="assessmentForm" mmethod="#" action="" style="margin-top: 20px;">
     <div class="col-md-9 col-md-offset-1" style="padding-top:12px;">
         <select [multiple]="true" style="width:50%" placeholder="Please select"
             formControlName="icdCode">
@@ -61,18 +61,18 @@
         </select>
         <br>
       <button type="submit" (click)="onSubmit()" class="btn button"
-            id="save">Save</button>
+            id="btn" style="margin-top: 10px;margin-left: 10px;">Save</button>
         <br><br><br>
 
-        <button type="submit" (click)="openDialog(updatedEncounterId,updatedPatientId)" id="sign">Submit
-            Encounter</button>
+        <button type="submit" (click)="openDialog(updatedEncounterId,updatedPatientId)" id="btn1">
+            Submit Encounter</button>
     </div>
 
     <div *ngIf="!showData">
         <div class="table-content" *ngIf="encounterassessmentdata.length>0">
             <div class="col-md-8 col-md-offset-1">
 
-                <div>
+                <div class="row">
                     <label style="color:black"> Assessment History</label>
                 </div>
                 <table class="table table-bordered">

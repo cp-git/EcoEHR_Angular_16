@@ -189,7 +189,7 @@ getEncAssessmentbyEncounterId(encounterId:any)
 
 onSubmit(){
   if (this.assessmentForm.valid) {
-      (<HTMLInputElement>document.getElementById("save")).disabled = true;
+     
       let asessmentList: EncAsessment[] = [];
       let icd = this.assessmentForm.get('icdCode')?.value;
       for (let i = 0; i < icd.length; i++) {
@@ -244,7 +244,7 @@ changeIcdCode(icd: string) {
 
 onSave() {
   if (this.ordersForm.valid) {
-      (<HTMLInputElement>document.getElementById("save")).disabled = true;
+    
       let icd = this.icdCode;
       if (this.viewMode == 'Lab') {
           icd = this.ordersForm.get('icd')?.value;

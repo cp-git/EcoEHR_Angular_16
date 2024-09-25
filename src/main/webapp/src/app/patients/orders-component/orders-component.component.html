@@ -3,17 +3,17 @@
 
     <div class="header">
         <div class="col-md-4">
-            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Plan And Assessment</h2>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">History Of Present Illness (HPI)</h2>
         </div>
 
         <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
             <div class="row">
-                <div class="col-md-1" id="navData"><a (click)="HpiComp()" style="background-color:white;">HPI</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Roscomp()"  style="background-color:white;">ROS</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()"  style="background-color:white;">Medication</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  style="background-color:white;">History</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  style="background-color:white;">Exam</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="plancomp()"  style="background-color:white;">plan</a></div>
+                <div class="col-md-1" id="navData"><a (click)="HpiComp()" class="contentAlign">HPI</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Roscomp()" class="contentAlign">ROS</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()" class="contentAlign">Medication</a></div>
+                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  class="contentAlign">History</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  class="contentAlign">Exam</a></div>
+                <div class="col-md-1"  id="navData"><a (click)="plancomp()" class="contentAlign">Plan</a></div>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                 
                     <ng-container *ngFor="let list of tabList; let i=index">
                       
-                        <div class="row">
+                        <div class="row" style="border: 2px groove grey; margin-top: 5px;">
                             <div class="col-md-8 col-sm-8">
                                 <a data-toggle="tab" id="{{i}}" style="width: 131px !important"
                                     class="btn btn-style btn-left question-group-style"    (click)="selectTab(list)" 
@@ -204,7 +204,7 @@
                                             <ng-container *ngIf="lab.labOrderComments != null">
                                                 <td>{{lab.icd10Code}}</td>
                                                 <td>{{lab.labOrderComments}}</td>
-                                                <!-- <td>{{displayOrderDate(lab.labOrderDate) |date:'MM/dd/yyyy'}}</td> -->
+                                                <td>{{lab.labOrderDate | date:'shortDate'}}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(lab.orderId)" title="Delete">
@@ -272,13 +272,13 @@
                                             <ng-container *ngIf="imaging.imagingOrderComments != null" >
                                                 <td>{{imaging.icd10Code}}</td>
                                                 <td>{{imaging.imagingOrderComments}}</td>
-                                                <!-- <td>{{displayOrderDate(imaging.imagingOrderDate) |date:'MM/dd/yyyy'}} 
-                                                </td>-->
+                                                <td>{{imaging.imagingOrderDate | date:'shortDate'}} 
+                                                </td>
                                                 <td class="text-center">
-                                                    <!-- <button class="btn btn-simple btn-danger btn-icon "
+                                                    <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(imaging.orderId)" title="Delete">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button> -->
+                                                    </button>
                                                 </td>
     
                                             </ng-container>
@@ -329,8 +329,8 @@
                                             <ng-container *ngIf="consult.consultingOrderComments != null" >
                                                 <td>{{consult.icd10Code}}</td>
                                                 <td>{{consult.consultingOrderComments}}</td>
-                                                <!-- <td>{{displayOrderDate(consult.consultingOrderDate) |date:'MM/dd/yyyy'}} 
-                                                </td>-->
+                                                <td>{{consult.consultingOrderDate | date:'shortDate'}} 
+                                                </td>
                                                 <td class="text-center">
                                                     <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(consult.orderId)" title="Delete">
@@ -386,8 +386,8 @@
                                             <ng-container *ngIf="follow.followupOrderComments != null">
                                                 <td>{{follow.icd10Code}}</td>
                                                 <td>{{follow.followupOrderComments}}</td>
-                                                <!-- <td>{{displayOrderDate(follow.followupOrderDate) |date:'MM/dd/yyyy'}} 
-                                                </td>-->
+                                                <td>{{follow.followupOrderDate| date:'shortDate'}} 
+                                                </td>
                                                 <td class="text-center">
                                                     <button class="btn btn-simple btn-danger btn-icon "
                                                         (click)="deleteLabRecord(follow.orderId)" title="Delete">
