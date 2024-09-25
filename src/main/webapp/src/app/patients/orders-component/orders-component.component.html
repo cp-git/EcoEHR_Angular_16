@@ -1,9 +1,141 @@
+<div class="main-content" >
+    <div class="container-fluid" style="height: 725px;">
+      <mat-drawer-container class="example-container" autosize style="overflow: hidden;" > 
+        <mat-drawer #drawer class="example-sidenav" mode="side" >
+          <div class="row" style="margin-top: 45px;">
+              <div class="col-md-12" style="border: 5px groove dodgerblue;width: fit-content; margin-left: 20px;">
+                <b class="ehr-class">Eco EHR</b>
+              </div>
+  
+              <hr style="margin-top: 20px;">
+  
+              <span class="timer">
+                <ehr-timer title="Time left for Activity"></ehr-timer>
+            </span>
+  
+            <!-- Expansion Panel-->
+            <mat-accordion>
+              <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" id="panel">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> 
+                    <div class="row">
+                       <div class="col-md-4" style="width: 45px;height: 45px;">
+                              <img src={{staffImage}}  style="width: 45px;"> 
+                       </div>
+                    </div>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <span>{{loggedInUser && loggedInUser.firstName}} {{loggedInUser && loggedInUser.lastName}}<b class="caret"></b></span>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+  
+                <div class="row" id="data">
+                  <a>
+                    <span class="sidebar-mini"><i class="fas fa-user-edit"></i></span>
+                    <span class="sidebar-normal" style="margin-left: 8px;">Profile Settings</span>
+                  </a>
+                </div>
+                <div class="row"  id="data">
+                  <a>
+                    <span class="sidebar-mini"><i class="fas fa-solid fa-comments"></i></span>
+                    <span class="sidebar-normal" style="margin-left: 8px;">Feedback</span>
+                </a>
+                </div>
+  
+                <div class="row"  id="data">
+                  <a href="#" (click)="logout()">
+                    <span class="sidebar-mini"><i class="material-icons">exit_to_app</i></span>
+                    <span class="sidebar-normal" style="margin-left: 8px;margin-top: 8px;">Sign Out</span>
+                   </a>
+                </div>
+  
+                <hr style="margin-top: 20px;">
+             
+              </mat-expansion-panel>
+            </mat-accordion>
+  
+          </div>
+  
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" style="margin-top: 20px;">
+              <mat-expansion-panel-header>
+                <mat-panel-title> <i class="fas fa-notes-medical"></i> <a style="margin-left: 20px;font-size: 16px;">Patients</a> </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row"  id="data">
+                <a>
+                  <span class="sidebar-mini"><i class="fas fa-solid fa-hospital-user"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 5px;" (click)="GoToPatientList()">Patient List</span>
+                </a>
+              </div>
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-solid fa-file-medical"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 10px;" (click)="AddPatient()">Add Patient</span>
+              </a>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+  
+  
+  
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" style="margin-top: 20px;">
+              <mat-expansion-panel-header>
+                <mat-panel-title> <i class="fas fa-tasks"></i><a style="margin-left: 16px;font-size: 16px;">Admin Tools</a></mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row"  id="data">
+                <a>
+                  <span class="sidebar-mini"><i class="fa fa-map-marker"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;"  (click)="Clinic()">Clinic Location</span>
+                </a>
+              </div>
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-users"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;"  (click)="Staff()">Staff Members</span>
+              </a>
+              </div>
+  
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-solid fa-list"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;" (click)="Student()">Student list</span>
+              </a>
+              </div>
+  
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-address-card" aria-hidden="true"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;"  (click)="Master()">Master Lookup</span>
+              </a>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          
+        </mat-drawer>
+  
+        
+  
+  
+        
+      
+        <div class="example-sidenav-content" style="overflow:hidden">
+          <div class="row">
+              <div class="col-md-12">
+                <button type="button" mat-button (click)="drawer.toggle()">
+                  <!-- Toggle sidenav -->
+                  <i class="fas fa-solid fa-list"></i>
+                </button>
+                
+              </div>
+          </div>
 
+          
 <div class="container-fluid" style="background-color: #4a99c7;">
 
     <div class="header">
         <div class="col-md-4">
-            <h2 style="font-weight: bold;color: white;margin-top: 5px;">History Of Present Illness (HPI)</h2>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Plan And Assesment</h2>
         </div>
 
         <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
@@ -50,9 +182,9 @@
                 
                     <ng-container *ngFor="let list of tabList; let i=index">
                       
-                        <div class="row" style="border: 2px groove grey; margin-top: 5px;">
+                        <div class="row" style="border: 2px groove grey; margin-top: 5px;background-color: #4a99c7;width: 131px;">
                             <div class="col-md-8 col-sm-8">
-                                <a data-toggle="tab" id="{{i}}" style="width: 131px !important"
+                                <a data-toggle="tab" id="{{i}}" style="width: 131px !important;"
                                     class="btn btn-style btn-left question-group-style"    (click)="selectTab(list)" 
                                      title="{{list}}">{{list}}</a>
                             </div>
@@ -60,7 +192,7 @@
                     </ng-container>
                     <br>
                 </div>
-                <div [ngSwitch]="viewMode" class="col-md-10 col-sm-8 col-sm-offset-1 col-md-offset-0">
+                <div [ngSwitch]="viewMode" class="col-md-10 col-sm-8 col-sm-offset-1 col-md-offset-0" style="margin-left: 30px;">
                     <div class="card question-card-style col-md-10 col-sm-6">
                         <div class="col-md-9 col-md-offset-3 icd-tbl-style" style="display: none;">
                             <select style="width:100%;color: black !important;" [(ngModel)]="icdCode"
@@ -410,3 +542,18 @@
         <br>
     </form>
     </div>
+          
+  
+        </div>
+  
+        <!-- <div class="pagination-controls" style="margin-left: 85%;">
+          <button (click)="OnPageChange(currentPage - 1)" [disabled]="currentPage === 1" style="border:0;">Previous</button>
+          <span> {{ currentPage }} of {{ totalPages }}</span>
+          <button (click)="OnPageChange(currentPage + 1)" [disabled]="currentPage === totalPages" style="border:0;">Next</button>
+        </div> -->
+      
+      </mat-drawer-container>
+    </div>
+     
+    </div>
+    

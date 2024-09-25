@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ChiefCompliantDtl } from '../models/chiefCompliantDtl';
 import { EncounterService } from '../services/encounterService';
 import { StateServicesService } from '../services/state-services.service';
@@ -24,13 +24,17 @@ import { OrdersService } from '../services/ordersService';
 import { Router } from '@angular/router';
 import { PatientDetailsService } from '../services/patientDetailsService';
 import { PatientHeaderComponent } from '../patient-header/patient-header.component';
+import { StaffMember } from 'src/app/administration/staff-members/staffmember';
+import { CurrentUserService } from 'src/app/profiles/currentUserService';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-plan-assement',
   templateUrl: './plan-assement.component.html',
   styleUrls: ['./plan-assement.component.css'],
   standalone: true,
-  imports: [FormsModule ,CommonModule,TimerModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule,MatIconModule],
+  imports: [FormsModule ,CommonModule,TimerModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule,MatIconModule,MatExpansionModule,MatSidenavModule],
 })
 export class PlanAssementComponent {
 
@@ -92,13 +96,19 @@ export class PlanAssementComponent {
 
   updatedEncounterId:any;
   updatedPatientId:any;
+
+  readonly panelOpenState = signal(false);
+  locName: any;
+  staffImage: any;
+
+  loggedInUser!: StaffMember;
  
 
 
 
   constructor(private encounterService:EncounterService,private stateService:StateServicesService,private formBuilder:FormBuilder,
     private encAssessmentService:EncAssessmentService,private orderService:OrdersService,private route:Router,private patientDetailsService:PatientDetailsService,
-    public dialog: MatDialog,
+    public dialog: MatDialog,  private currentUserService: CurrentUserService
   ){}
 
   ngOnInit(){
@@ -157,6 +167,8 @@ this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
 
   })
   this.tabListdata= ["Condition","Medication", "Lab", "Imaging", "Consulting", "Follow up"];
+
+  this.getLoggedInUserDetails();
 
   }
 
@@ -330,6 +342,68 @@ openDialog(id: number,id1:number): void {
     data: { id: id,id1:id1 }
   });
 }
+
+getLoggedInUserDetails(){
+  this.currentUserService.getCurrentStaffMember()
+  .subscribe(data => {
+    this.loggedInUser = data;
+    if (data.staffImage == null || data.staffImage == "") {
+      this.staffImage = "./assets/img/default-avatar.png";
+    }
+    else{
+        this.staffImage = data.staffImage;
+    }
+  })
+}
+
+
+GoToPatientList(){
+  this.route.navigate(['/list']);
+}
+
+
+AddPatient(){
+  this.route.navigate(['/addpatient'])
+}
+
+Clinic(){
+  this.route.navigate(['clinicLocation'])
+}
+
+Staff(){
+  this.route.navigate(['stafflist'])
+}
+
+
+Student(){
+  this.route.navigate(['studentlist'])
+}
+
+Master(){
+  this.route.navigate(['masterlookup'])
+}
+
+logout() {
+  //   this.currentUserService.getCurrentStaffMember()
+  // .subscribe(data => {
+      //   this.loggedInUser =  data;
+      //  //console.log(this.loggedInUser)
+      //  let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+      //   this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+      //   this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', null, null, null, null, null, null, null, this.loggedInUser.licenseNumber, 
+      //   this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+      //   this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+  
+      //   this.loginService.updateLogoutTime(staffToUpdate)
+      //   .subscribe(()=>{
+    //     })
+    // })  
+  
+  //   this.router.navigate(['/login']);
+    location.reload(); 
+    localStorage.removeItem('jwt');   
+    
+  }
 
 
 

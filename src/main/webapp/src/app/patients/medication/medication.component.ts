@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SystemService } from '../services/systemService';
 import { System } from '../models/system';
 import { QuestionRecord } from '../models/questionRecord';
@@ -34,6 +34,8 @@ import { data } from 'jquery';
 import { DeleteMedicationComponent } from '../delete-medication/delete-medication.component';
 import { PatientRecord } from '../models/PatientRecord';
 import { PatientDetailsService } from '../services/patientDetailsService';
+import { StaffMember } from 'src/app/administration/staff-members/staffmember';
+import { CurrentUserService } from 'src/app/profiles/currentUserService';
 
 
 
@@ -89,12 +91,20 @@ patientId:any
   patientRecords!:PatientRecord;
 
 
+  readonly panelOpenState = signal(false);
+  locName: any;
+  staffImage: any;
+
+  loggedInUser!: StaffMember;
+
+
   
   constructor(private systemService:SystemService,private questionsService:QuestionsService,private questionGroupService:QuestionGroupService,
     private formBuilder:FormBuilder,private stateService:StateServicesService,private encounterQuestionOptionService:EncounterQuestionOptionService,
     private encounterQuestionGroupService:EncounterQuestionGroupService,private medicationService:MedicationService,
     private encounterService:EncounterService,
-    private dialog: MatDialog,private router:Router,private patientDetailsService:PatientDetailsService
+    private dialog: MatDialog,private router:Router,private patientDetailsService:PatientDetailsService,
+    private currentUserService: CurrentUserService
   ){}
 
 
@@ -227,7 +237,7 @@ this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
         });
     
 
-   
+   this.getLoggedInUserDetails();
   
   }
 
@@ -498,6 +508,69 @@ Examcomp(){
   this.router.navigate(['exam'])
 
 }
+
+
+getLoggedInUserDetails(){
+  this.currentUserService.getCurrentStaffMember()
+  .subscribe(data => {
+    this.loggedInUser = data;
+    if (data.staffImage == null || data.staffImage == "") {
+      this.staffImage = "./assets/img/default-avatar.png";
+    }
+    else{
+        this.staffImage = data.staffImage;
+    }
+  })
+}
+
+
+GoToPatientList(){
+  this.router.navigate(['/list']);
+}
+
+
+AddPatient(){
+  this.router.navigate(['/addpatient'])
+}
+
+Clinic(){
+  this.router.navigate(['clinicLocation'])
+}
+
+Staff(){
+  this.router.navigate(['stafflist'])
+}
+
+
+Student(){
+  this.router.navigate(['studentlist'])
+}
+
+Master(){
+  this.router.navigate(['masterlookup'])
+}
+
+logout() {
+  //   this.currentUserService.getCurrentStaffMember()
+  // .subscribe(data => {
+      //   this.loggedInUser =  data;
+      //  //console.log(this.loggedInUser)
+      //  let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+      //   this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+      //   this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', null, null, null, null, null, null, null, this.loggedInUser.licenseNumber, 
+      //   this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+      //   this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+  
+      //   this.loginService.updateLogoutTime(staffToUpdate)
+      //   .subscribe(()=>{
+    //     })
+    // })  
+  
+  //   this.router.navigate(['/login']);
+    location.reload(); 
+    localStorage.removeItem('jwt');   
+    
+  }
 
 
 

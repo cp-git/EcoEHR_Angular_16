@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientRecord } from '../models/PatientRecord';
 import { Orders } from '../models/orders';
@@ -20,13 +20,17 @@ import { OrdersService } from '../services/ordersService';
 import * as moment from 'moment';
 import { StateServicesService } from '../services/state-services.service';
 import { PatientDetailsService } from '../services/patientDetailsService';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { StaffMember } from 'src/app/administration/staff-members/staffmember';
+import { CurrentUserService } from 'src/app/profiles/currentUserService';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-orders-component',
   templateUrl: './orders-component.component.html',
   styleUrls: ['./orders-component.component.css'],
   standalone: true,
-  imports: [FormsModule ,CommonModule,TimerModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule,MatIconModule],
+  imports: [FormsModule ,CommonModule,TimerModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatDialogModule,MatIconModule,MatSidenavModule,MatExpansionModule],
 })
 export class OrdersComponentComponent {
 
@@ -68,6 +72,13 @@ export class OrdersComponentComponent {
 
 
 
+  readonly panelOpenState = signal(false);
+  locName: any;
+  staffImage: any;
+
+  loggedInUser!: StaffMember;
+
+
   /////
   mySubscription: any;
 
@@ -101,7 +112,7 @@ export class OrdersComponentComponent {
 
 
   constructor(private _activateRoute:ActivatedRoute,private formBuilder:FormBuilder,private orderService:OrdersService,private stateService:StateServicesService
-    ,private patientDetailsService:PatientDetailsService,private route:Router
+    ,private patientDetailsService:PatientDetailsService,private route:Router,  private currentUserService: CurrentUserService
    ){}
 
 
@@ -164,6 +175,8 @@ export class OrdersComponentComponent {
   this.tabList = ["Condition", "Lab", "Imaging", "Consulting", "Follow up"];
 
   this.getAllOrdersByPatientId(this.patientId,this.encounterId);
+
+    this.getLoggedInUserDetails();
 
   }
 
@@ -295,6 +308,71 @@ Examcomp(){
 this.route.navigate(['exam'])
 
 }
+
+
+getLoggedInUserDetails(){
+  this.currentUserService.getCurrentStaffMember()
+  .subscribe(data => {
+    this.loggedInUser = data;
+    if (data.staffImage == null || data.staffImage == "") {
+      this.staffImage = "./assets/img/default-avatar.png";
+    }
+    else{
+        this.staffImage = data.staffImage;
+    }
+  })
+}
+
+
+GoToPatientList(){
+  this.route.navigate(['/list']);
+}
+
+
+AddPatient(){
+  this.route.navigate(['/addpatient'])
+}
+
+Clinic(){
+  this.route.navigate(['clinicLocation'])
+}
+
+Staff(){
+  this.route.navigate(['stafflist'])
+}
+
+
+Student(){
+  this.route.navigate(['studentlist'])
+}
+
+Master(){
+  this.route.navigate(['masterlookup'])
+}
+
+logout() {
+  //   this.currentUserService.getCurrentStaffMember()
+  // .subscribe(data => {
+      //   this.loggedInUser =  data;
+      //  //console.log(this.loggedInUser)
+      //  let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+      //   this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+      //   this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', null, null, null, null, null, null, null, this.loggedInUser.licenseNumber, 
+      //   this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+      //   this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+  
+      //   this.loginService.updateLogoutTime(staffToUpdate)
+      //   .subscribe(()=>{
+    //     })
+    // })  
+  
+  //   this.router.navigate(['/login']);
+    location.reload(); 
+    localStorage.removeItem('jwt');   
+    
+  }
+
+
 
 
 }

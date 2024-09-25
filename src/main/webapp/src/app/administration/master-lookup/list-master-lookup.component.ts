@@ -219,6 +219,13 @@ Master(){
   this.route.navigate(['masterlookup'])
 }
 
+editProfile(){
+  this.route.navigate(['/editProfile'])
+}
+editfeedBack(){
+  this.route.navigate(['/feedback'])
+}
+
    
 
   

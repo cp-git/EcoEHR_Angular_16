@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EncounterHistory } from '../models/encounterHistory';
@@ -25,6 +25,8 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from '../patientlist/patientlist.component';
 import { PatientDetailsService } from '../services/patientDetailsService';
 import { PatientRecord } from '../models/PatientRecord';
+import { StaffMember } from 'src/app/administration/staff-members/staffmember';
+import { CurrentUserService } from 'src/app/profiles/currentUserService';
 
 @Component({
   selector: 'app-history-comp',
@@ -63,10 +65,17 @@ export class HistoryCompComponent {
   updatedEncounterId:any;
   updatedPatientId:any;
 
+  readonly panelOpenState = signal(false);
+  locName: any;
+  staffImage: any;
+
+  loggedInUser!: StaffMember;
+  
+
   constructor(private questionGroupService:QuestionGroupService,private formBuilder: FormBuilder,private systemService:SystemService,
     private questionsService:QuestionsService,private encounterQuestionOptionService:EncounterQuestionOptionService,
     private encounterQuestionGroupService:EncounterQuestionGroupService, private route:Router,private stateService:StateServicesService,
-    private patientDetailsService:PatientDetailsService
+    private patientDetailsService:PatientDetailsService,private currentUserService: CurrentUserService
   ){}
 
   ngOnInit(){
@@ -127,6 +136,8 @@ this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
 
 
  this.QuestionSelectedArray = <FormArray>this.HistoryForm.controls['QuestionSelectedIDS'];
+
+ this.getLoggedInUserDetails();
 
   }
 
@@ -320,5 +331,69 @@ this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
         this.route.navigate(['exam'])
       
       }
+
+
+      getLoggedInUserDetails(){
+        this.currentUserService.getCurrentStaffMember()
+        .subscribe(data => {
+          this.loggedInUser = data;
+          if (data.staffImage == null || data.staffImage == "") {
+            this.staffImage = "./assets/img/default-avatar.png";
+          }
+          else{
+              this.staffImage = data.staffImage;
+          }
+        })
+      }
+      
+      
+      GoToPatientList(){
+        this.route.navigate(['/list']);
+      }
+      
+      
+      AddPatient(){
+        this.route.navigate(['/addpatient'])
+      }
+      
+      Clinic(){
+        this.route.navigate(['clinicLocation'])
+      }
+      
+      Staff(){
+        this.route.navigate(['stafflist'])
+      }
+      
+      
+      Student(){
+        this.route.navigate(['studentlist'])
+      }
+      
+      Master(){
+        this.route.navigate(['masterlookup'])
+      }
+      
+      logout() {
+        //   this.currentUserService.getCurrentStaffMember()
+        // .subscribe(data => {
+            //   this.loggedInUser =  data;
+            //  //console.log(this.loggedInUser)
+            //  let staffToUpdate = new StaffMember(this.loggedInUser.staffId, this.loggedInUser.loginId, this.loggedInUser.loginKey, this.loggedInUser.firstName, '', 
+            //   this.loggedInUser.lastName, this.loggedInUser.staffImage, this.loggedInUser.providerType, this.loggedInUser.designation, this.loggedInUser.providerFlag, 0, true, this.loggedInUser.clinicLocationId,
+            //   this.loggedInUser.mobileNo, '',this.loggedInUser.email, this.loggedInUser.npiNumber, '', null, null, null, null, null, null, null, this.loggedInUser.licenseNumber, 
+            //   this.loggedInUser.licenseNumber, this.loggedInUser.licenseExpDate, this.loggedInUser.deaNumber, this.loggedInUser.deaExpDate, this.loggedInUser.malpracticeCoverage,this.loggedInUser.malpracticeExpiration , 
+            //   this.loggedInUser.dob, this.loggedInUser.gender, this.loggedInUser.ssn);
+        
+            //   this.loginService.updateLogoutTime(staffToUpdate)
+            //   .subscribe(()=>{
+          //     })
+          // })  
+        
+        //   this.router.navigate(['/login']);
+          location.reload(); 
+          localStorage.removeItem('jwt');   
+          
+        }
+      
 
 }

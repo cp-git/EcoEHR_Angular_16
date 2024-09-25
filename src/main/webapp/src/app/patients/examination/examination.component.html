@@ -1,155 +1,303 @@
-<div class="container-fluid" style="background-color: #4a99c7;">
-
-    <div class="header">
-        <div class="col-md-4">
-            <h2 style="font-weight: bold;color: white;margin-top: 5px;">History Of Present Illness (HPI)</h2>
-        </div>
-
-        <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
-            <div class="row">
-                <div class="col-md-1" id="navData"><a (click)="HpiComp()" class="contentAlign">HPI</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Roscomp()" class="contentAlign">ROS</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()" class="contentAlign">Medication</a></div>
-                <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  class="contentAlign">History</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  class="contentAlign">Exam</a></div>
-                <div class="col-md-1"  id="navData"><a (click)="plancomp()" class="contentAlign">Plan</a></div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-<div class="row" style="margin-top: 30px;border: 2px groove grey;padding: 20px;background-color: #03659d;">
-    <div class="col-md-12">
-        <div class="col-md-4"><a style="color: white;font-weight: bold;">Last Name : {{patientRecords.lastName}}</a></div>
-        <div class="col-md-4"><a style="color: white; font-weight: bold;">First Name : {{patientRecords.firstName}}</a></div>
-        <div class="col-md-4"> <a style="color: white;font-weight: bold;">DOB : {{patientRecords.dob | date:'shortDate'}} </a></div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="col-md-4"><a style="color: white;font-weight: bold;text-decoration: underline;">List of Allergy</a></div>
-        <div class="col-md-4"><a style="color: white;font-weight: bold;">Sex : {{patientRecords.gender}}</a></div>
-        <div class="col-md-4"><a style="color: white;font-weight: bold;">Time : {{patientRecords.createdDate | date:'shortTime'}}</a></div>
-    </div>
- 
-</div>
-
-
-<form [formGroup]="ExamForm" mmethod="#" action="">
-    <div class="btn-group btn-group-justified"  id="data1">
-        <ng-container *ngFor="let system of ExamSystems">
-            <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)" title="{{system.systemDesc}}"
-                class="btn btn-style systems-tab-style" style="border: 1px groove #4A99C7;">{{system.systemCode}}</a>
-        </ng-container>
-    </div>
-
-<div class="row" style="margin-top: 10px;">
-    <div class="col-md-4 col-sm-12">
-        <!-- ROS Questionaire Table -->
-       
-                <ng-container *ngFor="let group of questionGroupList;let i=index">
-                    <div class="row" style="margin-top: 3px;" style="border: 1px groove black;margin-top: 10px;width: 350px;margin-left: 20px;">
-                        <div class="col-md-8 col-sm-8 col-xs-2">
-                            <a data-toggle="tab" id="ros_{{i}}"   title={{group.questionGroupName}} (click)="goToSelectedTab(group,i)"
-                                class="btn btn-style btn-left question-group-style" 
-                                data-toggle="modal">
-                                <div class="question-group-name">{{group.questionGroupName}}
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-2 col-sm-1 col-xs-10">
-                            <input type="checkbox" id="icd_{{group.questionGroupName}}" [checked]="isChecked(group.questionGroupId)" (change)="showDiv(group,$event)"
-                                name="checkListItem">
-                            <label for="icd_{{group.questionGroupName}}" style="margin-top: 15px;"></label>
-                        </div>
+<div class="main-content" >
+    <div class="container-fluid" style="height: 725px;">
+      <mat-drawer-container class="example-container" autosize style="overflow: hidden;" > 
+        <mat-drawer #drawer class="example-sidenav" mode="side" >
+          <div class="row" style="margin-top: 45px;">
+              <div class="col-md-12" style="border: 5px groove dodgerblue;width: fit-content; margin-left: 20px;">
+                <b class="ehr-class">Eco EHR</b>
+              </div>
+  
+              <hr style="margin-top: 20px;">
+  
+              <span class="timer">
+                <ehr-timer title="Time left for Activity"></ehr-timer>
+            </span>
+  
+            <!-- Expansion Panel-->
+            <mat-accordion>
+              <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" id="panel">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> 
+                    <div class="row">
+                       <div class="col-md-4" style="width: 45px;height: 45px;">
+                              <img src={{staffImage}}  style="width: 45px;"> 
+                       </div>
                     </div>
-                </ng-container>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <span>{{loggedInUser && loggedInUser.firstName}} {{loggedInUser && loggedInUser.lastName}}<b class="caret"></b></span>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+  
+                <div class="row" id="data">
+                  <a>
+                    <span class="sidebar-mini"><i class="fas fa-user-edit"></i></span>
+                    <span class="sidebar-normal" style="margin-left: 8px;">Profile Settings</span>
+                  </a>
+                </div>
+                <div class="row"  id="data">
+                  <a>
+                    <span class="sidebar-mini"><i class="fas fa-solid fa-comments"></i></span>
+                    <span class="sidebar-normal" style="margin-left: 8px;">Feedback</span>
+                </a>
+                </div>
+  
+                <div class="row"  id="data">
+                  <a href="#" (click)="logout()">
+                    <span class="sidebar-mini"><i class="material-icons">exit_to_app</i></span>
+                    <span class="sidebar-normal" style="margin-left: 8px;margin-top: 8px;">Sign Out</span>
+                   </a>
+                </div>
+  
+                <hr style="margin-top: 20px;">
+             
+              </mat-expansion-panel>
+            </mat-accordion>
+  
+          </div>
+  
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" style="margin-top: 20px;">
+              <mat-expansion-panel-header>
+                <mat-panel-title> <i class="fas fa-notes-medical"></i> <a style="margin-left: 20px;font-size: 16px;">Patients</a> </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row"  id="data">
+                <a>
+                  <span class="sidebar-mini"><i class="fas fa-solid fa-hospital-user"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 5px;" (click)="GoToPatientList()">Patient List</span>
+                </a>
+              </div>
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-solid fa-file-medical"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 10px;" (click)="AddPatient()">Add Patient</span>
+              </a>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+  
+  
+  
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)" style="margin-top: 20px;">
+              <mat-expansion-panel-header>
+                <mat-panel-title> <i class="fas fa-tasks"></i><a style="margin-left: 16px;font-size: 16px;">Admin Tools</a></mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row"  id="data">
+                <a>
+                  <span class="sidebar-mini"><i class="fa fa-map-marker"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;"  (click)="Clinic()">Clinic Location</span>
+                </a>
+              </div>
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-users"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;"  (click)="Staff()">Staff Members</span>
+              </a>
+              </div>
+  
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-solid fa-list"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;" (click)="Student()">Student list</span>
+              </a>
+              </div>
+  
+              <div class="row"  id="data">
+                <a style="color: black !important">
+                  <span class="sidebar-mini"><i class="fas fa-address-card" aria-hidden="true"></i></span>
+                  <span class="sidebar-normal" style="margin-left: 8px;"  (click)="Master()">Master Lookup</span>
+              </a>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
           
+        </mat-drawer>
+  
         
-    </div>
+  
+  
+        
+      
+        <div class="example-sidenav-content" style="overflow:hidden">
+          <div class="row">
+              <div class="col-md-12">
+                <button type="button" mat-button (click)="drawer.toggle()">
+                  <!-- Toggle sidenav -->
+                  <i class="fas fa-solid fa-list"></i>
+                </button>
+                
+              </div>
+          </div>
 
-  <div class="col-md-8">    
-    <div *ngFor="let question of questionGroupList">
-        <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
-            <div class="card col-md-9 col-sm-6" [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">
-                <h5 class="text-center">
-                    <b> {{questionGroupName}}</b>
-                </h5>
+          <div class="container-fluid" style="background-color: #4a99c7;">
 
-                <ng-container *ngFor="let commonQues of commonQuestionsList;let i=index">
-                    <div class="row " *ngIf="commonQues.questionGroupId===question.questionGroupId">
-
-                        <div class="col-md-4">
-                            <label class="text-dark">{{commonQues.questionDesc}}
-                            </label>
-                        </div>
-
-                        <div class="col-md-8 col-sm-6">
-                            <!-- <label class="text-dark">{{commonQues.questionDesc}}
-                            </label> -->
-
-                              <!-- radio div -->
-                              <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='radio'">
-                                <span *ngFor="let options of commonQues.optionRecord">
-                                    <input  name="radio{{i}}" type="radio" id="radioType_{{i}}" [checked]="isCheckedRadio(options.optionId)" [(ngModel)]="selectedRadioValue[commonQues.questionId]" [ngModelOptions]="{standalone: true}" [value]="options.optionId"
-                                        (input)="onRowEdit(commonQues,options)" />
-                                    <label class="text-dark" for="radioType_{{i}}">{{options.optionNames}}</label>
-                                    &nbsp; &nbsp; &nbsp; &nbsp;
-                                </span>
-                            </div>
-
-                           
-
-                            <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='dropdown'">
-                                <select id="dropdown{{i}}" style="width: 100%;" [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" (change)="onRowEdit(commonQues,$event)">
-                                    <option [value]="0">Please Select</option>
-                                    <option class="decrease-height" *ngFor="let options of commonQues.optionRecord" [value]="options">{{options.optionNames}}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 col-sm-5"
-                            *ngIf="commonQues.optionType=='text'">
-                            <input type="text" id="text{{commonQues.questionId}}"  [readonly]="commonQues.questionDesc=='BMI'"
-                                [(ngModel)]="textVal[commonQues.questionId]" style="width: 400px;"
-                                [ngModelOptions]="{standalone: true}"
-                                class="form-control input-color-style"
-                                (input)="onRowEdit(commonQues,$event)">
-                        </div>
-
-                        <div class="col-md-4 col-sm-5"
-                        *ngIf="commonQues.optionType=='tdropdown'">
-                        <div class="col-md-6" style="width: 300px;margin-top: 5px;">
-                            <input type="text"
-                                id="showText{{commonQues.questionId}}"
-                                [(ngModel)]="textDropdownVal[commonQues.questionId]"
-                                [ngModelOptions]="{standalone: true}"
-                                placeholder="Value"
-                                class="form-control  input-color-style"
-                                (input)="onRowEdit(commonQues,$event)">
-                        </div>
-                        
+            <div class="header">
+                <div class="col-md-4">
+                    <h2 style="font-weight: bold;color: white;margin-top: 5px;">Exam</h2>
+                </div>
+        
+                <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
+                    <div class="row">
+                        <div class="col-md-1" id="navData"><a (click)="HpiComp()" class="contentAlign">HPI</a></div>
+                        <div class="col-md-1"  id="navData"><a (click)="Roscomp()" class="contentAlign">ROS</a></div>
+                        <div class="col-md-2"  id="navData"><a (click)="Medicationcomp()" class="contentAlign">Medication</a></div>
+                        <div class="col-md-2"  id="navData"><a (click)="Historycomp()"  class="contentAlign">History</a></div>
+                        <div class="col-md-1"  id="navData"><a (click)="Examcomp()"  class="contentAlign">Exam</a></div>
+                        <div class="col-md-1"  id="navData"><a (click)="plancomp()" class="contentAlign">Plan</a></div>
                     </div>
-
-
-                        </div>
-                    </div>
+                </div>
+        
+            </div>
+        
+        </div>
+        <div class="row" style="margin-top: 30px;border: 2px groove grey;padding: 20px;background-color: #03659d;">
+            <div class="col-md-12">
+                <div class="col-md-4"><a style="color: white;font-weight: bold;">Last Name : {{patientRecords.lastName}}</a></div>
+                <div class="col-md-4"><a style="color: white; font-weight: bold;">First Name : {{patientRecords.firstName}}</a></div>
+                <div class="col-md-4"> <a style="color: white;font-weight: bold;">DOB : {{patientRecords.dob | date:'shortDate'}} </a></div>
+            </div>
+        
+            <div class="col-md-12">
+                <div class="col-md-4"><a style="color: white;font-weight: bold;text-decoration: underline;">List of Allergy</a></div>
+                <div class="col-md-4"><a style="color: white;font-weight: bold;">Sex : {{patientRecords.gender}}</a></div>
+                <div class="col-md-4"><a style="color: white;font-weight: bold;">Time : {{patientRecords.createdDate | date:'shortTime'}}</a></div>
+            </div>
+         
+        </div>
+        
+        
+        <form [formGroup]="ExamForm" mmethod="#" action="">
+            <div class="btn-group btn-group-justified"  id="data1">
+                <ng-container *ngFor="let system of ExamSystems">
+                    <a data-toggle="tab" id="div_{{system.systemType}}" (click)="openTab(system)" title="{{system.systemDesc}}"
+                        class="btn btn-style systems-tab-style" style="border: 1px groove #4A99C7;">{{system.systemCode}}</a>
                 </ng-container>
             </div>
+        
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-4 col-sm-12">
+                <!-- ROS Questionaire Table -->
+               
+                        <ng-container *ngFor="let group of questionGroupList;let i=index">
+                            <div class="row" style="margin-top: 3px;" style="border: 1px groove black;margin-top: 10px;width: 350px;margin-left: 20px;">
+                                <div class="col-md-8 col-sm-8 col-xs-2">
+                                    <a data-toggle="tab" id="ros_{{i}}"   title={{group.questionGroupName}} (click)="goToSelectedTab(group,i)"
+                                        class="btn btn-style btn-left question-group-style" 
+                                        data-toggle="modal">
+                                        <div class="question-group-name">{{group.questionGroupName}}
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-sm-1 col-xs-10">
+                                    <input type="checkbox" id="icd_{{group.questionGroupName}}" [checked]="isChecked(group.questionGroupId)" (change)="showDiv(group,$event)"
+                                        name="checkListItem">
+                                    <label for="icd_{{group.questionGroupName}}" style="margin-top: 15px;"></label>
+                                </div>
+                            </div>
+                        </ng-container>
+                  
+                
+            </div>
+        
+          <div class="col-md-8">    
+            <div *ngFor="let question of questionGroupList">
+                <div id="div_{{question.questionGroupId}}" [style.display]="question.questionGroupId==questionGroupId?'block':'none'">
+                    <div class="card col-md-9 col-sm-6" [ngClass]="questionGroupName == 'Medication Allergy'? 'med-allergy-card-style':'question-card-style'">
+                        <h5 class="text-center">
+                            <b> {{questionGroupName}}</b>
+                        </h5>
+        
+                        <ng-container *ngFor="let commonQues of commonQuestionsList;let i=index">
+                            <div class="row " *ngIf="commonQues.questionGroupId===question.questionGroupId">
+        
+                                <div class="col-md-4">
+                                    <label class="text-dark">{{commonQues.questionDesc}}
+                                    </label>
+                                </div>
+        
+                                <div class="col-md-8 col-sm-6">
+                                    <!-- <label class="text-dark">{{commonQues.questionDesc}}
+                                    </label> -->
+        
+                                      <!-- radio div -->
+                                      <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='radio'">
+                                        <span *ngFor="let options of commonQues.optionRecord">
+                                            <input  name="radio{{i}}" type="radio" id="radioType_{{i}}" [checked]="isCheckedRadio(options.optionId)" [(ngModel)]="selectedRadioValue[commonQues.questionId]" [ngModelOptions]="{standalone: true}" [value]="options.optionId"
+                                                (input)="onRowEdit(commonQues,options)" />
+                                            <label class="text-dark" for="radioType_{{i}}">{{options.optionNames}}</label>
+                                            &nbsp; &nbsp; &nbsp; &nbsp;
+                                        </span>
+                                    </div>
+        
+                                   
+        
+                                    <div class="col-md-4 col-sm-5" *ngIf="commonQues.optionType=='dropdown'">
+                                        <select id="dropdown{{i}}" style="width: 100%;" [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" (change)="onRowEdit(commonQues,$event)">
+                                            <option [value]="0">Please Select</option>
+                                            <option class="decrease-height" *ngFor="let options of commonQues.optionRecord" [value]="options">{{options.optionNames}}
+                                            </option>
+                                        </select>
+                                    </div>
+        
+                                    <div class="col-md-4 col-sm-5"
+                                    *ngIf="commonQues.optionType=='text'">
+                                    <input type="text" id="text{{commonQues.questionId}}"  [readonly]="commonQues.questionDesc=='BMI'"
+                                        [(ngModel)]="textVal[commonQues.questionId]" style="width: 400px;"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="form-control input-color-style"
+                                        (input)="onRowEdit(commonQues,$event)">
+                                </div>
+        
+                                <div class="col-md-4 col-sm-5"
+                                *ngIf="commonQues.optionType=='tdropdown'">
+                                <div class="col-md-6" style="width: 300px;margin-top: 5px;">
+                                    <input type="text"
+                                        id="showText{{commonQues.questionId}}"
+                                        [(ngModel)]="textDropdownVal[commonQues.questionId]"
+                                        [ngModelOptions]="{standalone: true}"
+                                        placeholder="Value"
+                                        class="form-control  input-color-style"
+                                        (input)="onRowEdit(commonQues,$event)">
+                                </div>
+                                
+                            </div>
+        
+        
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
+        
+            <div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-6">
+                <button type="submit" class="btn button" id="btn" (click)="onSubmit();">Save & Next
+                </button>
+                <button type="submit" class="btn button" id="btn">Back</button>     
+        
+            </div>
+        
+        
+        
+        
+         
+        </form>        
+          
+  
+         
+        </div>
+  
+        <!-- <div class="pagination-controls" style="margin-left: 85%;">
+          <button (click)="OnPageChange(currentPage - 1)" [disabled]="currentPage === 1" style="border:0;">Previous</button>
+          <span> {{ currentPage }} of {{ totalPages }}</span>
+          <button (click)="OnPageChange(currentPage + 1)" [disabled]="currentPage === totalPages" style="border:0;">Next</button>
+        </div> -->
+      
+      </mat-drawer-container>
     </div>
-  </div>
-</div>
-
-    <div class="col-md-offset-9 col-sm-offset-7 col-xs-offset-6">
-        <button type="submit" class="btn button" id="btn" (click)="onSubmit();">Save & Next
-        </button>
-        <button type="submit" class="btn button" id="btn">Back</button>     
-
+     
     </div>
-
-
-
-
- 
-</form>        
+    
