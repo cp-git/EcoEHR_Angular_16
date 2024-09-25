@@ -182,9 +182,9 @@
                 
                     <ng-container *ngFor="let list of tabList; let i=index">
                       
-                        <div class="row" style="border: 2px groove grey; margin-top: 5px;background-color: #4a99c7;width: 131px;">
+                        <div class="row" style="border: 2px groove grey; margin-top: 5px;width: 131px;">
                             <div class="col-md-8 col-sm-8">
-                                <a data-toggle="tab" id="{{i}}" style="width: 131px !important;"
+                                <a data-toggle="tab" id="{{i}}" 
                                     class="btn btn-style btn-left question-group-style"    (click)="selectTab(list)" 
                                      title="{{list}}">{{list}}</a>
                             </div>
@@ -532,7 +532,7 @@
                                 </table>
                             </div>
                         </div>
-                        <button type="submit" class="btn button saveplan" id="save" (click)="onSave()">Save</button>
+                        <button type="submit" class="btn button saveplan" id="btn" (click)="onSave()">Save</button>
                     </div>
                 </div>
                 </div>
