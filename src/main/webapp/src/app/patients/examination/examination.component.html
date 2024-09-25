@@ -176,11 +176,11 @@
             </div>
         
         <div class="row" style="margin-top: 10px;">
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-4 col-sm-12" style="width: 380px;">
                 <!-- ROS Questionaire Table -->
                
                         <ng-container *ngFor="let group of questionGroupList;let i=index">
-                            <div class="row" style="margin-top: 3px;" style="border: 1px groove black;margin-top: 10px;width: 350px;margin-left: 20px;">
+                            <div class="row" style="margin-top: 3px;" style="border: 1px groove black;margin-top: 10px;margin-left: 20px;">
                                 <div class="col-md-8 col-sm-8 col-xs-2">
                                     <a data-toggle="tab" id="ros_{{i}}"   title={{group.questionGroupName}} (click)="goToSelectedTab(group,i)"
                                         class="btn btn-style btn-left question-group-style" 
@@ -189,10 +189,10 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-md-2 col-sm-1 col-xs-10">
+                                <div class="col-md-2 col-sm-1 col-xs-10" style="padding: 0;margin: 0;">
                                     <input type="checkbox" id="icd_{{group.questionGroupName}}" [checked]="isChecked(group.questionGroupId)" (change)="showDiv(group,$event)"
                                         name="checkListItem">
-                                    <label for="icd_{{group.questionGroupName}}" style="margin-top: 15px;"></label>
+                                    <label for="icd_{{group.questionGroupName}}" style="margin-top: 15px;margin-right: 10px;"></label>
                                 </div>
                             </div>
                         </ng-container>

@@ -132,10 +132,11 @@ export class HpiComponent {
 
 
 
-
+    console.log(this.patientidDataId);
 
        this.patientDetailsService.getPatientRecordsByPatientId(this.patientidDataId)
           .subscribe(data => {
+            console.log(this.patientidDataId);
             
             console.log(data);
             
@@ -506,6 +507,10 @@ logout() {
   }
   editfeedBack(){
     this.route.navigate(['/feedback'])
+  }
+
+  calculateAge(dob:any) {
+    return new Date().getFullYear() - new Date(dob).getFullYear();
   }
 
 
