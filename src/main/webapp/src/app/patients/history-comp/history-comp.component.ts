@@ -151,6 +151,7 @@ this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
     setTimeout(() => {
     
     if (!this.flag) {
+      this.commonQuestionsList = this.commonQuestions.filter(t => t.questionGroupId == questionGroup.questionGroupId);
         this.systemId = questionGroup.systemId;
         this.questionGroupName = questionGroup.questionGroupName;
         this.questionGroupId = questionGroup.questionGroupId;
