@@ -17,7 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { PatientListComponent } from '../patientlist/patientlist.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MedicationService } from '../services/medicationService';
 import { PatientMedicationRecord } from '../models/patientMedicationRecord';
@@ -56,6 +56,7 @@ export class PatientHeaderComponent {
     private _activateRoute:ActivatedRoute,
     private medicationService:MedicationService,
     private preventiveService: PatientPreventiveService,
+    private route:Router,
     @Inject(MAT_DIALOG_DATA) public data: { id: number,id1:number }
   ){
 
@@ -143,6 +144,10 @@ export class PatientHeaderComponent {
     
 }
   
+
+EncounterPage(){
+  this.route.navigate(['list'])
+}
 
 
 

@@ -395,7 +395,7 @@ this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
     
     
     //this.router.navigate(['/patients/planandassessment/' + this.encounterId]);
-    (<HTMLInputElement>document.getElementById("saveNext")).disabled = true;
+    // (<HTMLInputElement>document.getElementById("saveNext")).disabled = true;
 
     this.encounterQuestionOptionService.deleteEncQustionOptions(this.number,this.sysName).subscribe(
       response=>{
@@ -570,6 +570,10 @@ logout() {
     location.reload(); 
     localStorage.removeItem('jwt');   
     
+  }
+
+  back(){
+    this.router.navigate(['ros'])
   }
 
 

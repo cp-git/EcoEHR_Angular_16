@@ -135,7 +135,7 @@
 
     <div class="header">
         <div class="col-md-4">
-            <h2 style="font-weight: bold;color: white;margin-top: 5px;">History Of Present Illness (HPI)</h2>
+            <h2 style="font-weight: bold;color: white;margin-top: 5px;">Plan And Assessment</h2>
         </div>
 
         <div class="col-md-8" style="background-color: white; margin-top: 8px;height: 30px;width: 600px;margin-left: 60px;">
@@ -196,8 +196,22 @@
             id="btn" style="margin-top: 10px;margin-left: 10px;">Save</button>
         <br><br><br>
 
-        <button type="submit" (click)="openDialog(updatedEncounterId,updatedPatientId)" id="btn1">
+
+        <div class="row" style="margin-left: 700px;">
+          <div class="col-md-4">
+            <button type="submit" (click)="openDialog(updatedEncounterId,updatedPatientId)" id="btn1">
+              Submit Encounter</button>
+          </div>
+          <div class="col-md-4" style="margin-left: 80px;">
+            <button type="submit" (click)="back()" id="btn1">
+              back</button>
+          </div>
+        </div>
+        <!-- <button type="submit" (click)="openDialog(updatedEncounterId,updatedPatientId)" id="btn1">
             Submit Encounter</button>
+
+          <button type="submit" (click)="back()" id="btn1">
+              back</button> -->
     </div>
 
     <div *ngIf="!showData">
@@ -255,6 +269,7 @@
   
          
         </div>
+        
   
         <!-- <div class="pagination-controls" style="margin-left: 85%;">
           <button (click)="OnPageChange(currentPage - 1)" [disabled]="currentPage === 1" style="border:0;">Previous</button>

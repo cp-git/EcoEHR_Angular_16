@@ -27,6 +27,7 @@ import { PatientDetailsService } from '../services/patientDetailsService';
 import { PatientRecord } from '../models/PatientRecord';
 import { StaffMember } from 'src/app/administration/staff-members/staffmember';
 import { CurrentUserService } from 'src/app/profiles/currentUserService';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-hpi',
@@ -93,7 +94,8 @@ export class HpiComponent {
      private encounterQuestionGroupService: EncounterQuestionGroupService,
      private route:Router,
      private patientDetailsService:PatientDetailsService,
-     private currentUserService: CurrentUserService
+     private currentUserService: CurrentUserService,
+     private location: Location
    ){}
 
   ngOnInit(){
@@ -511,6 +513,11 @@ logout() {
 
   calculateAge(dob:any) {
     return new Date().getFullYear() - new Date(dob).getFullYear();
+  }
+
+  back(){
+    this.location.back();
+
   }
 
 

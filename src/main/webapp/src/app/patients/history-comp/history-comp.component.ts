@@ -394,6 +394,10 @@ this.patientDetailsService.getPatientRecordsByPatientId(this.updatedPatientId)
           localStorage.removeItem('jwt');   
           
         }
+
+        back(){
+          this.route.navigate(['medication'])
+        }
       
 
 }

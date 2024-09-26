@@ -395,6 +395,10 @@ export class RosComponent {
           localStorage.removeItem('jwt');   
           
         }
+
+        back(){
+          this.route.navigate(['hpi'])
+        }
       
   
 

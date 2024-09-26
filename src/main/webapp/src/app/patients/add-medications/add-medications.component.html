@@ -1,5 +1,38 @@
-<input type="text" [(ngModel)]="searchText" placeholder="welcome to input..."/>
-<button (click)="search1()">Search</button>
+<div class="container">
+    <div class="row" id="headData">
+        <div class="col-md-10">
+            <h1 id="text">Medication</h1>
+        </div>
+
+        <div class="col-md-2">
+            <i class="fa fa-window-close" [mat-dialog-close]="false" style="margin-left: 100px;margin-top: 15px;color: white;" 
+            aria-hidden="true"></i>
+        </div>
+       
+    </div>
+   
+</div>
+
+
+<div class="MedData">
+    <div class="row">
+        <div class="col-md-3" id="textData">
+            <a>Medication</a>
+        </div>
+        <div class="col-md-8" id="textInput">
+            
+        <input type="text" [(ngModel)]="searchText" placeholder="welcome to input..."/>
+        <button (click)="search1()" style="margin-left: 10px;">Search</button>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <input type="text" [(ngModel)]="searchText" placeholder="welcome to input..."/>
+<button (click)="search1()">Search</button> -->
 
 <form [formGroup]="MedicationForm" mmethod="#" action="">
 
@@ -100,7 +133,7 @@
 </table>
 
             <div class="col-md-2 col-md-offset-1 ancbutton">
-                            <button type="submit" (click)="submitData()" id="addClose" class="btn button"
+                            <button type="submit" (click)="submitData()" id="btn" class="btn button"
                             [mat-dialog-close]="false" >ADD & CLOSE</button>
                             <button id="dismissmodal" style="display:none;" type="submit" class="btn btn-info pull-left"
                                 data-dismiss="modal"></button>

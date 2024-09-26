@@ -405,6 +405,10 @@ logout() {
     
   }
 
+  back(){
+    this.route.navigate(['exam'])
+  }
+
 
 
 

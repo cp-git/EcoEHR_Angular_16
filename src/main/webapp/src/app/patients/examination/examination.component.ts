@@ -393,4 +393,8 @@ export class ExaminationComponent {
           localStorage.removeItem('jwt');   
           
         }
+
+        back(){
+          this.route.navigate(['history'])
+        }
 }

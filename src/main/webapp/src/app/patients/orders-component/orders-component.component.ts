@@ -372,6 +372,10 @@ logout() {
     
   }
 
+  PlanChange(){
+    this.route.navigate(['plan'])
+  }
+
 
 
 

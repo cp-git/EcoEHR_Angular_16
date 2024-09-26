@@ -458,6 +458,10 @@ logout() {
     
   }
 
+  backPatient(){
+    this.route.navigate(['/list'])
+  }
+
 
 
 }

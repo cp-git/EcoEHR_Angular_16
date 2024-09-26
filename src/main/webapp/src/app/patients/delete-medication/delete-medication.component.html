@@ -1,12 +1,22 @@
 <div class="container" style="width: 400px;">
-    <h1>welcome</h1>
-    <div class="modal-header text-center" style=" padding-top: 15px;">
+
+    <div class="row" id="headData">
+        <div class="col-md-8">
+            <h4 id="text">InActive Medication</h4>
+        </div>
+
+        <div class="col-md-2">
+            <i class="fa fa-window-close" [mat-dialog-close]="false" style="margin-left: 80px;margin-top: 15px;color: white;" 
+            aria-hidden="true"></i>
+        </div>
+    </div>
+    <!-- <div class="modal-header text-center" style=" padding-top: 15px;">
         <h6 class="card-header card-style" data-background-color>
             InActive Medication
 
         </h6>
         <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
-    </div>
+    </div> -->
 
     <form [formGroup]="InActiveMedicationForm" action="" method="">
         <div class="col-md-12">
@@ -130,15 +140,19 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+                      
                         <div class="row">
-                            <div>
+                            <div class="col-md-4" style="background-color: aqua;">
                                 <button type="submit" id="saveInactive" class="close" (click)=onSubmitInActiveList();
                                     class="btn button-width button pull-left">Submit</button>
                                 <button id="dismissModalOnsubmit" style="display:none;" type="submit"
                                     class="btn btn-info pull-left" data-dismiss="modal"></button>
                                 <!-- <div class="col-sm-1 col-xs-1"></div> -->
                             </div>
-                            <div>
+                            <div class="col-md-4">
                                 <button type="button" data-dismiss="modal" class="btn button pull-right">Cancel</button>
                             </div>
 
